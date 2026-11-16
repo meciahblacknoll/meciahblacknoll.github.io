@@ -139,7 +139,7 @@ const fixed=new THREE.Group(); scene.add(fixed);
 const ledgY=R.Y-1.5;                                                               // ledger face: 2x6 ledgers at 46 and 84 in lagged into every stud
 [46,84].forEach(z=>box(fixed, 15.75,ledgY,z, 96,1.5,5.5, M.pine));
 [bedX0-gap-upT, bedX0+boxAlong+gap].forEach(x=>box(fixed, x,ledgY-upD,0, upT,upD,90, M.pine));   // uprights against the ledgers
-[bedX0-gap-4, bedX0+boxAlong+gap-8].forEach(x=>{ box(fixed, x,axY-3.625,0, 12,7.25,1.5, M.pine); box(fixed, x+3.5,axY-2.5,1.5, 5,5,3.2, M.steel); });
+[[bedX0-1.1-10, bedX0-1.1-1.5],[bedX0+boxAlong+1.1, bedX0+boxAlong+1.1]].forEach(([px,bx])=>{ box(fixed, px,axY-3.625,0, 10,7.25,1.5, M.pine); box(fixed, bx,axY-2.75,1.5, 1.5,5.5,3.1, M.steel); });   // 10 in pads flush with the pillow blocks
 box(fixed, R.X/2-18,ledgY,96, 36,1.5,7.25, M.pine);                            // winch plate 2x8 x 36
 box(fixed, R.X/2-5.7,ledgY-4.3,97.5, 11.4,4.3,4.5, M.steel);                   // winch
 { const br=new THREE.Mesh(new THREE.BoxGeometry(1.5,23.3,3.5),M.pine); br.position.copy(P(R.X/2,R.Y-11.5,93)); br.quaternion.setFromUnitVectors(new THREE.Vector3(0,1,0),P(0,-20,12).sub(P(0,0,0)).normalize()); br.castShadow=true; fixed.add(br); }   // knee brace to the upper ledger
@@ -160,7 +160,8 @@ bbox(1.75,boxH+deck,1.75, boxAlong-3.5,mattH,boxOut-3.5, M.matt);
 bbox(1.75,boxH+deck+mattH,1.75, boxAlong-3.5,topH,boxOut-3.5, M.matt);
 bbox(2,boxH+deck+mattH+topH,20, boxAlong-4,1.2,boxOut-22, M.linen);              // duvet
 [7,43].forEach(x=>bbox(x,boxH+deck+mattH+topH,3, 28,5,18, M.white));              // pillows at the headboard end
-const eye=new THREE.Mesh(new THREE.TorusGeometry(1,0.25,8,16),M.steel); eye.position.set(boxAlong/2,boxH+1.5,boxOut-0.4); bed.add(eye);
+bbox(2,boxH+deck,boxOut-2.5, boxAlong-4,4,0.75, M.walnut);                                        // 4 in foot lip carrying the rope hook (rev E.3)
+const eye=new THREE.Mesh(new THREE.TorusGeometry(0.9,0.22,8,16),M.steel); eye.position.set(boxAlong/2,boxH+deck+4.6,boxOut-2.1); bed.add(eye);
 // hinged headboard on the wall-side rail (Z = 0), folds onto the mattress as the bed starts up
 bbox(0,boxH,0, boxAlong,10.75,0.75, M.walnut);                                     // riser to the mattress-top plane (head-end mattress stop)
 const hb=new THREE.Group(); hb.position.set(0, boxH+10.75, 0.75); bed.add(hb);
