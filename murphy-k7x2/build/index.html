@@ -176,8 +176,13 @@ bpart('deck',g=>{ bbox(g,0,boxH,0,48,deck,boxOut,M.ply); bbox(g,48,boxH,0,boxAlo
 part('safety',g=>{ for(const x of [xUpL+upT+0.5,xUpR-0.5]) pbox(g,x-0.4,upY0+3,66,0.8,0.8,10,M.strap); pbox(g,padXL+5,axY+5,1.5,2,1.5,1.5,M.rubber); });
 // S11 headboard
 bpart('headboard',g=>{ bbox(g,0,boxH,0,boxAlong,10.75,0.75,M.walnut);   // riser: 3/4 ply standing on the wall-side rail up to the mattress-top plane; doubles as the head-end mattress stop
-  const hb=new THREE.Group(); hb.position.set(0,boxH+10.75,0.75); g.add(hb); const p=new THREE.Mesh(new THREE.BoxGeometry(boxAlong,26,0.75),M.walnut); p.position.set(boxAlong/2,13,-0.375); p.castShadow=true; hb.add(p);
-  const hinge=new THREE.Mesh(new THREE.CylinderGeometry(0.35,0.35,boxAlong,10),M.zinc); hinge.rotation.z=Math.PI/2; hinge.position.set(boxAlong/2,boxH+10.75,0.75); g.add(hinge); g.userData.hb=hb; });
+  bbox(g,2,boxH+9.4,0.75,boxAlong-4,1.25,0.08,M.zinc);                                  // lower hinge leaf, surface-mounted on the riser's mattress face
+  for(const x of [14,41,68]){ const e=new THREE.Mesh(new THREE.TorusGeometry(0.6,0.15,8,14),M.steel); e.position.set(x,boxH+9.0,1.0); g.add(e); }   // mattress-strap eyes moved up onto the riser
+  const hb=new THREE.Group(); hb.position.set(0,boxH+10.75,0.75); g.add(hb);        // hinge pin: top mattress-side corner of the riser
+  const p=new THREE.Mesh(new THREE.BoxGeometry(boxAlong,26,0.75),M.walnut); p.position.set(boxAlong/2,13,-0.375); p.castShadow=true; hb.add(p);
+  const leaf=new THREE.Mesh(new THREE.BoxGeometry(boxAlong-4,1.25,0.08),M.zinc); leaf.position.set(boxAlong/2,0.65,0.04); hb.add(leaf);   // upper hinge leaf on the panel's mattress face
+  for(const x of [6,boxAlong-6]){ const body=new THREE.Mesh(new THREE.BoxGeometry(1.2,4,0.7),M.zinc); body.position.set(x,3.5,0.35); hb.add(body); const rod=new THREE.Mesh(new THREE.CylinderGeometry(0.2,0.2,5.5,10),M.zinc); rod.position.set(x,2.5,0.35); hb.add(rod); }   // two vertical drop bolts: thrown DOWN across the hinge line into holes in the riser top to lock the panel upright
+  const hinge=new THREE.Mesh(new THREE.CylinderGeometry(0.3,0.3,boxAlong-4,10),M.zinc); hinge.rotation.z=Math.PI/2; hinge.position.set(boxAlong/2,boxH+10.75,0.75); g.add(hinge); g.userData.hb=hb; });
 // S12 mattress + topper + straps
 bpart('mattress',g=>{ bbox(g,1.75,boxH+deck,1.75,76,8,80,M.matt); bbox(g,1.75,boxH+deck+8,1.75,76,2,80,M.matt); for(const z of [14,41,68]){ bbox(g,0.5,boxH+deck+10,z,boxAlong-1,0.15,1.5,M.strap); bbox(g,0.5,boxH+deck,z,0.15,10,1.5,M.strap); bbox(g,boxAlong-0.65,boxH+deck,z,0.15,10,1.5,M.strap);} });
 
@@ -236,11 +241,11 @@ const steps=[
 {t:'11. Safety straps and bottom stop',cam:C(8,50,50,30,140,40),parts:['safety'],fast:[],people:'1',tools:'1 in webbing, carabiners, eye screws',
  do:['Two slack safety straps from eye screws on the uprights to the box far rail, 2 in of slack when latched. Clip after latching, unclip before lowering.'],
  check:['With barrel bolts open and straps clipped, the standing bed cannot lean more than a few degrees.']},
-{t:'12. Headboard',cam:C(10,-20,50,50,135,22),parts:['headboard'],fast:[],people:'2',tools:'72 in piano hinge, screws, two barrel bolts',
- do:['Screw and glue the 10.75 in riser (3/4 in ply, 79.5 in long) standing on the wall-side rail so its top is level with the mattress top. It is also the stop that keeps the mattress from sliding toward the wall during the swing.','Edge-band the 26 x 79.5 in panel. Piano hinge along the top of the riser. Two barrel bolts from the panel ends into the uprights.','Routine: unbolt and fold the headboard forward onto the mattress before every lift. It rides up sandwiched between mattress and wall with 1 in to spare.'],
- check:['Folded panel lies flat on the mattress top; with the bed standing there is still daylight between the panel and the ledgers.','Bolted up, leaning on the top edge does not rack the panel.']},
+{t:'12. Headboard',cam:C(6,106,40,28,135,21),parts:['headboard'],fast:[],people:'2',tools:'continuous (piano) hinge, 3/4 in screws, two 4 in barrel bolts, glue',demo:'fold',
+ do:['Glue and screw the 10.75 in riser (3/4 in ply, 79.5 in long) standing on the wall-side rail so its top is level with the mattress top. It is also the stop that keeps the mattress from sliding toward the wall during the swing, and the three strap eye bolts move up onto it.','Set the 26 x 79.5 in panel on the riser edge to edge, in line with it. Surface-mount the piano hinge on the MATTRESS side with the knuckle at the top corner of the riser: one leaf on the riser face just below the top, the other on the panel face just above the bottom. The panel can now only fold forward onto the mattress; pushing it backward is stopped by its bottom edge bearing on the riser top edge, not by the hinge.','Two 4 in barrel bolts on the panel face near each end, mounted vertically, throwing DOWN across the hinge line into holes drilled in the riser top. Bolts down: panel locked upright. Bolts up: panel folds forward onto the mattress. The animation here shows that fold with the bed down.','Routine: lift both bolts and fold the headboard forward before every lift. It rides up lying on the mattress, 1 in clear of the ledgers.'],
+ check:['Through the fold the panel\'s bottom corner rises and clears the riser: the pin is at the riser\'s top mattress-side corner, so nothing passes through the riser.','Panel up and bolts down: pushing the top edge toward the wall does not move it (edge stop), pulling it forward does not move it (bolts).','Folded flat on the mattress, the panel is 0.75 in proud of the mattress top; with the bed standing that leaves 1 in to the ledgers.']},
 {t:'13. Mattress, straps and full-weight test',cam:C(5,-60,75,63,95,30),parts:['mattress'],fast:[],people:'2',tools:'cam-buckle straps',
- do:['King mattress and topper on the deck, long side out from the wall. Three cam-buckle straps through the eye bolts, snug.','Full-weight lift with spotters. Time it, listen to the winch, watch the rope on the drum.'],
+ do:['King mattress and topper on the deck, long side out from the wall, head end against the riser. Three cam-buckle straps from the eye bolts on the riser, over the mattress, to the eye bolts in the far rail, snug.','Full-weight lift with spotters. Time it, listen to the winch, watch the rope on the drum.'],
  check:['Rope winds evenly through the fairlead.','Bed holds standing with the rope slack; the winch pulls it back out.','Nothing touches the fan at any point of the swing.']},
 {t:'Done: paint the face',cam:C(63,-130,60,63,120,45),parts:[],fast:[],swing:true,people:'',tools:'',
  do:['Stand the bed up and the painted face is a wall. Practice the rainy street on a small panel first, then paint the real one in place.'],
@@ -264,7 +269,7 @@ function go(i){
   } else { Object.values(parts).forEach(g=>g.position.copy(g.userData.final)); Object.values(fast).flat().forEach(f=>f.position.copy(f.userData.final)); }
   camFrom={eye:camera.position.clone(),tgt:tgt.clone()}; camTo=s.cam; camT=0;
   // swing state: steps 8, 9 raise the frame; others down; final step animates
-  swingTarget = (i===8||i===9)? 90 : 0; swingLoop = !!s.swing;
+  swingTarget = (i===8||i===9)? 90 : 0; swingLoop = !!s.swing; foldDemo = s.demo==='fold'; foldT=0;
   const nF=s.fast.reduce((a,id)=>a+(fast[id]||[]).length,0);
   panel.innerHTML=`<div class="n">Step ${i} of ${steps.length-1}</div><h2>${s.t}</h2>
    <h3>Do</h3><ul>${s.do.map(x=>`<li>${x}</li>`).join('')}</ul>
@@ -275,7 +280,7 @@ function go(i){
   stepsBar.querySelectorAll('button').forEach((b,k)=>b.classList.toggle('on',k===i));
   dwell=0;
 }
-let swingTarget=0, swingLoop=false, swingDir=1;
+let swingTarget=0, swingLoop=false, swingDir=1, foldDemo=false, foldT=0;
 document.getElementById('prev').addEventListener('click',()=>{playing=false;play.textContent='Play all';go(cur-1);});
 document.getElementById('next').addEventListener('click',()=>{playing=false;play.textContent='Play all';go(cur+1);});
 const play=document.getElementById('play'); play.addEventListener('click',()=>{ playing=!playing; play.textContent=playing?'Pause':'Play all'; if(playing&&cur>=steps.length-1) go(0); });
@@ -299,7 +304,7 @@ function frame(t){const dt=Math.min(0.05,(t-last)/1000);last=t;resize();
   if(swingLoop){ swingA+=swingDir*20*dt; if(swingA>=90){swingA=90;swingDir=-1;} if(swingA<=0){swingA=0;swingDir=1;} }
   else { const d=swingTarget-swingA; if(Math.abs(d)>0.1){swingA+=Math.sign(d)*Math.min(Math.abs(d),25*dt);busy=true;} else swingA=swingTarget; }
   pivot.rotation.x=-THREE.MathUtils.degToRad(swingA);
-  if(parts.headboard&&parts.headboard.userData.hb) parts.headboard.userData.hb.rotation.x=Math.PI/2*Math.min(1,swingA/8);   // folds forward onto the mattress
+  if(parts.headboard&&parts.headboard.userData.hb){ let f=Math.min(1,swingA/8); if(foldDemo){ foldT+=dt; const c=foldT%6; f = c<2? 0 : c<3.2? ease((c-2)/1.2) : c<4.5? 1 : ease(1-(c-4.5)/1.2); } parts.headboard.userData.hb.rotation.x=Math.PI/2*f; }   // folds forward onto the mattress; step 12 loops a fold demo
   updateRope(parts.flanges.visible && (swingA>0.5 || cur===7 || cur===8 || cur===9));
   if(playing){ if(!busy){ dwell+=dt; if(dwell>7){ if(cur<steps.length-1) go(cur+1); else {playing=false;play.textContent='Play all';} } } }
   renderer.render(scene,camera); requestAnimationFrame(frame);}
