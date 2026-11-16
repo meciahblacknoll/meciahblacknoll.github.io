@@ -52,7 +52,7 @@ input[type=range]{width:min(260px,60vw);accent-color:var(--accent)}
   <div class="group"><span class="lbl">Show</span>
     <button id="t-decor" class="on">Decor</button><button id="t-wall">Entry wall</button><button id="t-grid">Grid</button><button id="t-fan" class="on">Fan</button><button id="t-night">Night</button></div>
 </div>
-<p class="facts">Box 79.5 × 83.5 in around a standard King mattress. Bed down reaches <b>100 in</b> from the rear wall and leaves <b>54 in</b> to the entry wall. Standing it is <b>84 in</b> tall and <b>21 in</b> deep. The swing's highest point (86 in) is 21 in from the rear wall; under the fan it passes 18 in below the light glass (86 in) and 12 in below the 20 in blade tips. The headboard is hinged on the wall-side rail and folds onto the mattress before the bed rises. Door and window positions are Meciah's tape measurements of 15 Nov 2026; the window's height is still assumed.</p>
+<p class="facts">Box 79.5 × 83.5 in around a standard King mattress. Bed down reaches <b>102.5 in</b> from the rear wall and leaves <b>51.5 in</b> to the entry wall. Standing it is <b>84 in</b> tall and <b>24 in</b> deep. The swing's highest point (86 in) is 21 in from the rear wall; under the fan it passes 18 in below the light glass (86 in) and 12 in below the 20 in blade tips. The headboard is hinged on the wall-side rail and folds onto the mattress before the bed rises. Door and window positions are Meciah's tape measurements of 15 Nov 2026; the window's height is still assumed.</p>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 <script>
@@ -134,13 +134,13 @@ box(shell,0,0,0,0.5,R.Y,3.5,M.trim,false); box(shell,R.X-0.5,0,0,0.5,R.Y,3.5,M.t
 
 // ---------- fixed bed parts ----------
 const gap=3, upT=1.5, upD=9.25, boxAlong=79.5, boxOut=83.5, boxH=9.25, deck=0.75, mattH=8, topH=2;
-const bedX0=(R.X-boxAlong)/2, axY=R.Y-18.5, axZ=2.81, axIn=2.0, axUp=2.31;
+const bedX0=(R.X-boxAlong)/2, axY=R.Y-21, axZ=2.94, axIn=2.0, axUp=2.31;
 const fixed=new THREE.Group(); scene.add(fixed);
 [bedX0-gap-upT, bedX0+boxAlong+gap].forEach(x=>box(fixed, x,R.Y-upD,0, upT,upD,90, M.pine));
 [bedX0-gap-4, bedX0+boxAlong+gap-8].forEach(x=>{ box(fixed, x,axY-3.625,0, 12,7.25,1.5, M.pine); box(fixed, x+3.5,axY-2.5,1.5, 5,5,3.2, M.steel); });
 box(fixed, R.X/2-5.7,R.Y-6,96, 11.4,4.3,4.5, M.steel);                       // winch
-box(fixed, R.X/2-0.75,R.Y-20,99.25, 1.5,20,5.5, M.pine);                     // pulley arm
-const pulley=new THREE.Mesh(new THREE.CylinderGeometry(1.5,1.5,1,24), M.steel); pulley.rotation.z=Math.PI/2; pulley.position.copy(P(R.X/2, R.Y-19.5, 99)); fixed.add(pulley);
+box(fixed, R.X/2-0.75,R.Y-22.5,99.25, 1.5,22.5,5.5, M.pine);                 // pulley arm, tip 22.5 in out
+const pulley=new THREE.Mesh(new THREE.CylinderGeometry(1.5,1.5,1,24), M.steel); pulley.rotation.z=Math.PI/2; pulley.position.copy(P(R.X/2, R.Y-22, 99)); fixed.add(pulley);
 [bedX0-gap-upT, bedX0+boxAlong+gap].forEach(x=>{ box(fixed, x-0.25,R.Y-upD-2.5,52, upT+0.5,2.5,40, M.pine); });   // keeper block face (barrel bolt backing)
 
 // ---------- the bed (rotates about the axle) ----------
@@ -157,9 +157,9 @@ bbox(2,boxH+deck+mattH+topH,20, boxAlong-4,1.2,boxOut-22, M.linen);             
 [7,43].forEach(x=>bbox(x,boxH+deck+mattH+topH,3, 28,5,18, M.white));              // pillows at the headboard end
 const eye=new THREE.Mesh(new THREE.TorusGeometry(1,0.25,8,16),M.steel); eye.position.set(boxAlong/2,boxH+1.5,boxOut-0.4); bed.add(eye);
 // hinged headboard on the wall-side rail (Z = 0), folds onto the mattress as the bed starts up
-const hb=new THREE.Group(); hb.position.set(0, boxH, 0.75); bed.add(hb);
-const hbPanel=new THREE.Mesh(new THREE.BoxGeometry(boxAlong+2*gap,26,0.75), M.walnut); hbPanel.position.set(boxAlong/2,13,-0.375); hbPanel.castShadow=hbPanel.receiveShadow=true; hb.add(hbPanel);
-const hbShelf=new THREE.Mesh(new THREE.BoxGeometry(boxAlong-4,0.75,5), M.walnut); hbShelf.position.set(boxAlong/2,22,-3.1); hb.add(hbShelf);    // narrow ledge for a phone and a glass
+bbox(0,boxH,0, boxAlong,10.75,0.75, M.walnut);                                     // riser to the mattress-top plane (head-end mattress stop)
+const hb=new THREE.Group(); hb.position.set(0, boxH+10.75, 0.75); bed.add(hb);
+const hbPanel=new THREE.Mesh(new THREE.BoxGeometry(boxAlong,26,0.75), M.walnut); hbPanel.position.set(boxAlong/2,13,-0.375); hbPanel.castShadow=hbPanel.receiveShadow=true; hb.add(hbPanel);
 
 // rope: pulley → eye bolt
 const ropeGeo=new THREE.BufferGeometry().setFromPoints([new THREE.Vector3(),new THREE.Vector3()]);
@@ -219,12 +219,12 @@ let angle=0, playing=false, dir=1, hold=0;
 const slider=document.getElementById('ang'), angv=document.getElementById('angv'), hud=document.getElementById('hud');
 function setAngle(a){ angle=a; slider.value=a; angv.textContent=a.toFixed(0)+'°';
   pivot.rotation.x=-THREE.MathUtils.degToRad(a);
-  hb.rotation.x=-Math.PI/2*Math.min(1, a/8);                                   // headboard folds flat in the first 8°
+  hb.rotation.x=Math.PI/2*Math.min(1, a/8);                                    // headboard folds forward onto the mattress in the first 8°
   // far-rail eye bolt world position → rope
   const eyeW=new THREE.Vector3(); eye.getWorldPosition(eyeW);
-  const top=P(R.X/2, R.Y-19.5, 100.5); const pts=[top, a>=89.5? P(R.X/2,R.Y-19.5,96) : eyeW];
+  const top=P(R.X/2, R.Y-22, 100.5); const pts=[top, a>=89.5? P(R.X/2,R.Y-22,96) : eyeW];
   rope.geometry.setFromPoints(pts); rope.visible = a>0.5 && a<89.5;
-  const reach = (18.5 + (boxOut-axIn)*Math.cos(THREE.MathUtils.degToRad(a))).toFixed(0);
+  const reach = (21 + (boxOut-axIn)*Math.cos(THREE.MathUtils.degToRad(a))).toFixed(0);
   const h = (axZ + (boxOut-axIn)*Math.sin(THREE.MathUtils.degToRad(a)) + (boxH+deck+mattH+topH)*Math.cos(THREE.MathUtils.degToRad(a))).toFixed(0);
   hud.textContent = `bed ${a.toFixed(0)}° · ${a<1?'down':a>89?'standing':'moving'} · far edge ${reach} in from the rear wall, ${h} in high`;
 }
