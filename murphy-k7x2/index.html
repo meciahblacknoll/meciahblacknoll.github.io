@@ -136,12 +136,17 @@ box(shell,0,0,0,0.5,R.Y,3.5,M.trim,false); box(shell,R.X-0.5,0,0,0.5,R.Y,3.5,M.t
 const gap=3, upT=1.5, upD=9.25, boxAlong=79.5, boxOut=83.5, boxH=9.25, deck=0.75, mattH=8, topH=2;
 const bedX0=(R.X-boxAlong)/2, axY=R.Y-21, axZ=2.94, axIn=2.0, axUp=2.31;
 const fixed=new THREE.Group(); scene.add(fixed);
-[bedX0-gap-upT, bedX0+boxAlong+gap].forEach(x=>box(fixed, x,R.Y-upD,0, upT,upD,90, M.pine));
+const ledgY=R.Y-1.5;                                                               // ledger face: 2x6 ledgers at 46 and 84 in lagged into every stud
+[46,84].forEach(z=>box(fixed, 15.75,ledgY,z, 96,1.5,5.5, M.pine));
+[bedX0-gap-upT, bedX0+boxAlong+gap].forEach(x=>box(fixed, x,ledgY-upD,0, upT,upD,90, M.pine));   // uprights against the ledgers
 [bedX0-gap-4, bedX0+boxAlong+gap-8].forEach(x=>{ box(fixed, x,axY-3.625,0, 12,7.25,1.5, M.pine); box(fixed, x+3.5,axY-2.5,1.5, 5,5,3.2, M.steel); });
-box(fixed, R.X/2-5.7,R.Y-6,96, 11.4,4.3,4.5, M.steel);                       // winch
+box(fixed, R.X/2-18,ledgY,96, 36,1.5,7.25, M.pine);                            // winch plate 2x8 x 36
+box(fixed, R.X/2-5.7,ledgY-4.3,97.5, 11.4,4.3,4.5, M.steel);                   // winch
+{ const br=new THREE.Mesh(new THREE.BoxGeometry(1.5,23.3,3.5),M.pine); br.position.copy(P(R.X/2,R.Y-11.5,93)); br.quaternion.setFromUnitVectors(new THREE.Vector3(0,1,0),P(0,-20,12).sub(P(0,0,0)).normalize()); br.castShadow=true; fixed.add(br); }   // knee brace to the upper ledger
 box(fixed, R.X/2-0.75,R.Y-22.5,99.25, 1.5,22.5,5.5, M.pine);                 // pulley arm, tip 22.5 in out
 const pulley=new THREE.Mesh(new THREE.CylinderGeometry(1.5,1.5,1,24), M.steel); pulley.rotation.z=Math.PI/2; pulley.position.copy(P(R.X/2, R.Y-22, 99)); fixed.add(pulley);
-[bedX0-gap-upT, bedX0+boxAlong+gap].forEach(x=>{ box(fixed, x-0.25,R.Y-upD-2.5,52, upT+0.5,2.5,40, M.pine); });   // keeper block face (barrel bolt backing)
+{ const deckY=axY+(boxH-axUp)+deck; for(const x of [bedX0-gap, bedX0+boxAlong+gap-1.5]) for(const z of [58,78]) box(fixed, x,deckY-10.15,z, 1.5,ledgY-(deckY-10.15),5.5, M.pine);   // keeper arms
+  for(const x of [bedX0-gap+1.5, bedX0+boxAlong+gap-1.5-2.75]) for(const z of [59,79]) box(fixed, x,deckY,z, 2.75,2,3.5, new THREE.MeshStandardMaterial({color:0x222,roughness:1})); }   // rubber stop blocks
 
 // ---------- the bed (rotates about the axle) ----------
 const pivot=new THREE.Group(); pivot.position.copy(P(bedX0, axY, axZ)); scene.add(pivot);
@@ -174,7 +179,7 @@ box(decor, R.X-12.2,74,0, 12,28,30, M.walnut);                                  
 const pot=new THREE.Mesh(new THREE.CylinderGeometry(6,4.5,12,20),M.pot); pot.position.copy(P(R.X-9,R.Y-12,6)); pot.castShadow=true; decor.add(pot);
 for(let i=0;i<9;i++){ const l=new THREE.Mesh(new THREE.SphereGeometry(5+Math.random()*4,10,8),M.leaf); l.position.copy(P(R.X-9+(Math.random()-0.5)*12, R.Y-12+(Math.random()-0.5)*10, 24+Math.random()*26)); l.castShadow=true; decor.add(l); }
 box(decor, -0.4,44,36, 0.6,48,36, M.white,false);                                // whiteboard, bathroom wall
-const ledBar=box(decor, bedX0+6,R.Y-upD-1,95.5, boxAlong-12,0.8,0.8, M.led,false);
+const ledBar=box(decor, bedX0+6,R.Y-upD-2.5,95.5, boxAlong-12,0.8,0.8, M.led,false);
 [bedX0-gap-upT-2, bedX0+boxAlong+gap+upT].forEach(x=>box(decor, x,R.Y-upD-2.2,60, 2,2.2,2, M.led,false));   // reading lights
 const rug=box(decor, 24,16,0.01, 80,36,0.4, new THREE.MeshStandardMaterial({map:noiseTex('#4f6b48',0.35,6),roughness:1}),false);  // green floral rug in front of the bed
 const gridH=new THREE.GridHelper(1,1); scene.remove(gridH);
