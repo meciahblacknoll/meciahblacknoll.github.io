@@ -1,0 +1,306 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex,nofollow">
+<style>:root{color-scheme:light dark}body{margin:0;font:14px system-ui}img{max-width:100%}[hidden]{display:none!important}</style>
+</head>
+<body>
+<title>Murphy Bed Build Steps</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+<style>
+:root{--bg:#efe9df;--panel:#f8f5ee;--ink:#2a2420;--muted:#6f655b;--line:#d9d0c2;--accent:#8a5a2b;--accent-ink:#fff;--chip:#e6ddcf;--ok:#3f7a4a;--warn:#b0392e}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--bg:#1c1917;--panel:#26211e;--ink:#efe7db;--muted:#a79c8e;--line:#3b332d;--accent:#d9a35f;--accent-ink:#1c1917;--chip:#342c26;--ok:#7fc08a;--warn:#e07a6e}}
+:root[data-theme="dark"]{--bg:#1c1917;--panel:#26211e;--ink:#efe7db;--muted:#a79c8e;--line:#3b332d;--accent:#d9a35f;--accent-ink:#1c1917;--chip:#342c26;--ok:#7fc08a;--warn:#e07a6e}
+html,body{height:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font:14px/1.45 "IBM Plex Sans",system-ui,sans-serif;display:flex;flex-direction:column}
+header{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;padding:12px 16px 6px}
+h1{font:600 22px/1.1 "Fraunces",Georgia,serif;margin:0}
+header .sub{color:var(--muted);font-size:13px}
+#wrap{flex:1;display:grid;grid-template-columns:minmax(0,1fr) 360px;gap:12px;padding:0 16px;min-height:0}
+@media (max-width:900px){#wrap{grid-template-columns:1fr;grid-template-rows:minmax(300px,55vh) auto}}
+#stage{position:relative;border-radius:10px;overflow:hidden;background:#cfc6b8;min-height:300px}
+canvas{display:block;width:100%;height:100%}
+#hud{position:absolute;left:12px;top:10px;font-size:12px;color:#2a2420;background:rgba(248,245,238,.88);padding:6px 9px;border-radius:6px}
+#panel{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:14px 16px;overflow:auto;min-height:0}
+#panel h2{font:600 17px/1.2 "Fraunces",Georgia,serif;margin:0 0 4px}
+#panel .n{font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+#panel h3{font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin:12px 0 4px}
+#panel ul{margin:0;padding-left:18px}
+#panel li{margin:3px 0}
+#panel .check li::marker{color:var(--ok);content:"✓ "}
+#panel .meta{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+.chip{background:var(--chip);border-radius:999px;padding:3px 10px;font-size:12px}
+.chip.w{color:var(--warn)}
+.bar{display:flex;flex-wrap:wrap;gap:10px 16px;align-items:center;padding:10px 16px calc(12px + env(safe-area-inset-bottom,0px))}
+button{font:inherit;border:1px solid var(--line);background:var(--panel);color:var(--ink);padding:6px 12px;border-radius:999px;cursor:pointer}
+button:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+button.primary{background:var(--accent);color:var(--accent-ink);border-color:var(--accent);min-width:96px}
+button.on{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
+#steps{display:flex;gap:4px;flex-wrap:wrap}
+#steps button{padding:4px 9px;font-size:12px}
+.lbl{font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+</style>
+
+<header><h1>Murphy Bed Build Steps</h1><span class="sub">Rev E, King floor-pivot. Each step flies its parts in and drives its fasteners. Drag to orbit, scroll to zoom.</span></header>
+<div id="wrap">
+  <div id="stage"><canvas id="c"></canvas><div id="hud"></div></div>
+  <aside id="panel"></aside>
+</div>
+<div class="bar">
+  <button id="prev">Back</button><button id="play" class="primary">Play all</button><button id="next">Next</button>
+  <span class="lbl">Jump</span><div id="steps"></div>
+  <span class="lbl">Show</span><button id="t-studs" class="on">Studs</button><button id="t-dims">Dimensions</button>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script>
+(function(){
+const R={X:127,Y:154,Z:108};
+const P=(x,y,z)=>new THREE.Vector3(x,z,-y);
+const canvas=document.getElementById('c');
+const renderer=new THREE.WebGLRenderer({canvas,antialias:true});
+renderer.shadowMap.enabled=true; renderer.shadowMap.type=THREE.PCFSoftShadowMap;
+renderer.outputEncoding=THREE.sRGBEncoding; renderer.toneMapping=THREE.ACESFilmicToneMapping; renderer.toneMappingExposure=1.05;
+const scene=new THREE.Scene(); scene.background=new THREE.Color(0xcfc6b8);
+const camera=new THREE.PerspectiveCamera(50,1,1,2000);
+
+function woodTex(base,dark,w=512){const c=document.createElement('canvas');c.width=c.height=w;const g=c.getContext('2d');g.fillStyle=base;g.fillRect(0,0,w,w);for(let y=0;y<w;y+=2){g.globalAlpha=0.05+0.12*Math.abs(Math.sin(y*0.045)+0.4*Math.sin(y*0.17));g.fillStyle=dark;g.fillRect(0,y,w,1+Math.random()*2);}g.globalAlpha=1;const t=new THREE.CanvasTexture(c);t.wrapS=t.wrapT=THREE.RepeatWrapping;return t;}
+function noiseTex(base,grain,scale,w=256){const c=document.createElement('canvas');c.width=c.height=w;const g=c.getContext('2d');g.fillStyle=base;g.fillRect(0,0,w,w);for(let i=0;i<w*w*0.35;i++){g.fillStyle=`rgba(0,0,0,${Math.random()*grain})`;g.fillRect(Math.random()*w,Math.random()*w,1,1);}const t=new THREE.CanvasTexture(c);t.wrapS=t.wrapT=THREE.RepeatWrapping;t.repeat.set(scale,scale);return t;}
+const M={
+  wall:new THREE.MeshStandardMaterial({color:0xe8e2d6,roughness:0.95}),
+  carpet:new THREE.MeshStandardMaterial({map:noiseTex('#a89c8c',0.25,10),roughness:1}),
+  slab:new THREE.MeshStandardMaterial({color:0x9a9690,roughness:1}),
+  stud:new THREE.MeshStandardMaterial({color:0xc9a57a,transparent:true,opacity:0.35,roughness:1}),
+  pine:new THREE.MeshStandardMaterial({map:woodTex('#d8ab6a','#7a4e22'),roughness:0.7}),
+  ply:new THREE.MeshStandardMaterial({map:woodTex('#e3c99a','#9a7a4a'),roughness:0.8}),
+  hard:new THREE.MeshStandardMaterial({color:0x6b5a4a,roughness:0.9}),
+  walnut:new THREE.MeshStandardMaterial({map:woodTex('#5a3b26','#241509'),roughness:0.55}),
+  steel:new THREE.MeshStandardMaterial({color:0x3a3f45,roughness:0.4,metalness:0.7}),
+  zinc:new THREE.MeshStandardMaterial({color:0xb9bfc4,roughness:0.35,metalness:0.8}),
+  bolt:new THREE.MeshStandardMaterial({color:0xd8b74a,roughness:0.4,metalness:0.6}),   // highlighted fasteners
+  rubber:new THREE.MeshStandardMaterial({color:0x222,roughness:1}),
+  matt:new THREE.MeshStandardMaterial({color:0xf1efe8,roughness:1}),
+  rope:new THREE.LineBasicMaterial({color:0xb0392e}),
+  chalk:new THREE.LineBasicMaterial({color:0x2b6cb0}),
+  strap:new THREE.MeshStandardMaterial({color:0xd9a35f,roughness:1}),
+  led:new THREE.MeshStandardMaterial({color:0xffd9a0,emissive:0xffb060,emissiveIntensity:1.2}),
+};
+function mesh(parent,geo,mat,pos,shadow=true){const m=new THREE.Mesh(geo,mat);m.position.copy(pos);m.castShadow=shadow;m.receiveShadow=true;parent.add(m);return m;}
+// plan-coordinate box: corner (x,y,z) size (dx,dy,dz)
+function pbox(parent,x,y,z,dx,dy,dz,mat,shadow=true){return mesh(parent,new THREE.BoxGeometry(dx,dz,dy),mat,P(x+dx/2,y+dy/2,z+dz/2),shadow);}
+
+// ---------- room shell (always visible) ----------
+const shell=new THREE.Group(); scene.add(shell);
+pbox(shell,0,0,-0.5,R.X,R.Y,0.5,M.carpet,false);
+const wallT=4;
+pbox(shell,-wallT,R.Y,0,R.X+2*wallT,wallT,R.Z,M.wall);
+pbox(shell,-wallT,0,0,wallT,R.Y,R.Z,M.wall); pbox(shell,R.X,0,0,wallT,R.Y,R.Z,M.wall);
+const studs=new THREE.Group(); shell.add(studs);
+for(let x=0.75;x<R.X;x+=16) pbox(studs,x-0.75,R.Y+0.05,0,1.5,3.5,R.Z,M.stud,false);   // ASSUMED 16" o.c. from the left wall; verify with a finder
+
+// ---------- geometry constants (rev E) ----------
+const boxAlong=79.5, boxOut=83.5, boxH=9.25, deck=0.75, gap=3, upT=1.5, upD=9.25;
+const bedX0=(R.X-boxAlong)/2;                  // 23.75
+const ledgY=R.Y-1.5;                            // ledger face plane (ledgers are 1.5" thick on the drywall)
+const upY0=ledgY-upD;                           // uprights sit against the ledgers
+const axY=R.Y-18.5, axZ=2.94, axIn=2.0, axUp=2.31;
+const xUpL=bedX0-gap-upT, xUpR=bedX0+boxAlong+gap;
+const padXL=bedX0-0.5-1.5-5, padXR=bedX0+boxAlong+0.5+1.5-7;   // 12" pads centered under the pillow blocks
+const pbXL=bedX0-0.5-1.5, pbXR=bedX0+boxAlong+0.5;             // pillow block (1.5 wide) just outside the flange
+
+// ---------- parts registry ----------
+const parts={}; const fast={}; let fastSeq=0;
+function part(id,build){const g=new THREE.Group();g.visible=false;scene.add(g);build(g);g.userData.final=g.position.clone();parts[id]=g;return g;}
+function fastener(id,pos,axis,len,d,mat){ // pos: plan head position when seated; axis: plan unit vector pointing INTO the material
+  const g=new THREE.Group(); g.visible=false; scene.add(g);
+  const shank=new THREE.Mesh(new THREE.CylinderGeometry(d/2,d/2,len,10),mat||M.bolt); shank.position.y=-len/2; g.add(shank);
+  const head=new THREE.Mesh(new THREE.CylinderGeometry(d*1.1,d*1.1,d*0.6,12),mat||M.bolt); head.position.y=d*0.3; g.add(head);
+  const a=P(axis[0],axis[1],axis[2]).sub(P(0,0,0)).normalize();
+  g.quaternion.setFromUnitVectors(new THREE.Vector3(0,-1,0),a);
+  g.position.copy(P(pos[0],pos[1],pos[2])); g.userData.final=g.position.clone(); g.userData.axis=a;
+  (fast[id]=fast[id]||[]).push(g); return g;
+}
+const lag=(id,x,y,z,ax)=>fastener(id,[x,y,z],ax||[0,1,0],4,0.375);
+const tap=(id,x,y,z)=>fastener(id,[x,y,z],[0,0,-1],2.75,0.25,M.zinc);
+const carriage=(id,x,y,z)=>fastener(id,[x,y,z],[0,1,0],7,0.5);
+const screw=(id,x,y,z,ax)=>fastener(id,[x,y,z],ax,3,0.2,M.zinc);
+const thru=(id,x,y,z,ax)=>fastener(id,[x,y,z],ax,3,0.5);
+
+// S1 ledgers, winch plate, brace cleat
+part('ledgers',g=>{ for(const z of [46,84]) pbox(g,15.75,ledgY,z,96,1.5,5.5,M.pine); pbox(g,R.X/2-18,ledgY,96,36,1.5,7.25,M.pine); pbox(g,R.X/2-6,ledgY,80,12,1.5,3.5,M.pine); });
+for(const z of [48.75,86.75]) for(let x=16.75;x<=112;x+=16) lag('ledgers',x,ledgY,z);
+for(const x of [R.X/2-8,R.X/2+8]) for(const z of [98,101.5]) lag('ledgers',x,ledgY,z);
+for(const x of [R.X/2-3,R.X/2+3]) lag('ledgers',x,ledgY,81.75);
+// S2 uprights + carriage bolts
+part('uprights',g=>{ pbox(g,xUpL,upY0,0,upT,upD,90,M.pine); pbox(g,xUpR,upY0,0,upT,upD,90,M.pine); });
+for(const x of [xUpL+0.75,xUpR+0.75]) for(const z of [47,50,85,88]) carriage('uprights',x,upY0+3,z);
+// S3 chalk line, carpet cut, pads, pillow blocks, tapcons
+part('layout',g=>{ const geo=new THREE.BufferGeometry().setFromPoints([P(2,axY,0.3),P(R.X-2,axY,0.3)]); g.add(new THREE.Line(geo,M.chalk));
+  for(const x of [padXL,padXR]) pbox(g,x-1,axY-5.6,-0.45,14,11.2,0.46,M.slab,false); });
+part('pads',g=>{ for(const x of [padXL,padXR]) pbox(g,x,axY-3.625,0,12,7.25,1.5,M.pine); });
+for(const x of [padXL,padXR]) for(const dx of [2,6,10]) for(const dy of [-2.4,2.4]) tap('pads',x+dx,axY+dy,1.5);
+part('pillows',g=>{ for(const x of [pbXL,pbXR]){ pbox(g,x,axY-2.75,1.5,1.5,5.5,1.6,M.steel); const h=new THREE.Mesh(new THREE.CylinderGeometry(1.6,1.6,1.5,20),M.steel); h.rotation.z=Math.PI/2; h.position.copy(P(x+0.75,axY,axZ)); g.add(h);} });
+for(const x of [pbXL,pbXR]) for(const dy of [-2.06,2.06]) thru('pillows',x+0.75,axY+dy,3.3,[0,0,-1]);
+// S4 winch, fairlead, arm, brace, pulley
+part('winch',g=>{ pbox(g,R.X/2-5.7,ledgY-4.3,97.5,11.4,4.3,4.5,M.steel); pbox(g,R.X/2-2.5,ledgY-5.3,98.5,5,1,2.5,M.zinc);      // winch + hawse fairlead
+  pbox(g,R.X/2-0.75,R.Y-20,99.25,1.5,18.5,5.5,M.pine);                                                                       // pulley arm 2x6, tip 20" out
+  const br=new THREE.Mesh(new THREE.BoxGeometry(1.5,24.5,3.5),M.pine); br.position.copy(P(R.X/2,R.Y-10.5,90.5)); br.rotation.x=Math.PI/4; br.castShadow=true; g.add(br);   // knee brace
+  const pu=new THREE.Mesh(new THREE.CylinderGeometry(1.5,1.5,1,24),M.steel); pu.rotation.z=Math.PI/2; pu.position.copy(P(R.X/2,R.Y-19.5,99)); g.add(pu); });
+for(const x of [R.X/2-4,R.X/2+4]) lag('winch',x,ledgY-4.3,99.75);
+for(const z of [100.5,103]) thru('winch',R.X/2-0.75,ledgY-1,z,[1,0,0]);
+lag('winch',R.X/2,R.Y-18.5,98.8,[0,0.7,0.7]); lag('winch',R.X/2,ledgY-2,81.75,[0,1,0]);
+// S5 frame (right side up, in place): rails, joists, blocking
+const bedG=new THREE.Group(); scene.add(bedG);       // everything that swings
+const pivot=new THREE.Group(); pivot.position.copy(P(bedX0,axY,axZ)); bedG.add(pivot);
+const bed=new THREE.Group(); bed.position.set(0,-axUp,-axIn); pivot.add(bed);
+function bpart(id,build){const g=new THREE.Group();g.visible=false;bed.add(g);build(g);g.userData.final=g.position.clone();g.userData.local=true;parts[id]=g;return g;}
+function bbox(g,x,y,z,dx,dy,dz,mat){const m=new THREE.Mesh(new THREE.BoxGeometry(dx,dy,dz),mat);m.position.set(x+dx/2,y+dy/2,z+dz/2);m.castShadow=m.receiveShadow=true;g.add(m);return m;}   // bed local: x along, y up, z out
+bpart('rails',g=>{ bbox(g,0,0,0,1.5,boxH,boxOut,M.pine); bbox(g,boxAlong-1.5,0,0,1.5,boxH,boxOut,M.pine); bbox(g,1.5,0,0,boxAlong-3,boxH,1.5,M.pine); bbox(g,1.5,0,boxOut-1.5,boxAlong-3,boxH,1.5,M.pine); });
+bpart('joists',g=>{ for(const z of [20,41,62]) bbox(g,1.5,boxH-5.5,z-0.75,boxAlong-3,5.5,1.5,M.pine); for(const x of [1.5,20.5,39.5,58.5]) bbox(g,x,boxH-5.5,41.75,19,5.5,1.5,M.pine); });
+// S6 flange bearings, backer plates, stubs, eye bolt
+bpart('flanges',g=>{ for(const x of [-1.1,boxAlong]){ bbox(g,x,axUp-2.6,axIn-2.6,1.1,5.2,5.2,M.steel); } for(const x of [1.5,boxAlong-1.75]) bbox(g,x,axUp-3,axIn-1.5,0.25,6,3,M.zinc);
+  for(const x of [-4.6,boxAlong-3.4]){ const s=new THREE.Mesh(new THREE.CylinderGeometry(0.5,0.5,8,16),M.zinc); s.rotation.z=Math.PI/2; s.position.set(x+4,axUp,axIn); g.add(s);}
+  const eye=new THREE.Mesh(new THREE.TorusGeometry(1,0.25,8,16),M.steel); eye.position.set(boxAlong/2,boxH+1.4,boxOut-0.6); g.add(eye); });
+// S7 keepers, barrel bolts, bump stops, top limit switch
+part('keepers',g=>{ for(const x of [xUpL+upT,xUpR-1.5]) pbox(g,x,upY0,50,1.5,5.5,40,M.pine); for(const x of [xUpL+upT+1.5,xUpR-1.5-1]) pbox(g,x,upY0+1,60,1,3.5,1,M.rubber); for(const x of [xUpL+upT+1.5,xUpR-2.5]) pbox(g,x,upY0+2,78,1,2,6,M.zinc); pbox(g,xUpL+upT+1.5,upY0+4,86,1,1.5,1.5,M.rubber); });
+for(const x of [xUpL+0.75,xUpR+0.75]) for(const z of [54,70,86]) lag('keepers',x,upY0-0.1,z,[0,-1,0]);
+// S8 skin (installed while standing), S9 deck
+bpart('skin',g=>{ bbox(g,0,-0.25,0,boxAlong,0.25,boxOut,M.hard); });
+bpart('deck',g=>{ bbox(g,0,boxH,0,48,deck,boxOut,M.ply); bbox(g,48,boxH,0,boxAlong-48,deck,boxOut,M.ply); for(const x of [10,30,50,70]) for(const z of [15,40,65]){ const h=new THREE.Mesh(new THREE.CylinderGeometry(0.5,0.5,0.9,10),M.rubber); h.position.set(x,boxH+deck/2,z); g.add(h);} });
+// S10 safety straps + bottom limit switch (static props)
+part('safety',g=>{ for(const x of [xUpL+upT+0.5,xUpR-0.5]) pbox(g,x-0.4,upY0+3,66,0.8,0.8,10,M.strap); pbox(g,padXL+5,axY+5,1.5,2,1.5,1.5,M.rubber); });
+// S11 headboard
+bpart('headboard',g=>{ const hb=new THREE.Group(); hb.position.set(0,boxH,0.75); g.add(hb); const p=new THREE.Mesh(new THREE.BoxGeometry(boxAlong+2*gap,26,0.75),M.walnut); p.position.set(boxAlong/2,13,-0.375); p.castShadow=true; hb.add(p); const l=new THREE.Mesh(new THREE.BoxGeometry(boxAlong-4,0.75,5),M.walnut); l.position.set(boxAlong/2,22,-3.1); hb.add(l); const hinge=new THREE.Mesh(new THREE.CylinderGeometry(0.35,0.35,boxAlong,10),M.zinc); hinge.rotation.z=Math.PI/2; hinge.position.set(boxAlong/2,boxH+0.1,0.75); g.add(hinge); g.userData.hb=hb; });
+// S12 mattress + topper + straps
+bpart('mattress',g=>{ bbox(g,1.75,boxH+deck,1.75,76,8,80,M.matt); bbox(g,1.75,boxH+deck+8,1.75,76,2,80,M.matt); for(const z of [14,41,68]){ bbox(g,0.5,boxH+deck+10,z,boxAlong-1,0.15,1.5,M.strap); bbox(g,0.5,boxH+deck,z,0.15,10,1.5,M.strap); bbox(g,boxAlong-0.65,boxH+deck,z,0.15,10,1.5,M.strap);} });
+
+// rope
+const rope=new THREE.Line(new THREE.BufferGeometry().setFromPoints([new THREE.Vector3(),new THREE.Vector3()]),M.rope); rope.visible=false; scene.add(rope);
+function updateRope(on){ rope.visible=on; if(!on) return; const eyeW=new THREE.Vector3(parts.flanges.children[parts.flanges.children.length-1].position.x,0,0); parts.flanges.children[parts.flanges.children.length-1].getWorldPosition(eyeW); rope.geometry.setFromPoints([P(R.X/2,ledgY-3,100.5),P(R.X/2,R.Y-19.5,100.5),eyeW]); }
+
+// dimension lines (toggle)
+const dims=new THREE.Group(); dims.visible=false; scene.add(dims);
+function dimLine(a,b,label){ const g=new THREE.BufferGeometry().setFromPoints([P(...a),P(...b)]); dims.add(new THREE.Line(g,M.chalk)); const c=document.createElement('canvas'); c.width=256;c.height=64; const x=c.getContext('2d'); x.fillStyle='rgba(248,245,238,0.9)'; x.fillRect(0,0,256,64); x.fillStyle='#2b6cb0'; x.font='bold 30px sans-serif'; x.textAlign='center'; x.fillText(label,128,42); const sp=new THREE.Sprite(new THREE.SpriteMaterial({map:new THREE.CanvasTexture(c)})); sp.scale.set(16,4,1); sp.position.copy(P((a[0]+b[0])/2,(a[1]+b[1])/2,(a[2]+b[2])/2+2)); dims.add(sp); }
+dimLine([0,axY,1],[R.X,axY,1],'18.5 in from wall'); dimLine([xUpL+upT,upY0-1,30],[xUpR,upY0-1,30],'88.5 in inside'); dimLine([bedX0,54,22],[bedX0+boxAlong,54,22],'79.5 in'); dimLine([bedX0-6,54,1],[bedX0-6,137.5,1],'83.5 in'); dimLine([R.X/2+10,ledgY,0],[R.X/2+10,ledgY,98],'98 in winch plate'); dimLine([R.X/2+14,R.Y-20,102],[R.X/2+14,R.Y,102],'arm 20 in out');
+
+// ---------- lights ----------
+scene.add(new THREE.HemisphereLight(0xfff4e6,0x8a7d6c,0.6));
+const sun=new THREE.DirectionalLight(0xfff1dc,1.0); sun.position.copy(P(R.X+200,R.Y-60,160)); sun.target.position.copy(P(60,90,20)); scene.add(sun,sun.target);
+sun.castShadow=true; sun.shadow.mapSize.set(2048,2048); const sc=sun.shadow.camera; sc.left=-150;sc.right=150;sc.top=150;sc.bottom=-150;sc.near=10;sc.far=700; sun.shadow.bias=-0.0005;
+
+// ---------- steps ----------
+const C=(ex,ey,ez,tx,ty,tz)=>({eye:P(ex,ey,ez),tgt:P(tx,ty,tz)});
+const steps=[
+{t:'Before you buy anything',cam:C(63,-120,70,63,120,40),parts:[],fast:[],people:'1',tools:'stud finder, tape, 4 ft level, hammer',
+ do:['Find and mark every stud on the rear wall from floor to 104 in. The translucent studs drawn here are a 16 in guess from the left wall; the ledgers make the exact positions unimportant, but the winch plate still needs two.',
+     'Tap the slab where the two pads go (18.5 in out from the drywall, 17 to 29 in and 98 to 110 in from the left wall). Look for a post-tension warning stamp at the garage slab edge or on the electrical panel. If the slab is post-tensioned, stop and tell Kai: the pads move to L-feet on the uprights instead of Tapcons.',
+     'Confirm the rear wall is 127 in, the ceiling 108 in, and the light-kit glass at 86 in or higher.'],
+ check:['Rear wall clear of outlets and switches between 16 and 112 in from the left wall below 104 in. If an outlet sits behind a ledger, notch the ledger around it, never cover it.','Floor level across the pad line within 1/8 in (shim the low pad later).']},
+{t:'1. Ledgers, winch plate and brace cleat',cam:C(30,40,95,63,150,75),parts:['ledgers'],fast:['ledgers'],people:'1 to 2',tools:'level, drill, 9/32 pilot bit, 3/8 x 4 in lags, socket',
+ do:['Two 2x6 x 96 in ledgers, top edges at 51.5 in and 89.5 in, centered on the wall (15.75 to 111.75 in). One 3/8 x 4 in lag into every stud, pilot-drilled.','2x8 x 36 in winch plate, bottom edge at 96 in, centered at 63.5 in. Four lags into two studs.','2x4 x 12 in brace cleat, bottom edge at 80 in, centered. Two lags into one stud.'],
+ check:['Both ledgers level end to end and parallel within 1/16 in (measure 46 and 84 at both ends).','Every lag pulls up hard: a lag that spins has missed the stud, move it 3/4 in sideways and try again.','Plate centered on 63.5 in: the rope must drop straight to the middle of the bed.']},
+{t:'2. Uprights',cam:C(20,40,60,45,150,45),parts:['uprights'],fast:['uprights'],people:'2',tools:'level, 1/2 in bit, 1/2 x 7 in carriage bolts, washers, clamps',
+ do:['Stand each 2x10 x 90 in on edge against the ledgers, tight to the floor. Inner faces at 20.75 in and 106.25 in from the left wall (88.5 in apart).','Clamp, plumb in both directions, drill 1/2 in through upright and ledger, two carriage bolts per ledger per upright.'],
+ check:['Inside distance 88.5 in at the floor and at 84 in high, within 1/16 in.','Both uprights plumb; the gap to the box will be 3 in each side and has no slack to give.','Diagonals from the top of one upright to the foot of the other are equal.']},
+{t:'3. Pad layout and slab anchors',cam:C(6,80,45,25,135,5),parts:['layout','pads'],fast:['pads'],people:'1',tools:'chalk line, utility knife, hammer drill, 3/16 in masonry bit, 1/4 x 2-3/4 in Tapcons, shop vac',
+ do:['Measure 18.5 in from the drywall at both ends of the wall and snap a chalk line: this is the axle line.','Cut the carpet and pad away under each 2x8 pad footprint (12 in long, centered on the line, 16.5 to 28.5 in and 98.5 to 110.5 in from the left wall) so the pads sit on bare slab.','Drill 6 holes per pad 1-3/4 in into the slab, vacuum the dust, drive the Tapcons.'],
+ check:['Pad tops level with each other within 1/16 in (shim with steel, not wood).','Pad centers exactly 18.5 in from the drywall: the whole swing geometry hangs on this number.','Hammer tap and drill feel: solid concrete, no cable strike. Stop immediately if the bit hits steel.']},
+{t:'4. Pillow blocks',cam:C(5,110,25,22,135,4),parts:['pillows'],fast:['pillows'],people:'1',tools:'string line, 1/2 in bolts, square',
+ do:['Bolt a UCP205-16 pillow block to each pad with the bore centered on the chalk line, outer face 0.5 in outside where the box end will be (bore centers at 22.5 in and 104.5 in from the left wall).','Leave the bolts snug, not tight, until the stubs are in.'],
+ check:['A string through both bores is parallel to the wall at 18.5 in and level: the two bores must be collinear or the stubs will bind.','Bore height 2.94 in above the slab at both pads.']},
+{t:'5. Winch, pulley arm and brace',cam:C(40,70,110,63,150,98),parts:['winch'],fast:['winch'],people:'2 (one on a ladder)',tools:'ladder, socket set, 1/2 in through-bolts, 3/8 x 6 in lags, wire strippers',
+ do:['Bolt the winch to the plate, drum centered at 63.5 in, fairlead below it.','2x6 pulley arm on edge, through-bolted to the plate so its tip is 20 in out from the drywall at 102 in high. 2x4 knee brace from the arm tip down to the cleat at 80 in, lagged both ends.','Run 10 AWG from a 12 V 30 A supply through a 30 A fuse to the momentary rocker. Leave the limit switches for step 8. Spool the 1/4 in synthetic rope through the fairlead and over the pulley.'],
+ check:['Plumb bob from the pulley groove lands on the chalk line at 63.5 in: the rope must come straight down to the eye bolt.','Push down hard on the arm tip: no movement at the plate.','Winch runs both directions from the switch before anything is attached.']},
+{t:'6. Box frame, built in place',cam:C(15,-40,75,63,100,10),parts:['rails','joists'],fast:[],people:'2',tools:'circular saw, jigsaw, 1-1/16 in spade bit, drill, 3 in structural screws, glue, framing square',
+ do:['Cut the two end rails first and finish them on sawhorses: 1-1/16 in axle hole 2 in in from the wall-side end and 2.31 in up from the bottom, then the 2.06 in radius relief on that bottom corner.','Assemble the perimeter right side up on the carpet in its final spot: end rails at 23.75 and 101.75 in from the left wall, wall-side rail face at 137.5 in from the entry wall. Glue and three 3 in screws per corner.','Add the three 2x6 joists flush with the top at 20, 41 and 62 in from the wall-side rail, then the blocking row at 41 in.'],
+ check:['Diagonals equal within 1/8 in before the joists go in.','Axle holes at the same height from the floor on both ends.','3 in gap to each upright, equal at the wall end and the far end.']},
+{t:'7. Bearings, stubs and eye bolt',cam:C(0,110,25,22,135,4),parts:['flanges'],fast:[],people:'1',tools:'1/2 in bit, 1/2 x 3 in bolts, 1/4 in steel backer plates, file, hex key',
+ do:['Through-bolt a UCFL205-16 flange bearing to each end rail over the axle hole, with the 1/4 in steel backer plate on the inside face.','Lift the wall end of the frame 2.5 in (two people or a car jack on a block), slide each 1 in stub from outside through the pillow block into the flange and 1.5 in into the rail. Set screws land on the filed flats. Now tighten the pillow block bolts.','Eye bolt dead center on the far rail with a 10 in webbing loop; mattress-strap eye bolts at 14, 41 and 68 in.'],
+ check:['Lift the far edge by hand a few inches: the frame swings freely with no bind and the relief clears the carpet.','Both stubs fully home; set screws torqued; a witness mark on each stub.']},
+{t:'8. First lift and latches',cam:C(10,-30,70,63,135,45),parts:['keepers'],fast:['keepers'],people:'2 spotters',tools:'clamps, level, lags, barrel bolts, bump stops, two NC limit switches',
+ do:['Clip the rope to the loop and raise the bare frame slowly, both people spotting from the sides, never under it. Past about 82 deg it leans into the wall on its own.','With it standing, clamp the 2x6 keeper blocks to the uprights where the frame rests, set the rubber bump stops so the frame is plumb, and lag the keepers. Fit the 6 in barrel bolts so they throw into the keepers.','Mount the top limit switch on a keeper so the frame trips it just before the stops. Lower the frame; mount the bottom switch at a pad. Wire each switch in series with its direction line.'],
+ check:['Standing frame holds with the rope slack.','Winch pulls it back out past over-center from the switch alone.','Each limit switch kills its direction at the stop; the other direction still works.']},
+{t:'9. Skin the face while it stands',cam:C(12,10,60,63,130,45),parts:['skin'],fast:[],people:'2',tools:'construction adhesive, 1-1/4 in brad nailer or screws, filler, sander',
+ do:['Raise the frame again. The underside is now a vertical wall at a comfortable height.','Glue and nail the two 1/4 in hardboard sheets (48 and 31.5 in wide, 83.5 in tall) to the rails and joists. Fill the seam, sand flush, prime.'],
+ check:['Sheets flush with the rail edges all round so the barrel bolts and stops still meet wood, not an overhang.']},
+{t:'10. Deck',cam:C(10,-50,85,63,95,12),parts:['deck'],fast:[],people:'1',tools:'1-5/8 in screws, 1 in Forstner bit',
+ do:['Lower the frame. Lay the two 3/4 in plywood sheets, screw into every rail and joist on 8 in centers.','Drill 1 in vent holes on a 12 in grid between joists.'],
+ check:['Deck flush with the rail tops; no screw heads proud.','Lift test with the deck on: this is the heaviest dry run before the mattress.']},
+{t:'11. Safety straps and bottom stop',cam:C(8,50,50,30,140,40),parts:['safety'],fast:[],people:'1',tools:'1 in webbing, carabiners, eye screws',
+ do:['Two slack safety straps from eye screws on the uprights to the box far rail, 2 in of slack when latched. Clip after latching, unclip before lowering.'],
+ check:['With barrel bolts open and straps clipped, the standing bed cannot lean more than a few degrees.']},
+{t:'12. Headboard',cam:C(10,-20,50,50,135,22),parts:['headboard'],fast:[],people:'2',tools:'72 in piano hinge, screws, two barrel bolts',
+ do:['Edge-band the 26 x 85.5 in panel and the 5 in ledge. Piano hinge along the box wall-side rail. Two barrel bolts from the panel ends into the uprights.','Routine: unbolt and fold the headboard onto the mattress before every lift.'],
+ check:['Folded panel lies flat on the mattress and clears the uprights through the swing.','Bolted up, leaning on the top edge does not rack the panel.']},
+{t:'13. Mattress, straps and full-weight test',cam:C(5,-60,75,63,95,30),parts:['mattress'],fast:[],people:'2',tools:'cam-buckle straps',
+ do:['King mattress and topper on the deck, long side out from the wall. Three cam-buckle straps through the eye bolts, snug.','Full-weight lift with spotters. Time it, listen to the winch, watch the rope on the drum.'],
+ check:['Rope winds evenly through the fairlead.','Bed holds standing with the rope slack; the winch pulls it back out.','Nothing touches the fan at any point of the swing.']},
+{t:'Done: paint the face',cam:C(63,-130,60,63,120,45),parts:[],fast:[],swing:true,people:'',tools:'',
+ do:['Stand the bed up and the painted face is a wall. Practice the rainy street on a small panel first, then paint the real one in place.'],
+ check:['Every lift: headboard folded, straps unclipped, nobody on or under, both bolts thrown and straps clipped when up.']},
+];
+// cumulative visibility: all parts of steps <= i are shown
+const panel=document.getElementById('panel'), hud=document.getElementById('hud'), stepsBar=document.getElementById('steps');
+steps.forEach((s,i)=>{const b=document.createElement('button'); b.textContent=i; b.title=s.t; b.addEventListener('click',()=>go(i)); stepsBar.appendChild(b);});
+let cur=-1, anims=[], camFrom=null, camTo=null, camT=1, swingA=0, playing=false, dwell=0;
+let tgt=P(63,100,40); camera.position.copy(P(63,-120,70)); camera.lookAt(tgt);
+function ease(t){return t<0.5?2*t*t:1-Math.pow(-2*t+2,2)/2;}
+function go(i){
+  i=Math.max(0,Math.min(steps.length-1,i)); const forward=i>cur; cur=i; const s=steps[i];
+  // visibility
+  Object.values(parts).forEach(g=>g.visible=false); Object.values(fast).flat().forEach(f=>f.visible=false);
+  for(let k=0;k<=i;k++){ steps[k].parts.forEach(id=>parts[id].visible=true); steps[k].fast.forEach(id=>(fast[id]||[]).forEach(f=>f.visible=true)); }
+  anims=[]; const now=performance.now();
+  if(forward){
+    s.parts.forEach((id,n)=>{ const g=parts[id]; const off=g.userData.local? new THREE.Vector3(0,30,0): new THREE.Vector3(0,30,0); g.position.copy(g.userData.final).add(off); anims.push({g,from:g.position.clone(),to:g.userData.final.clone(),t0:now+n*250,d:1100}); });
+    let n=0; s.fast.forEach(id=>(fast[id]||[]).forEach(f=>{ f.position.copy(f.userData.final).add(f.userData.axis.clone().multiplyScalar(-6)); anims.push({g:f,from:f.position.clone(),to:f.userData.final.clone(),t0:now+1100+n*140,d:320}); n++; }));
+  } else { Object.values(parts).forEach(g=>g.position.copy(g.userData.final)); Object.values(fast).flat().forEach(f=>f.position.copy(f.userData.final)); }
+  camFrom={eye:camera.position.clone(),tgt:tgt.clone()}; camTo=s.cam; camT=0;
+  // swing state: steps 8, 9 raise the frame; others down; final step animates
+  swingTarget = (i===8||i===9)? 90 : 0; swingLoop = !!s.swing;
+  const nF=s.fast.reduce((a,id)=>a+(fast[id]||[]).length,0);
+  panel.innerHTML=`<div class="n">Step ${i} of ${steps.length-1}</div><h2>${s.t}</h2>
+   <h3>Do</h3><ul>${s.do.map(x=>`<li>${x}</li>`).join('')}</ul>
+   <h3>Check before moving on</h3><ul class="check">${s.check.map(x=>`<li>${x}</li>`).join('')}</ul>
+   <div class="meta">${s.people?`<span class="chip">People: ${s.people}</span>`:''}${s.tools?`<span class="chip">Tools: ${s.tools}</span>`:''}${nF?`<span class="chip">${nF} fasteners</span>`:''}${i===0?'<span class="chip w">Assumptions to verify</span>':''}</div>`;
+  panel.scrollTop=0;
+  hud.textContent=`Step ${i}: ${s.t}`;
+  stepsBar.querySelectorAll('button').forEach((b,k)=>b.classList.toggle('on',k===i));
+  dwell=0;
+}
+let swingTarget=0, swingLoop=false, swingDir=1;
+document.getElementById('prev').addEventListener('click',()=>{playing=false;play.textContent='Play all';go(cur-1);});
+document.getElementById('next').addEventListener('click',()=>{playing=false;play.textContent='Play all';go(cur+1);});
+const play=document.getElementById('play'); play.addEventListener('click',()=>{ playing=!playing; play.textContent=playing?'Pause':'Play all'; if(playing&&cur>=steps.length-1) go(0); });
+document.getElementById('t-studs').addEventListener('click',e=>{e.target.classList.toggle('on'); studs.visible=e.target.classList.contains('on');});
+document.getElementById('t-dims').addEventListener('click',e=>{e.target.classList.toggle('on'); dims.visible=e.target.classList.contains('on');});
+// orbit
+let drag=null;
+canvas.addEventListener('pointerdown',e=>{drag={x:e.clientX,y:e.clientY};canvas.setPointerCapture(e.pointerId);});
+canvas.addEventListener('pointerup',()=>drag=null);
+canvas.addEventListener('pointermove',e=>{if(!drag)return;const dx=(e.clientX-drag.x)*0.005,dy=(e.clientY-drag.y)*0.005;drag={x:e.clientX,y:e.clientY};camT=1;const off=camera.position.clone().sub(tgt);const sph=new THREE.Spherical().setFromVector3(off);sph.theta-=dx;sph.phi=Math.min(Math.PI-0.05,Math.max(0.05,sph.phi+dy));off.setFromSpherical(sph);camera.position.copy(tgt).add(off);camera.lookAt(tgt);});
+canvas.addEventListener('wheel',e=>{e.preventDefault();camT=1;const off=camera.position.clone().sub(tgt);off.multiplyScalar(1+Math.sign(e.deltaY)*0.08);if(off.length()>15&&off.length()<900){camera.position.copy(tgt).add(off);camera.lookAt(tgt);}},{passive:false});
+
+function resize(){const w=canvas.clientWidth,h=canvas.clientHeight;if(canvas.width!==w||canvas.height!==h){renderer.setPixelRatio(Math.min(devicePixelRatio,2));renderer.setSize(w,h,false);camera.aspect=w/h;camera.updateProjectionMatrix();}}
+let last=performance.now();
+function frame(t){const dt=Math.min(0.05,(t-last)/1000);last=t;resize();
+  // part / fastener animations
+  let busy=false; anims.forEach(a=>{const u=(t-a.t0)/a.d; if(u<0){a.g.position.copy(a.from);busy=true;} else if(u<1){a.g.position.lerpVectors(a.from,a.to,ease(u));busy=true;} else a.g.position.copy(a.to);});
+  // camera
+  if(camT<1){camT=Math.min(1,camT+dt/1.2);const k=ease(camT);camera.position.lerpVectors(camFrom.eye,camTo.eye,k);tgt.lerpVectors(camFrom.tgt,camTo.tgt,k);camera.lookAt(tgt);}
+  // swing
+  if(swingLoop){ swingA+=swingDir*20*dt; if(swingA>=90){swingA=90;swingDir=-1;} if(swingA<=0){swingA=0;swingDir=1;} }
+  else { const d=swingTarget-swingA; if(Math.abs(d)>0.1){swingA+=Math.sign(d)*Math.min(Math.abs(d),25*dt);busy=true;} else swingA=swingTarget; }
+  pivot.rotation.x=-THREE.MathUtils.degToRad(swingA);
+  if(parts.headboard&&parts.headboard.userData.hb) parts.headboard.userData.hb.rotation.x=-Math.PI/2*Math.min(1,swingA/8);
+  updateRope(parts.flanges.visible && (swingA>0.5 || cur===7 || cur===8 || cur===9));
+  if(playing){ if(!busy){ dwell+=dt; if(dwell>7){ if(cur<steps.length-1) go(cur+1); else {playing=false;play.textContent='Play all';} } } }
+  renderer.render(scene,camera); requestAnimationFrame(frame);}
+go(0); requestAnimationFrame(frame);
+})();
+</script>
+
+</body>
+</html>
