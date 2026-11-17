@@ -52,7 +52,7 @@ input[type=range]{width:min(260px,60vw);accent-color:var(--accent)}
   <div class="group"><span class="lbl">Show</span>
     <button id="t-decor" class="on">Decor</button><button id="t-wall">Entry wall</button><button id="t-grid">Grid</button><button id="t-fan" class="on">Fan</button><button id="t-night">Night</button></div>
 </div>
-<p class="facts">Box 63.5 × 83.5 in around the queen you own. Bed down reaches <b>102.5 in</b> from the rear wall and leaves <b>51.5 in</b> to the entry wall. Standing it is <b>86 in</b> tall and <b>25 in</b> deep. The swing's highest point (86 in) is 21 in from the rear wall; under the fan it passes 18 in below the light glass (86 in) and 12 in below the 20 in blade tips. No headboard in the budget build; a 3 in plywood lip at the head end stops the mattress. Door and window positions are Meciah's tape measurements of 15 Nov 2026; the window's height is still assumed.</p>
+<p class="facts">Box 63.5 × 83.5 in around the queen you own, lifted by two 12 V linear actuators in the gaps beside the box. Bed down reaches <b>102.5 in</b> from the rear wall and leaves <b>51.5 in</b> to the entry wall. Standing it is <b>86 in</b> tall and <b>25 in</b> deep. The swing's highest point (86 in) is 21 in from the rear wall; under the fan it passes 18 in below the light glass (86 in) and 12 in below the 20 in blade tips. No headboard in the budget build; a 3 in plywood lip at the head end stops the mattress. Door and window positions are Meciah's tape measurements of 15 Nov 2026; the window's height is still assumed.</p>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 <script>
@@ -140,11 +140,12 @@ const ledgY=R.Y-1.5;                                                            
 [46,84].forEach(z=>box(fixed, 15.75,ledgY,z, 96,1.5,3.5, M.pine));
 [bedX0-gap-upT, bedX0+boxAlong+gap].forEach(x=>box(fixed, x,ledgY-upD,0, upT,upD,90, M.pine));   // uprights against the ledgers
 [[bedX0-1.1-10, bedX0-1.1-1.5],[bedX0+boxAlong+1.1, bedX0+boxAlong+1.1]].forEach(([px,bx])=>{ box(fixed, px,axY-3.625,0, 10,7.25,padH, M.pine); box(fixed, bx,axY-2.75,padH, 1.5,5.5,3.1, M.steel); });   // 10 in doubled 2x8 pads flush with the pillow blocks
-box(fixed, R.X/2-18,ledgY,96, 36,1.5,7.25, M.pine);                            // winch plate 2x8 x 36
-box(fixed, R.X/2-5.7,ledgY-4.3,97.5, 11.4,4.3,4.5, M.steel);                   // winch
-{ const br=new THREE.Mesh(new THREE.BoxGeometry(1.5,23.3,3.5),M.pine); br.position.copy(P(R.X/2,R.Y-11.5,93)); br.quaternion.setFromUnitVectors(new THREE.Vector3(0,1,0),P(0,-20,12).sub(P(0,0,0)).normalize()); br.castShadow=true; fixed.add(br); }   // knee brace to the upper ledger
-box(fixed, R.X/2-0.75,R.Y-22.5,99.25, 1.5,22.5,5.5, M.pine);                 // pulley arm, tip 22.5 in out
-const pulley=new THREE.Mesh(new THREE.CylinderGeometry(1.5,1.5,1,24), M.steel); pulley.rotation.z=Math.PI/2; pulley.position.copy(P(R.X/2, R.Y-22, 99)); fixed.add(pulley);
+const actBack=10.5, actUp=36, actOut=12, actX=[bedX0-1.5, bedX0+boxAlong+1.5];   // two 12 V linear actuators in the gaps (rev F)
+for(const [k,x] of actX.entries()) box(fixed, k===0? x-0.75 : x-0.75, axY+actBack-2, axZ+actUp-2, 1.5,4,4, M.steel);   // anchor tabs on the uprights
+box(fixed, 96, ledgY-2.5, 44, 6,2.5,3.5, M.black);                                // 12 V supply on the lower ledger
+
+const actTubes=[],actRods=[]; for(const x of actX){ const t=new THREE.Mesh(new THREE.CylinderGeometry(1.1,1.1,20,16),M.steel); const r=new THREE.Mesh(new THREE.CylinderGeometry(0.55,0.55,1,12),M.steel); t.castShadow=r.castShadow=true; scene.add(t); scene.add(r); actTubes.push(t); actRods.push(r); }
+function updateActuators(){ bed.updateWorldMatrix(true,false); for(const [k,x] of actX.entries()){ const A=P(x,axY+actBack,axZ+actUp); const B=bed.localToWorld(new THREE.Vector3(k===0?-0.75:boxAlong+0.75,axUp,axIn+actOut)); const d=B.clone().sub(A); const L=d.length(); const u=d.clone().normalize(); actTubes[k].position.copy(A.clone().add(u.clone().multiplyScalar(10))); actTubes[k].quaternion.setFromUnitVectors(new THREE.Vector3(0,1,0),u); const rl=Math.max(1,L-19); actRods[k].scale.set(1,rl,1); actRods[k].position.copy(A.clone().add(u.clone().multiplyScalar(19+rl/2))); actRods[k].quaternion.copy(actTubes[k].quaternion); } }
 { const deckY=axY+(boxH-axUp)+deck; for(const x of [bedX0-gap, bedX0+boxAlong+gap-1.5]) for(const z of [58,78]) box(fixed, x,deckY-10.15,z, 1.5,ledgY-(deckY-10.15),5.5, M.pine);   // keeper arms
   for(const x of [bedX0-gap+1.5, bedX0+boxAlong+gap-1.5-2.75]) for(const z of [59,79]) box(fixed, x,deckY,z, 2.75,2,3.5, new THREE.MeshStandardMaterial({color:0x222,roughness:1})); }   // rubber stop blocks
 
@@ -161,7 +162,8 @@ bbox(1.75,boxH+deck+mattH,1.75, boxAlong-3.5,topH,boxOut-3.5, M.matt);
 bbox(2,boxH+deck+mattH+topH,20, boxAlong-4,1.2,boxOut-22, M.linen);              // duvet
 [4,33].forEach(x=>bbox(x,boxH+deck+mattH+topH,3, 26,5,18, M.white));              // pillows at the headboard end
 bbox(2,boxH+deck,boxOut-2.5, boxAlong-4,3,0.75, M.walnut);                                        // 3 in foot lip carrying the rope hook (rev E.4)
-const eye=new THREE.Mesh(new THREE.TorusGeometry(0.9,0.22,8,16),M.steel); eye.position.set(boxAlong/2,boxH+deck+3.6,boxOut-2.1); bed.add(eye);
+for(const x of [-1.5,boxAlong]) bbox(x,axUp-2,axIn+actOut-2, 1.5,4,4, M.steel);   // actuator angles on the end rails
+const eye=new THREE.Mesh(new THREE.TorusGeometry(0.01,0.005,4,4),M.steel); eye.visible=false; bed.add(eye);
 // hinged headboard on the wall-side rail (Z = 0), folds onto the mattress as the bed starts up
 bbox(2,boxH+deck,0.75, boxAlong-4,3,0.75, M.ply);                                     // rev F: 3 in head lip, no headboard
 const hb=new THREE.Group(); hb.position.set(0, boxH+10.75, 0.75); bed.add(hb);
@@ -229,7 +231,7 @@ function setAngle(a){ angle=a; slider.value=a; angv.textContent=a.toFixed(0)+'°
   // far-rail eye bolt world position → rope
   const eyeW=new THREE.Vector3(); eye.getWorldPosition(eyeW);
   const top=P(R.X/2, R.Y-22, 100.5); const pts=[top, a>=89.5? P(R.X/2,R.Y-22,96) : eyeW];
-  rope.geometry.setFromPoints(pts); rope.visible = a>0.5 && a<89.5;
+  rope.visible=false; updateActuators();
   const reach = (21 + (boxOut-axIn)*Math.cos(THREE.MathUtils.degToRad(a))).toFixed(0);
   const h = (axZ + (boxOut-axIn)*Math.sin(THREE.MathUtils.degToRad(a)) + (boxH+deck+mattH+topH)*Math.cos(THREE.MathUtils.degToRad(a))).toFixed(0);
   hud.textContent = `bed ${a.toFixed(0)}° · ${a<1?'down':a>89?'standing':'moving'} · far edge ${reach} in from the rear wall, ${h} in high`;
