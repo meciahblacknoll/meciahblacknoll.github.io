@@ -1,0 +1,259 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex,nofollow">
+<style>:root{color-scheme:light dark}body{margin:0;font:14px system-ui}img{max-width:100%}[hidden]{display:none!important}</style>
+</head>
+<body>
+<title>Murphy Room G</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=IBM+Plex+Sans:wght@400;500&display=swap">
+<style>
+:root{
+  --bg:#efe9df; --panel:#f8f5ee; --ink:#2a2420; --muted:#6f655b; --line:#d9d0c2; --accent:#8a5a2b; --accent-ink:#fff;
+  --chip:#e6ddcf; --chip-on:#8a5a2b;
+}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){
+  --bg:#1c1917; --panel:#26211e; --ink:#efe7db; --muted:#a79c8e; --line:#3b332d; --accent:#d9a35f; --accent-ink:#1c1917; --chip:#342c26; --chip-on:#d9a35f; } }
+:root[data-theme="dark"]{ --bg:#1c1917; --panel:#26211e; --ink:#efe7db; --muted:#a79c8e; --line:#3b332d; --accent:#d9a35f; --accent-ink:#1c1917; --chip:#342c26; --chip-on:#d9a35f; }
+html,body{height:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font:14px/1.45 "IBM Plex Sans",system-ui,sans-serif;display:flex;flex-direction:column}
+header{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;padding:12px 16px 8px}
+h1{font:600 22px/1.1 "Fraunces",Georgia,serif;margin:0;letter-spacing:-.01em}
+header .sub{color:var(--muted);font-size:13px}
+#stage{flex:1;min-height:320px;position:relative;margin:0 16px;border-radius:10px;overflow:hidden;background:#cfc6b8;box-shadow:0 1px 0 var(--line) inset}
+canvas{display:block;width:100%;height:100%}
+#hud{position:absolute;left:12px;top:10px;font-size:12px;color:#2a2420;background:rgba(248,245,238,.85);padding:6px 9px;border-radius:6px;font-variant-numeric:tabular-nums}
+.bar{display:flex;flex-wrap:wrap;gap:10px 18px;align-items:center;padding:10px 16px calc(12px + env(safe-area-inset-bottom,0px))}
+.group{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.lbl{font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+button{font:inherit;border:1px solid var(--line);background:var(--panel);color:var(--ink);padding:6px 11px;border-radius:999px;cursor:pointer}
+button:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+button.on{background:var(--chip-on);color:var(--accent-ink);border-color:var(--chip-on)}
+button.primary{background:var(--accent);color:var(--accent-ink);border-color:var(--accent);min-width:84px}
+input[type=range]{width:min(260px,60vw);accent-color:var(--accent)}
+.val{font-variant-numeric:tabular-nums;min-width:3.2em;display:inline-block}
+.facts{padding:0 16px 14px;color:var(--muted);font-size:13px;max-width:70ch}
+.facts b{color:var(--ink);font-weight:500}
+@media (prefers-reduced-motion: reduce){ .nomo{display:none} }
+</style>
+
+<header>
+  <h1>Square Murphy Room</h1>
+  <span class="sub">127 × 154 in room, your queen (60 × 80 in) floor-pivot bed laid head-to-wall, centered on the rear wall (rev G tray build: mattress inside the box). Drag to orbit, scroll to zoom.</span>
+</header>
+<div id="stage"><canvas id="c"></canvas><div id="hud">bed 0° · down</div></div>
+<div class="bar">
+  <div class="group"><button id="play" class="primary">Play</button>
+    <input id="ang" type="range" min="0" max="90" value="0" step="0.5" aria-label="Bed angle"><span class="val" id="angv">0°</span></div>
+  <div class="group"><span class="lbl">View</span>
+    <button id="v-pro" class="on">Proscenium</button><button id="v-corner">Corner</button><button id="v-bed">From the pillow</button><button id="v-plan">Plan</button></div>
+  <div class="group"><span class="lbl">Show</span>
+    <button id="t-decor" class="on">Decor</button><button id="t-wall">Entry wall</button><button id="t-grid">Grid</button><button id="t-fan" class="on">Fan</button><button id="t-night">Night</button></div>
+</div>
+<p class="facts">Rev G tray: your queen sits inside the 63.5 × 83.5 in box on 2x6 sleepers and 1x6 slats, with 3 in of rail standing proud as a rim; one 7/16 OSB bottom sheet is both floor and face. Two 12 V linear actuators lift it. Bed down reaches <b>102.5 in</b> from the rear wall and leaves <b>51.5 in</b> to the entry wall. Standing it is <b>86 in</b> tall and <b>25 in</b> deep. The swing's highest point (86 in) is 21 in from the rear wall; under the fan it passes 18 in below the light glass (86 in) and 12 in below the 20 in blade tips. No headboard; the rails are the rim. Door and window positions are Meciah's tape measurements of 15 Nov 2026; the window's height is still assumed.</p>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script>
+(function(){
+const R = {X:127, Y:154, Z:108};          // plan inches: X left→right, Y entry→rear, Z up
+const P = (x,y,z)=>new THREE.Vector3(x, z, -y);   // plan → three (Y up, Z toward the viewer at the entry side)
+
+const canvas = document.getElementById('c');
+const renderer = new THREE.WebGLRenderer({canvas, antialias:true});
+renderer.shadowMap.enabled = true; renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+renderer.outputEncoding = THREE.sRGBEncoding; renderer.toneMapping = THREE.ACESFilmicToneMapping; renderer.toneMappingExposure = 1.05;
+const scene = new THREE.Scene(); scene.background = new THREE.Color(0xcfc6b8);
+const camera = new THREE.PerspectiveCamera(52, 1, 1, 2000);
+
+// ---------- materials ----------
+function noiseTex(base, grain, scale, w=256){
+  const c=document.createElement('canvas'); c.width=c.height=w; const g=c.getContext('2d');
+  g.fillStyle=base; g.fillRect(0,0,w,w);
+  for(let i=0;i<w*w*0.35;i++){ g.fillStyle=`rgba(0,0,0,${Math.random()*grain})`; g.fillRect(Math.random()*w,Math.random()*w,1,1); }
+  const t=new THREE.CanvasTexture(c); t.wrapS=t.wrapT=THREE.RepeatWrapping; t.repeat.set(scale,scale); return t;
+}
+function woodTex(base, dark, w=512){
+  const c=document.createElement('canvas'); c.width=c.height=w; const g=c.getContext('2d');
+  g.fillStyle=base; g.fillRect(0,0,w,w);
+  for(let y=0;y<w;y+=2){ const a=0.05+0.12*Math.abs(Math.sin(y*0.045)+0.4*Math.sin(y*0.17)); g.fillStyle=dark; g.globalAlpha=a; g.fillRect(0,y,w,1+Math.random()*2); }
+  g.globalAlpha=1; const t=new THREE.CanvasTexture(c); t.wrapS=t.wrapT=THREE.RepeatWrapping; return t;
+}
+const M = {
+  wall:  new THREE.MeshStandardMaterial({color:0xe8e2d6, roughness:0.95}),
+  ceil:  new THREE.MeshStandardMaterial({color:0xf3efe7, roughness:1}),
+  carpet:new THREE.MeshStandardMaterial({map:noiseTex('#a89c8c',0.25,10), roughness:1}),
+  trim:  new THREE.MeshStandardMaterial({color:0x4a3121, roughness:0.55}),   // dark brown casings and crown
+  door:  new THREE.MeshStandardMaterial({color:0xcfd4cf, roughness:0.7}),
+  glass: new THREE.MeshStandardMaterial({color:0xbfd6e8, roughness:0.1, metalness:0.1, transparent:true, opacity:0.55}),
+  pine:  new THREE.MeshStandardMaterial({map:woodTex('#d8ab6a','#7a4e22'), roughness:0.7}),
+  ply:   new THREE.MeshStandardMaterial({map:woodTex('#e3c99a','#9a7a4a'), roughness:0.8}),
+  walnut:new THREE.MeshStandardMaterial({map:woodTex('#5a3b26','#241509'), roughness:0.55}),
+  mural: new THREE.MeshStandardMaterial({color:0x3f5f6b, roughness:0.9}),   // painted face, plain placeholder
+  matt:  new THREE.MeshStandardMaterial({color:0xf1efe8, roughness:1}),
+  linen: new THREE.MeshStandardMaterial({color:0xd8cfc0, roughness:1}),
+  steel: new THREE.MeshStandardMaterial({color:0x3a3f45, roughness:0.4, metalness:0.7}),
+  black: new THREE.MeshStandardMaterial({color:0x111111, roughness:0.3}),
+  screen:new THREE.MeshStandardMaterial({color:0x0b0f14, roughness:0.15, metalness:0.2}),
+  leaf:  new THREE.MeshStandardMaterial({color:0x3f7a4a, roughness:0.9}),
+  pot:   new THREE.MeshStandardMaterial({color:0xb5876a, roughness:0.9}),
+  fan:   new THREE.MeshStandardMaterial({color:0x4b5056, roughness:0.5, metalness:0.4}),
+  led:   new THREE.MeshStandardMaterial({color:0xffd9a0, emissive:0xffb060, emissiveIntensity:1.6}),
+  white: new THREE.MeshStandardMaterial({color:0xfbfbf9, roughness:0.5}),
+  rope:  new THREE.LineBasicMaterial({color:0xb0392e}),
+};
+// box helper in PLAN coordinates: origin corner (x,y,z) and size (dx,dy,dz)
+function box(parent, x,y,z, dx,dy,dz, mat, shadow=true){
+  const m=new THREE.Mesh(new THREE.BoxGeometry(dx,dz,dy), mat);
+  m.position.set(x+dx/2, z+dz/2, -(y+dy/2)); m.castShadow=shadow; m.receiveShadow=true; parent.add(m); return m;
+}
+
+// ---------- room shell ----------
+const shell = new THREE.Group(); scene.add(shell);
+const floor = box(shell, 0,0,-0.5, R.X,R.Y,0.5, M.carpet, false);
+const ceiling = box(shell, -4,-4,R.Z, R.X+8,R.Y+8,2, M.ceil, false); ceiling.castShadow=false;
+const wallT=4;
+box(shell, -wallT,R.Y,0, R.X+2*wallT,wallT,R.Z, M.wall);           // rear wall
+box(shell, -wallT,0,0, wallT,R.Y,R.Z, M.wall);                     // left (bathroom) wall
+box(shell, R.X,0,0, wallT,R.Y,R.Z, M.wall);                        // right (closet/window) wall
+const entryWall = new THREE.Group(); shell.add(entryWall);
+box(entryWall, -wallT,-wallT,0, R.X+2*wallT,wallT,R.Z, M.wall);
+// openings (measured 15 Nov 2026): 2.25" casings, door tops 81.25", casing tops 83.5"
+const cas=2.25, doorW=27.5, doorH=81.25, casH=83.5;
+box(entryWall, 3.25-cas,-0.6,0, doorW+2*cas,0.6,casH, M.trim); box(entryWall, 3.25,-0.3,0, doorW,0.3,doorH, M.door);
+box(entryWall, 40,0.2,40, 48,2,28, M.black); box(entryWall, 40.6,2.2,40.6, 46.8,0.3,26.8, M.screen);   // 55" TV
+box(shell, -0.6,46.25-cas,0, 0.6,doorW+2*cas,casH, M.trim); box(shell, -0.3,46.25,0, 0.3,doorW,doorH, M.door);   // bathroom door
+box(shell, R.X,24.75-cas,0, 0.6,24+2*cas,casH, M.trim); box(shell, R.X,24.75,0, 0.3,24,doorH, M.door);            // closet door
+const winY0=R.Y-14-35, winTop=R.Z-8, winH=70.5;
+box(shell, R.X-0.6,winY0-2,winTop-winH-2, 0.6,39,winH+4, M.trim); box(shell, R.X-0.8,winY0,winTop-winH, 0.4,35,winH, M.glass, false);
+box(shell,-wallT,R.Y-3,R.Z-3.5, R.X+2*wallT,3,3.5, M.trim,false); box(shell,-wallT,0,R.Z-3.5, 3,R.Y,3.5, M.trim,false); box(shell,R.X+wallT-3,0,R.Z-3.5, 3,R.Y,3.5, M.trim,false);   // crown, dark brown
+// baseboard
+[[0,0,R.X,0.5],[0,R.Y-0.5,R.X,0.5]].forEach(b=>box(shell,b[0],b[1],0,b[2],b[3],3.5,M.trim,false));
+box(shell,0,0,0,0.5,R.Y,3.5,M.trim,false); box(shell,R.X-0.5,0,0,0.5,R.Y,3.5,M.trim,false);
+
+// ---------- fixed bed parts ----------
+const gap=3, upT=1.5, upD=5.5, boxAlong=63.5, boxOut=83.5, boxH=9.25, deck=0.75, mattH=8, topH=2;
+const padH=3.0, bedX0=(R.X-boxAlong)/2, axY=R.Y-21, axZ=padH+1.44, axIn=2.0, axUp=axZ-0.5;   // rev E.4
+const fixed=new THREE.Group(); scene.add(fixed);
+const ledgY=R.Y-1.5;                                                               // ledger face: 2x6 ledgers at 46 and 84 in lagged into every stud
+[46,84].forEach(z=>box(fixed, 15.75,ledgY,z, 96,1.5,3.5, M.pine));
+[bedX0-gap-upT, bedX0+boxAlong+gap].forEach(x=>box(fixed, x,ledgY-upD,0, upT,upD,90, M.pine));   // uprights against the ledgers
+[[bedX0-1.1-10, bedX0-1.1-1.5],[bedX0+boxAlong+1.1, bedX0+boxAlong+1.1]].forEach(([px,bx])=>{ box(fixed, px,axY-3.625,0, 10,7.25,padH, M.pine); box(fixed, bx,axY-2.75,padH, 1.5,5.5,3.1, M.steel); });   // 10 in doubled 2x8 pads flush with the pillow blocks
+const actBack=10.5, actUp=36, actOut=12, actX=[bedX0-1.5, bedX0+boxAlong+1.5];   // two 12 V linear actuators in the gaps (rev F)
+for(const [k,x] of actX.entries()) box(fixed, k===0? x-0.75 : x-0.75, axY+actBack-2, axZ+actUp-2, 1.5,4,4, M.steel);   // anchor tabs on the uprights
+box(fixed, 96, ledgY-2.5, 44, 6,2.5,3.5, M.black);                                // 12 V supply on the lower ledger
+
+const actTubes=[],actRods=[]; for(const x of actX){ const t=new THREE.Mesh(new THREE.CylinderGeometry(1.1,1.1,20,16),M.steel); const r=new THREE.Mesh(new THREE.CylinderGeometry(0.55,0.55,1,12),M.steel); t.castShadow=r.castShadow=true; scene.add(t); scene.add(r); actTubes.push(t); actRods.push(r); }
+function updateActuators(){ bed.updateWorldMatrix(true,false); for(const [k,x] of actX.entries()){ const A=P(x,axY+actBack,axZ+actUp); const B=bed.localToWorld(new THREE.Vector3(k===0?-0.75:boxAlong+0.75,axUp,axIn+actOut)); const d=B.clone().sub(A); const L=d.length(); const u=d.clone().normalize(); actTubes[k].position.copy(A.clone().add(u.clone().multiplyScalar(10))); actTubes[k].quaternion.setFromUnitVectors(new THREE.Vector3(0,1,0),u); const rl=Math.max(1,L-19); actRods[k].scale.set(1,rl,1); actRods[k].position.copy(A.clone().add(u.clone().multiplyScalar(19+rl/2))); actRods[k].quaternion.copy(actTubes[k].quaternion); } }
+{ const deckY=axY+(boxH-axUp)+deck; for(const x of [bedX0-gap, bedX0+boxAlong+gap-1.5]) for(const z of [58,78]) box(fixed, x,deckY-10.15,z, 1.5,ledgY-(deckY-10.15),5.5, M.pine);   // keeper arms
+  for(const x of [bedX0-gap+1.5, bedX0+boxAlong+gap-1.5-2.75]) for(const z of [59,79]) box(fixed, x,deckY,z, 2.75,2,3.5, new THREE.MeshStandardMaterial({color:0x222,roughness:1})); }   // rubber stop blocks
+
+// ---------- the bed (rotates about the axle) ----------
+const pivot=new THREE.Group(); pivot.position.copy(P(bedX0, axY, axZ)); scene.add(pivot);
+const bed=new THREE.Group(); bed.position.set(0, -axUp, -axIn); pivot.add(bed);
+// bed local: x 0..83.5, Y 0..boxH up, Z 0..boxOut toward the room (plan y = -Z)
+function bbox(x,y,z,dx,dy,dz,mat){ const m=new THREE.Mesh(new THREE.BoxGeometry(dx,dy,dz),mat); m.position.set(x+dx/2,y+dy/2,z+dz/2); m.castShadow=m.receiveShadow=true; bed.add(m); return m; }
+bbox(0,0,0, boxAlong,boxH,boxOut, M.pine);
+for(const x of [1.5,20.5,39.5,boxAlong-3]) bbox(x,0,1.5, 1.5,5.5,boxOut-3, M.pine); for(let z=2;z<boxOut-6;z+=8) bbox(1.5,5.5,z, boxAlong-3,0.75,5.5, M.ply);   // rev G sleepers and slats
+bbox(0,-0.44,axIn, boxAlong,0.44,boxOut-axIn, M.mural);                          // rev G: 7/16 OSB bottom sheet, floor and painted face, held back 2 in
+bbox(1.75,6.25,1.75, boxAlong-3.5,mattH,boxOut-3.5, M.matt);
+bbox(1.75,6.25+mattH,1.75, boxAlong-3.5,topH,boxOut-3.5, M.matt);
+bbox(2,6.25+mattH+topH,20, boxAlong-4,1.2,boxOut-22, M.linen);              // duvet
+[4,33].forEach(x=>bbox(x,6.25+mattH+topH,3, 26,5,18, M.white));              // pillows at the headboard end
+for(const x of [-1.5,boxAlong]) bbox(x,axUp-2,axIn+actOut-2, 1.5,4,4, M.steel);   // actuator angles on the end rails
+const eye=new THREE.Mesh(new THREE.TorusGeometry(0.01,0.005,4,4),M.steel); eye.visible=false; bed.add(eye);
+// hinged headboard on the wall-side rail (Z = 0), folds onto the mattress as the bed starts up
+const hb=new THREE.Group(); hb.position.set(0, boxH+10.75, 0.75); bed.add(hb);
+
+
+// rope: pulley → eye bolt
+const ropeGeo=new THREE.BufferGeometry().setFromPoints([new THREE.Vector3(),new THREE.Vector3()]);
+const rope=new THREE.Line(ropeGeo, M.rope); scene.add(rope);
+
+// ---------- decor ----------
+const decor=new THREE.Group(); scene.add(decor);
+box(decor, 0.2,100,0, 12,36,72, M.walnut);                                       // tall bookshelf, bathroom wall
+for(let i=1;i<5;i++) box(decor, 0.4,101,i*14.4, 11.6,34,0.8, M.pine,false);      // shelves
+for(let i=0;i<14;i++){ const s=i*2.4; box(decor, 1.5,102+s,14.4*(1+(i%3))+0.8, 9,2,8+Math.random()*3, new THREE.MeshStandardMaterial({color:new THREE.Color().setHSL(Math.random(),0.35,0.45),roughness:0.9}),false); }
+box(decor, R.X-12.2,74,0, 12,28,30, M.walnut);                                   // low cabinet under the window
+const pot=new THREE.Mesh(new THREE.CylinderGeometry(6,4.5,12,20),M.pot); pot.position.copy(P(R.X-9,R.Y-12,6)); pot.castShadow=true; decor.add(pot);
+for(let i=0;i<9;i++){ const l=new THREE.Mesh(new THREE.SphereGeometry(5+Math.random()*4,10,8),M.leaf); l.position.copy(P(R.X-9+(Math.random()-0.5)*12, R.Y-12+(Math.random()-0.5)*10, 24+Math.random()*26)); l.castShadow=true; decor.add(l); }
+box(decor, -0.4,44,36, 0.6,48,36, M.white,false);                                // whiteboard, bathroom wall
+const ledBar=box(decor, bedX0+6,R.Y-upD-2.5,95.5, boxAlong-12,0.8,0.8, M.led,false);
+[bedX0-gap-upT-2, bedX0+boxAlong+gap+upT].forEach(x=>box(decor, x,R.Y-upD-2.2,60, 2,2.2,2, M.led,false));   // reading lights
+const rug=box(decor, 24,16,0.01, 80,36,0.4, new THREE.MeshStandardMaterial({map:noiseTex('#4f6b48',0.35,6),roughness:1}),false);  // green floral rug in front of the bed
+const gridH=new THREE.GridHelper(1,1); scene.remove(gridH);
+const grid=new THREE.Group(); scene.add(grid); grid.visible=false;
+{ const g=new THREE.GridHelper(Math.max(R.X,R.Y), Math.max(R.X,R.Y)/12, 0x6b5e50, 0x8f8274); g.position.set(R.X/2,0.3,-R.Y/2); grid.add(g); }
+
+// ---------- fan ----------
+const fan=new THREE.Group(); scene.add(fan);
+{ const rod=new THREE.Mesh(new THREE.CylinderGeometry(0.6,0.6,20,12),M.fan); rod.position.copy(P(R.X/2,R.Y/2,98)); fan.add(rod);
+  const hub=new THREE.Mesh(new THREE.CylinderGeometry(4,4,3,24),M.fan); hub.position.copy(P(R.X/2,R.Y/2,89.5)); fan.add(hub);
+  for(let i=0;i<5;i++){ const b=new THREE.Mesh(new THREE.BoxGeometry(17,0.4,5),M.fan); b.position.set(11.5,0,0); /* 20 in blades */ const g=new THREE.Group(); g.rotation.y=i*Math.PI*2/5; g.add(b); g.position.copy(P(R.X/2,R.Y/2,88.2)); b.rotation.z=0.15; fan.add(g); }
+  const bulb=new THREE.Mesh(new THREE.SphereGeometry(3.5,16,12), new THREE.MeshStandardMaterial({color:0xfff2d8,emissive:0xffe0b0,emissiveIntensity:0.8})); bulb.position.copy(P(R.X/2,R.Y/2,89.5)); const glass=new THREE.Mesh(new THREE.SphereGeometry(5.5,20,14,0,Math.PI*2,Math.PI/2,Math.PI/2), new THREE.MeshStandardMaterial({color:0xfff6e6,transparent:true,opacity:0.6,roughness:0.2})); glass.position.copy(P(R.X/2,R.Y/2,91.5)); fan.add(glass); /* light-kit glass, lowest point 86 in */ fan.add(bulb); }
+
+// ---------- lights ----------
+const hemi=new THREE.HemisphereLight(0xfff4e6, 0x8a7d6c, 0.55); scene.add(hemi);
+const sun=new THREE.DirectionalLight(0xfff1dc, 1.1); sun.position.copy(P(R.X+200, R.Y-60, 150)); sun.target.position.copy(P(40,70,0)); scene.add(sun, sun.target);
+sun.castShadow=true; sun.shadow.mapSize.set(2048,2048); const sc=sun.shadow.camera; sc.left=-140; sc.right=140; sc.top=140; sc.bottom=-140; sc.near=10; sc.far=600; sun.shadow.bias=-0.0005;
+const fanLight=new THREE.PointLight(0xffe4c0, 0.35, 400, 2); fanLight.position.copy(P(R.X/2,R.Y/2,84)); scene.add(fanLight);
+const ledLight=new THREE.RectAreaLight ? null : null;
+const warm=new THREE.PointLight(0xffb870, 0.0, 160, 2); warm.position.copy(P(R.X/2, R.Y-12, 94)); scene.add(warm);
+const read=[bedX0-gap-upT-3, bedX0+boxAlong+gap+upT+3].map(x=>{ const l=new THREE.PointLight(0xffd0a0,0.0,90,2); l.position.copy(P(x,R.Y-14,58)); scene.add(l); return l; });
+
+// ---------- camera + orbit ----------
+const views={
+  pro:   {eye:P(63.5,-165,58), tgt:P(63.5,70,46)},
+  corner:{eye:P(10,6,70), tgt:P(80,110,36)},
+  bed:   {eye:P(63.5,R.Y-22,32), tgt:P(63.5,0,45)},
+  plan:  {eye:P(63.5,76,420), tgt:P(63.5,77,0)},
+};
+let tgt=views.pro.tgt.clone(); camera.position.copy(views.pro.eye); camera.lookAt(tgt);
+function setView(k){ const v=views[k]; camera.position.copy(v.eye); tgt.copy(v.tgt); camera.up.set(0,1,0); if(k==='plan') camera.up.set(0,0,-1); camera.lookAt(tgt);
+  document.querySelectorAll('[id^="v-"]').forEach(b=>b.classList.toggle('on', b.id==='v-'+k)); }
+let drag=null;
+canvas.addEventListener('pointerdown',e=>{drag={x:e.clientX,y:e.clientY}; canvas.setPointerCapture(e.pointerId);});
+canvas.addEventListener('pointerup',()=>drag=null);
+canvas.addEventListener('pointermove',e=>{ if(!drag) return; const dx=(e.clientX-drag.x)*0.005, dy=(e.clientY-drag.y)*0.005; drag={x:e.clientX,y:e.clientY};
+  const off=camera.position.clone().sub(tgt); const sph=new THREE.Spherical().setFromVector3(off); sph.theta-=dx; sph.phi=Math.min(Math.PI-0.05,Math.max(0.05,sph.phi+dy)); off.setFromSpherical(sph); camera.position.copy(tgt).add(off); camera.up.set(0,1,0); camera.lookAt(tgt); });
+canvas.addEventListener('wheel',e=>{ e.preventDefault(); const off=camera.position.clone().sub(tgt); off.multiplyScalar(1+Math.sign(e.deltaY)*0.08); if(off.length()>40&&off.length()<900){ camera.position.copy(tgt).add(off); camera.lookAt(tgt);} },{passive:false});
+
+// ---------- state + animation ----------
+let angle=0, playing=false, dir=1, hold=0;
+const slider=document.getElementById('ang'), angv=document.getElementById('angv'), hud=document.getElementById('hud');
+function setAngle(a){ angle=a; slider.value=a; angv.textContent=a.toFixed(0)+'°';
+  pivot.rotation.x=-THREE.MathUtils.degToRad(a);
+  hb.rotation.x=Math.PI/2*Math.min(1, a/8);                                    // headboard folds forward onto the mattress in the first 8°
+  // far-rail eye bolt world position → rope
+  const eyeW=new THREE.Vector3(); eye.getWorldPosition(eyeW);
+  const top=P(R.X/2, R.Y-22, 100.5); const pts=[top, a>=89.5? P(R.X/2,R.Y-22,96) : eyeW];
+  rope.visible=false; updateActuators();
+  const reach = (21 + (boxOut-axIn)*Math.cos(THREE.MathUtils.degToRad(a))).toFixed(0);
+  const h = (axZ + (boxOut-axIn)*Math.sin(THREE.MathUtils.degToRad(a)) + (6.25+mattH+topH)*Math.cos(THREE.MathUtils.degToRad(a))).toFixed(0);
+  hud.textContent = `bed ${a.toFixed(0)}° · ${a<1?'down':a>89?'standing':'moving'} · far edge ${reach} in from the rear wall, ${h} in high`;
+}
+slider.addEventListener('input',()=>{playing=false; play.textContent='Play'; setAngle(parseFloat(slider.value));});
+const play=document.getElementById('play');
+play.addEventListener('click',()=>{ playing=!playing; play.textContent=playing?'Pause':'Play'; if(playing && angle>=90){dir=-1;} if(playing && angle<=0){dir=1;} });
+function toggle(id, fn){ const b=document.getElementById(id); b.addEventListener('click',()=>{ b.classList.toggle('on'); fn(b.classList.contains('on')); }); }
+toggle('t-decor', on=>decor.visible=on);
+toggle('t-wall', on=>entryWall.visible=on); entryWall.visible=false;
+toggle('t-grid', on=>grid.visible=on);
+toggle('t-fan', on=>{fan.visible=on; fanLight.visible=on;});
+toggle('t-night', on=>{ sun.intensity=on?0.08:1.1; hemi.intensity=on?0.12:0.55; warm.intensity=on?1.6:0; read.forEach(l=>l.intensity=on?0.9:0); fanLight.intensity=on?0.9:0.35; renderer.toneMappingExposure=on?1.25:1.05; scene.background.set(on?0x2a2623:0xcfc6b8); });
+['pro','corner','bed','plan'].forEach(k=>document.getElementById('v-'+k).addEventListener('click',()=>setView(k)));
+
+function resize(){ const w=canvas.clientWidth, h=canvas.clientHeight; if(canvas.width!==w||canvas.height!==h){ renderer.setPixelRatio(Math.min(devicePixelRatio,2)); renderer.setSize(w,h,false); camera.aspect=w/h; camera.updateProjectionMatrix(); } }
+let last=performance.now();
+function frame(t){ const dt=Math.min(0.05,(t-last)/1000); last=t; resize();
+  if(playing){ if(hold>0){hold-=dt;} else { angle+=dir*22*dt; if(angle>=90){angle=90;dir=-1;hold=1.2;} if(angle<=0){angle=0;dir=1;hold=1.2;} setAngle(angle);} }
+  if(fan.visible) fan.children.forEach((c,i)=>{ if(i>=2 && i<7) c.rotation.y+=dt*2.5; });
+  renderer.render(scene,camera); requestAnimationFrame(frame); }
+setAngle(0); setView('pro'); requestAnimationFrame(frame);
+})();
+</script>
+
+</body>
+</html>
