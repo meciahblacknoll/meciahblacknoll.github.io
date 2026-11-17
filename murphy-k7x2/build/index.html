@@ -166,6 +166,13 @@ part('lift',g=>{
   g.add(new THREE.Line(new THREE.BufferGeometry().setFromPoints([P(96,ledgY-0.3,46),P(xUpR+0.75,ledgY-0.3,46),P(xUpR+0.75,upY0-0.3,46)]),M.cord));   // low-voltage to the switch
   for(const x of actX) g.add(new THREE.Line(new THREE.BufferGeometry().setFromPoints([P(xUpR+0.75,upY0-0.3,46),P(x,axY+actBack,axZ+actUp+2)]),M.cord));       // switch to each actuator
 });
+
+// S5 frame (right side up, in place): rails, joists, blocking
+const bedG=new THREE.Group(); scene.add(bedG);       // everything that swings
+const pivot=new THREE.Group(); pivot.position.copy(P(bedX0,axY,axZ)); bedG.add(pivot);
+const bed=new THREE.Group(); bed.position.set(0,-axUp,-axIn); pivot.add(bed);
+function bpart(id,build){const g=new THREE.Group();g.visible=false;bed.add(g);build(g);g.userData.final=g.position.clone();g.userData.local=true;parts[id]=g;return g;}
+function bbox(g,x,y,z,dx,dy,dz,mat){const m=new THREE.Mesh(new THREE.BoxGeometry(dx,dy,dz),mat);m.position.set(x+dx/2,y+dy/2,z+dz/2);m.castShadow=m.receiveShadow=true;g.add(m);return m;}   // bed local: x along, y up, z out
 bpart('actbrackets',g=>{ for(const x of [-1.5,boxAlong]){ bbox(g,x,axUp-2,axIn+actOut-2,1.5,4,4,M.steel); bbox(g,x<0?x-0.25:x+1.5,axUp-0.75,axIn+actOut-0.75,0.25,1.5,1.5,M.zinc);} });   // 1/4 in steel angle on each end rail, pin 12 in out
 for(const [k,x] of actX.entries()) for(const dz of [-1.2,1.2]) thru('lift', k===0? x+0.75 : x-0.75, axY+actBack+1.2, axZ+actUp+dz, [k===0?-1:1,0,0]);   // bracket bolts into the uprights
 // actuator bodies, updated every frame from the bed angle
@@ -176,14 +183,7 @@ function updateActuators(on){ actTubes.forEach(t=>t.visible=on); actRods.forEach
   for(const [k,x] of actX.entries()){ const A=P(x, axY+actBack, axZ+actUp); const B=bed.localToWorld(new THREE.Vector3(k===0?-0.75:boxAlong+0.75, axUp, axIn+actOut)); const d=B.clone().sub(A); const L=d.length(); const u=d.clone().normalize();
     const tube=actTubes[k]; tube.position.copy(A.clone().add(u.clone().multiplyScalar(10))); tube.quaternion.setFromUnitVectors(new THREE.Vector3(0,1,0),u);
     const rod=actRods[k]; const rl=Math.max(1,L-19); rod.scale.set(1,rl,1); rod.position.copy(A.clone().add(u.clone().multiplyScalar(19+rl/2))); rod.quaternion.copy(tube.quaternion); }
-}
-// S5 frame (right side up, in place): rails, joists, blocking
-const bedG=new THREE.Group(); scene.add(bedG);       // everything that swings
-const pivot=new THREE.Group(); pivot.position.copy(P(bedX0,axY,axZ)); bedG.add(pivot);
-const bed=new THREE.Group(); bed.position.set(0,-axUp,-axIn); pivot.add(bed);
-function bpart(id,build){const g=new THREE.Group();g.visible=false;bed.add(g);build(g);g.userData.final=g.position.clone();g.userData.local=true;parts[id]=g;return g;}
-function bbox(g,x,y,z,dx,dy,dz,mat){const m=new THREE.Mesh(new THREE.BoxGeometry(dx,dy,dz),mat);m.position.set(x+dx/2,y+dy/2,z+dz/2);m.castShadow=m.receiveShadow=true;g.add(m);return m;}   // bed local: x along, y up, z out
-// profile prism in the bed frame: pts are (s,u) pairs, extruded along x from x0 for len
+}// profile prism in the bed frame: pts are (s,u) pairs, extruded along x from x0 for len
 function prism(g,pts,x0,len,mat){ const sh=new THREE.Shape(); sh.moveTo(pts[0][0],pts[0][1]); for(let i=1;i<pts.length;i++) sh.lineTo(pts[i][0],pts[i][1]); sh.closePath();
   const geo=new THREE.ExtrudeGeometry(sh,{depth:len,bevelEnabled:false}); const m=new THREE.Mesh(geo,mat); m.rotation.y=-Math.PI/2; m.position.x=x0+len; m.castShadow=m.receiveShadow=true; g.add(m); return m; }
 // drilled hole marker: dark cylinder through the part
