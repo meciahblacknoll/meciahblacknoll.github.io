@@ -90,6 +90,8 @@ const M={
   battery:new THREE.MeshStandardMaterial({color:0x2b2b30,roughness:0.6}),
   cord:new THREE.LineBasicMaterial({color:0x222}),
   path:new THREE.LineBasicMaterial({color:0xb0392e}),
+  blade:new THREE.MeshStandardMaterial({color:0xe03a2a,emissive:0xa02010,emissiveIntensity:0.6}),
+  cut:new THREE.LineBasicMaterial({color:0xe03a2a}),
 };
 function mesh(parent,geo,mat,pos,shadow=true){const m=new THREE.Mesh(geo,mat);m.position.copy(pos);m.castShadow=shadow;m.receiveShadow=true;parent.add(m);return m;}
 // plan-coordinate box: corner (x,y,z) size (dx,dy,dz)
@@ -216,6 +218,22 @@ bpart('headboard',g=>{ bbox(g,0,boxH,0,boxAlong,10.75,0.75,M.walnut);   // riser
 // S12 mattress + topper + straps
 bpart('mattress',g=>{ bbox(g,1.75,boxH+deck,1.75,76,8,80,M.matt); bbox(g,1.75,boxH+deck+8,1.75,76,2,80,M.matt); for(const z of [14,41,68]){ bbox(g,0.5,boxH+deck+10,z,boxAlong-1,0.15,1.5,M.strap); bbox(g,0.5,boxH+deck,z,0.15,10,1.5,M.strap); bbox(g,boxAlong-0.65,boxH+deck,z,0.15,10,1.5,M.strap);} });
 
+// ---------- materials, laid out flat on the floor (step 0 only) ----------
+function label(g,text,pos,w=22){ const c=document.createElement('canvas'); c.width=512; c.height=96; const x=c.getContext('2d'); x.fillStyle='rgba(248,245,238,0.92)'; x.fillRect(0,0,512,96); x.fillStyle='#2a2420'; x.font='bold 34px sans-serif'; x.textAlign='center'; x.fillText(text,256,60);
+  const sp=new THREE.Sprite(new THREE.SpriteMaterial({map:new THREE.CanvasTexture(c),depthTest:false})); sp.scale.set(w,w*96/512,1); sp.position.copy(pos); g.add(sp); return sp; }
+part('materials',g=>{
+  const boards=[['2x10 x 8 ft (6)',9.25,6],['2x6 x 8 ft (6)',5.5,6],['2x8 x 8 ft (2)',7.25,2],['2x4 x 8 ft (2)',3.5,2]];
+  let x=3;
+  for(const [name,w,n] of boards){ const x0=x; for(let i=0;i<n;i++){ pbox(g,x,4,0,1.5,96,w,M.pine); x+=2.2; } label(g,name,P((x0+x)/2-1,102,w+2),26); x+=3; }
+  // sheets, stacked with an offset so each shows
+  const sheets=[['3/4 in plywood 4x8 (2)',M.ply,0.75,2],['1/4 in hardboard 4x8 (2)',M.hard,0.25,2],['3/4 in oak plywood 4x8 (1)',M.walnut,0.75,1]];
+  let z=0, sx=x+2;
+  for(const [name,mat,t,n] of sheets){ for(let i=0;i<n;i++){ pbox(g,sx,4,z,48,96,t,mat); z+=t+0.4; } label(g,name,P(sx+24,102,z+6),30); sx+=4; }
+  // hardware, in a column on the right
+  const hw=[['King mattress (ships rolled)',M.matt,[12,12,30]],['Badland 2500 lb winch',M.steel,[11.4,4.3,4.5]],['12 V 18 Ah battery + maintainer',M.battery,[7.1,3,6.6]],['UCP205-16 x2, UCFL205-16 x2, 1 in bar',M.zinc,[8,4,3]],['1/4 in synthetic rope 50 ft, pulley, fairlead',M.rubber,[6,6,2]],['piano hinge 72 in, barrel bolts, eye bolts',M.zinc,[14,1.5,1.5]],['lags, carriage bolts, Tapcons, screws, glue',M.black,[8,6,4]],['cam straps x3, webbing, carabiners',M.strap,[6,4,2]],['edge banding, primer, paint',M.white,[5,5,5]]];
+  let hy=4;
+  for(const [name,mat,[dx,dy,dz]] of hw){ pbox(g,108,hy,0,dx,dy,dz,mat); label(g,name,P(104,hy+dy/2,dz+4),40); hy+=dy+8; }
+});
 // rope
 const rope=new THREE.Line(new THREE.BufferGeometry().setFromPoints([new THREE.Vector3(),new THREE.Vector3()]),M.rope); rope.visible=false; scene.add(rope);
 function updateRope(on){ rope.visible=on; if(!on) return; const eyeW=new THREE.Vector3(parts.flanges.children[parts.flanges.children.length-1].position.x,0,0); parts.flanges.children[parts.flanges.children.length-1].getWorldPosition(eyeW); rope.geometry.setFromPoints([P(R.X/2,ledgY-3,100.5),P(R.X/2,R.Y-22,100.5),eyeW]); }
@@ -233,6 +251,9 @@ sun.castShadow=true; sun.shadow.mapSize.set(2048,2048); const sc=sun.shadow.came
 // ---------- steps ----------
 const C=(ex,ey,ez,tx,ty,tz)=>({eye:P(ex,ey,ez),tgt:P(tx,ty,tz)});
 const steps=[
+{t:'Everything you buy, laid out',cam:C(63,-95,150,63,52,0),parts:['materials'],once:true,fast:[],people:'',tools:'',
+ do:['Every piece of stock and every hardware group, to scale on the floor. Boards are 8 ft as sold; the deck, skin and headboard parts come out of the sheets shown. The mattress ships rolled in a box.','The written list with sources and prices is section 5 of the plan PDF. Nothing here is cut yet; the cuts and holes animate at the start of each later step.'],
+ check:['6 x 2x10, 6 x 2x6, 2 x 2x8, 2 x 2x4, all 8 ft; 2 x 3/4 plywood, 2 x 1/4 hardboard, 1 x 3/4 oak plywood, all 4x8.','Two UCP205-16 pillow blocks, two UCFL205-16 flanges, 12 in of 1 in bar.','Winch, battery, maintainer, rope, pulley, fairlead, hinge, bolts, straps, finish.']},
 {t:'Before you buy anything',cam:C(63,-120,70,63,120,40),parts:[],fast:[],people:'1',tools:'stud finder, tape, 4 ft level, hammer',
  do:['Find and mark every stud on the rear wall from floor to 104 in. The translucent studs drawn here are a 16 in guess from the left wall; the ledgers make the exact positions unimportant, but the winch plate still needs two.',
      'Tap the slab where the two pads go (21 in out from the drywall, 16 to 28 in and 99 to 111 in from the left wall). Look for a post-tension warning stamp at the garage slab edge or on the electrical panel. If the slab is post-tensioned, stop and tell Kai: the pads move to L-feet on the uprights instead of Tapcons.',
@@ -241,37 +262,37 @@ const steps=[
 {t:'1. Ledgers, winch plate and brace cleat',cam:C(30,40,95,63,150,75),parts:['ledgers'],fast:['ledgers'],people:'1 to 2',tools:'level, drill, 9/32 pilot bit, 3/8 x 4 in lags, socket',
  do:['Two 2x6 x 96 in ledgers, top edges at 51.5 in and 89.5 in, centered on the wall (15.75 to 111.75 in). One 3/8 x 4 in lag into every stud, pilot-drilled.','2x8 x 36 in winch plate, bottom edge at 96 in, centered at 63.5 in. Four lags into two studs.','The knee brace will land on the upper ledger at 87 in, so no separate cleat.'],
  check:['Both ledgers level end to end and parallel within 1/16 in (measure 46 and 84 at both ends).','Every lag pulls up hard: a lag that spins has missed the stud, move it 3/4 in sideways and try again.','Plate centered on 63.5 in: the rope must drop straight to the middle of the bed.']},
-{t:'2. Uprights',cam:C(20,40,60,45,150,45),parts:['uprights'],fast:['uprights'],people:'2',tools:'level, 1/2 in bit, 1/2 x 7 in carriage bolts, washers, clamps',
+{t:'2. Uprights',cam:C(20,40,60,45,150,45),parts:['uprights'],fast:['uprights'],cuts:[[[xUpL-1,upY0+upD/2,90],[xUpL+2.5,upY0+upD/2,90]],[[xUpR-1,upY0+upD/2,90],[xUpR+2.5,upY0+upD/2,90]]],drills:[[xUpL+0.75,upY0+upD+0.5,47,[0,-1,0]],[xUpL+0.75,upY0+upD+0.5,50,[0,-1,0]],[xUpL+0.75,upY0+upD+0.5,85,[0,-1,0]],[xUpL+0.75,upY0+upD+0.5,88,[0,-1,0]],[xUpR+0.75,upY0+upD+0.5,47,[0,-1,0]],[xUpR+0.75,upY0+upD+0.5,50,[0,-1,0]],[xUpR+0.75,upY0+upD+0.5,85,[0,-1,0]],[xUpR+0.75,upY0+upD+0.5,88,[0,-1,0]]],people:'2',tools:'level, 1/2 in bit, 1/2 x 7 in carriage bolts, washers, clamps',
  do:['Stand each 2x10 x 90 in on edge against the ledgers, tight to the floor. Inner faces at 20.75 in and 106.25 in from the left wall (88.5 in apart).','Clamp, plumb in both directions, drill 1/2 in through upright and ledger, two carriage bolts per ledger per upright.'],
  check:['Inside distance 88.5 in at the floor and at 84 in high, within 1/16 in.','Both uprights plumb; the gap to the box will be 3 in each side and has no slack to give.','Diagonals from the top of one upright to the foot of the other are equal.']},
-{t:'3. Pad layout and slab anchors',cam:C(6,80,45,25,135,5),parts:['layout','pads'],fast:['pads'],people:'1',tools:'chalk line, utility knife, hammer drill, 3/16 in masonry bit, 1/4 x 2-3/4 in Tapcons, shop vac',
+{t:'3. Pad layout and slab anchors',cam:C(6,80,45,25,135,5),parts:['layout','pads'],fast:['pads'],cuts:[[[padXL+10,axY-5,0.75],[padXL+10,axY+5,0.75]],[[padXR,axY-5,0.75],[padXR,axY+5,0.75]],[[padXL-1,axY-5.6,0.3],[padXL+11,axY-5.6,0.3]],[[padXL-1,axY+5.6,0.3],[padXL+11,axY+5.6,0.3]],[[padXR-1,axY-5.6,0.3],[padXR+11,axY-5.6,0.3]],[[padXR-1,axY+5.6,0.3],[padXR+11,axY+5.6,0.3]]],drills:[].concat(...[padXL,padXR].map(x=>[1.5,5,8.5].flatMap(dx=>[-2.4,2.4].map(dy=>[x+dx,axY+dy,3.2,[0,0,-1]])))),people:'1',tools:'chalk line, utility knife, hammer drill, 3/16 in masonry bit, 1/4 x 2-3/4 in Tapcons, shop vac',
  do:['Measure 21 in from the drywall (19.5 in from the ledger face) at both ends of the wall and snap a chalk line: this is the axle line.','Cut the carpet and pad away under each 2x8 pad footprint (12 in long, centered on the line, 12.7 to 22.7 in and 104.6 to 114.6 in from the left wall, ending flush with the pillow blocks so nothing sits under the box end) so the pads sit on bare slab. Cut the carpet out to 24 in and 103 in as well: the flange bearing lobe sweeps 0.4 in above the slab there.','Each pad is two 2x8 x 10 in layers glued and screwed (3 in tall). Drill 6 holes per pad through both layers 1-3/4 in into the slab, vacuum the dust, drive 1/4 x 4 in Tapcons.'],
  check:['Pad tops level with each other within 1/16 in (shim with steel, not wood).','Pad centers exactly 21 in from the drywall: the whole swing geometry hangs on this number.','Hammer tap and drill feel: solid concrete, no cable strike. Stop immediately if the bit hits steel.']},
-{t:'4. Pillow blocks',cam:C(5,110,25,22,135,4),parts:['pillows'],fast:['pillows'],people:'1',tools:'string line, 1/2 in bolts, square',
+{t:'4. Pillow blocks',cam:C(5,110,25,22,135,4),parts:['pillows'],fast:['pillows'],drills:[[pbXL+0.75,axY-2.06,padH+0.2,[0,0,-1]],[pbXL+0.75,axY+2.06,padH+0.2,[0,0,-1]],[pbXR+0.75,axY-2.06,padH+0.2,[0,0,-1]],[pbXR+0.75,axY+2.06,padH+0.2,[0,0,-1]]],people:'1',tools:'string line, 1/2 in bolts, square',
  do:['Bolt a UCP205-16 pillow block to each pad with the bore centered on the chalk line, 1.1 in outside where the box end will be, leaving room for the flange bearing (bore centers at 21.9 in and 105.4 in from the left wall).','Leave the bolts snug, not tight, until the stubs are in.'],
  check:['A string through both bores is parallel to the wall at 21 in and level: the two bores must be collinear or the stubs will bind.','Bore height 4.44 in above the slab at both pads.']},
-{t:'5. Winch, pulley arm, brace and power',cam:C(40,70,110,63,150,98),parts:['winch','electrical'],fast:['winch'],people:'2 (one on a ladder)',tools:'ladder, socket set, 1/2 in through-bolts, 3/8 x 6 in lags, wire strippers, crimper',
+{t:'5. Winch, pulley arm, brace and power',cam:C(40,70,110,63,150,98),parts:['winch','electrical'],fast:['winch'],cuts:[[[R.X/2-2,R.Y-22.5,102],[R.X/2+2,R.Y-22.5,102]],[[R.X/2-2,R.Y-21.5,99.5],[R.X/2+2,R.Y-20.5,98.3]],[[R.X/2-2,ledgY-1,88],[R.X/2+2,ledgY,86.8]],[[R.X/2-20,ledgY-1,96],[R.X/2-20,R.Y+1,103.5]]],people:'2 (one on a ladder)',tools:'ladder, socket set, 1/2 in through-bolts, 3/8 x 6 in lags, wire strippers, crimper',
  do:['Bolt the winch to the plate, drum centered at 63.5 in, fairlead below it.','2x6 pulley arm on edge, through-bolted to the plate so its tip is 22.5 in out from the drywall at 102 in high (1.5 in past the axle line). 2x4 knee brace from the arm tip down to the upper ledger at 87 in, lagged both ends; it must stay above 85 in so the standing bed clears it.','Power: a 12 V 18 Ah AGM battery on a shelf beside the winch, kept full by a 1.5 A maintainer plugged into the nearest receptacle (the one drawn is a guess, use the real one; a plain 14 AWG cord is all the wall sees, no new circuit). The battery, not a power supply, because the winch pulls 15 to 25 A while lifting and much more for a moment at the start; a supply that cannot deliver that browns out or trips. 4 AWG winch leads from the battery through the 30 A fuse block to the winch contactor (the Badland\'s own solenoid box). The handlebar-style momentary rocker mounts on the right upright\'s room face at 46 in, bedside height, on the thin control cable; each direction runs through its limit switch (fitted in step 8). Spool the 1/4 in synthetic rope through the fairlead and over the pulley.'],
  check:['Plumb bob from the pulley groove lands on the chalk line at 63.5 in: the rope must come straight down to the eye bolt.','Push down hard on the arm tip: no movement at the plate.','Winch runs both directions from the switch before anything is attached.']},
-{t:'6. Box frame, built in place',cam:C(15,-40,75,63,100,10),parts:['rails','gussets','joists'],fast:[],people:'2',tools:'circular saw, jigsaw, 1-1/16 in spade bit, drill, 3 in structural screws, glue, framing square',
+{t:'6. Box frame, built in place',cam:C(15,-40,75,63,100,10),parts:['rails','gussets','joists'],fast:[],cutsL:[[[-1,boxH/2,boxOut],[2.5,boxH/2,boxOut]],[[boxAlong-2.5,boxH/2,boxOut],[boxAlong+1,boxH/2,boxOut]],[[1.5,boxH/2,-1],[1.5,boxH/2,2.5]],[[boxAlong-1.5,boxH/2,-1],[boxAlong-1.5,boxH/2,2.5]],[[-0.5,0.69,1],[2,0.69,1]],[[boxAlong-2,0.69,1],[boxAlong+0.5,0.69,1]],[[1.5,0.77,0.75],[boxAlong-1.5,0.77,0.75]],[[1.5,boxH-2.75,20],[1.5,boxH-2.75,21.5]],[[boxAlong-1.5,boxH-2.75,41],[boxAlong-1.5,boxH-2.75,42.5]],[[1.5,boxH-2.75,62],[1.5,boxH-2.75,63.5]],[[1.5,boxH-1.5,1.5],[8,boxH-1.5,8]],[[boxAlong-1.5,boxH-1.5,1.5],[boxAlong-8,boxH-1.5,8]],[[1.5,boxH-1.5,boxOut-1.5],[8,boxH-1.5,boxOut-8]],[[boxAlong-1.5,boxH-1.5,boxOut-1.5],[boxAlong-8,boxH-1.5,boxOut-8]]],drillsL:[[-0.5,axUp,axIn,[1,0,0]],[boxAlong+0.5,axUp,axIn,[-1,0,0]],[-0.5,axUp-1.95,axIn,[1,0,0]],[-0.5,axUp+1.95,axIn,[1,0,0]],[boxAlong+0.5,axUp-1.95,axIn,[-1,0,0]],[boxAlong+0.5,axUp+1.95,axIn,[-1,0,0]],[14,4.6,boxOut+0.5,[0,0,-1]],[41,4.6,boxOut+0.5,[0,0,-1]],[68,4.6,boxOut+0.5,[0,0,-1]]],people:'2',tools:'circular saw, jigsaw, 1-1/16 in spade bit, drill, 3 in structural screws, glue, framing square',
  do:['Cut the two end rails first and finish them on sawhorses: 1-1/16 in axle hole 2 in in from the wall-side end and 3-15/16 in up from the bottom. Then the relief bevel on the wall-side bottom corner: a straight cut from 1 in up the end face to 3/8 in up at 2 in in. Rip the same bevel along the wall rail\'s bottom outer edge (1 in on the outer face to 1/2 in on the inner face). The hardboard skin stops 2 in short of the wall-side edge.','Assemble the perimeter right side up on the carpet in its final spot: end rails at 23.75 and 101.75 in from the left wall, wall-side rail face 19 in from the drywall. Glue and three 3 in screws per corner.','Glue and screw a 2x4 gusset diagonally across each corner just under the deck line (15 in long, 45 deg ends). The bare frame gets winched to vertical before the skin and deck go on, and a plain rectangle on one rope racks; the gussets are what hold it square for that lift.','Add the three 2x6 joists flush with the top at 20, 41 and 62 in from the wall-side rail, then the blocking row at 41 in. Drill the strap eye-bolt holes in the far rail at 14, 41 and 68 in.'],
  check:['Diagonals equal within 1/8 in before the joists go in.','Axle holes at the same height from the floor on both ends.','3 in gap to each upright, equal at the wall end and the far end.']},
-{t:'7. Bearings, stubs and eye bolt',cam:C(0,110,25,22,135,4),parts:['flanges'],fast:[],people:'1',tools:'1/2 in bit, 1/2 x 3 in bolts, 1/4 in steel backer plates, file, hex key',
+{t:'7. Bearings, stubs and eye bolt',cam:C(0,110,25,22,135,4),parts:['flanges'],fast:[],cutsL:[[[2,boxH+deck+3,boxOut-2.1],[boxAlong-2,boxH+deck+3,boxOut-2.1]]],drillsL:[[boxAlong/2,boxH+deck+3.5,boxOut-2.1,[0,-1,0]]],people:'1',tools:'1/2 in bit, 1/2 x 3 in bolts, 1/4 in steel backer plates, file, hex key',
  do:['Through-bolt a UCFL205-16 flange bearing to each end rail over the axle hole, with the 1/4 in steel backer plate on the inside face. Mount it with its two lobes VERTICAL: bolts 2 in from the rail end at 2 in and 5-7/8 in up, so each has 1.6 in or more of wood all round. The flange body is 1.1 in thick and sits right beside the pillow block.','Lift the wall end of the frame 4 in (two people or a car jack on a block), slide each 1 in x 6 in stub in from the outside: through the pillow block, through the flange, 1.5 in into the rail. Set screws land on the filed flats. Now tighten the pillow block bolts.','Glue and screw the 3 in foot lip (3/4 in ply, 75.5 in long) standing inside the far rail; its top is 3 in above the deck. Eye bolt through its top edge, dead center, with the 10 in webbing loop. This height is what makes the winch able to LOWER the bed: with the hook on the rail the rope line would cross the pivot at 87.6 deg, above the 81.7 deg over-center, and the bed would park there with the switch doing nothing. With the hook 3 in up it crosses at 82.2 deg, under the 84.0 deg over-center.','Mattress-strap eye bolts through the far rail at 14, 41 and 68 in (the head-end ones go through the riser).'],
  check:['Lift the far edge by hand a few inches: the frame swings freely with no bind and the relief clears the carpet.','Both stubs fully home; set screws torqued; a witness mark on each stub.']},
 {t:'8. First lift and latches',cam:C(10,-30,70,63,135,45),parts:['keepers'],fast:['keepers'],people:'2 spotters',tools:'clamps, level, lags, barrel bolts, bump stops, two NC limit switches',
  do:['Clip the rope to the loop and raise the bare frame slowly, both people spotting from the sides, never under it. Past about 82 deg it leans into the wall on its own.','With it standing, clamp the two 2x6 x 22 in keeper arms to each upright\'s inner face so they project into the room beside the box ends, at 58 and 78 in. Screw the rubber stop blocks to the arm tips where the deck edge lands, set them so the frame is plumb, then lag the arms (two lags each into the upright). Fit the 6 in barrel bolts on the end rails so they throw into the strike plates on the arms.','Mount the top limit switch on a keeper so the frame trips it just before the stops. Lower the frame; mount the bottom switch at a pad. Wire each switch in series with its direction line.'],
  check:['Standing frame holds with the rope slack.','Lowering routine: unbolt, then press IN. The winch pulls the frame out from 90 deg through over-center; around 82 deg the rope goes briefly slack as gravity takes over, then catches. Switch to OUT and pay the frame down. Confirm the frame never parks on its own anywhere above 80 deg.','Each limit switch kills its direction at the stop; the other direction still works.']},
-{t:'9. Skin the face while it stands',cam:C(12,10,60,63,130,45),parts:['skin'],fast:[],people:'2',tools:'construction adhesive, 1-1/4 in brad nailer or screws, filler, sander',
+{t:'9. Skin the face while it stands',cam:C(12,10,60,63,130,45),parts:['skin'],fast:[],cutsL:[[[48,-0.3,axIn],[48,-0.3,boxOut]],[[0,-0.3,boxOut],[boxAlong,-0.3,boxOut]]],people:'2',tools:'construction adhesive, 1-1/4 in brad nailer or screws, filler, sander',
  do:['Raise the frame again. The underside is now a vertical wall at a comfortable height.','Glue and nail the two 1/4 in hardboard sheets (48 and 31.5 in wide, 83.5 in tall) to the rails and joists. Fill the seam, sand flush, prime.'],
  check:['Sheets flush with the rail edges all round so the barrel bolts and stops still meet wood, not an overhang.']},
-{t:'10. Deck',cam:C(10,-50,85,63,95,12),parts:['deck'],fast:[],people:'1',tools:'1-5/8 in screws, 1 in Forstner bit',
+{t:'10. Deck',cam:C(10,-50,85,63,95,12),parts:['deck'],fast:[],cutsL:[[[48,boxH+deck+0.1,0],[48,boxH+deck+0.1,boxOut]],[[0,boxH+deck+0.1,boxOut],[boxAlong,boxH+deck+0.1,boxOut]]],drillsL:[10,30,50,70].flatMap(x=>[15,40,65].map(z=>[x,boxH+deck+0.5,z,[0,-1,0]])),people:'1',tools:'1-5/8 in screws, 1 in Forstner bit',
  do:['Lower the frame. Lay the two 3/4 in plywood sheets, screw into every rail and joist on 8 in centers.','Drill 1 in vent holes on a 12 in grid between joists.'],
  check:['Deck flush with the rail tops; no screw heads proud.','Lift test with the deck on: this is the heaviest dry run before the mattress.']},
 {t:'11. Safety straps and bottom stop',cam:C(8,50,50,30,140,40),parts:['safety'],fast:[],people:'1',tools:'1 in webbing, carabiners, eye screws',
  do:['Two slack safety straps from eye screws on the uprights to the box far rail, 2 in of slack when latched. Clip after latching, unclip before lowering.'],
  check:['With barrel bolts open and straps clipped, the standing bed cannot lean more than a few degrees.']},
-{t:'12. Headboard',cam:C(6,106,40,28,135,21),parts:['headboard'],fast:[],people:'2',tools:'continuous (piano) hinge, 3/4 in screws, two 4 in barrel bolts, glue',demo:'fold',
+{t:'12. Headboard',cam:C(6,106,40,28,135,21),parts:['headboard'],fast:[],cutsL:[[[0,boxH+10.75,0.4],[boxAlong,boxH+10.75,0.4]],[[0,boxH+36.75,0.4],[boxAlong,boxH+36.75,0.4]]],drillsL:[[6,boxH+11.5,0.4,[0,-1,0]],[boxAlong-6,boxH+11.5,0.4,[0,-1,0]]],people:'2',tools:'continuous (piano) hinge, 3/4 in screws, two 4 in barrel bolts, glue',demo:'fold',
  do:['Glue and screw the 10.75 in riser (3/4 in ply, 79.5 in long) standing on the wall-side rail so its top is level with the mattress top. It is also the stop that keeps the mattress from sliding toward the wall during the swing, and the three strap eye bolts move up onto it.','Set the 26 x 79.5 in panel on the riser edge to edge, in line with it. Surface-mount the piano hinge on the MATTRESS side with the knuckle at the top corner of the riser: one leaf on the riser face just below the top, the other on the panel face just above the bottom. The panel can now only fold forward onto the mattress; pushing it backward is stopped by its bottom edge bearing on the riser top edge, not by the hinge.','Two 4 in barrel bolts on the panel face near each end, mounted vertically, throwing DOWN across the hinge line into holes drilled in the riser top. Bolts down: panel locked upright. Bolts up: panel folds forward onto the mattress. The animation here shows that fold with the bed down.','Routine: lift both bolts and fold the headboard forward before every lift. It rides up lying on the mattress, 1 in clear of the ledgers.'],
  check:['Through the fold the panel\'s bottom corner rises and clears the riser: the pin is at the riser\'s top mattress-side corner, so nothing passes through the riser.','Panel up and bolts down: pushing the top edge toward the wall does not move it (edge stop), pulling it forward does not move it (bolts).','Folded flat on the mattress, the panel is 0.75 in proud of the mattress top; with the bed standing that leaves 1 in to the ledgers.']},
 {t:'13. Mattress, straps and full-weight test',cam:C(5,-60,75,63,95,30),parts:['mattress'],fast:[],people:'2',tools:'cam-buckle straps',
@@ -287,27 +308,40 @@ const steps=[
 // cumulative visibility: all parts of steps <= i are shown
 const panel=document.getElementById('panel'), hud=document.getElementById('hud'), stepsBar=document.getElementById('steps');
 steps.forEach((s,i)=>{const b=document.createElement('button'); b.textContent=i; b.title=s.t; b.addEventListener('click',()=>go(i)); stepsBar.appendChild(b);});
-let cur=-1, anims=[], camFrom=null, camTo=null, camT=1, swingA=0, playing=false, dwell=0;
+let cur=-1, anims=[], tools=[], camFrom=null, camTo=null, camT=1, swingA=0, playing=false, dwell=0;
 let tgt=P(63,100,40); camera.position.copy(P(63,-120,70)); camera.lookAt(tgt);
 function ease(t){return t<0.5?2*t*t:1-Math.pow(-2*t+2,2)/2;}
 function go(i){
   i=Math.max(0,Math.min(steps.length-1,i)); const forward=i>cur; cur=i; const s=steps[i];
   // visibility
   Object.values(parts).forEach(g=>g.visible=false); Object.values(fast).flat().forEach(f=>f.visible=false);
-  for(let k=0;k<=i;k++){ steps[k].parts.forEach(id=>parts[id].visible=true); steps[k].fast.forEach(id=>(fast[id]||[]).forEach(f=>f.visible=true)); }
-  anims=[]; const now=performance.now();
+  for(let k=0;k<=i;k++){ if(steps[k].once && k!==i) continue; steps[k].parts.forEach(id=>parts[id].visible=true); steps[k].fast.forEach(id=>(fast[id]||[]).forEach(f=>f.visible=true)); }
+  anims=[]; tools.forEach(o=>scene.remove(o)); tools=[]; const now=performance.now();
+  let lead=0;
   if(forward){
-    s.parts.forEach((id,n)=>{ const g=parts[id]; const off=g.userData.local? new THREE.Vector3(0,30,0): new THREE.Vector3(0,30,0); g.position.copy(g.userData.final).add(off); anims.push({g,from:g.position.clone(),to:g.userData.final.clone(),t0:now+n*250,d:1100}); });
-    let n=0; s.fast.forEach(id=>(fast[id]||[]).forEach(f=>{ f.position.copy(f.userData.final).add(f.userData.axis.clone().multiplyScalar(-6)); anims.push({g:f,from:f.position.clone(),to:f.userData.final.clone(),t0:now+1100+n*140,d:320}); n++; }));
+    // cuts and drilled holes first: a red blade sweeps each cut line, a drill bit dives into each hole
+    bed.updateWorldMatrix(true,false);
+    const toW=(v,local)=> local? bed.localToWorld(new THREE.Vector3(v[0],v[1],v[2])) : P(v[0],v[1],v[2]);
+    const cuts=(s.cuts||[]).map(c=>[toW(c[0]),toW(c[1])]).concat((s.cutsL||[]).map(c=>[toW(c[0],true),toW(c[1],true)]));
+    const drills=(s.drills||[]).map(d=>[toW(d),new THREE.Vector3(...d[3])]).concat((s.drillsL||[]).map(d=>[toW(d,true),bed.localToWorld(new THREE.Vector3(...d[3])).sub(bed.localToWorld(new THREE.Vector3(0,0,0))).normalize()]));
+    cuts.forEach(([a,b])=>{ const blade=new THREE.Mesh(new THREE.BoxGeometry(2.4,2.4,0.4),M.blade); blade.visible=false; scene.add(blade); tools.push(blade);
+      const line=new THREE.Line(new THREE.BufferGeometry().setFromPoints([a.clone(),a.clone()]),M.cut); scene.add(line); tools.push(line);
+      anims.push({t0:now+lead,d:550,fn:u=>{ blade.visible=u<1; blade.position.lerpVectors(a,b,u); line.geometry.setFromPoints([a,a.clone().lerp(b,u)]); }}); lead+=600; });
+    drills.forEach(([pos,ax])=>{ const bit=new THREE.Mesh(new THREE.CylinderGeometry(0.22,0.22,6,10),M.zinc); bit.quaternion.setFromUnitVectors(new THREE.Vector3(0,1,0),ax.clone().negate()); bit.visible=false; scene.add(bit); tools.push(bit);
+      const start=pos.clone().sub(ax.clone().multiplyScalar(5)), end=pos.clone().sub(ax.clone().multiplyScalar(1.6));
+      anims.push({t0:now+lead,d:420,fn:u=>{ bit.visible=u<1; const k=u<0.6? u/0.6 : 1-(u-0.6)/0.4; bit.position.lerpVectors(start,end,k); }}); lead+=300; });
+    if(cuts.length||drills.length) lead+=300;
+    s.parts.forEach((id,n)=>{ const g=parts[id]; const off=new THREE.Vector3(0,30,0); g.position.copy(g.userData.final).add(off); anims.push({g,from:g.position.clone(),to:g.userData.final.clone(),t0:now+lead+n*250,d:1100}); });
+    let n=0; s.fast.forEach(id=>(fast[id]||[]).forEach(f=>{ f.position.copy(f.userData.final).add(f.userData.axis.clone().multiplyScalar(-6)); anims.push({g:f,from:f.position.clone(),to:f.userData.final.clone(),t0:now+lead+1100+n*140,d:320}); n++; }));
   } else { Object.values(parts).forEach(g=>g.position.copy(g.userData.final)); Object.values(fast).flat().forEach(f=>f.position.copy(f.userData.final)); }
   camFrom={eye:camera.position.clone(),tgt:tgt.clone()}; camTo=s.cam; camT=0;
   // swing state: steps 8, 9 raise the frame; others down; final step animates
-  swingTarget = (i===8||i===9)? 90 : 0; swingLoop = !!s.swing; swingSlow = !!s.xray; foldDemo = s.demo==='fold'; foldT=0; if(!!s.xray!==xray) setXray(!!s.xray);
+  swingTarget = (i===9||i===10)? 90 : 0; swingLoop = !!s.swing; swingSlow = !!s.xray; foldDemo = s.demo==='fold'; foldT=0; if(!!s.xray!==xray) setXray(!!s.xray);
   const nF=s.fast.reduce((a,id)=>a+(fast[id]||[]).length,0);
   panel.innerHTML=`<div class="n">Step ${i} of ${steps.length-1}</div><h2>${s.t}</h2>
    <h3>Do</h3><ul>${s.do.map(x=>`<li>${x}</li>`).join('')}</ul>
    <h3>Check before moving on</h3><ul class="check">${s.check.map(x=>`<li>${x}</li>`).join('')}</ul>
-   <div class="meta">${s.people?`<span class="chip">People: ${s.people}</span>`:''}${s.tools?`<span class="chip">Tools: ${s.tools}</span>`:''}${nF?`<span class="chip">${nF} fasteners</span>`:''}${i===0?'<span class="chip w">Assumptions to verify</span>':''}</div>`;
+   <div class="meta">${s.people?`<span class="chip">People: ${s.people}</span>`:''}${s.tools?`<span class="chip">Tools: ${s.tools}</span>`:''}${nF?`<span class="chip">${nF} fasteners</span>`:''}${i===1?'<span class="chip w">Assumptions to verify</span>':''}${(s.cuts||s.cutsL)?`<span class="chip">${(s.cuts||[]).length+(s.cutsL||[]).length} cuts</span>`:''}${(s.drills||s.drillsL)?`<span class="chip">${(s.drills||[]).length+(s.drillsL||[]).length} holes</span>`:''}</div>`;
   panel.scrollTop=0;
   hud.textContent=`Step ${i}: ${s.t}`+(s.xray?'  ·  head-corner clearance to carpet pile: 0.38 in at every angle (checker)':'');
   stepsBar.querySelectorAll('button').forEach((b,k)=>b.classList.toggle('on',k===i));
@@ -340,7 +374,7 @@ function resize(){const w=canvas.clientWidth,h=canvas.clientHeight;if(canvas.wid
 let last=performance.now();
 function frame(t){const dt=Math.min(0.05,(t-last)/1000);last=t;resize();
   // part / fastener animations
-  let busy=false; anims.forEach(a=>{const u=(t-a.t0)/a.d; if(u<0){a.g.position.copy(a.from);busy=true;} else if(u<1){a.g.position.lerpVectors(a.from,a.to,ease(u));busy=true;} else a.g.position.copy(a.to);});
+  let busy=false; anims.forEach(a=>{const u=(t-a.t0)/a.d; if(a.fn){ if(u<0){busy=true;} else if(u<1){a.fn(u);busy=true;} else a.fn(1); return; } if(u<0){a.g.position.copy(a.from);a.g.visible=false;busy=true;} else if(u<1){a.g.visible=true;a.g.position.lerpVectors(a.from,a.to,ease(u));busy=true;} else {a.g.visible=true;a.g.position.copy(a.to);}});
   // camera
   if(camT<1){camT=Math.min(1,camT+dt/1.2);const k=ease(camT);camera.position.lerpVectors(camFrom.eye,camTo.eye,k);tgt.lerpVectors(camFrom.tgt,camTo.tgt,k);camera.lookAt(tgt);}
   // swing
@@ -348,7 +382,7 @@ function frame(t){const dt=Math.min(0.05,(t-last)/1000);last=t;resize();
   else { const d=swingTarget-swingA; if(Math.abs(d)>0.1){swingA+=Math.sign(d)*Math.min(Math.abs(d),25*dt);busy=true;} else swingA=swingTarget; }
   pivot.rotation.x=-THREE.MathUtils.degToRad(swingA);
   if(parts.headboard&&parts.headboard.userData.hb){ let f=Math.min(1,swingA/8); if(foldDemo){ foldT+=dt; const c=foldT%6; f = c<2? 0 : c<3.2? ease((c-2)/1.2) : c<4.5? 1 : ease(1-(c-4.5)/1.2); } parts.headboard.userData.hb.rotation.x=Math.PI/2*f; }   // folds forward onto the mattress; step 12 loops a fold demo
-  updateRope(parts.flanges.visible && (swingA>0.5 || cur===7 || cur===8 || cur===9));
+  updateRope(parts.flanges.visible && (swingA>0.5 || cur===8 || cur===9 || cur===10));
   if(playing){ if(!busy){ dwell+=dt; if(dwell>7){ if(cur<steps.length-1) go(cur+1); else {playing=false;play.textContent='Play all';} } } }
   renderer.render(scene,camera); requestAnimationFrame(frame);}
 go(0); requestAnimationFrame(frame);
