@@ -227,7 +227,7 @@ part('materials',g=>{
   let x=3;
   for(const [name,w,n] of boards){ const x0=x; for(let i=0;i<n;i++){ pbox(g,x,4,0,1.5,96,w,M.pine); x+=2.2; } label(g,name,P((x0+x)/2-1,102,w+2),26); x+=3; }
   // sheets, stacked with an offset so each shows
-  const sheets=[['7/16 in OSB 4x8 (2)',M.osb,0.44,2],['1/8 in hardboard 4x8 (2)',M.hard,0.125,2]];
+  const sheets=[['23/32 in OSB 4x8 (2)',M.osb,0.72,2],['1/8 in hardboard 4x8 (2)',M.hard,0.125,2]];
   let z=0, sx=x+2;
   for(const [name,mat,t,n] of sheets){ for(let i=0;i<n;i++){ pbox(g,sx,4,z,48,96,t,mat); z+=t+0.4; } label(g,name,P(sx+24,102,z+6),30); sx+=4; }
   // hardware, in a column on the right
@@ -254,7 +254,7 @@ const C=(ex,ey,ez,tx,ty,tz)=>({eye:P(ex,ey,ez),tgt:P(tx,ty,tz)});
 const steps=[
 {t:'Everything you buy, laid out',cam:C(63,-95,150,63,52,0),parts:['materials'],once:true,fast:[],people:'',tools:'',
  do:['Every piece of stock and every hardware group, to scale on the floor. Boards are 8 ft as sold; the deck, skin and headboard parts come out of the sheets shown. The mattress ships rolled in a box.','The written list with sources and prices is section 5 of the plan PDF. Nothing here is cut yet; the cuts and holes animate at the start of each later step.'],
- check:['4 x 2x10, 4 x 2x6, 5 x 2x4, all 8 ft; 2 x 7/16 OSB, 2 x 1/8 in hardboard, all 4x8.','Two UCP205-16 pillow blocks, two UCFL205-16 flanges, 12 in of 1 in bar.','Two 18 in linear actuators, a 12 V 10 A supply, a DPDT rocker, two anchor tabs and two angles with pins, bolts, straps, primer.']},
+ check:['4 x 2x10, 4 x 2x6, 5 x 2x4, all 8 ft; 2 x 23/32 OSB, 2 x 1/8 in hardboard, all 4x8.','Two UCP205-16 pillow blocks, two UCFL205-16 flanges, 12 in of 1 in bar.','Two 18 in linear actuators, a 12 V 10 A supply, a DPDT rocker, two anchor tabs and two angles with pins, bolts, straps, primer.']},
 {t:'Before you buy anything',cam:C(63,-120,70,63,120,40),parts:[],fast:[],people:'1',tools:'stud finder, tape, 4 ft level, hammer',
  do:['Find and mark every stud on the rear wall from floor to 104 in. The translucent studs drawn here are a 16 in guess from the left wall; the ledgers make the exact positions unimportant, but the winch plate still needs two.',
      'Tap the slab where the two pads go (21 in out from the drywall, 16 to 28 in and 99 to 111 in from the left wall). Look for a post-tension warning stamp at the garage slab edge or on the electrical panel. If the slab is post-tensioned it must not be drilled: the pillow blocks then mount on 1/4 in steel angles through-bolted to the uprights, 10 in in front of them at the same axle height (section 6 of the plan has the numbers); dearer and less rigid, so pads whenever drilling is allowed.',
@@ -288,7 +288,7 @@ const steps=[
  do:['Raise the frame again. The underside is now a vertical wall at a comfortable height.','Glue and nail the two 1/8 in hardboard sheets (48 and 15.5 in wide, 81.5 in tall) to the rails and joists. Fill the seam, sand flush, prime.'],
  check:['Sheets flush with the rail edges all round so the barrel bolts and stops still meet wood, not an overhang.']},
 {t:'10. Deck',cam:C(10,-50,85,63,95,12),parts:['deck'],fast:[],cutsL:[[[48,boxH+deck+0.1,0],[48,boxH+deck+0.1,boxOut]],[[0,boxH+deck+0.1,boxOut],[boxAlong,boxH+deck+0.1,boxOut]]],drillsL:[10,30,50,70].flatMap(x=>[15,40,65].map(z=>[x,boxH+deck+0.5,z,[0,-1,0]])),people:'1',tools:'1-5/8 in screws, 1 in Forstner bit',
- do:['Lower the frame. Lay the two 7/16 in OSB pieces (48 and 15.5 in wide), screw into every rail and joist on 8 in centers.','Drill 1 in vent holes on a 12 in grid between joists.'],
+ do:['Lower the frame. Lay the two 23/32 in OSB pieces (48 and 15.5 in wide), screw into every rail and joist on 8 in centers. 23/32, not 7/16: the thin sheet sags 3/8 in under a knee between 20 in joists; 23/32 sags under 1/10 in.','Drill 1 in vent holes on a 12 in grid between joists.'],
  check:['Deck flush with the rail tops; no screw heads proud.','Lift test with the deck on: this is the heaviest dry run before the mattress.']},
 {t:'11. Safety straps and bottom stop',cam:C(8,50,50,30,140,40),parts:['safety'],fast:[],people:'1',tools:'1 in webbing, carabiners, eye screws',
  do:['Two slack safety straps from eye screws on the uprights to the box far rail, 2 in of slack when latched. Clip after latching, unclip before lowering.'],
