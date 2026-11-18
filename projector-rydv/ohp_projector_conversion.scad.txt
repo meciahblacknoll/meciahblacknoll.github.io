@@ -1,0 +1,180 @@
+// ============================================================
+// OHP-to-4K-ish Projector Conversion — parametric concept model
+// Reclaimed-parts redesign of the DIY Perks 4K projector build
+// ============================================================
+// KEY INSIGHT: a dead overhead projector (OHP) already contains
+// most of the hard optics this build needs:
+//   - a Fresnel lens built into the stage (collimates lamp light
+//     upward through the transparency sheet)
+//   - a periscope "head" unit with a mirror + projection lens,
+//     already focused for a reasonable throw distance
+// So the conversion is mostly SUBTRACTIVE: pull the dead lamp,
+// drop in a bright LED where the lamp was, and replace the
+// transparency sheet with a disassembled phone's LCD panel
+// (backlight removed) sitting on the stage glass. The head unit
+// above is reused completely unmodified.
+//
+// Dimensions below are now sourced from 3M's actual 9000-series
+// Illustrated Parts Breakdown (3M IPC 2001) and published spec
+// sheets, not guesses:
+//   - Stage glass is A4 size (210 x 297mm) across the whole 9000
+//     series (9050/9060/9070/9080/9100/9200/9550, per Appendix A
+//     Specifications table).
+//   - Fresnel lens: "9000 Single Element Glare Free," listed at
+//     182.9mm — much smaller than a first guess would suggest.
+//   - Projection lens options vary by head type: Triplet 342mm
+//     focal length (9200), Varifocal 270-325mm, Meniscus 355mm.
+//   - 3M 9550 overall size: 361mm W x 425mm D x 711mm H (top of
+//     head) — used below to size the base housing and back out
+//     a riser-arm height, since 9550-specific breakdown wasn't
+//     itemized.
+// Head unit box size and lens barrel diameter are still estimates
+// (not in the breakdown) — MEASURE YOUR ACTUAL DONOR UNIT once
+// you have one in hand before cutting/printing anything. This is
+// a layout study, not a fab-ready drawing.
+// ============================================================
+
+// ---------- PARAMETERS (mm) ----------
+// Stage / base unit (reused OHP housing) — sized from 3M 9550 spec
+stage_l = 425;        // base footprint (depth), per 3M 9550 spec sheet
+stage_w = 361;        // base footprint (width), per 3M 9550 spec sheet
+stage_h = 90;         // base housing height (estimate — not in spec)
+glass_margin = 20;    // border around stage glass
+
+// Stage glass — A4 size, confirmed across whole 9000 series
+stage_glass_l = 297;  // A4 long edge
+stage_glass_w = 210;  // A4 short edge
+
+// Fresnel lens (built into stage, reused as-is) — "9000 Single
+// Element Glare Free," 182.9mm, per 3M IPC parts index
+fresnel_size = 183;
+fresnel_thickness = 3;
+fresnel_z = stage_h - 5; // sits just under the stage glass
+
+// LED replacement light source (where the old lamp/mirror was)
+led_board_d = 30;     // COB LED board diameter
+led_heatsink_w = 80;  // reclaimed CPU heatsink footprint
+led_heatsink_l = 80;
+led_heatsink_h = 40;
+led_z = 15;           // mounted low in the base housing
+
+// Phone LCD panel (disassembled donor phone, backlight removed)
+// placed directly on the stage glass where transparency used to sit
+panel_l = 145;        // active area, typical 6.2" phone
+panel_w = 67;
+panel_thickness = 3;
+panel_z = stage_h + 1; // resting on stage glass surface
+
+// Riser arm to head unit (reused OHP arm, unmodified)
+// Backed out from 3M 9550 total height (711mm) minus stage_h and
+// an estimated head_h — head/arm split still needs real measurement.
+arm_w = 40;
+arm_d = 40;
+arm_h = 521;          // 711 (9550 top-of-head spec) - stage_h - head_h
+arm_x_offset = -( stage_l/2 - arm_w/2 - 20 ); // arm toward back-left
+
+// Head unit (reused periscope mirror + projection lens, UNMODIFIED)
+// Box size still an estimate (not itemized in the parts breakdown);
+// lens options per spec: Triplet 342mm FL (9200), Varifocal
+// 270-325mm, Meniscus 355mm — barrel diameter not published, kept
+// as a placeholder.
+head_l = 160;
+head_w = 160;
+head_h = 100;
+lens_d = 85;          // projection lens barrel diameter — estimate
+
+// ---------- COLORS ----------
+col_housing   = [0.25,0.25,0.28,1];
+col_glass     = [0.6,0.85,0.95,0.35];
+col_fresnel   = [0.8,0.8,0.5,0.5];
+col_led       = [1,0.3,0.1,1];
+col_heatsink  = [0.75,0.75,0.78,1];
+col_panel     = [0.1,0.9,0.9,0.85];
+col_arm       = [0.3,0.3,0.33,1];
+col_head      = [0.2,0.2,0.24,1];
+col_lens      = [0.5,0.7,1,0.6];
+
+// ============================================================
+// ASSEMBLY
+// ============================================================
+
+module stage_base() {
+  color(col_housing)
+    difference() {
+      cube([stage_l, stage_w, stage_h], center=true);
+      // hollow interior for LED + wiring access
+      translate([0,0,2])
+        cube([stage_l-20, stage_w-20, stage_h-10], center=true);
+    }
+
+  // stage glass (top surface, A4 size, where phone panel rests)
+  color(col_glass)
+    translate([0,0, stage_h/2])
+      cube([stage_glass_l, stage_glass_w, 2], center=true);
+}
+
+module fresnel_lens() {
+  color(col_fresnel)
+    translate([0,0, fresnel_z - stage_h/2])
+      cube([fresnel_size, fresnel_size, fresnel_thickness], center=true);
+}
+
+module led_module() {
+  // reclaimed heatsink + fan stack, replacing old lamp assembly
+  color(col_heatsink)
+    translate([0,0, led_z - stage_h/2])
+      cube([led_heatsink_l, led_heatsink_w, led_heatsink_h], center=true);
+
+  // COB LED board on top of heatsink, facing up into the Fresnel
+  color(col_led)
+    translate([0,0, led_z - stage_h/2 + led_heatsink_h/2 + 2])
+      cylinder(h=4, d=led_board_d, center=true, $fn=48);
+}
+
+module phone_panel() {
+  // disassembled phone LCD, backlight removed, resting on stage glass
+  color(col_panel)
+    translate([0,0, panel_z])
+      cube([panel_l, panel_w, panel_thickness], center=true);
+}
+
+module riser_arm() {
+  color(col_arm)
+    translate([arm_x_offset, -(stage_w/2 - arm_d/2 - 10), stage_h/2 + arm_h/2])
+      cube([arm_w, arm_d, arm_h], center=true);
+}
+
+module head_unit() {
+  // reused OHP head: internal mirror + projection lens, unmodified
+  translate([arm_x_offset, -(stage_w/2 - arm_d/2 - 10), stage_h/2 + arm_h])
+    {
+    color(col_head)
+      translate([0,0, head_h/2])
+        cube([head_l, head_w, head_h], center=true);
+
+    // projection lens barrel, pointing forward (+Y) toward screen
+    color(col_lens)
+      rotate([90,0,0])
+        translate([0, head_h/2, -head_w/2 - 15])
+          cylinder(h=40, d=lens_d, center=true, $fn=64);
+    }
+}
+
+module labels_note() {
+  // Text annotations are decorative only in preview; OpenSCAD's
+  // default font rendering is fine for a layout study.
+  color("white")
+    translate([0, -stage_w/2 - 40, -stage_h/2])
+      linear_extrude(1)
+        text("OHP conversion concept — verify all dims against actual donor parts",
+             size=10, halign="center");
+}
+
+// ---------- BUILD ----------
+stage_base();
+fresnel_lens();
+led_module();
+phone_panel();
+riser_arm();
+head_unit();
+labels_note();
