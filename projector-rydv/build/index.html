@@ -139,6 +139,8 @@ renderer.setPixelRatio(Math.min(window.devicePixelRatio||1,2));
 renderer.shadowMap.enabled = true;
 renderer.shadowMap.type = THREE.PCFSoftShadowMap;
 renderer.outputColorSpace = THREE.SRGBColorSpace;
+renderer.toneMapping = THREE.ACESFilmicToneMapping;
+renderer.toneMappingExposure = 1.05;
 
 function resize(){
   var w = canvas.clientWidth||600, h = w*3/4;
@@ -150,15 +152,18 @@ var controls = new THREE.OrbitControls(camera, renderer.domElement);
 controls.enableDamping = true; controls.dampingFactor = 0.08;
 controls.minDistance = 260; controls.maxDistance = 2400;
 
-scene.add(new THREE.HemisphereLight(0xdfeeff, 0x1a1a18, 0.65));
-var key = new THREE.DirectionalLight(0xffffff, 0.95);
-key.position.set(480,760,520); key.castShadow = true;
+scene.add(new THREE.HemisphereLight(0xeaf4ff, 0x2a241c, 0.6));
+var key = new THREE.DirectionalLight(0xfff1dc, 1.0);
+key.position.set(380,620,460); key.castShadow = true;
 key.shadow.mapSize.set(1024,1024);
 key.shadow.camera.left=-500; key.shadow.camera.right=500;
 key.shadow.camera.top=500; key.shadow.camera.bottom=-500;
+key.shadow.bias = -0.0015;
 scene.add(key);
-var rim = new THREE.DirectionalLight(0x8fd3ff, 0.35);
-rim.position.set(-500,300,-400); scene.add(rim);
+var fillLight = new THREE.DirectionalLight(0xcfe8ff, 0.45);
+fillLight.position.set(-420,260,320); scene.add(fillLight);
+var rim = new THREE.DirectionalLight(0x9fd8ff, 0.6);
+rim.position.set(-480,340,-520); scene.add(rim);
 
 // ---------- ground with soft grid ----------
 function gridTexture(){
@@ -225,14 +230,18 @@ var D = {
 };
 
 var root = new THREE.Group(); scene.add(root);
-root.position.y = -(D.stageH + D.armH)/2 + 10;
+// NOTE: root has no vertical offset — every mesh position below is
+// already authored in absolute world space (stage 0-90, arm top
+// ~611, head ~611-711). An earlier version shifted this group and
+// left camera targets in un-shifted coordinates, which put most of
+// the model below the floor/out of frame. Keep root at (0,0,0).
 
 var armX = -(D.stageL/2 - D.armW/2 - 20);
 var armZ = -(D.stageW/2 - D.armD/2 - 10);
 
 // ---- Stage housing (closed) — sloped-side frustum, not a plain box ----
 var housingGroup = new THREE.Group();
-var housingClosed = taperedFrustum(D.stageL, D.stageW, 1.22, D.stageH, mat(0x3a4349, {roughness:0.65}));
+var housingClosed = taperedFrustum(D.stageL, D.stageW, 1.22, D.stageH, mat(0x4e5962, {roughness:0.5, metalness:0.08}));
 housingClosed.position.set(0, D.stageH/2, 0);
 housingGroup.add(housingClosed);
 
@@ -259,7 +268,7 @@ housingGroup.add(indicatorKnob);
 root.add(housingGroup);
 
 // stage lid (lifts off / goes translucent when opened)
-var lid = mesh(new THREE.BoxGeometry(D.stageL-8, 10, D.stageW-8), mat(0x323a40, {roughness:0.6}));
+var lid = mesh(new THREE.BoxGeometry(D.stageL-8, 10, D.stageW-8), mat(0x414b52, {roughness:0.45, metalness:0.08}));
 lid.position.set(0, D.stageH + 5, 0);
 root.add(lid);
 
@@ -327,14 +336,14 @@ bareLCD.add(lcdBezel, lcdGlass);
 root.add(bareLCD);
 
 // riser arm (reused, unmodified)
-var armMesh = mesh(new THREE.BoxGeometry(D.armW, D.armH, D.armD), mat(0x4a5258, {roughness:0.55}));
+var armMesh = mesh(new THREE.BoxGeometry(D.armW, D.armH, D.armD), mat(0x565f66, {roughness:0.4, metalness:0.12}));
 armMesh.position.set(armX, D.stageH + D.armH/2, armZ);
 root.add(armMesh);
 
 // head unit (periscope: mirror + lens, reused)
 var headGroup = new THREE.Group();
 headGroup.position.set(armX, D.stageH + D.armH + D.headH/2, armZ);
-var headHousing = taperedFrustum(D.headL, D.headW, 1.35, D.headH, mat(0x2c3236, {opacity:1, roughness:0.55}));
+var headHousing = taperedFrustum(D.headL, D.headW, 1.35, D.headH, mat(0x363f45, {opacity:1, roughness:0.4, metalness:0.1}));
 headGroup.add(headHousing);
 // carrying handle — a bent tube loop on top of the head
 var handleCurve = new THREE.CatmullRomCurve3([
@@ -402,16 +411,13 @@ var finalBareLCDPos = new THREE.Vector3(0, D.stageH+17, 0);
 var steps = [
   {
     title: "Lay out the donor parts",
-    text: "Before cutting anything: a dead OHP (intact), a cracked-screen donor phone (intact, non-OLED), a 100W COB LED + driver, and a reclaimed CPU heatsink. Confirm the phone's panel is LCD, not OLED, before going further.",
-    tags: ["donor OHP", "donor phone", "LED + driver", "heatsink"],
-    camera: {pos:[700,640,820], target:[0,120,0]},
+    text: "The full-size model here is the OHP itself. Off to the side (not drawn to scale against it, they're far smaller): a cracked-screen donor phone (intact, non-OLED), a 100W COB LED + driver, and a reclaimed CPU heatsink. Confirm the phone's panel is LCD, not OLED, before going further.",
+    tags: ["donor OHP (shown)", "donor phone", "LED + driver", "heatsink"],
+    camera: {pos:[640,440,780], target:[0,340,0]},
     set: function(){
       setVis(housingClosed,1,0,0,0); setVis(lid,1,0,0,0); setVis(glass,0,0,0,0); setVis(fresnel,0,0,0,0);
       setVis(oldLamp,0,0,0,0);
-      setPos(heatsink, new THREE.Vector3(260,10,-120)); setOp(heatsink,1);
-      setPos(ledChip, new THREE.Vector3(260,10,-120)); setOp(ledChip,0);
-      setOp(wire,0);
-      setPos(phoneIntact, new THREE.Vector3(-260,6,120)); setOp(phoneIntact,1);
+      setOp(heatsink,0); setOp(ledChip,0); setOp(wire,0); setOp(phoneIntact,0);
       setOp(backCover,0); setOp(backlight,0); setOp(bareLCD,0);
       setVis(armMesh,1,0,0,0); setVis(headGroup,1,0,0,0);
       setOp(lensCone,0); setOp(screen,0); setOp(screws,0,screws);
@@ -421,7 +427,7 @@ var steps = [
     title: "Open the housing, expose the lamp bay",
     text: "Pull the top cover off the OHP base. The Fresnel lens stays built into the stage — it doesn't need to come out. This exposes the lamp socket sitting under the stage glass.",
     tags: ["remove top cover", "Fresnel stays in place"],
-    camera: {pos:[560,520,680], target:[0,90,0]},
+    camera: {pos:[480,320,580], target:[0,60,0]},
     set: function(){
       setPos(heatsink, new THREE.Vector3(260,10,-120)); setOp(heatsink,1);
       setOp(ledChip,0); setOp(wire,0);
@@ -436,7 +442,7 @@ var steps = [
     title: "Pull the old lamp + socket",
     text: "The halogen/ENX lamp and its socket come out completely — they're being replaced, not reused. This leaves an empty bay sized for a round light source, which is exactly what the LED needs.",
     tags: ["discard lamp", "discard socket"],
-    camera: {pos:[460,420,560], target:[0,70,0]},
+    camera: {pos:[400,260,480], target:[0,40,0]},
     set: function(){
       setOp(oldLamp,0);
       setPos(heatsink, new THREE.Vector3(160,10,-80)); setOp(heatsink,1);
@@ -450,7 +456,7 @@ var steps = [
     title: "Mount the heatsink in the lamp bay",
     text: "The reclaimed CPU heatsink drops into the empty lamp bay. It's wildly overbuilt for a single LED — that's fine, it means it'll never run hot.",
     tags: ["reclaimed CPU heatsink", "$0 part"],
-    camera: {pos:[380,340,460], target:[0,40,0]},
+    camera: {pos:[340,220,400], target:[0,30,0]},
     set: function(){
       setPos(heatsink, finalHeatsinkPos); setOp(heatsink,1);
       setOp(ledChip,0); setOp(wire,0);
@@ -463,7 +469,7 @@ var steps = [
     title: "Seat the LED, wire it to the switch",
     text: "The 100W COB LED sits on the heatsink facing straight up into the Fresnel. Its driver taps into the OHP's existing power switch and cord — no new wiring harness needed, just an adapter splice.",
     tags: ["100W COB LED", "reused switch + cord"],
-    camera: {pos:[340,300,420], target:[0,40,0]},
+    camera: {pos:[300,200,380], target:[0,35,0]},
     set: function(){
       setPos(heatsink, finalHeatsinkPos); setOp(heatsink,1);
       setPos(ledChip, finalLedPos); setOp(ledChip,1); ledChip.material.emissiveIntensity = 0.05;
@@ -477,7 +483,7 @@ var steps = [
     title: "Disassemble the donor phone",
     text: "Crack the phone's case open and pull the display stack out whole. Set the mainboard and battery aside (not needed for this build, keep for other salvage).",
     tags: ["pull display stack"],
-    camera: {pos:[260,220,320], target:[-60,20,80]},
+    camera: {pos:[-80,140,360], target:[-260,15,120]},
     set: function(){
       setPos(heatsink, finalHeatsinkPos); setOp(heatsink,1);
       setPos(ledChip, finalLedPos); setOp(ledChip,1);
@@ -493,7 +499,7 @@ var steps = [
     title: "Peel the backlight off the LCD stack",
     text: "Separate the backlight layer from the LCD panel — this is the one truly fiddly step, the layers are thin and the adhesive is stubborn. What's left afterward is a transparent panel: light can now pass through it instead of being lit from behind.",
     tags: ["discard backlight", "panel goes transparent"],
-    camera: {pos:[220,200,280], target:[-60,20,80]},
+    camera: {pos:[-140,160,380], target:[-320,15,140]},
     set: function(){
       setPos(heatsink, finalHeatsinkPos); setOp(heatsink,1);
       setPos(ledChip, finalLedPos); setOp(ledChip,1);
@@ -508,7 +514,7 @@ var steps = [
     title: "Set the bare LCD on the stage glass",
     text: "The gutted LCD panel rests directly on the stage glass — exactly where the transparency sheet used to sit. Route its flex cable off to the side to a small controller board (keeps the phone's own display driver, just feeding it a static test image or a slow slideshow rather than live video).",
     tags: ["replaces transparency sheet"],
-    camera: {pos:[260,260,320], target:[0,90,0]},
+    camera: {pos:[300,230,340], target:[0,70,0]},
     set: function(){
       setOp(housingClosed,1); setOp(lid,0.15); setOp(glass,0.7); setOp(fresnel,0.9);
       setPos(heatsink, finalHeatsinkPos); setOp(heatsink,1);
@@ -522,7 +528,7 @@ var steps = [
     title: "Close up the housing",
     text: "Lid goes back on, four corner screws go back in. Everything optical above the stage — the riser arm, the mirror, the projection lens — was never touched.",
     tags: ["reassemble", "4 screws"],
-    camera: {pos:[420,380,520], target:[0,120,0]},
+    camera: {pos:[460,300,560], target:[0,80,0]},
     set: function(){
       setOp(lid,1);
       setOp(screws,1);
@@ -538,7 +544,7 @@ var steps = [
     title: "Power on, focus, test-project",
     text: "Flip the switch: the LED lights the Fresnel, the Fresnel collimates it through the panel, and the existing focus knob on the arm sharpens the image on a wall or screen — the same optical path the OHP always had, just with a brighter source and a different \"transparency.\"",
     tags: ["final test", "focus via original knob"],
-    camera: {pos:[560,360,900], target:[0,180,260]},
+    camera: {pos:[760,440,1200], target:[0,320,300]},
     set: function(){
       setOp(lid,1); setOp(screws,1);
       setPos(heatsink, finalHeatsinkPos); setOp(heatsink,1);
