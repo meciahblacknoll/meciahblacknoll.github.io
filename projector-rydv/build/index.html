@@ -95,6 +95,7 @@
       </div>
       <div class="controls">
         <button id="prevBtn">&larr; Prev</button>
+        <button id="playBtn">&#9654; Play</button>
         <div class="dots" id="dots"></div>
         <button id="nextBtn">Next &rarr;</button>
       </div>
@@ -192,6 +193,25 @@ function mesh(geo, material, castShadow){
   m.castShadow = castShadow!==false; m.receiveShadow = true;
   return m;
 }
+// Rectangular frustum (flat top = topL x topW, wider base) — the
+// sloped-side silhouette real OHP housings and periscope heads
+// actually have, instead of a plain box. Built from a 4-segment
+// cylinder (a square prism), rotated 45° so its flat faces align
+// to the X/Z axes, then non-uniformly scaled to the target footprint.
+function taperedFrustum(topL, topW, bottomScale, h, material){
+  var geo = new THREE.CylinderGeometry(1, bottomScale, h, 4, 1);
+  geo.rotateY(Math.PI/4);
+  geo.scale(topL/Math.SQRT2, 1, topW/Math.SQRT2);
+  return mesh(geo, material);
+}
+function canvasLabelTexture(text, bg, fg){
+  var c = document.createElement('canvas'); c.width=128; c.height=64;
+  var g = c.getContext('2d');
+  g.fillStyle = bg; g.fillRect(0,0,128,64);
+  g.fillStyle = fg; g.font='bold 30px system-ui'; g.textAlign='center'; g.textBaseline='middle';
+  g.fillText(text, 64, 34);
+  return new THREE.CanvasTexture(c);
+}
 
 // ---------- dims (mm-ish, scaled consistent w/ root viewer) ----------
 var D = {
@@ -210,10 +230,33 @@ root.position.y = -(D.stageH + D.armH)/2 + 10;
 var armX = -(D.stageL/2 - D.armW/2 - 20);
 var armZ = -(D.stageW/2 - D.armD/2 - 10);
 
-// ---- Stage housing (closed) ----
-var housingClosed = mesh(new THREE.BoxGeometry(D.stageL, D.stageH, D.stageW), mat(0x3a4349, {roughness:0.7}));
+// ---- Stage housing (closed) — sloped-side frustum, not a plain box ----
+var housingGroup = new THREE.Group();
+var housingClosed = taperedFrustum(D.stageL, D.stageW, 1.22, D.stageH, mat(0x3a4349, {roughness:0.65}));
 housingClosed.position.set(0, D.stageH/2, 0);
-root.add(housingClosed);
+housingGroup.add(housingClosed);
+
+// four rubber feet at the base corners
+[[1,1],[1,-1],[-1,1],[-1,-1]].forEach(function(s){
+  var foot = mesh(new THREE.CylinderGeometry(10,10,6,16), mat(0x101214, {roughness:0.9}));
+  foot.position.set(s[0]*(D.stageL*1.22/2-22), 3, s[1]*(D.stageW*1.22/2-22));
+  housingGroup.add(foot);
+});
+// vent slats on the front face
+for (var vi=0; vi<6; vi++){
+  var vent = mesh(new THREE.BoxGeometry(34, 3, 4), mat(0x15181a, {roughness:0.8}), false);
+  vent.position.set(-D.stageL*0.28 + vi*16, D.stageH*0.42, D.stageW*1.1/2 - 2);
+  housingGroup.add(vent);
+}
+// power switch + indicator knob on the front face
+var switchPlate = mesh(new THREE.BoxGeometry(26,16,4), new THREE.MeshStandardMaterial({map:canvasLabelTexture('⏻','#1d2226','#9aa5ab'), roughness:0.6}), false);
+switchPlate.position.set(D.stageL*0.28, D.stageH*0.45, D.stageW*1.08/2 - 1);
+housingGroup.add(switchPlate);
+var indicatorKnob = mesh(new THREE.CylinderGeometry(6,6,4,16), mat(0xe8793c, {emissive:0x301500, emissiveIntensity:0.2}), false);
+indicatorKnob.rotation.x = Math.PI/2;
+indicatorKnob.position.set(D.stageL*0.28, D.stageH*0.68, D.stageW*1.08/2 - 1);
+housingGroup.add(indicatorKnob);
+root.add(housingGroup);
 
 // stage lid (lifts off / goes translucent when opened)
 var lid = mesh(new THREE.BoxGeometry(D.stageL-8, 10, D.stageW-8), mat(0x323a40, {roughness:0.6}));
@@ -291,11 +334,23 @@ root.add(armMesh);
 // head unit (periscope: mirror + lens, reused)
 var headGroup = new THREE.Group();
 headGroup.position.set(armX, D.stageH + D.armH + D.headH/2, armZ);
-var headHousing = mesh(new THREE.BoxGeometry(D.headL, D.headH, D.headW), mat(0x2c3236, {opacity:1, roughness:0.6}));
+var headHousing = taperedFrustum(D.headL, D.headW, 1.35, D.headH, mat(0x2c3236, {opacity:1, roughness:0.55}));
 headGroup.add(headHousing);
+// carrying handle — a bent tube loop on top of the head
+var handleCurve = new THREE.CatmullRomCurve3([
+  new THREE.Vector3(-30, D.headH/2+2, -10), new THREE.Vector3(-26, D.headH/2+26, -6),
+  new THREE.Vector3(0, D.headH/2+32, 0),
+  new THREE.Vector3(26, D.headH/2+26, 6), new THREE.Vector3(30, D.headH/2+2, 10)
+]);
+var handle = mesh(new THREE.TubeGeometry(handleCurve, 20, 4, 8, false), mat(0x1c1f21, {roughness:0.5, metalness:0.2}));
+headGroup.add(handle);
 var mirror = mesh(new THREE.BoxGeometry(D.headL-30, D.headH-30, 3), mat(0xd8e4ea, {metalness:0.9, roughness:0.08, clearcoat:1}));
 mirror.rotation.x = Math.PI/4;
 headGroup.add(mirror);
+var lensBarrel = mesh(new THREE.CylinderGeometry(D.lensD/2+6, D.lensD/2+6, 18, 32), mat(0x1c1f21, {roughness:0.5}));
+lensBarrel.rotation.x = Math.PI/2;
+lensBarrel.position.set(0,0, D.headW/2+8);
+headGroup.add(lensBarrel);
 var lens = mesh(new THREE.CylinderGeometry(D.lensD/2, D.lensD/2*0.9, 26, 48), mat(0x7fa8e8, {opacity:0.65, roughness:0.05, clearcoat:1, clearcoatRoughness:0.05, metalness:0.1}));
 lens.rotation.x = Math.PI/2;
 lens.position.set(0,0, D.headW/2+16);
@@ -555,16 +610,17 @@ var badgeEl = document.getElementById('stepBadge');
 var countEl = document.getElementById('stepCount');
 var prevBtn = document.getElementById('prevBtn');
 var nextBtn = document.getElementById('nextBtn');
+var playBtn = document.getElementById('playBtn');
 
 steps.forEach(function(s, i){
   var li = document.createElement('li');
   li.innerHTML = '<span class="n">'+(i+1<10?'0':'')+(i+1)+'</span><span class="t">'+s.title+'</span>';
-  li.addEventListener('click', function(){ goTo(i); });
+  li.addEventListener('click', function(){ setAutoplay(false); goTo(i); });
   stepsListEl.appendChild(li);
 
   var dot = document.createElement('button');
   dot.className = 'dot'; dot.setAttribute('aria-label','Step '+(i+1));
-  dot.addEventListener('click', function(){ goTo(i); });
+  dot.addEventListener('click', function(){ setAutoplay(false); goTo(i); });
   dotsEl.appendChild(dot);
 });
 
@@ -590,11 +646,29 @@ function goTo(i){
   renderUI();
 }
 
-prevBtn.addEventListener('click', function(){ goTo(current-1); });
-nextBtn.addEventListener('click', function(){ goTo(current+1); });
+var autoplay = false, autoTimer = null;
+function autoTick(){
+  if (!autoplay) return;
+  autoTimer = setTimeout(function(){
+    if (!autoplay) return;
+    if (current < steps.length-1) goTo(current+1); else goTo(0);
+    autoTick();
+  }, 2600);
+}
+function setAutoplay(on){
+  autoplay = on;
+  playBtn.innerHTML = on ? '&#10074;&#10074; Pause' : '&#9654; Play';
+  clearTimeout(autoTimer);
+  if (on) autoTick();
+}
+playBtn.addEventListener('click', function(){ setAutoplay(!autoplay); });
+
+prevBtn.addEventListener('click', function(){ setAutoplay(false); goTo(current-1); });
+nextBtn.addEventListener('click', function(){ setAutoplay(false); goTo(current+1); });
 window.addEventListener('keydown', function(e){
-  if (e.key==='ArrowRight') goTo(current+1);
-  if (e.key==='ArrowLeft') goTo(current-1);
+  if (e.key==='ArrowRight'){ setAutoplay(false); goTo(current+1); }
+  if (e.key==='ArrowLeft'){ setAutoplay(false); goTo(current-1); }
+  if (e.key===' '){ e.preventDefault(); setAutoplay(!autoplay); }
 });
 
 renderUI();
