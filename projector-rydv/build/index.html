@@ -1,0 +1,614 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>OHP Conversion Build</title>
+<style>
+  :root{
+    --bg:#121619; --surface:#1b2024; --surface-2:#232a2f; --surface-3:#2c343a;
+    --line:#5fb3d9; --warm:#e8793c; --text:#e9ecee; --text-dim:#9aa5ab; --ok:#6fcf97;
+  }
+  @media (prefers-color-scheme: light){
+    :root:not([data-theme="dark"]){
+      --bg:#f3f4f2; --surface:#ffffff; --surface-2:#ebeeec; --surface-3:#dde2e0;
+      --line:#1c6e8c; --warm:#c85a1e; --text:#1a1d1f; --text-dim:#5a6268; --ok:#2f8f5b;
+    }
+  }
+  :root[data-theme="light"]{
+    --bg:#f3f4f2; --surface:#ffffff; --surface-2:#ebeeec; --surface-3:#dde2e0;
+    --line:#1c6e8c; --warm:#c85a1e; --text:#1a1d1f; --text-dim:#5a6268; --ok:#2f8f5b;
+  }
+  *{box-sizing:border-box;}
+  html,body{height:100%;background:var(--bg);}
+  body{margin:0;color:var(--text);font-family:'IBM Plex Sans',system-ui,sans-serif;}
+  a{color:var(--line);}
+  .app{display:flex;flex-direction:column;height:100%;padding:16px;padding-block:20px;gap:14px;max-width:1200px;margin:0 auto;}
+  header{display:flex;flex-direction:column;gap:4px;}
+  .kicker{font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--line);margin:0;}
+  h1{font-family:'Space Grotesk',system-ui,sans-serif;font-size:clamp(20px,3.6vw,28px);font-weight:600;margin:0;text-wrap:balance;}
+  .main{display:flex;gap:14px;flex:1;min-height:0;flex-wrap:wrap;}
+  .stage{flex:2 1 480px;display:flex;flex-direction:column;gap:10px;min-width:0;}
+  .side{flex:1 1 260px;min-width:260px;display:flex;flex-direction:column;gap:10px;}
+
+  .canvas-wrap{position:relative;background:var(--surface-2);border-radius:10px;overflow:hidden;aspect-ratio:4/3;}
+  #viewer{width:100%;height:100%;display:block;touch-action:none;}
+  .badge{position:absolute;top:10px;left:10px;font-family:'IBM Plex Mono',monospace;font-size:11px;background:rgba(0,0,0,0.45);color:#fff;padding:4px 9px;border-radius:5px;backdrop-filter:blur(2px);}
+  .cutaway-toggle{position:absolute;top:10px;right:10px;}
+  .cutaway-toggle label{display:flex;align-items:center;gap:6px;font-size:11px;font-family:'IBM Plex Mono',monospace;background:rgba(0,0,0,0.45);color:#fff;padding:5px 10px;border-radius:5px;cursor:pointer;backdrop-filter:blur(2px);}
+
+  .controls{display:flex;align-items:center;gap:10px;}
+  .controls button{
+    font-family:'IBM Plex Sans',system-ui,sans-serif;font-size:13px;font-weight:600;
+    background:var(--surface-3);color:var(--text);border:none;border-radius:7px;
+    padding:9px 16px;cursor:pointer;
+  }
+  .controls button:disabled{opacity:.35;cursor:default;}
+  .controls button:not(:disabled):hover{background:var(--line);color:#08181d;}
+  .controls button:focus-visible{outline:2px solid var(--line);outline-offset:2px;}
+  .dots{display:flex;gap:6px;flex:1;justify-content:center;flex-wrap:wrap;}
+  .dot{width:7px;height:7px;border-radius:50%;background:var(--surface-3);cursor:pointer;border:none;padding:0;}
+  .dot.active{background:var(--line);width:18px;border-radius:4px;}
+  .step-count{font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--text-dim);white-space:nowrap;}
+
+  .panel{background:var(--surface);border:1px solid var(--surface-2);border-radius:10px;padding:16px;}
+  .steplist{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:2px;overflow-y:auto;max-height:260px;}
+  .steplist li{display:flex;gap:10px;padding:8px 8px;border-radius:7px;cursor:pointer;font-size:13px;align-items:flex-start;}
+  .steplist li:hover{background:var(--surface-2);}
+  .steplist li.active{background:var(--surface-2);}
+  .steplist .n{font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--text-dim);flex:0 0 18px;padding-top:1px;}
+  .steplist li.active .n{color:var(--line);font-weight:600;}
+  .steplist .t{color:var(--text-dim);}
+  .steplist li.active .t{color:var(--text);font-weight:500;}
+
+  .detail h2{font-family:'Space Grotesk',system-ui,sans-serif;font-size:17px;margin:0 0 8px;text-wrap:balance;}
+  .detail p{font-size:13.5px;line-height:1.55;color:var(--text-dim);margin:0 0 10px;}
+  .detail p:last-child{margin-bottom:0;}
+  .detail b{color:var(--text);}
+  .tag-row{display:flex;gap:6px;flex-wrap:wrap;margin-top:10px;}
+  .tag{font-family:'IBM Plex Mono',monospace;font-size:10.5px;padding:3px 8px;border-radius:5px;background:rgba(95,179,217,0.16);color:var(--line);}
+
+  footer{font-size:11.5px;color:var(--text-dim);line-height:1.5;}
+
+  @media (max-width:760px){
+    .main{flex-direction:column;}
+    .side{min-width:0;}
+  }
+</style>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+</head>
+<body>
+<div class="app">
+  <header>
+    <p class="kicker">Reclaimed-parts build &middot; step-by-step</p>
+    <h1>OHP &rarr; projector conversion, build order</h1>
+  </header>
+
+  <div class="main">
+    <div class="stage">
+      <div class="canvas-wrap">
+        <canvas id="viewer"></canvas>
+        <span class="badge" id="stepBadge">Step 1 / 10</span>
+        <div class="cutaway-toggle">
+          <label><input type="checkbox" id="cutaway"> cutaway head</label>
+        </div>
+      </div>
+      <div class="controls">
+        <button id="prevBtn">&larr; Prev</button>
+        <div class="dots" id="dots"></div>
+        <button id="nextBtn">Next &rarr;</button>
+      </div>
+      <span class="step-count" id="stepCount" style="align-self:center;"></span>
+    </div>
+
+    <div class="side">
+      <div class="panel" style="flex:1;min-height:0;display:flex;flex-direction:column;">
+        <ul class="steplist" id="steplist"></ul>
+      </div>
+      <div class="panel detail" id="detail"></div>
+    </div>
+  </div>
+
+  <footer>
+    Placeholder geometry proportioned from 3M's 9000-series parts manual (stage/Fresnel/glass) plus estimated head/arm/LED sizes &mdash; measure your actual donor parts before cutting anything. Overview model + OpenSCAD source: <a href="../">../</a>
+  </footer>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/build/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+<script>
+(function(){
+try{
+
+var canvas = document.getElementById('viewer');
+var scene = new THREE.Scene();
+
+function isDark(){
+  var t = document.documentElement.getAttribute('data-theme');
+  if (t==='light') return false;
+  if (t==='dark') return true;
+  return window.matchMedia('(prefers-color-scheme: dark)').matches;
+}
+scene.background = new THREE.Color(isDark() ? 0x1b2024 : 0xebeeec);
+scene.fog = new THREE.Fog(scene.background.getHex(), 1400, 3200);
+
+var camera = new THREE.PerspectiveCamera(42, 4/3, 1, 6000);
+var renderer = new THREE.WebGLRenderer({canvas:canvas, antialias:true});
+renderer.setPixelRatio(Math.min(window.devicePixelRatio||1,2));
+renderer.shadowMap.enabled = true;
+renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+renderer.outputColorSpace = THREE.SRGBColorSpace;
+
+function resize(){
+  var w = canvas.clientWidth||600, h = w*3/4;
+  renderer.setSize(w,h,false);
+  camera.aspect = w/h; camera.updateProjectionMatrix();
+}
+
+var controls = new THREE.OrbitControls(camera, renderer.domElement);
+controls.enableDamping = true; controls.dampingFactor = 0.08;
+controls.minDistance = 260; controls.maxDistance = 2400;
+
+scene.add(new THREE.HemisphereLight(0xdfeeff, 0x1a1a18, 0.65));
+var key = new THREE.DirectionalLight(0xffffff, 0.95);
+key.position.set(480,760,520); key.castShadow = true;
+key.shadow.mapSize.set(1024,1024);
+key.shadow.camera.left=-500; key.shadow.camera.right=500;
+key.shadow.camera.top=500; key.shadow.camera.bottom=-500;
+scene.add(key);
+var rim = new THREE.DirectionalLight(0x8fd3ff, 0.35);
+rim.position.set(-500,300,-400); scene.add(rim);
+
+// ---------- ground with soft grid ----------
+function gridTexture(){
+  var c = document.createElement('canvas'); c.width=c.height=512;
+  var g = c.getContext('2d');
+  g.fillStyle = isDark() ? '#232a2f' : '#dde2e0'; g.fillRect(0,0,512,512);
+  g.strokeStyle = isDark() ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.06)';
+  g.lineWidth = 1;
+  for(var i=0;i<=512;i+=32){ g.beginPath();g.moveTo(i,0);g.lineTo(i,512);g.stroke();
+    g.beginPath();g.moveTo(0,i);g.lineTo(512,i);g.stroke(); }
+  var tex = new THREE.CanvasTexture(c);
+  tex.wrapS = tex.wrapT = THREE.RepeatWrapping; tex.repeat.set(6,6);
+  return tex;
+}
+var ground = new THREE.Mesh(
+  new THREE.PlaneGeometry(2400,2400),
+  new THREE.MeshStandardMaterial({map:gridTexture(), roughness:0.95})
+);
+ground.rotation.x = -Math.PI/2; ground.position.y = -1; ground.receiveShadow = true;
+scene.add(ground);
+
+// ---------- material helpers ----------
+function mat(color, opts){
+  opts = opts||{};
+  return new THREE.MeshPhysicalMaterial(Object.assign({
+    color: color, roughness: 0.55, metalness: 0.1, transparent: !!opts.opacity && opts.opacity<1,
+    opacity: opts.opacity!==undefined?opts.opacity:1
+  }, opts));
+}
+function mesh(geo, material, castShadow){
+  var m = new THREE.Mesh(geo, material);
+  m.castShadow = castShadow!==false; m.receiveShadow = true;
+  return m;
+}
+
+// ---------- dims (mm-ish, scaled consistent w/ root viewer) ----------
+var D = {
+  stageL:425, stageW:361, stageH:90,
+  glassL:297, glassW:210,
+  fresnelSize:183, fresnelT:3,
+  armW:40, armD:40, armH:521,
+  headL:160, headW:160, headH:100, lensD:85,
+  hsL:80, hsW:80, hsH:34, finN:9,
+  panelL:145, panelW:67, panelT:3
+};
+
+var root = new THREE.Group(); scene.add(root);
+root.position.y = -(D.stageH + D.armH)/2 + 10;
+
+var armX = -(D.stageL/2 - D.armW/2 - 20);
+var armZ = -(D.stageW/2 - D.armD/2 - 10);
+
+// ---- Stage housing (closed) ----
+var housingClosed = mesh(new THREE.BoxGeometry(D.stageL, D.stageH, D.stageW), mat(0x3a4349, {roughness:0.7}));
+housingClosed.position.set(0, D.stageH/2, 0);
+root.add(housingClosed);
+
+// stage lid (lifts off / goes translucent when opened)
+var lid = mesh(new THREE.BoxGeometry(D.stageL-8, 10, D.stageW-8), mat(0x323a40, {roughness:0.6}));
+lid.position.set(0, D.stageH + 5, 0);
+root.add(lid);
+
+// stage glass (A4)
+var glass = mesh(new THREE.BoxGeometry(D.glassL, 3, D.glassW), mat(0x5fb3d9, {opacity:0.28, roughness:0.05, metalness:0, clearcoat:1, clearcoatRoughness:0.1}));
+glass.position.set(0, D.stageH+16, 0);
+root.add(glass);
+
+// fresnel, visible inside once opened
+var fresnel = mesh(new THREE.CylinderGeometry(D.fresnelSize/2, D.fresnelSize/2, D.fresnelT, 48), mat(0xd9c35f, {opacity:0.55, roughness:0.3, metalness:0.2}));
+fresnel.rotation.x = Math.PI/2; fresnel.position.set(0, D.stageH-6, 0);
+root.add(fresnel);
+
+// old lamp + socket (present steps 0-1, removed step 2+)
+var oldLamp = new THREE.Group();
+var lampBulb = mesh(new THREE.SphereGeometry(16,20,16), mat(0xfff2cc, {emissive:0x443300, emissiveIntensity:0.15, roughness:0.4}));
+var lampBase = mesh(new THREE.CylinderGeometry(10,12,20,16), mat(0x555b60));
+lampBase.position.y = -14;
+oldLamp.add(lampBulb, lampBase);
+oldLamp.position.set(0, 20, 0);
+root.add(oldLamp);
+
+// heatsink (reclaimed CPU cooler) with fins
+var heatsink = new THREE.Group();
+var hsBase = mesh(new THREE.BoxGeometry(D.hsL, 8, D.hsW), mat(0xb9bcc0, {metalness:0.6, roughness:0.35}));
+heatsink.add(hsBase);
+for (var i=0;i<D.finN;i++){
+  var fin = mesh(new THREE.BoxGeometry(D.hsL-6, D.hsH, 2.4), mat(0xc7cacd, {metalness:0.65, roughness:0.3}));
+  fin.position.set(0, D.hsH/2+4, -D.hsW/2 + 6 + i*((D.hsW-12)/(D.finN-1)));
+  heatsink.add(fin);
+}
+heatsink.position.set(0, 60, 0); // staged above, off to the side until step 3
+root.add(heatsink);
+
+// LED chip on the heatsink
+var ledChip = mesh(new THREE.CylinderGeometry(15,15,4,32), mat(0xe8793c, {emissive:0x000000, emissiveIntensity:0, roughness:0.4}));
+ledChip.rotation.x = Math.PI/2;
+root.add(ledChip);
+
+// wiring (reclaimed jumper -> new LED)
+var wireCurve = new THREE.CatmullRomCurve3([
+  new THREE.Vector3(-60,30,40), new THREE.Vector3(-30,50,20), new THREE.Vector3(0,45,0)
+]);
+var wire = mesh(new THREE.TubeGeometry(wireCurve, 20, 2.2, 8, false), mat(0xd1443c, {roughness:0.6}));
+root.add(wire);
+
+// donor phone, intact (steps 0-4)
+var phoneIntact = new THREE.Group();
+var phoneBody = mesh(new THREE.BoxGeometry(D.panelL+8, 8, D.panelW+8), mat(0x24282b, {roughness:0.5}));
+var phoneScreen = mesh(new THREE.BoxGeometry(D.panelL, 2, D.panelW), mat(0x0d1012, {roughness:0.2, metalness:0.1}));
+phoneScreen.position.y = 5;
+phoneIntact.add(phoneBody, phoneScreen);
+root.add(phoneIntact);
+
+// phone LCD stack, split out (back cover discarded, backlight peeled, bare LCD remains)
+var backCover = mesh(new THREE.BoxGeometry(D.panelL+8, 3, D.panelW+8), mat(0x24282b, {opacity:0.9, roughness:0.6}));
+root.add(backCover);
+var backlight = mesh(new THREE.BoxGeometry(D.panelL-4, 3, D.panelW-4), mat(0xfafbe0, {emissive:0x55551c, emissiveIntensity:0.25, opacity:0.85, roughness:0.4}));
+root.add(backlight);
+var bareLCD = new THREE.Group();
+var lcdBezel = mesh(new THREE.BoxGeometry(D.panelL+6, 2.5, D.panelW+6), mat(0x3a3f43, {roughness:0.4}));
+var lcdGlass = mesh(new THREE.BoxGeometry(D.panelL, 1.5, D.panelW), mat(0x3ed6c8, {opacity:0.75, roughness:0.08, clearcoat:1, clearcoatRoughness:0.05}));
+lcdGlass.position.y = 2;
+bareLCD.add(lcdBezel, lcdGlass);
+root.add(bareLCD);
+
+// riser arm (reused, unmodified)
+var armMesh = mesh(new THREE.BoxGeometry(D.armW, D.armH, D.armD), mat(0x4a5258, {roughness:0.55}));
+armMesh.position.set(armX, D.stageH + D.armH/2, armZ);
+root.add(armMesh);
+
+// head unit (periscope: mirror + lens, reused)
+var headGroup = new THREE.Group();
+headGroup.position.set(armX, D.stageH + D.armH + D.headH/2, armZ);
+var headHousing = mesh(new THREE.BoxGeometry(D.headL, D.headH, D.headW), mat(0x2c3236, {opacity:1, roughness:0.6}));
+headGroup.add(headHousing);
+var mirror = mesh(new THREE.BoxGeometry(D.headL-30, D.headH-30, 3), mat(0xd8e4ea, {metalness:0.9, roughness:0.08, clearcoat:1}));
+mirror.rotation.x = Math.PI/4;
+headGroup.add(mirror);
+var lens = mesh(new THREE.CylinderGeometry(D.lensD/2, D.lensD/2*0.9, 26, 48), mat(0x7fa8e8, {opacity:0.65, roughness:0.05, clearcoat:1, clearcoatRoughness:0.05, metalness:0.1}));
+lens.rotation.x = Math.PI/2;
+lens.position.set(0,0, D.headW/2+16);
+headGroup.add(lens);
+root.add(headGroup);
+
+// projection cone + screen (final step only)
+var lensCone = mesh(new THREE.ConeGeometry(260, 620, 32, 1, true), mat(0xfff6df, {opacity:0, roughness:1, metalness:0}));
+lensCone.rotation.x = -Math.PI/2;
+lensCone.material.side = THREE.DoubleSide;
+lensCone.castShadow = false; lensCone.receiveShadow = false;
+root.add(lensCone);
+
+var screen = mesh(new THREE.PlaneGeometry(420,260), mat(0xf5f3e8, {opacity:0, roughness:0.9}));
+screen.castShadow = false; screen.receiveShadow = false;
+root.add(screen);
+
+// corner screws (appear on reassembly)
+var screws = new THREE.Group();
+[[1,1],[1,-1],[-1,1],[-1,-1]].forEach(function(s){
+  var scr = mesh(new THREE.CylinderGeometry(3.2,3.2,6,10), mat(0x16181a, {metalness:0.7, roughness:0.3}));
+  scr.position.set(s[0]*(D.stageL/2-16), D.stageH+6, s[1]*(D.stageW/2-16));
+  screws.add(scr);
+});
+root.add(screws);
+
+// ---------- part registry: {mesh, base transform} ----------
+function P(m, pos, rot, scl){
+  m.userData.basePos = pos ? pos.clone() : m.position.clone();
+  m.userData.curPos = m.position.clone();
+  m.userData.curOp = (m.material && m.material.opacity!==undefined) ? m.material.opacity : 1;
+  return m;
+}
+var parts = {
+  housingClosed: housingClosed, lid: lid, glass: glass, fresnel: fresnel,
+  oldLamp: oldLamp, heatsink: heatsink, ledChip: ledChip, wire: wire,
+  phoneIntact: phoneIntact, backCover: backCover, backlight: backlight, bareLCD: bareLCD,
+  armMesh: armMesh, headGroup: headGroup, mirror: mirror, lens: lens,
+  lensCone: lensCone, screen: screen, screws: screws
+};
+Object.keys(parts).forEach(function(k){ P(parts[k]); });
+
+// final resting positions used by multiple steps
+var finalHeatsinkPos = new THREE.Vector3(0,22,0);
+var finalLedPos = new THREE.Vector3(0, 22+D.hsH/2+6, 0);
+var finalBareLCDPos = new THREE.Vector3(0, D.stageH+17, 0);
+
+// ---------- steps ----------
+var steps = [
+  {
+    title: "Lay out the donor parts",
+    text: "Before cutting anything: a dead OHP (intact), a cracked-screen donor phone (intact, non-OLED), a 100W COB LED + driver, and a reclaimed CPU heatsink. Confirm the phone's panel is LCD, not OLED, before going further.",
+    tags: ["donor OHP", "donor phone", "LED + driver", "heatsink"],
+    camera: {pos:[700,640,820], target:[0,120,0]},
+    set: function(){
+      setVis(housingClosed,1,0,0,0); setVis(lid,1,0,0,0); setVis(glass,0,0,0,0); setVis(fresnel,0,0,0,0);
+      setVis(oldLamp,0,0,0,0);
+      setPos(heatsink, new THREE.Vector3(260,10,-120)); setOp(heatsink,1);
+      setPos(ledChip, new THREE.Vector3(260,10,-120)); setOp(ledChip,0);
+      setOp(wire,0);
+      setPos(phoneIntact, new THREE.Vector3(-260,6,120)); setOp(phoneIntact,1);
+      setOp(backCover,0); setOp(backlight,0); setOp(bareLCD,0);
+      setVis(armMesh,1,0,0,0); setVis(headGroup,1,0,0,0);
+      setOp(lensCone,0); setOp(screen,0); setOp(screws,0,screws);
+    }
+  },
+  {
+    title: "Open the housing, expose the lamp bay",
+    text: "Pull the top cover off the OHP base. The Fresnel lens stays built into the stage — it doesn't need to come out. This exposes the lamp socket sitting under the stage glass.",
+    tags: ["remove top cover", "Fresnel stays in place"],
+    camera: {pos:[560,520,680], target:[0,90,0]},
+    set: function(){
+      setPos(heatsink, new THREE.Vector3(260,10,-120)); setOp(heatsink,1);
+      setOp(ledChip,0); setOp(wire,0);
+      setPos(phoneIntact, new THREE.Vector3(-260,6,120)); setOp(phoneIntact,1);
+      setOp(housingClosed,1); setOp(lid,0.15); setOp(glass,0.5); setOp(fresnel,0.9);
+      setOp(oldLamp,1); setPos(oldLamp, new THREE.Vector3(0,20,0));
+      setOp(backCover,0); setOp(backlight,0); setOp(bareLCD,0);
+      setOp(lensCone,0); setOp(screen,0); setOp(screws,0);
+    }
+  },
+  {
+    title: "Pull the old lamp + socket",
+    text: "The halogen/ENX lamp and its socket come out completely — they're being replaced, not reused. This leaves an empty bay sized for a round light source, which is exactly what the LED needs.",
+    tags: ["discard lamp", "discard socket"],
+    camera: {pos:[460,420,560], target:[0,70,0]},
+    set: function(){
+      setOp(oldLamp,0);
+      setPos(heatsink, new THREE.Vector3(160,10,-80)); setOp(heatsink,1);
+      setOp(ledChip,0); setOp(wire,0);
+      setPos(phoneIntact, new THREE.Vector3(-260,6,120)); setOp(phoneIntact,1);
+      setOp(backCover,0); setOp(backlight,0); setOp(bareLCD,0);
+      setOp(lensCone,0); setOp(screen,0); setOp(screws,0);
+    }
+  },
+  {
+    title: "Mount the heatsink in the lamp bay",
+    text: "The reclaimed CPU heatsink drops into the empty lamp bay. It's wildly overbuilt for a single LED — that's fine, it means it'll never run hot.",
+    tags: ["reclaimed CPU heatsink", "$0 part"],
+    camera: {pos:[380,340,460], target:[0,40,0]},
+    set: function(){
+      setPos(heatsink, finalHeatsinkPos); setOp(heatsink,1);
+      setOp(ledChip,0); setOp(wire,0);
+      setPos(phoneIntact, new THREE.Vector3(-260,6,120)); setOp(phoneIntact,1);
+      setOp(backCover,0); setOp(backlight,0); setOp(bareLCD,0);
+      setOp(lensCone,0); setOp(screen,0); setOp(screws,0);
+    }
+  },
+  {
+    title: "Seat the LED, wire it to the switch",
+    text: "The 100W COB LED sits on the heatsink facing straight up into the Fresnel. Its driver taps into the OHP's existing power switch and cord — no new wiring harness needed, just an adapter splice.",
+    tags: ["100W COB LED", "reused switch + cord"],
+    camera: {pos:[340,300,420], target:[0,40,0]},
+    set: function(){
+      setPos(heatsink, finalHeatsinkPos); setOp(heatsink,1);
+      setPos(ledChip, finalLedPos); setOp(ledChip,1); ledChip.material.emissiveIntensity = 0.05;
+      setOp(wire,1);
+      setPos(phoneIntact, new THREE.Vector3(-260,6,120)); setOp(phoneIntact,1);
+      setOp(backCover,0); setOp(backlight,0); setOp(bareLCD,0);
+      setOp(lensCone,0); setOp(screen,0); setOp(screws,0);
+    }
+  },
+  {
+    title: "Disassemble the donor phone",
+    text: "Crack the phone's case open and pull the display stack out whole. Set the mainboard and battery aside (not needed for this build, keep for other salvage).",
+    tags: ["pull display stack"],
+    camera: {pos:[260,220,320], target:[-60,20,80]},
+    set: function(){
+      setPos(heatsink, finalHeatsinkPos); setOp(heatsink,1);
+      setPos(ledChip, finalLedPos); setOp(ledChip,1);
+      setOp(wire,1);
+      setOp(phoneIntact,0);
+      setPos(backCover, new THREE.Vector3(-260,6,120)); setOp(backCover,1);
+      setPos(backlight, new THREE.Vector3(-260,16,120)); setOp(backlight,1);
+      setOp(bareLCD,0);
+      setOp(lensCone,0); setOp(screen,0); setOp(screws,0);
+    }
+  },
+  {
+    title: "Peel the backlight off the LCD stack",
+    text: "Separate the backlight layer from the LCD panel — this is the one truly fiddly step, the layers are thin and the adhesive is stubborn. What's left afterward is a transparent panel: light can now pass through it instead of being lit from behind.",
+    tags: ["discard backlight", "panel goes transparent"],
+    camera: {pos:[220,200,280], target:[-60,20,80]},
+    set: function(){
+      setPos(heatsink, finalHeatsinkPos); setOp(heatsink,1);
+      setPos(ledChip, finalLedPos); setOp(ledChip,1);
+      setOp(wire,1);
+      setOp(backCover,0);
+      setPos(backlight, new THREE.Vector3(-420,16,160)); setOp(backlight,0.6);
+      setPos(bareLCD, new THREE.Vector3(-260,10,120)); setOp(bareLCD,1);
+      setOp(lensCone,0); setOp(screen,0); setOp(screws,0);
+    }
+  },
+  {
+    title: "Set the bare LCD on the stage glass",
+    text: "The gutted LCD panel rests directly on the stage glass — exactly where the transparency sheet used to sit. Route its flex cable off to the side to a small controller board (keeps the phone's own display driver, just feeding it a static test image or a slow slideshow rather than live video).",
+    tags: ["replaces transparency sheet"],
+    camera: {pos:[260,260,320], target:[0,90,0]},
+    set: function(){
+      setOp(housingClosed,1); setOp(lid,0.15); setOp(glass,0.7); setOp(fresnel,0.9);
+      setPos(heatsink, finalHeatsinkPos); setOp(heatsink,1);
+      setPos(ledChip, finalLedPos); setOp(ledChip,1);
+      setOp(wire,1);
+      setPos(bareLCD, finalBareLCDPos); setOp(bareLCD,1);
+      setOp(lensCone,0); setOp(screen,0); setOp(screws,0);
+    }
+  },
+  {
+    title: "Close up the housing",
+    text: "Lid goes back on, four corner screws go back in. Everything optical above the stage — the riser arm, the mirror, the projection lens — was never touched.",
+    tags: ["reassemble", "4 screws"],
+    camera: {pos:[420,380,520], target:[0,120,0]},
+    set: function(){
+      setOp(lid,1);
+      setOp(screws,1);
+      setPos(heatsink, finalHeatsinkPos); setOp(heatsink,1);
+      setPos(ledChip, finalLedPos); setOp(ledChip,1);
+      setOp(wire,1);
+      setPos(bareLCD, finalBareLCDPos); setOp(bareLCD,0.0);
+      setOp(glass,0.35); setOp(fresnel,0.4);
+      setOp(lensCone,0); setOp(screen,0);
+    }
+  },
+  {
+    title: "Power on, focus, test-project",
+    text: "Flip the switch: the LED lights the Fresnel, the Fresnel collimates it through the panel, and the existing focus knob on the arm sharpens the image on a wall or screen — the same optical path the OHP always had, just with a brighter source and a different \"transparency.\"",
+    tags: ["final test", "focus via original knob"],
+    camera: {pos:[560,360,900], target:[0,180,260]},
+    set: function(){
+      setOp(lid,1); setOp(screws,1);
+      setPos(heatsink, finalHeatsinkPos); setOp(heatsink,1);
+      setPos(ledChip, finalLedPos); setOp(ledChip,1); ledChip.material.emissiveIntensity = 0.9; ledChip.material.emissive.setHex(0xff8a3c);
+      setOp(wire,1);
+      setOp(glass,0.35); setOp(fresnel,0.4);
+      setOp(lensCone,0.14); setOp(screen,0.95);
+      screen.position.set(0, D.stageH+D.armH+D.headH/2, armZ + D.headW/2 + 640);
+      lensCone.position.set(armX, D.stageH+D.armH+D.headH/2, armZ + D.headW/2 + 330);
+    }
+  }
+];
+
+function setPos(m, v){ m.userData.targetPos = v.clone(); }
+function setOp(m, o){ m.userData.targetOp = o; if(m.material) m.material.transparent = true; }
+function setVis(m,o){ setOp(m,o); }
+
+var current = 0;
+var cameraTarget = {pos:new THREE.Vector3(700,640,820), target:new THREE.Vector3(0,120,0)};
+
+function applyStep(i){
+  steps[i].set();
+  var cam = steps[i].camera;
+  cameraTarget.pos.set(cam.pos[0],cam.pos[1],cam.pos[2]);
+  cameraTarget.target.set(cam.target[0],cam.target[1],cam.target[2]);
+}
+
+function render(){
+  requestAnimationFrame(render);
+  // lerp all parts
+  Object.keys(parts).forEach(function(k){
+    var m = parts[k];
+    if (m.userData.targetPos) m.position.lerp(m.userData.targetPos, 0.12);
+    if (m.userData.targetOp !== undefined && m.material) {
+      m.material.opacity += (m.userData.targetOp - m.material.opacity) * 0.14;
+      m.visible = m.material.opacity > 0.01;
+    }
+  });
+  [lensCone, screen].forEach(function(m){
+    if (m.userData.targetOp !== undefined) {
+      m.material.opacity += (m.userData.targetOp - m.material.opacity) * 0.1;
+      m.visible = m.material.opacity > 0.01;
+    }
+  });
+  camera.position.lerp(cameraTarget.pos, 0.06);
+  controls.target.lerp(cameraTarget.target, 0.06);
+  controls.update();
+  renderer.render(scene, camera);
+}
+
+// cutaway toggle
+document.getElementById('cutaway').addEventListener('change', function(e){
+  headHousing.material.opacity = e.target.checked ? 0.12 : 1;
+  headHousing.material.transparent = true;
+});
+
+window.addEventListener('resize', resize);
+resize();
+applyStep(0);
+camera.position.copy(cameraTarget.pos);
+controls.target.copy(cameraTarget.target);
+render();
+
+// ---------- UI wiring ----------
+var stepsListEl = document.getElementById('steplist');
+var dotsEl = document.getElementById('dots');
+var detailEl = document.getElementById('detail');
+var badgeEl = document.getElementById('stepBadge');
+var countEl = document.getElementById('stepCount');
+var prevBtn = document.getElementById('prevBtn');
+var nextBtn = document.getElementById('nextBtn');
+
+steps.forEach(function(s, i){
+  var li = document.createElement('li');
+  li.innerHTML = '<span class="n">'+(i+1<10?'0':'')+(i+1)+'</span><span class="t">'+s.title+'</span>';
+  li.addEventListener('click', function(){ goTo(i); });
+  stepsListEl.appendChild(li);
+
+  var dot = document.createElement('button');
+  dot.className = 'dot'; dot.setAttribute('aria-label','Step '+(i+1));
+  dot.addEventListener('click', function(){ goTo(i); });
+  dotsEl.appendChild(dot);
+});
+
+function renderUI(){
+  Array.from(stepsListEl.children).forEach(function(li,i){ li.classList.toggle('active', i===current); });
+  Array.from(dotsEl.children).forEach(function(d,i){ d.classList.toggle('active', i===current); });
+  var s = steps[current];
+  detailEl.innerHTML =
+    '<h2>'+(current+1)+'. '+s.title+'</h2>' +
+    '<p>'+s.text+'</p>' +
+    '<div class="tag-row">'+ s.tags.map(function(t){return '<span class="tag">'+t+'</span>';}).join('') +'</div>';
+  badgeEl.textContent = 'Step '+(current+1)+' / '+steps.length;
+  countEl.textContent = (current+1)+' of '+steps.length;
+  prevBtn.disabled = current===0;
+  nextBtn.disabled = current===steps.length-1;
+  var activeLi = stepsListEl.children[current];
+  if (activeLi) activeLi.scrollIntoView({block:'nearest'});
+}
+
+function goTo(i){
+  current = Math.max(0, Math.min(steps.length-1, i));
+  applyStep(current);
+  renderUI();
+}
+
+prevBtn.addEventListener('click', function(){ goTo(current-1); });
+nextBtn.addEventListener('click', function(){ goTo(current+1); });
+window.addEventListener('keydown', function(e){
+  if (e.key==='ArrowRight') goTo(current+1);
+  if (e.key==='ArrowLeft') goTo(current-1);
+});
+
+renderUI();
+
+}catch(e){
+  var el = document.getElementById('viewer');
+  if (el && el.parentNode){
+    var msg = document.createElement('div');
+    msg.style.cssText = 'padding:20px;color:#9aa5ab;font-size:13px;';
+    msg.textContent = 'Build viewer failed to load (' + e.message + ').';
+    el.parentNode.replaceChild(msg, el);
+  }
+}
+})();
+</script>
+</body>
+</html>
