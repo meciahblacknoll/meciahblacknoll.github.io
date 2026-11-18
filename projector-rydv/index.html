@@ -254,6 +254,15 @@
       var mat = new THREE.MeshStandardMaterial({color:color, transparent: opacity!==undefined, opacity: opacity!==undefined?opacity:1, roughness:0.5, metalness:0.15});
       return new THREE.Mesh(geo, mat);
     }
+    // Rectangular frustum (flat top, wider sloped base) instead of a
+    // plain box — the real silhouette an OHP housing/head actually has.
+    function frustum(topL, topW, bottomScale, h, color, opacity){
+      var geo = new THREE.CylinderGeometry(1, bottomScale, h, 4, 1);
+      geo.rotateY(Math.PI/4);
+      geo.scale(topL/Math.SQRT2, 1, topW/Math.SQRT2);
+      var mat = new THREE.MeshStandardMaterial({color:color, transparent: opacity!==undefined, opacity: opacity!==undefined?opacity:1, roughness:0.55, metalness:0.1});
+      return new THREE.Mesh(geo, mat);
+    }
 
     // Stage/Fresnel/glass sourced from 3M 9000-series Illustrated
     // Parts Breakdown + published spec sheets; head/arm split and
@@ -266,9 +275,19 @@
     var arm = {w:40, d:40, h:521};
     var head = {l:160, w:160, h:100, lensD:85};
 
-    var stageMesh = box(stage.l, stage.h, stage.w, 0x3a4349);
+    var stageMesh = frustum(stage.l, stage.w, 1.22, stage.h, 0x3a4349);
     stageMesh.position.set(0, stage.h/2, 0);
     group.add(stageMesh);
+    [[1,1],[1,-1],[-1,1],[-1,-1]].forEach(function(s){
+      var foot = cyl(20, 6, 0x101214);
+      foot.position.set(s[0]*(stage.l*1.22/2-22), 3, s[1]*(stage.w*1.22/2-22));
+      group.add(foot);
+    });
+    for (var vi=0; vi<6; vi++){
+      var vent = box(34, 3, 4, 0x15181a);
+      vent.position.set(-stage.l*0.28 + vi*16, stage.h*0.42, stage.w*1.1/2 - 2);
+      group.add(vent);
+    }
 
     var glass = box(glassL, 3, glassW, 0x5fb3d9, 0.35);
     glass.position.set(0, stage.h+1.5, 0);
@@ -295,9 +314,25 @@
     armMesh.position.set(armX, stage.h + arm.h/2, armZ);
     group.add(armMesh);
 
-    var headMesh = box(head.l, head.h, head.w, 0x2c3236);
+    var headMesh = frustum(head.l, head.w, 1.35, head.h, 0x2c3236);
     headMesh.position.set(armX, stage.h + arm.h + head.h/2, armZ);
     group.add(headMesh);
+
+    var handleCurve = new THREE.CatmullRomCurve3([
+      new THREE.Vector3(armX-30, stage.h+arm.h+head.h+2, armZ-10),
+      new THREE.Vector3(armX-26, stage.h+arm.h+head.h+26, armZ-6),
+      new THREE.Vector3(armX, stage.h+arm.h+head.h+32, armZ),
+      new THREE.Vector3(armX+26, stage.h+arm.h+head.h+26, armZ+6),
+      new THREE.Vector3(armX+30, stage.h+arm.h+head.h+2, armZ+10)
+    ]);
+    var handleGeo = new THREE.TubeGeometry(handleCurve, 20, 4, 8, false);
+    var handle = new THREE.Mesh(handleGeo, new THREE.MeshStandardMaterial({color:0x1c1f21, roughness:0.5, metalness:0.2}));
+    group.add(handle);
+
+    var lensBarrel = cyl(head.lensD+12, 18, 0x1c1f21);
+    lensBarrel.rotation.x = Math.PI/2;
+    lensBarrel.position.set(armX, stage.h + arm.h + head.h/2, armZ + head.w/2 + 8);
+    group.add(lensBarrel);
 
     var lens = cyl(head.lensD, 40, 0x7fa8e8, 0.65);
     lens.rotation.x = Math.PI/2;
