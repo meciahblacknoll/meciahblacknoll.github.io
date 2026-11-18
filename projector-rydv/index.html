@@ -1,0 +1,358 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>OHP Conversion Layout</title>
+<style>
+  :root{
+    --bg:#15191c;
+    --surface:#1d2226;
+    --surface-2:#242a2f;
+    --line:#5fb3d9;
+    --line-dim:#3c7791;
+    --warm:#e8793c;
+    --text:#e8ebec;
+    --text-dim:#9aa5ab;
+    --ok:#6fcf97;
+  }
+  @media (prefers-color-scheme: light){
+    :root:not([data-theme="dark"]){
+      --bg:#f4f5f3;
+      --surface:#ffffff;
+      --surface-2:#eceeec;
+      --line:#1c6e8c;
+      --line-dim:#8fb9c8;
+      --warm:#c85a1e;
+      --text:#1a1d1f;
+      --text-dim:#5a6268;
+      --ok:#2f8f5b;
+    }
+  }
+  :root[data-theme="light"]{
+    --bg:#f4f5f3;
+    --surface:#ffffff;
+    --surface-2:#eceeec;
+    --line:#1c6e8c;
+    --line-dim:#8fb9c8;
+    --warm:#c85a1e;
+    --text:#1a1d1f;
+    --text-dim:#5a6268;
+    --ok:#2f8f5b;
+  }
+
+  *{box-sizing:border-box;}
+  html,body{background:var(--bg);}
+  body{
+    margin:0;
+    color:var(--text);
+    font-family:'IBM Plex Sans', system-ui, sans-serif;
+    padding:24px 16px;
+    padding-block:28px;
+  }
+  .wrap{max-width:1080px;margin:0 auto;display:flex;flex-direction:column;gap:20px;}
+
+  h1{
+    font-family:'Space Grotesk', system-ui, sans-serif;
+    font-size:clamp(22px,4vw,32px);
+    font-weight:600;
+    margin:0;
+    text-wrap:balance;
+    letter-spacing:-0.01em;
+  }
+  .kicker{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:12px;
+    letter-spacing:0.08em;
+    text-transform:uppercase;
+    color:var(--line);
+    margin:0 0 6px;
+  }
+  .sub{color:var(--text-dim);font-size:14px;max-width:62ch;margin:6px 0 0;}
+
+  .panel{
+    background:var(--surface);
+    border:1px solid var(--surface-2);
+    border-radius:10px;
+    padding:18px;
+  }
+
+  .viewer-row{display:flex;gap:16px;flex-wrap:wrap;}
+  .viewer-col{flex:2 1 460px;min-width:0;}
+  .legend-col{flex:1 1 220px;min-width:220px;}
+
+  #viewer{
+    width:100%;
+    aspect-ratio:4/3;
+    max-width:100%;
+    border-radius:8px;
+    background:var(--surface-2);
+    display:block;
+    touch-action:none;
+  }
+  .viewer-caption{
+    font-size:12px;
+    color:var(--text-dim);
+    margin-top:8px;
+    display:flex;
+    justify-content:space-between;
+    gap:8px;
+    flex-wrap:wrap;
+  }
+
+  .legend{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:9px;}
+  .legend li{display:flex;align-items:flex-start;gap:9px;font-size:13px;line-height:1.35;}
+  .swatch{width:12px;height:12px;border-radius:3px;flex:0 0 12px;margin-top:2px;}
+  .legend b{display:block;font-size:13px;}
+  .legend span{color:var(--text-dim);font-size:12px;}
+
+  .insight{
+    border-left:3px solid var(--warm);
+    padding:14px 16px;
+    background:var(--surface-2);
+    border-radius:0 8px 8px 0;
+    font-size:14px;
+    line-height:1.5;
+  }
+  .insight b{color:var(--warm);}
+
+  table{width:100%;border-collapse:collapse;font-size:13px;}
+  th,td{text-align:left;padding:9px 10px;border-bottom:1px solid var(--surface-2);}
+  th{font-family:'IBM Plex Mono', monospace;font-size:11px;text-transform:uppercase;letter-spacing:0.05em;color:var(--text-dim);font-weight:500;}
+  td.num,th.num{text-align:right;font-family:'IBM Plex Mono',monospace;font-variant-numeric:tabular-nums;}
+  tr:last-child td{border-bottom:none;}
+  .tag{
+    display:inline-block;
+    font-family:'IBM Plex Mono', monospace;
+    font-size:10.5px;
+    padding:2px 7px;
+    border-radius:4px;
+    background:rgba(111,207,151,0.14);
+    color:var(--ok);
+    white-space:nowrap;
+  }
+  .tag.reused{background:rgba(95,179,217,0.16);color:var(--line);}
+
+  .totals{display:flex;gap:16px;margin-top:14px;flex-wrap:wrap;}
+  .stat{flex:1 1 140px;background:var(--surface-2);border-radius:8px;padding:12px 14px;}
+  .stat .n{font-family:'IBM Plex Mono',monospace;font-size:22px;font-weight:600;font-variant-numeric:tabular-nums;}
+  .stat .l{font-size:11px;color:var(--text-dim);text-transform:uppercase;letter-spacing:0.05em;margin-top:2px;}
+
+  .footer-note{font-size:12px;color:var(--text-dim);line-height:1.5;}
+  .footer-note a{color:var(--line);}
+  code{font-family:'IBM Plex Mono',monospace;font-size:12px;background:var(--surface-2);padding:1px 5px;border-radius:4px;}
+
+  @media (max-width:620px){
+    .viewer-row{flex-direction:column;}
+  }
+</style>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+</head>
+<body>
+<div class="wrap">
+  <div>
+    <p class="kicker">Reclaimed-parts build · concept layout</p>
+    <h1>Overhead-projector 4K conversion</h1>
+    <p class="sub">A dead overhead projector already carries most of the optics this build needs — a Fresnel stage and a focused periscope lens. The conversion swaps the lamp for an LED and the transparency sheet for a disassembled phone's LCD panel. Drag to orbit, scroll to zoom.</p>
+  </div>
+
+  <div class="panel viewer-row">
+    <div class="viewer-col">
+      <canvas id="viewer"></canvas>
+      <div class="viewer-caption">
+        <span>Stage/glass/Fresnel sourced from 3M's 9000-series parts manual; head &amp; arm split still estimated.</span>
+        <span id="fps-note">drag · scroll · OpenSCAD source linked below</span>
+      </div>
+    </div>
+    <div class="legend-col">
+      <ul class="legend" id="legend"></ul>
+    </div>
+  </div>
+
+  <div class="insight">
+    <b>Why this works:</b> most OHPs collimate lamp light through a built-in Fresnel lens, then route it through a transparency and up into a periscope head holding a mirror + projection lens already focused for a normal-room throw. Replacing the lamp with a brighter LED and the transparency with a phone's LCD panel (backlight pulled) reuses that entire optical path — no Fresnel or projection lens needs to be sourced separately.
+  </div>
+
+  <div class="panel">
+    <table>
+      <thead>
+        <tr><th>Part</th><th>Source</th><th class="num">Est. cost</th><th>Status</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Donor overhead projector (housing + 183mm Fresnel + periscope lens)</td><td>eBay $36&ndash;80 · OKC-area Craigslist $175 (one live hit, not yet a deal)</td><td class="num">$30&ndash;80</td><td><span class="tag reused">reused whole</span></td></tr>
+        <tr><td>Donor phone, cracked LCD panel (non-OLED model)</td><td>eBay "for parts" / FB Marketplace</td><td class="num">$10&ndash;40</td><td><span class="tag">salvaged</span></td></tr>
+        <tr><td>100W COB LED + driver</td><td>AliExpress, new</td><td class="num">$10&ndash;20</td><td><span class="tag">new &mdash; cheap enough</span></td></tr>
+        <tr><td>CPU heatsink + fan for LED cooling</td><td>Dead desktop PC</td><td class="num">$0</td><td><span class="tag reused">reused whole</span></td></tr>
+        <tr><td>Wiring, mounts, misc hardware</td><td>On hand / hardware store</td><td class="num">$10&ndash;15</td><td><span class="tag">incidentals</span></td></tr>
+      </tbody>
+    </table>
+    <div class="totals">
+      <div class="stat"><div class="n">$60&ndash;155</div><div class="l">redesigned total</div></div>
+      <div class="stat"><div class="n">$500+</div><div class="l">original DIY Perks build</div></div>
+      <div class="stat"><div class="n">~3&ndash;8&times;</div><div class="l">cost reduction</div></div>
+    </div>
+  </div>
+
+  <p class="footer-note">
+    Screen must be LCD, not OLED &mdash; look for budget/older Android models (many mid-range Samsung A-series, iPhone 8/XR/11, older LCD flagships) rather than recent OLED iPhones or Galaxy S/Note/Ultra lines. Resolution is whatever the donor panel happens to be, not necessarily 4K &mdash; that's the trade for the price drop. Parametric <code>OpenSCAD</code> source for this layout: <a href="ohp_projector_conversion.scad.txt">ohp_projector_conversion.scad.txt</a> &mdash; update it once real donor measurements are in hand.
+  </p>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/build/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+<script>
+(function(){
+  try {
+    var canvas = document.getElementById('viewer');
+    var scene = new THREE.Scene();
+
+    function bgColor(){
+      var dark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+      var theme = document.documentElement.getAttribute('data-theme');
+      if (theme === 'light') dark = false;
+      if (theme === 'dark') dark = true;
+      return dark ? 0x242a2f : 0xeceeec;
+    }
+    scene.background = new THREE.Color(bgColor());
+
+    var camera = new THREE.PerspectiveCamera(42, 4/3, 1, 5000);
+    camera.position.set(620, 520, 760);
+
+    var renderer = new THREE.WebGLRenderer({canvas: canvas, antialias: true});
+    function resize(){
+      var w = canvas.clientWidth || 600;
+      var h = w * 3/4;
+      renderer.setSize(w, h, false);
+      camera.aspect = w/h;
+      camera.updateProjectionMatrix();
+    }
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio||1, 2));
+
+    var controls = new THREE.OrbitControls(camera, renderer.domElement);
+    controls.target.set(0, 150, 0);
+    controls.enableDamping = true;
+    controls.dampingFactor = 0.08;
+    controls.minDistance = 300;
+    controls.maxDistance = 1800;
+    camera.lookAt(controls.target);
+
+    scene.add(new THREE.AmbientLight(0xffffff, 0.65));
+    var dir = new THREE.DirectionalLight(0xffffff, 0.8);
+    dir.position.set(400, 700, 500);
+    scene.add(dir);
+
+    var group = new THREE.Group();
+    scene.add(group);
+
+    function box(w,h,d,color,opacity){
+      var geo = new THREE.BoxGeometry(w,h,d);
+      var mat = new THREE.MeshStandardMaterial({color:color, transparent: opacity!==undefined, opacity: opacity!==undefined?opacity:1, roughness:0.6, metalness:0.1});
+      return new THREE.Mesh(geo, mat);
+    }
+    function cyl(d,h,color,opacity){
+      var geo = new THREE.CylinderGeometry(d/2,d/2,h,40);
+      var mat = new THREE.MeshStandardMaterial({color:color, transparent: opacity!==undefined, opacity: opacity!==undefined?opacity:1, roughness:0.5, metalness:0.15});
+      return new THREE.Mesh(geo, mat);
+    }
+
+    // Stage/Fresnel/glass sourced from 3M 9000-series Illustrated
+    // Parts Breakdown + published spec sheets; head/arm split and
+    // LED/panel sizes remain estimates pending a measured donor unit.
+    var stage = {l:425, w:361, h:90};
+    var glassL = 297, glassW = 210; // A4 stage glass, confirmed spec
+    var fresnel = {size:183, t:3};
+    var led = {hsL:80, hsW:80, hsH:40, boardD:30};
+    var panel = {l:145, w:67, t:3};
+    var arm = {w:40, d:40, h:521};
+    var head = {l:160, w:160, h:100, lensD:85};
+
+    var stageMesh = box(stage.l, stage.h, stage.w, 0x3a4349);
+    stageMesh.position.set(0, stage.h/2, 0);
+    group.add(stageMesh);
+
+    var glass = box(glassL, 3, glassW, 0x5fb3d9, 0.35);
+    glass.position.set(0, stage.h+1.5, 0);
+    group.add(glass);
+
+    var fresnelMesh = box(fresnel.size, fresnel.t, fresnel.size, 0xd9c35f, 0.55);
+    fresnelMesh.position.set(0, stage.h-6, 0);
+    group.add(fresnelMesh);
+
+    var hs = box(led.hsL, led.hsH, led.hsW, 0xb9bcc0);
+    hs.position.set(0, 18, 0);
+    group.add(hs);
+    var ledBoard = cyl(led.boardD, 4, 0xe8793c);
+    ledBoard.position.set(0, 18+led.hsH/2+2, 0);
+    group.add(ledBoard);
+
+    var panelMesh = box(panel.l, panel.t, panel.w, 0x3ed6c8, 0.9);
+    panelMesh.position.set(0, stage.h+4, 0);
+    group.add(panelMesh);
+
+    var armX = -(stage.l/2 - arm.w/2 - 20);
+    var armZ = -(stage.w/2 - arm.d/2 - 10);
+    var armMesh = box(arm.w, arm.h, arm.d, 0x4a5258);
+    armMesh.position.set(armX, stage.h + arm.h/2, armZ);
+    group.add(armMesh);
+
+    var headMesh = box(head.l, head.h, head.w, 0x2c3236);
+    headMesh.position.set(armX, stage.h + arm.h + head.h/2, armZ);
+    group.add(headMesh);
+
+    var lens = cyl(head.lensD, 40, 0x7fa8e8, 0.65);
+    lens.rotation.x = Math.PI/2;
+    lens.position.set(armX, stage.h + arm.h + head.h/2, armZ + head.w/2 + 20);
+    group.add(lens);
+
+    var ground = box(900, 2, 900, 0x20262a, 0.4);
+    ground.position.set(0, -2, 0);
+    group.add(ground);
+
+    group.position.y = -(stage.h + arm.h)/2 + 20;
+
+    function animate(){
+      requestAnimationFrame(animate);
+      controls.update();
+      renderer.render(scene, camera);
+    }
+    window.addEventListener('resize', resize);
+    resize();
+    animate();
+
+    var legendData = [
+      ['#3a4349','Stage housing','Reused OHP base, unmodified'],
+      ['#5fb3d9','Stage glass','Phone panel rests here'],
+      ['#d9c35f','Fresnel lens','Built into stage, reused'],
+      ['#b9bcc0','Heatsink','Reclaimed PC CPU cooler'],
+      ['#e8793c','LED board','New 100W COB, replaces lamp'],
+      ['#3ed6c8','Phone LCD panel','Donor phone, backlight removed'],
+      ['#4a5258','Riser arm','Reused OHP arm, unmodified'],
+      ['#2c3236','Head unit','Reused mirror housing'],
+      ['#7fa8e8','Projection lens','Reused OHP lens, unmodified']
+    ];
+    var legendEl = document.getElementById('legend');
+    legendData.forEach(function(item){
+      var li = document.createElement('li');
+      var sw = document.createElement('span');
+      sw.className = 'swatch';
+      sw.style.background = item[0];
+      var textWrap = document.createElement('div');
+      textWrap.innerHTML = '<b>'+item[1]+'</b><span>'+item[2]+'</span>';
+      li.appendChild(sw);
+      li.appendChild(textWrap);
+      legendEl.appendChild(li);
+    });
+
+  } catch (e) {
+    var fallback = document.getElementById('viewer');
+    if (fallback && fallback.parentNode) {
+      var msg = document.createElement('div');
+      msg.style.cssText = 'padding:20px;color:var(--text-dim);font-size:13px;';
+      msg.textContent = '3D viewer failed to load (' + e.message + '). The OpenSCAD source file has the same layout in editable form.';
+      fallback.parentNode.replaceChild(msg, fallback);
+    }
+  }
+})();
+</script>
+</body>
+</html>
