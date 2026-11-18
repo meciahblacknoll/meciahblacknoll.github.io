@@ -1,0 +1,235 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Bedroom Gym Program</title>
+<style>
+  :root{
+    --bg:#f6f5f1; --surface:#ffffff; --surface-2:#eeece4; --line:#c9c4b4;
+    --ink:#211f1a; --ink-dim:#6b6558; --accent:#8a5a35; --accent-soft:#f0e3d4;
+    --joint:#3f6e58; --joint-soft:#e5efe9; --skill:#5a5a8a; --skill-soft:#e8e8f2;
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --bg:#1a1814; --surface:#221f1a; --surface-2:#2b2821; --line:#433e34;
+      --ink:#ece7dc; --ink-dim:#a39b89; --accent:#d6a06a; --accent-soft:#3a2d1f;
+      --joint:#7fb89a; --joint-soft:#1f2f27; --skill:#9a9ad0; --skill-soft:#262640;
+    }
+  }
+  :root[data-theme="dark"]{
+    --bg:#1a1814; --surface:#221f1a; --surface-2:#2b2821; --line:#433e34;
+    --ink:#ece7dc; --ink-dim:#a39b89; --accent:#d6a06a; --accent-soft:#3a2d1f;
+    --joint:#7fb89a; --joint-soft:#1f2f27; --skill:#9a9ad0; --skill-soft:#262640;
+  }
+  *{box-sizing:border-box;}
+  body{margin:0;background:var(--bg);color:var(--ink);font-family:'Source Serif 4', Georgia, serif;padding:28px 16px;padding-block:32px;}
+  .wrap{max-width:880px;margin:0 auto;display:flex;flex-direction:column;gap:28px;}
+  .kicker{font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.09em;text-transform:uppercase;color:var(--accent);margin:0 0 6px;}
+  h1{font-family:'Fraunces',Georgia,serif;font-size:clamp(26px,5vw,38px);font-weight:600;margin:0;text-wrap:balance;}
+  .sub{color:var(--ink-dim);font-size:15px;max-width:68ch;margin:8px 0 0;line-height:1.55;}
+  h2{font-family:'Fraunces',Georgia,serif;font-size:21px;font-weight:600;margin:0 0 4px;}
+  h3{font-family:'IBM Plex Mono',monospace;font-size:12px;text-transform:uppercase;letter-spacing:.06em;color:var(--ink-dim);margin:0 0 10px;font-weight:500;}
+  p{line-height:1.6;font-size:15px;margin:0 0 10px;}
+  p:last-child{margin-bottom:0;}
+  .panel{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:22px;}
+  .goals{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px;}
+  .goal{background:var(--surface-2);border-radius:10px;padding:16px;}
+  .goal .label{font-family:'IBM Plex Mono',monospace;font-size:10.5px;text-transform:uppercase;letter-spacing:.06em;color:var(--accent);margin-bottom:6px;}
+  .goal ul{margin:0;padding-left:18px;font-size:14px;line-height:1.55;}
+  .principle{display:flex;gap:14px;padding:14px 0;border-top:1px solid var(--line);}
+  .principle:first-child{border-top:none;padding-top:0;}
+  .principle .n{font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--ink-dim);flex:0 0 22px;padding-top:2px;}
+  .principle .body b{color:var(--accent);}
+  .week-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:14px;}
+  .day{background:var(--surface-2);border-radius:10px;padding:16px;display:flex;flex-direction:column;gap:8px;}
+  .day .dayname{font-family:'Fraunces',Georgia,serif;font-size:16px;font-weight:600;}
+  .day .focus{font-family:'IBM Plex Mono',monospace;font-size:10.5px;text-transform:uppercase;letter-spacing:.05em;color:var(--ink-dim);}
+  .day ol{margin:4px 0 0;padding-left:18px;font-size:13.5px;line-height:1.5;}
+  .day ol li{margin-bottom:4px;}
+  .tag{display:inline-block;font-family:'IBM Plex Mono',monospace;font-size:10px;padding:2px 7px;border-radius:5px;margin-top:2px;}
+  .tag.joint{background:var(--joint-soft);color:var(--joint);}
+  .tag.skill{background:var(--skill-soft);color:var(--skill);}
+  .daily-layer{border-left:3px solid var(--joint);background:var(--joint-soft);border-radius:0 10px 10px 0;padding:16px 18px;}
+  .daily-layer b{color:var(--joint);}
+  .rule-list{display:flex;flex-direction:column;gap:12px;}
+  .rule{background:var(--surface-2);border-radius:10px;padding:14px 16px;}
+  .rule .k{font-family:'IBM Plex Mono',monospace;font-size:11px;text-transform:uppercase;letter-spacing:.05em;color:var(--accent);margin-bottom:4px;}
+  .open-items{border-left:3px solid var(--ink-dim);padding:16px 18px;background:var(--surface-2);border-radius:0 10px 10px 0;}
+  .open-items ul{margin:6px 0 0;padding-left:18px;font-size:14px;line-height:1.6;}
+  table{width:100%;border-collapse:collapse;font-size:13.5px;margin-top:4px;}
+  th,td{text-align:left;padding:8px 10px;border-bottom:1px solid var(--line);}
+  th{font-family:'IBM Plex Mono',monospace;font-size:10.5px;text-transform:uppercase;color:var(--ink-dim);font-weight:500;}
+  tr:last-child td{border-bottom:none;}
+  footer{font-size:12px;color:var(--ink-dim);line-height:1.6;text-align:center;}
+  @media (max-width:600px){ .goals,.week-grid{grid-template-columns:1fr;} }
+</style>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Source+Serif+4:wght@400;500&family=IBM+Plex+Mono:wght@400;500&display=swap">
+</head>
+<body>
+<div class="wrap">
+  <div>
+    <p class="kicker">Bedroom gym &middot; Phase 1 &middot; built, not bought</p>
+    <h1>A training skeleton, not a workout</h1>
+    <p class="sub">This is the governing logic and a first real weekly structure &mdash; built around your stated goals, returning-lifter baseline, and the rule that joint health wins every tie-break. It's deliberately not yet anatomy-tailored in the fullest sense; the open items at the bottom are what's still missing for that.</p>
+  </div>
+
+  <div class="panel">
+    <h2>The three goals, as stated</h2>
+    <div class="goals" style="margin-top:14px;">
+      <div class="goal">
+        <div class="label">Aesthetic</div>
+        <ul>
+          <li>Greek-statue proportions &mdash; balanced, built, not just big</li>
+          <li>No skinny legs &mdash; legs get real direct volume, not an afterthought</li>
+          <li>No fixed numeric target; this gets more specific once there's a visible baseline</li>
+        </ul>
+      </div>
+      <div class="goal">
+        <div class="label">Skill / strength</div>
+        <ul>
+          <li>Full front split, full side split</li>
+          <li>Full planche</li>
+          <li>3+ strict handstand push-ups</li>
+        </ul>
+      </div>
+      <div class="goal">
+        <div class="label">Health</div>
+        <ul>
+          <li>Joints feel protected, safe, good &mdash; not sacrificed for the other two</li>
+          <li>Connective tissue gets stronger over years, never just "good enough for now"</li>
+          <li>This goal wins any conflict with the other two, by your own call</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="panel">
+    <h2>Why it's structured this way</h2>
+    <div style="margin-top:12px;">
+      <div class="principle">
+        <div class="n">01</div>
+        <div class="body"><b>Two different overload mechanisms, running at once.</b> Barbell/dumbbell lifts progress the normal way: hit the top of your rep range, add weight next time. Bodyweight skill lines (planche, handstand push-ups, splits) don't have that dial &mdash; they progress through <i>leverage tiers</i> instead. The rule that governs when you're allowed to move to a harder tier: <b>3-4 sets of 8-12 clean reps, or a clean 30-second hold, at the current tier</b>, before advancing. This is the standard from Steven Low's <i>Overcoming Gravity</i>, the reference text for exactly this kind of progression.</div>
+      </div>
+      <div class="principle">
+        <div class="n">02</div>
+        <div class="body"><b>Joint health is a pacing rule, not a separate workout.</b> Tendons and ligaments adapt 2-3&times; slower than muscle. Practically: every session opens with a few minutes of joint-specific CARs (controlled articular rotations) for whatever you're about to load, and the progression rule above is never skipped for being "ready early." A new ache that lingers past 48 hours knocks that movement back a tier that week &mdash; no exceptions. That's what "joint health wins the tie-break" actually means in practice, not just as a stated value.</div>
+      </div>
+      <div class="principle">
+        <div class="n">03</div>
+        <div class="body"><b>Movement patterns, not muscle groups, organize the week.</b> Every pattern &mdash; horizontal push/pull, vertical push/pull, squat, hinge, core &mdash; gets hit roughly twice a week, which is the frequency sweet spot in the hypertrophy literature and also what keeps a repeating week from quietly neglecting legs (direct cause of "skinny legs").</div>
+      </div>
+      <div class="principle">
+        <div class="n">04</div>
+        <div class="body"><b>Flexibility doesn't fit the same weekly rhythm as strength.</b> Real split progress comes from near-daily stretch exposure (a time-under-stretch adaptation), not a once-a-week session. So split work shows up in small doses every day as a baseline layer underneath the whole week, with one dedicated longer block on its own leg day.</div>
+      </div>
+      <div class="principle">
+        <div class="n">05</div>
+        <div class="body"><b>Skills get practiced 2-3&times;/week, not once.</b> Planche and handstand push-up work appear on two different days each (once as the main focus, once as a lighter second touch), because skill acquisition responds better to frequent, sub-maximal practice than to one hard weekly session.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="panel">
+    <h2>The repeating week</h2>
+    <p style="margin-top:4px;">5 days, repeated indefinitely, progressing in place rather than changing shape &mdash; matches wanting something you run for years, not something you get bored of and replace.</p>
+    <div class="week-grid" style="margin-top:14px;">
+      <div class="day">
+        <div class="dayname">Day 1 &middot; Upper A</div>
+        <div class="focus">Horizontal push / pull</div>
+        <ol>
+          <li>Barbell bench press &mdash; 4&times;6-10</li>
+          <li>Barbell or DB row &mdash; 4&times;8-12</li>
+          <li>Incline DB press &mdash; 3&times;10-12</li>
+          <li>Band face pulls &mdash; 3&times;15-20</li>
+          <li>Hollow body hold &mdash; 3&times;20-30s</li>
+        </ol>
+        <span class="tag joint">shoulder CARs + wrist prep first</span>
+      </div>
+      <div class="day">
+        <div class="dayname">Day 2 &middot; Lower A</div>
+        <div class="focus">Squat emphasis</div>
+        <ol>
+          <li>Barbell back squat (goblet squat until rack is sorted) &mdash; 4&times;6-10</li>
+          <li>Romanian deadlift &mdash; 3&times;8-12</li>
+          <li>Walking lunges &mdash; 3&times;12/leg</li>
+          <li>Calf raises &mdash; 3&times;15-20</li>
+          <li>Front split progression hold &mdash; 3&times;45-60s/side</li>
+        </ol>
+        <span class="tag joint">hip CARs + 90/90 first</span>
+      </div>
+      <div class="day">
+        <div class="dayname">Day 3 &middot; Skill</div>
+        <div class="focus">Low-fatigue, joint-protective by design</div>
+        <ol>
+          <li>Handstand practice &mdash; 5-8&times;20-40s</li>
+          <li>Handstand push-up progression &mdash; 4&times;quality reps</li>
+          <li>Planche progression (tuck lean/hold) &mdash; 4&times;10-20s</li>
+          <li>Side split progression &mdash; 3&times;45-60s</li>
+          <li>L-sit progression &mdash; 3&times;max hold</li>
+        </ol>
+        <span class="tag skill">everything sub-maximal &mdash; quality over fatigue</span>
+      </div>
+      <div class="day">
+        <div class="dayname">Day 4 &middot; Upper B</div>
+        <div class="focus">Vertical push / pull</div>
+        <ol>
+          <li>Overhead press &mdash; 4&times;6-10</li>
+          <li>Weighted/assisted pull-ups or rows &mdash; 4&times;6-10</li>
+          <li>Dips (bench or rings) &mdash; 3&times;8-12</li>
+          <li>DB lateral raise &mdash; 3&times;12-15</li>
+          <li>Planche progression &mdash; 2nd weekly touch, lighter</li>
+        </ol>
+        <span class="tag joint">band pull-aparts + shoulder CARs first</span>
+      </div>
+      <div class="day">
+        <div class="dayname">Day 5 &middot; Lower B</div>
+        <div class="focus">Hinge emphasis</div>
+        <ol>
+          <li>Deadlift (conventional or RDL, rack-dependent) &mdash; 4&times;5-8</li>
+          <li>Front squat or goblet squat &mdash; 3&times;8-12</li>
+          <li>Bulgarian split squat &mdash; 3&times;10/leg</li>
+          <li>Calf raises &mdash; 3&times;15-20</li>
+          <li>Side split progression &mdash; 2nd weekly touch, dedicated block</li>
+        </ol>
+        <span class="tag skill">handstand push-up &mdash; 2nd weekly touch</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="daily-layer">
+    <h3 style="color:var(--joint);">Non-negotiable, every single day</h3>
+    <p><b>5-10 min of joint CARs</b> (shoulders, hips, spine, wrists, ankles) before anything else, and <b>a short split-stretch touch</b> (5 min) even on full rest days. Flexibility is the one adaptation here that genuinely decays without near-daily input &mdash; it doesn't fit neatly into a 4-5-day structure the way strength does, so it sits underneath the whole week instead of inside it.</p>
+  </div>
+
+  <div class="panel">
+    <h2>Progression rules &mdash; the actual dial</h2>
+    <div class="rule-list" style="margin-top:12px;">
+      <div class="rule">
+        <div class="k">Barbell / dumbbell lifts</div>
+        <p>Hit the top of the rep range for every set &rarr; add the smallest available increment next session. This is the entire mechanism &mdash; no separate deload schedule needed at this stage.</p>
+      </div>
+      <div class="rule">
+        <div class="k">Bodyweight skill lines (planche, HSPU, handstand, splits)</div>
+        <p>Advance to the next progression tier only after <b>3-4 sets of 8-12 clean reps, or a clean 30-second hold</b>, at the current tier. Never sooner, even if it starts feeling easy early &mdash; the connective tissue adapting underneath the movement is slower than the muscle feeling ready.</p>
+      </div>
+      <div class="rule">
+        <div class="k">Joint-health override</div>
+        <p>Any new ache lingering past 48 hours drops that specific movement back a tier, or out of the session entirely that week. This overrides both of the rules above, every time, no exceptions &mdash; this is what makes "joint health wins" a mechanism rather than a slogan.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="open-items">
+    <h3>Still open before this is truly anatomy-tailored</h3>
+    <ul>
+      <li>Your actual current handstand hold time, split depth (fist-widths from floor), planche-lean tolerance, and HSPU regression tier &mdash; these set the real starting rung on each skill line, rather than a generic starting point</li>
+      <li>Any shoulder/hip structural tendencies that make one skill line more natural than another for your build specifically &mdash; needs either real testing or just noticing what feels disproportionately easy or hard once this is running</li>
+      <li>Equipment timeline &mdash; this assumes a used barbell + plates + some kind of rack show up; goblet squat and dumbbell press substitutes are already written in above as the fallback until then</li>
+    </ul>
+  </div>
+
+  <footer>Phase 1 &middot; built 2026-11-18 &middot; revise freely as real data comes in &mdash; this is meant to be marked up, not treated as final</footer>
+</div>
+</body>
+</html>
