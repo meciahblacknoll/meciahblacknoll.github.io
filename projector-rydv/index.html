@@ -216,9 +216,13 @@
     scene.background = new THREE.Color(bgColor());
 
     var camera = new THREE.PerspectiveCamera(42, 4/3, 1, 5000);
-    camera.position.set(620, 520, 760);
+    camera.position.set(640, 440, 780);
 
     var renderer = new THREE.WebGLRenderer({canvas: canvas, antialias: true});
+    renderer.shadowMap.enabled = true;
+    renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+    renderer.toneMapping = THREE.ACESFilmicToneMapping;
+    renderer.toneMappingExposure = 1.05;
     function resize(){
       var w = canvas.clientWidth || 600;
       var h = w * 3/4;
@@ -229,30 +233,40 @@
     renderer.setPixelRatio(Math.min(window.devicePixelRatio||1, 2));
 
     var controls = new THREE.OrbitControls(camera, renderer.domElement);
-    controls.target.set(0, 150, 0);
+    controls.target.set(0, 340, 0);
     controls.enableDamping = true;
     controls.dampingFactor = 0.08;
     controls.minDistance = 300;
     controls.maxDistance = 1800;
     camera.lookAt(controls.target);
 
-    scene.add(new THREE.AmbientLight(0xffffff, 0.65));
-    var dir = new THREE.DirectionalLight(0xffffff, 0.8);
-    dir.position.set(400, 700, 500);
+    scene.add(new THREE.HemisphereLight(0xeaf4ff, 0x2a241c, 0.6));
+    var dir = new THREE.DirectionalLight(0xfff1dc, 1.0);
+    dir.position.set(380, 620, 460);
+    dir.castShadow = true;
+    dir.shadow.mapSize.set(1024,1024);
+    dir.shadow.camera.left=-500; dir.shadow.camera.right=500;
+    dir.shadow.camera.top=500; dir.shadow.camera.bottom=-500;
+    dir.shadow.bias = -0.0015;
     scene.add(dir);
+    var fillLight = new THREE.DirectionalLight(0xcfe8ff, 0.45);
+    fillLight.position.set(-420,260,320); scene.add(fillLight);
+    var rimLight = new THREE.DirectionalLight(0x9fd8ff, 0.6);
+    rimLight.position.set(-480,340,-520); scene.add(rimLight);
 
     var group = new THREE.Group();
     scene.add(group);
 
+    function finish(m){ m.castShadow = true; m.receiveShadow = true; return m; }
     function box(w,h,d,color,opacity){
       var geo = new THREE.BoxGeometry(w,h,d);
       var mat = new THREE.MeshStandardMaterial({color:color, transparent: opacity!==undefined, opacity: opacity!==undefined?opacity:1, roughness:0.6, metalness:0.1});
-      return new THREE.Mesh(geo, mat);
+      return finish(new THREE.Mesh(geo, mat));
     }
     function cyl(d,h,color,opacity){
       var geo = new THREE.CylinderGeometry(d/2,d/2,h,40);
       var mat = new THREE.MeshStandardMaterial({color:color, transparent: opacity!==undefined, opacity: opacity!==undefined?opacity:1, roughness:0.5, metalness:0.15});
-      return new THREE.Mesh(geo, mat);
+      return finish(new THREE.Mesh(geo, mat));
     }
     // Rectangular frustum (flat top, wider sloped base) instead of a
     // plain box — the real silhouette an OHP housing/head actually has.
@@ -261,7 +275,7 @@
       geo.rotateY(Math.PI/4);
       geo.scale(topL/Math.SQRT2, 1, topW/Math.SQRT2);
       var mat = new THREE.MeshStandardMaterial({color:color, transparent: opacity!==undefined, opacity: opacity!==undefined?opacity:1, roughness:0.55, metalness:0.1});
-      return new THREE.Mesh(geo, mat);
+      return finish(new THREE.Mesh(geo, mat));
     }
 
     // Stage/Fresnel/glass sourced from 3M 9000-series Illustrated
@@ -275,7 +289,7 @@
     var arm = {w:40, d:40, h:521};
     var head = {l:160, w:160, h:100, lensD:85};
 
-    var stageMesh = frustum(stage.l, stage.w, 1.22, stage.h, 0x3a4349);
+    var stageMesh = frustum(stage.l, stage.w, 1.22, stage.h, 0x4e5962);
     stageMesh.position.set(0, stage.h/2, 0);
     group.add(stageMesh);
     [[1,1],[1,-1],[-1,1],[-1,-1]].forEach(function(s){
@@ -310,11 +324,11 @@
 
     var armX = -(stage.l/2 - arm.w/2 - 20);
     var armZ = -(stage.w/2 - arm.d/2 - 10);
-    var armMesh = box(arm.w, arm.h, arm.d, 0x4a5258);
+    var armMesh = box(arm.w, arm.h, arm.d, 0x565f66);
     armMesh.position.set(armX, stage.h + arm.h/2, armZ);
     group.add(armMesh);
 
-    var headMesh = frustum(head.l, head.w, 1.35, head.h, 0x2c3236);
+    var headMesh = frustum(head.l, head.w, 1.35, head.h, 0x363f45);
     headMesh.position.set(armX, stage.h + arm.h + head.h/2, armZ);
     group.add(headMesh);
 
@@ -343,7 +357,8 @@
     ground.position.set(0, -2, 0);
     group.add(ground);
 
-    group.position.y = -(stage.h + arm.h)/2 + 20;
+    // group stays at (0,0,0) — every part above is already positioned
+    // in absolute world space (stage 0-90, arm top ~611, head ~611-711).
 
     function animate(){
       requestAnimationFrame(animate);
