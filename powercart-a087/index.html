@@ -274,6 +274,60 @@
   </div>
 </section>
 
+<section>
+  <p class="label">Does it pay for itself?</p>
+  <p class="sub" style="margin-top:-4px;">73150 (Del City / OKC) runs on <b>OG&amp;E</b>. On-site solar use nets against the meter at the residential retail rate &mdash; about <b>9.4&cent;/kWh</b> base-plus-riders, or roughly <b>13.2&cent;/kWh</b> all-in once fuel adjustment is added. True excess beyond a billing period only drops to OG&amp;E's avoided-cost buy-back of 3.36&cent;/kWh off-peak &mdash; but at the array size below, a year's production doesn't come close to a typical home's annual usage, so almost everything nets at the retail rate. This assumes the inverter is interconnected under OG&amp;E's <b>NM-1</b> net-metering tariff (residential systems up to 25kW AC &mdash; this build is nowhere near that ceiling). Run purely as a portable, off-grid hand-truck unit instead, and real savings drop to whatever the 10.24kWh pack can actually absorb and discharge before the sun sets &mdash; worth keeping in mind if interconnecting isn't the plan.</p>
+
+  <p class="label" style="margin-top:28px;">A 4kW array, three ways to mount it</p>
+  <p class="sub" style="margin-top:-4px;">Sized to roughly fill the pack once a day on an average OKC sun day &mdash; 10 panels at 400W, fixed at the region's optimal 34&deg; south-facing tilt, versus the same panels on a motorized single- or dual-axis ground tracker.</p>
+
+  <div class="diagram" style="margin-top:14px;">
+    <svg viewBox="0 0 560 190" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Bar chart comparing annual kWh production for fixed, single-axis, and dual-axis mounting of a 4kW array: 6,200, 7,440, and 8,370 kWh per year.">
+      <g font-family="IBM Plex Mono, monospace" font-size="11" fill="var(--text)">
+        <line x1="50" y1="150" x2="540" y2="150" stroke="var(--border)" stroke-width="1"/>
+        <!-- fixed: 6,200 / 8,370 max -->
+        <rect x="90" y="61" width="80" height="89" fill="var(--blue)"/>
+        <text x="130" y="168" text-anchor="middle" fill="var(--text-muted)">Fixed 34&deg;</text>
+        <text x="130" y="53" text-anchor="middle">6,200</text>
+        <!-- single: 7,440 / 8,370 max -->
+        <rect x="250" y="43" width="80" height="107" fill="var(--accent)"/>
+        <text x="290" y="168" text-anchor="middle" fill="var(--text-muted)">Single-axis</text>
+        <text x="290" y="35" text-anchor="middle">7,440</text>
+        <!-- dual: 8,370 / 8,370 max -->
+        <rect x="410" y="30" width="80" height="120" fill="var(--good)"/>
+        <text x="450" y="168" text-anchor="middle" fill="var(--text-muted)">Dual-axis</text>
+        <text x="450" y="22" text-anchor="middle">8,370</text>
+        <text x="20" y="34" fill="var(--text-muted)" font-size="10">kWh / year, 4kW array, OKC</text>
+      </g>
+    </svg>
+  </div>
+
+  <div class="twrap" style="margin-top:14px;">
+  <table>
+    <tr><th>Mount</th><th>Build cost</th><th>kWh/yr</th><th>$/yr saved</th><th>Simple payback</th><th>10-yr net</th></tr>
+    <tr><td>Fixed, 34&deg; south</td><td>$2,400</td><td>6,200</td><td>$682</td><td>3.5 yrs</td><td>$4,420</td></tr>
+    <tr class="new"><td>DIY single-axis tracker</td><td>$2,800</td><td>7,440</td><td>$818</td><td>3.4 yrs</td><td>$5,380</td></tr>
+    <tr><td>DIY dual-axis tracker</td><td>$3,600</td><td>8,370</td><td>$920</td><td>3.9 yrs</td><td>$5,600</td></tr>
+  </table>
+  </div>
+  <p class="sub" style="margin-top:10px;">Panels at $0.40/W bulk-pallet (10&times;400W, $1,600) plus mount: $800 in posts/rail/footings for the fixed rack, $1,200 for a single ganged linear-actuator tracker frame (actuator, steel pole and bearing, limit switches, an ESP32 light-sensor or astronomical controller), $2,000 for a second axis and gearing on top of that. Energy gain over fixed: <span class="mono">+20%</span> single-axis, <span class="mono">+35%</span> dual-axis &mdash; both typical for this latitude.</p>
+
+  <div class="note">
+    <b>Single-axis is the one worth building.</b> It ties the fixed rack's payback almost exactly (3.4 vs 3.5 years) while banking <b>$136 more every year after that</b>, for life &mdash; the extra yield pays for the tracker's own added cost on roughly the same timeline the fixed rack needed anyway. Dual-axis produces more energy but its payback is <i>slower</i> than fixed (3.9 yrs) and its 10-year edge over single-axis is only $220 &mdash; not much margin against a second motor, a second axis of bearings, and twice the weatherproofing sitting outside for a decade. Build one axis, not two.
+  </div>
+
+  <p class="label" style="margin-top:28px;">Whole-system payback, PowerCart + single-axis array</p>
+  <div class="twrap">
+  <table>
+    <tr><th>PowerCart tier</th><th>+ Array</th><th>Total</th><th>Payback</th></tr>
+    <tr><td>Stock (Will Prowse)</td><td>$2,800</td><td>$6,393</td><td>7.8 yrs</td></tr>
+    <tr><td>Tier 2 &mdash; Budget DIY</td><td>$2,800</td><td>$6,307</td><td>7.7 yrs</td></tr>
+    <tr class="new"><td>Tier 3 &mdash; Store-sourced used</td><td>$2,800</td><td>$5,521</td><td>6.7 yrs</td></tr>
+  </table>
+  </div>
+  <p class="sub" style="margin-top:10px;">The sourcing work from the parts-list tiers above is worth about a year of payback on its own, independent of the array. None of this counts OG&amp;E rate inflation over that window, which historically only shortens the payback further, or the pack's own value as outage backup &mdash; that part pays for itself the first time the power actually goes out.</p>
+</section>
+
 <footer>
   Parts and listing prices checked November 2026. Same reclaimed-cost delivery pattern as the <span class="mono">murphy-k7x2</span> and <span class="mono">projector-rydv</span> builds &mdash; mirrored to GitHub Pages for phone access, no login.
 </footer>
