@@ -121,29 +121,21 @@
 <header class="hero">
   <p class="eyebrow">Reclaimed-cost build &middot; 48V split-phase</p>
   <h1>The Budget PowerCart</h1>
-  <p class="sub">A 10kW, 120/240V split-phase hand-truck power station built to beat Will Prowse's parts list on cost per kWh, not just sticker price &mdash; same inverter tier, a single hand-wired 16S LiFePO4 pack instead of two pre-built packs.</p>
+  <p class="sub">A 10kW, 120/240V split-phase hand-truck power station built to beat Will Prowse's parts list on cost per kWh, not just sticker price &mdash; three tiers, from an all-new build to store-sourced open-box parts.</p>
   <p class="source">Reference build: <a href="https://willapproved.com/system-packages/budget-hand-truck-10kw/">Will Prowse's 120/240V 10kW Hand Truck</a>, $3,593 for 10.24kWh.</p>
 </header>
 
 <section>
-  <p class="label">The trade, in three numbers</p>
-  <div class="stats">
-    <div class="stat">
-      <div class="n">$3,507</div>
-      <div class="l">total build cost</div>
-      <div class="delta">&minus;$86 vs. stock</div>
-    </div>
-    <div class="stat">
-      <div class="n">11.5<small>kWh</small></div>
-      <div class="l">usable capacity</div>
-      <div class="delta">+1.5kWh vs. stock</div>
-    </div>
-    <div class="stat">
-      <div class="n">$298<small>/kWh</small></div>
-      <div class="l">landed battery cost</div>
-      <div class="delta">&minus;15% vs. stock's $351/kWh</div>
-    </div>
+  <p class="label">Three ways to buy it</p>
+  <div class="twrap">
+  <table>
+    <tr><th>Tier</th><th>Total</th><th>Capacity</th><th>Cost/kWh</th><th>What changes</th></tr>
+    <tr><td>Stock (Will Prowse)</td><td>$3,593</td><td>10.24kWh</td><td>$351</td><td>Everything new, two pre-built packs</td></tr>
+    <tr class="new"><td>Budget DIY</td><td>$3,507</td><td>11.5kWh</td><td>$298</td><td>New parts, one hand-wired cell pack</td></tr>
+    <tr class="new"><td>Store-sourced used</td><td>$2,721</td><td>10.24kWh</td><td>$266</td><td>Open-box inverter, pre-built packs from a deal</td></tr>
+  </table>
   </div>
+  <p class="sub" style="margin-top:10px;">The third tier is the one below &mdash; it's cheaper than the DIY build <i>and</i> lower-risk on assembly (no cell balancing, no busbar torquing), because the savings come from sourcing, not from building anything differently. The trade is trusting a seller instead of trusting your own hands.</p>
 </section>
 
 <section>
@@ -154,7 +146,7 @@
 </section>
 
 <section>
-  <p class="label">Full parts list</p>
+  <p class="label">Tier 2 &mdash; budget DIY parts list</p>
   <div class="twrap">
   <table>
     <tr><th>Component</th><th>Spec</th><th>Price</th></tr>
@@ -263,8 +255,27 @@
   </div>
 </section>
 
+<section>
+  <p class="label">Tier 3 &mdash; going further on sourcing</p>
+  <div class="twrap">
+  <table>
+    <tr><th>Component</th><th>Source</th><th>Price</th></tr>
+    <tr class="new"><td>Inverter</td><td>PowMr 10,000W 48V split-phase, store-listed <i>pre-owned / open-box</i>, dual MPPT &mdash; same spec class as new SunGold</td><td>$930</td></tr>
+    <tr class="new"><td>Batteries &times;2</td><td>ECO-WORTHY 48V 100Ah golf-cart pack, metal case, 200A/200A BMS &mdash; a better continuous rating than the Cubix 100 this replaces, bought on a sale window</td><td>$680 each / $1,360</td></tr>
+    <tr><td>Hand truck</td><td>Gorilla GHH-10, new &mdash; kept at full rating, not a corner to cut</td><td>$149</td></tr>
+    <tr><td>Cables, outlet box, wire kit, PV disconnect</td><td>Same as Tier 2</td><td>$242</td></tr>
+    <tr class="new"><td>Inline fuse/disconnect</td><td>Between the two paralleled packs and the inverter</td><td>$40</td></tr>
+    <tr class="total"><td>Total</td><td></td><td>$2,721</td></tr>
+  </table>
+  </div>
+  <p class="sub" style="margin-top:10px;">10.24kWh &mdash; exactly matching stock capacity &mdash; for $266/kWh. $872 under the stock build, $786 under the Tier 2 DIY build, with less assembly risk than Tier 2: both packs arrive pre-balanced with their own BMS, no cell matching or busbar torquing required.</p>
+  <div class="note warn" style="margin-top:14px;">
+    The saving here is entirely in <i>who</i> you buy from, not in accepting a worse part. The rule that makes it safe: buy "pre-owned," "open-box," or "certified refurbished" listings from a store with a real return policy and high feedback count (the PowMr inverter above is a retailer's own return stock, 99.8% positive, not a stranger's teardown) &mdash; and walk away from anything listed "for parts," "not working," or "as-is" from a private seller. That second category exists on the same search (there's a "Fault &amp; Not Work" 10kW inverter listed right next to the good one) and it's a real write-off, not a discount. Before buying any used battery pack, confirm its BMS continuous discharge rating against your actual draw: at 10kW/48V the system pulls &asymp;208A, so two packs splitting that load need at least 104A continuous each &mdash; the 200A-rated golf-cart pack clears that with room, the 100A-rated standard version does not.
+  </div>
+</section>
+
 <footer>
-  Parts pricing checked November 2026. Same reclaimed-cost delivery pattern as the <span class="mono">murphy-k7x2</span> and <span class="mono">projector-rydv</span> builds &mdash; mirrored to GitHub Pages for phone access, no login.
+  Parts and listing prices checked November 2026. Same reclaimed-cost delivery pattern as the <span class="mono">murphy-k7x2</span> and <span class="mono">projector-rydv</span> builds &mdash; mirrored to GitHub Pages for phone access, no login.
 </footer>
 
 </body>
