@@ -1,0 +1,271 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex">
+<title>Budget PowerCart</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@600;800&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+  :root{
+    --bg:#eef2f3;
+    --surface:#ffffff;
+    --surface-2:#e3e9ea;
+    --text:#16222b;
+    --text-muted:#51676f;
+    --accent:#b5652c;      /* copper busbar */
+    --accent-ink:#7a3f17;
+    --blue:#2f5d8a;         /* blueprint line */
+    --good:#2f7a4f;
+    --border:#c7d2d5;
+    --shadow: 0 1px 0 rgba(22,34,43,.05);
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --bg:#0f1a21;
+      --surface:#16242c;
+      --surface-2:#1d2f38;
+      --text:#e7edee;
+      --text-muted:#9fb3b9;
+      --accent:#dd915a;
+      --accent-ink:#f2b98a;
+      --blue:#78aad8;
+      --good:#5bbf84;
+      --border:#2a3c45;
+      --shadow: 0 1px 0 rgba(0,0,0,.3);
+    }
+  }
+  :root[data-theme="dark"]{
+    --bg:#0f1a21;
+    --surface:#16242c;
+    --surface-2:#1d2f38;
+    --text:#e7edee;
+    --text-muted:#9fb3b9;
+    --accent:#dd915a;
+    --accent-ink:#f2b98a;
+    --blue:#78aad8;
+    --good:#5bbf84;
+    --border:#2a3c45;
+    --shadow: 0 1px 0 rgba(0,0,0,.3);
+  }
+
+  *{box-sizing:border-box;}
+  body{
+    background:var(--bg);
+    color:var(--text);
+    font-family:"IBM Plex Sans",system-ui,sans-serif;
+    padding-inline:20px;
+    padding-block:28px 60px;
+    max-width:760px;
+    margin:0 auto;
+  }
+  h1,h2,h3{font-family:"Big Shoulders Display",system-ui,sans-serif;font-weight:800;text-transform:uppercase;letter-spacing:.01em;text-wrap:balance;margin:0;}
+  code, .mono, .num{font-family:"IBM Plex Mono",monospace; font-variant-numeric: tabular-nums;}
+
+  header.hero{padding-block:8px 20px;border-bottom:3px solid var(--accent);margin-bottom:24px;}
+  .eyebrow{font-family:"IBM Plex Mono",monospace;font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;color:var(--accent-ink);margin:0 0 6px;}
+  h1{font-size:clamp(1.9rem,7vw,2.6rem);line-height:1.02;color:var(--text);}
+  .sub{color:var(--text-muted);font-size:.95rem;margin-top:10px;max-width:60ch;line-height:1.5;}
+  .source{margin-top:10px;font-size:.82rem;color:var(--text-muted);}
+  .source a{color:var(--blue);text-decoration:none;border-bottom:1px solid currentColor;}
+
+  section{margin-block:36px;}
+  .label{font-family:"IBM Plex Mono",monospace;font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;color:var(--text-muted);margin:0 0 12px;}
+
+  .stats{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border);border:1px solid var(--border);border-radius:4px;overflow:hidden;}
+  @media (max-width:480px){.stats{grid-template-columns:1fr;}}
+  .stat{background:var(--surface);padding:16px 14px;}
+  .stat .n{font-family:"Big Shoulders Display";font-weight:800;font-size:1.9rem;line-height:1;color:var(--text);}
+  .stat .n small{font-size:1rem;font-weight:600;color:var(--text-muted);}
+  .stat .l{margin-top:6px;font-size:.78rem;color:var(--text-muted);}
+  .stat .delta{margin-top:4px;font-size:.78rem;color:var(--good);font-weight:600;}
+
+  table{width:100%;border-collapse:collapse;font-size:.88rem;}
+  .twrap{overflow-x:auto;border:1px solid var(--border);border-radius:4px;}
+  th,td{padding:10px 12px;text-align:left;border-bottom:1px solid var(--border);white-space:nowrap;}
+  th{background:var(--surface-2);font-family:"IBM Plex Mono",monospace;font-size:.72rem;letter-spacing:.06em;text-transform:uppercase;color:var(--text-muted);}
+  td:last-child,th:last-child{text-align:right;}
+  tr:last-child td{border-bottom:none;}
+  tr.total td{font-weight:600;background:var(--surface-2);}
+  tr.total td:first-child{border-top:2px solid var(--accent);}
+  tr.new td{color:var(--accent-ink);}
+  .tag{display:inline-block;font-size:.68rem;font-family:"IBM Plex Mono",monospace;padding:1px 6px;border-radius:3px;background:var(--surface-2);color:var(--text-muted);margin-left:6px;}
+
+  .specgrid{display:grid;grid-template-columns:1fr 1fr;gap:10px 20px;}
+  @media (max-width:480px){.specgrid{grid-template-columns:1fr;}}
+  .specrow{display:flex;justify-content:space-between;gap:12px;padding-block:7px;border-bottom:1px dashed var(--border);font-size:.88rem;}
+  .specrow .k{color:var(--text-muted);}
+  .specrow .v{text-align:right;font-weight:500;}
+
+  .steps{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:2px;counter-reset:step;}
+  .steps li{counter-increment:step;display:grid;grid-template-columns:34px 1fr;gap:12px;padding:12px 0;border-bottom:1px solid var(--border);}
+  .steps li:last-child{border-bottom:none;}
+  .steps li::before{content:counter(step);font-family:"Big Shoulders Display";font-weight:800;font-size:1.1rem;color:var(--accent-ink);border:2px solid var(--accent);border-radius:50%;width:34px;height:34px;display:flex;align-items:center;justify-content:center;}
+  .steps .t{font-weight:600;font-size:.92rem;}
+  .steps .d{color:var(--text-muted);font-size:.85rem;margin-top:3px;line-height:1.45;}
+
+  .note{background:var(--surface);border:1px solid var(--border);border-left:4px solid var(--blue);border-radius:4px;padding:14px 16px;font-size:.88rem;line-height:1.5;color:var(--text);}
+  .note.warn{border-left-color:var(--accent);}
+  .note b{color:var(--accent-ink);}
+
+  .diagram{background:var(--surface);border:1px solid var(--border);border-radius:4px;padding:10px;overflow-x:auto;}
+  .diagram svg{display:block;min-width:620px;width:100%;}
+
+  footer{margin-top:48px;padding-top:18px;border-top:1px solid var(--border);color:var(--text-muted);font-size:.8rem;}
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <p class="eyebrow">Reclaimed-cost build &middot; 48V split-phase</p>
+  <h1>The Budget PowerCart</h1>
+  <p class="sub">A 10kW, 120/240V split-phase hand-truck power station built to beat Will Prowse's parts list on cost per kWh, not just sticker price &mdash; same inverter tier, a single hand-wired 16S LiFePO4 pack instead of two pre-built packs.</p>
+  <p class="source">Reference build: <a href="https://willapproved.com/system-packages/budget-hand-truck-10kw/">Will Prowse's 120/240V 10kW Hand Truck</a>, $3,593 for 10.24kWh.</p>
+</header>
+
+<section>
+  <p class="label">The trade, in three numbers</p>
+  <div class="stats">
+    <div class="stat">
+      <div class="n">$3,507</div>
+      <div class="l">total build cost</div>
+      <div class="delta">&minus;$86 vs. stock</div>
+    </div>
+    <div class="stat">
+      <div class="n">11.5<small>kWh</small></div>
+      <div class="l">usable capacity</div>
+      <div class="delta">+1.5kWh vs. stock</div>
+    </div>
+    <div class="stat">
+      <div class="n">$298<small>/kWh</small></div>
+      <div class="l">landed battery cost</div>
+      <div class="delta">&minus;15% vs. stock's $351/kWh</div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <p class="label">Where the money actually moves</p>
+  <div class="note">
+    The inverter is already at the floor &mdash; SunGold's $1,422 10kW split-phase unit and ECO-WORTHY's own $1,435 equivalent are within $13 of each other. Stacking two cheaper 5000W units instead costs <i>more</i> ($1,536) and adds a sync headache. <b>The battery is the only real lever</b>: swapping two pre-built 5.12kWh packs ($890 each, $174/kWh) for one hand-built 16S pack from raw EVE LF230 cells drops the landed cost to roughly $139/kWh &mdash; and because the fixed cost of a box + BMS doesn't scale with cell size, you end up with more capacity than you asked for, almost for free.
+  </div>
+</section>
+
+<section>
+  <p class="label">Full parts list</p>
+  <div class="twrap">
+  <table>
+    <tr><th>Component</th><th>Spec</th><th>Price</th></tr>
+    <tr><td>Inverter</td><td>SunGold Power SPH10048P &mdash; 10,000W cont. / 20,000W peak, 48V &rarr; 120/240V split-phase</td><td>$1,422</td></tr>
+    <tr class="new"><td>LiFePO4 cells &times;16</td><td>EVE LF230, 3.2V / 230Ah / 736Wh, Grade A, busbars &amp; nuts included</td><td>$1,344</td></tr>
+    <tr class="new"><td>BMS</td><td>JK BMS PB2A16S20P &mdash; 16S, 200A continuous, 2A active balance, Bluetooth + RS485</td><td>$120</td></tr>
+    <tr class="new"><td>Battery box</td><td>Bare 16S vented steel enclosure, vertical</td><td>$90</td></tr>
+    <tr class="new"><td>Compression hardware</td><td>End plates, threaded rod, fish-paper insulation, ring terminals</td><td>$40</td></tr>
+    <tr class="new"><td>Main fuse + disconnect</td><td>300A Class-T fuse &amp; holder + manual battery disconnect switch</td><td>$100</td></tr>
+    <tr><td>Hand truck</td><td>Gorilla GHH-10, 1,000lb capacity &mdash; kept at full rating, pack runs heavier than stock's two smaller packs</td><td>$149</td></tr>
+    <tr><td>Battery cables &times;4</td><td>2/0 AWG, 2 red / 2 black, 1&ndash;2ft runs</td><td>$92</td></tr>
+    <tr><td>Outlet box</td><td>120/240V with 14-50R, TT-30R, 5-20R outlets &amp; breakers</td><td>$89</td></tr>
+    <tr><td>AC wire kit</td><td>6 AWG THHN, black/red/white/green</td><td>$33</td></tr>
+    <tr><td>PV disconnect</td><td>DC1000V 30A, for a future solar input</td><td>$28</td></tr>
+    <tr class="total"><td>Total</td><td></td><td>$3,507</td></tr>
+  </table>
+  </div>
+  <p class="sub" style="margin-top:10px;">Rows marked are where this build departs from the stock parts list &mdash; everything else is identical. Grade-B cells, a used inverter off Marketplace/eBay, or a used hand truck are the next levers if you want to push past $3,507; they're left out of the base number because they trade in condition risk, not just dollars.</p>
+</section>
+
+<section>
+  <p class="label">Battery &amp; BMS spec</p>
+  <div class="specgrid">
+    <div class="specrow"><span class="k">Configuration</span><span class="v">16S1P LiFePO4</span></div>
+    <div class="specrow"><span class="k">Nominal voltage</span><span class="v">51.2V</span></div>
+    <div class="specrow"><span class="k">Cell</span><span class="v">EVE LF230, 3.2V 230Ah</span></div>
+    <div class="specrow"><span class="k">Pack capacity</span><span class="v">11,776Wh (230Ah)</span></div>
+    <div class="specrow"><span class="k">Top-balance charge</span><span class="v">3.65V/cell, individually, before assembly</span></div>
+    <div class="specrow"><span class="k">BMS absorption cutoff</span><span class="v">3.45V/cell &middot; 55.2V pack</span></div>
+    <div class="specrow"><span class="k">BMS low-voltage cutoff</span><span class="v">2.8V/cell &middot; 44.8V pack</span></div>
+    <div class="specrow"><span class="k">BMS continuous rating</span><span class="v">200A (pack draw at 10kW &asymp; 195&ndash;208A)</span></div>
+    <div class="specrow"><span class="k">Busbar torque</span><span class="v">8&ndash;10 N&middot;m on M6 studs</span></div>
+    <div class="specrow"><span class="k">Main fuse</span><span class="v">300A Class-T, pack positive</span></div>
+  </div>
+</section>
+
+<section>
+  <p class="label">Wiring, end to end</p>
+  <div class="diagram">
+    <svg viewBox="0 0 620 220" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Wiring block diagram: 16S battery pack with BMS through a main fuse and disconnect into the inverter, out to the outlet box, with an optional PV input through a disconnect.">
+      <defs>
+        <marker id="arrow" markerWidth="8" markerHeight="8" refX="4" refY="4" orient="auto">
+          <path d="M0,0 L8,4 L0,8 Z" fill="var(--blue)"/>
+        </marker>
+      </defs>
+      <g font-family="IBM Plex Mono, monospace" font-size="11" fill="var(--text)">
+        <rect x="14" y="70" width="118" height="70" rx="4" fill="none" stroke="var(--accent)" stroke-width="2"/>
+        <text x="73" y="96" text-anchor="middle">16S LiFePO4</text>
+        <text x="73" y="110" text-anchor="middle" fill="var(--text-muted)">11.5kWh pack</text>
+        <text x="73" y="126" text-anchor="middle" fill="var(--text-muted)">+ JK BMS</text>
+
+        <line x1="132" y1="105" x2="182" y2="105" stroke="var(--blue)" stroke-width="2" marker-end="url(#arrow)"/>
+
+        <rect x="186" y="78" width="100" height="54" rx="4" fill="none" stroke="var(--blue)" stroke-width="2"/>
+        <text x="236" y="100" text-anchor="middle">300A fuse</text>
+        <text x="236" y="114" text-anchor="middle">+ disconnect</text>
+
+        <line x1="286" y1="105" x2="336" y2="105" stroke="var(--blue)" stroke-width="2" marker-end="url(#arrow)"/>
+
+        <rect x="340" y="62" width="126" height="86" rx="4" fill="none" stroke="var(--accent)" stroke-width="2"/>
+        <text x="403" y="92" text-anchor="middle">SunGold</text>
+        <text x="403" y="106" text-anchor="middle">SPH10048P</text>
+        <text x="403" y="122" text-anchor="middle" fill="var(--text-muted)">10kW split-phase</text>
+
+        <line x1="466" y1="105" x2="516" y2="105" stroke="var(--blue)" stroke-width="2" marker-end="url(#arrow)"/>
+
+        <rect x="520" y="78" width="86" height="54" rx="4" fill="none" stroke="var(--blue)" stroke-width="2"/>
+        <text x="563" y="100" text-anchor="middle">Outlet box</text>
+        <text x="563" y="114" text-anchor="middle" fill="var(--text-muted)">120/240V</text>
+
+        <line x1="403" y1="62" x2="403" y2="30" stroke="var(--text-muted)" stroke-width="2" stroke-dasharray="4 3" marker-end="url(#arrow)"/>
+        <rect x="320" y="4" width="100" height="30" rx="4" fill="none" stroke="var(--text-muted)" stroke-width="1.5"/>
+        <text x="370" y="23" text-anchor="middle" fill="var(--text-muted)">PV disconnect</text>
+        <text x="370" y="-6" text-anchor="middle" fill="var(--text-muted)"></text>
+        <text x="370" y="52" text-anchor="middle" fill="var(--text-muted)" font-size="10">optional solar in</text>
+
+        <line x1="73" y1="140" x2="73" y2="170" stroke="var(--text-muted)" stroke-width="1.5" stroke-dasharray="3 3"/>
+        <text x="73" y="186" text-anchor="middle" fill="var(--text-muted)" font-size="10">Gorilla GHH-10</text>
+        <text x="73" y="199" text-anchor="middle" fill="var(--text-muted)" font-size="10">hand truck, 1,000lb</text>
+      </g>
+    </svg>
+  </div>
+</section>
+
+<section>
+  <p class="label">Build order</p>
+  <ol class="steps">
+    <li><div><div class="t">Top-balance every cell individually</div><div class="d">Bench-charge each of the 16 LF230 cells to 3.65V one at a time before they ever touch a busbar. This is the step DIY builds skip and regret &mdash; it's what a pre-built pack does for you at the factory.</div></div></li>
+    <li><div><div class="t">Stack and compress</div><div class="d">Cells into the box with fish-paper insulation between faces, end plates on, threaded rod tensioned evenly.</div></div></li>
+    <li><div><div class="t">Bolt the busbars</div><div class="d">Series connection across all 16 cells, M6 studs torqued to 8&ndash;10 N&middot;m. Check continuity cell-to-cell before power-up.</div></div></li>
+    <li><div><div class="t">Wire the BMS</div><div class="d">Balance leads to every cell tap. Confirm all 16 cell readings in the JK app and that they agree with a multimeter before closing the box.</div></div></li>
+    <li><div><div class="t">Install main protection</div><div class="d">300A Class-T fuse and the manual disconnect switch go inline on the pack's positive terminal, outside the box.</div></div></li>
+    <li><div><div class="t">Mount pack and inverter to the hand truck</div><div class="d">Battery low and centered over the axle, inverter above it, strapped &mdash; not just resting.</div></div></li>
+    <li><div><div class="t">Wire DC side</div><div class="d">Pack &rarr; fuse/disconnect &rarr; inverter DC input, 2/0 AWG.</div></div></li>
+    <li><div><div class="t">Wire AC side</div><div class="d">Inverter &rarr; outlet box (14-50R / TT-30R / 5-20R) with the 6 AWG THHN kit.</div></div></li>
+    <li><div><div class="t">Add the PV disconnect</div><div class="d">Inline before the MPPT input, whenever solar panels get added &mdash; wire it now even if panels come later.</div></div></li>
+    <li><div><div class="t">Power up on the bench, not the road</div><div class="d">Multimeter on pack voltage and every cell tap, BMS app confirming balance, before the inverter ever sees a load.</div></div></li>
+    <li><div><div class="t">Ramp the load</div><div class="d">Start low, climb to full 10kW with a clamp meter watching real draw against the 200A BMS ceiling.</div></div></li>
+  </ol>
+</section>
+
+<section>
+  <p class="label">Before you touch a busbar</p>
+  <div class="note warn">
+    A loose busbar bolt is the single most common DIY LiFePO4 fire cause &mdash; it arcs under load instead of carrying current cleanly. Torque every M6 stud to spec and recheck after the first full charge/discharge cycle, once the stack has settled. The 300A main fuse is not optional: a pre-built pack hides this protection inside its case, a hand-built one doesn't, and skipping it is the actual corner this build must not cut.
+  </div>
+</section>
+
+<footer>
+  Parts pricing checked November 2026. Same reclaimed-cost delivery pattern as the <span class="mono">murphy-k7x2</span> and <span class="mono">projector-rydv</span> builds &mdash; mirrored to GitHub Pages for phone access, no login.
+</footer>
+
+</body>
+</html>
