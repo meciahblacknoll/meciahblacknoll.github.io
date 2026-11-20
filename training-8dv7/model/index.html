@@ -1,0 +1,320 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Physique Proportion Dial</title>
+<style>
+  :root{
+    --bg:#f6f5f1; --surface:#ffffff; --surface-2:#eeece4; --surface-3:#e4e0d4; --line:#c9c4b4;
+    --ink:#211f1a; --ink-dim:#6b6558; --accent:#8a5a35; --accent-soft:#f0e3d4;
+    --fixed:#5a5a8a; --fixed-soft:#e8e8f2;
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --bg:#1a1814; --surface:#221f1a; --surface-2:#2b2821; --surface-3:#342f26; --line:#433e34;
+      --ink:#ece7dc; --ink-dim:#a39b89; --accent:#d6a06a; --accent-soft:#3a2d1f;
+      --fixed:#9a9ad0; --fixed-soft:#262640;
+    }
+  }
+  :root[data-theme="dark"]{
+    --bg:#1a1814; --surface:#221f1a; --surface-2:#2b2821; --surface-3:#342f26; --line:#433e34;
+    --ink:#ece7dc; --ink-dim:#a39b89; --accent:#d6a06a; --accent-soft:#3a2d1f;
+    --fixed:#9a9ad0; --fixed-soft:#262640;
+  }
+  *{box-sizing:border-box;}
+  html,body{height:100%;background:var(--bg);}
+  body{margin:0;color:var(--ink);font-family:'Source Serif 4',Georgia,serif;padding:24px 16px;padding-block:28px;}
+  .wrap{max-width:980px;margin:0 auto;display:flex;flex-direction:column;gap:20px;}
+  .kicker{font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.09em;text-transform:uppercase;color:var(--accent);margin:0 0 6px;}
+  h1{font-family:'Fraunces',Georgia,serif;font-size:clamp(22px,4.2vw,32px);font-weight:600;margin:0;text-wrap:balance;}
+  .sub{color:var(--ink-dim);font-size:14.5px;max-width:68ch;margin:8px 0 0;line-height:1.55;}
+  .main{display:flex;gap:16px;flex-wrap:wrap;}
+  .stage{flex:2 1 440px;min-width:0;display:flex;flex-direction:column;gap:12px;}
+  .side{flex:1 1 260px;min-width:260px;display:flex;flex-direction:column;gap:12px;}
+  .canvas-wrap{position:relative;background:var(--surface-2);border-radius:12px;overflow:hidden;aspect-ratio:4/5;border:1px solid var(--line);}
+  #viewer{width:100%;height:100%;display:block;touch-action:none;}
+  .badge{position:absolute;top:10px;left:10px;font-family:'IBM Plex Mono',monospace;font-size:11px;background:rgba(0,0,0,0.45);color:#fff;padding:4px 9px;border-radius:5px;}
+  .panel{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:18px;}
+  .dial-row{display:flex;align-items:center;gap:12px;}
+  .dial-row input[type=range]{flex:1;accent-color:var(--accent);height:4px;}
+  .dial-label{font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--ink-dim);white-space:nowrap;}
+  .presets{display:flex;gap:8px;margin-top:4px;}
+  .presets button{
+    font-family:'IBM Plex Sans',system-ui,sans-serif;font-size:12.5px;font-weight:600;
+    background:var(--surface-3);color:var(--ink);border:none;border-radius:7px;padding:8px 14px;cursor:pointer;
+  }
+  .presets button:hover{background:var(--accent);color:var(--surface);}
+  h2{font-family:'Fraunces',Georgia,serif;font-size:17px;font-weight:600;margin:0 0 10px;}
+  .readout{display:flex;flex-direction:column;gap:9px;}
+  .readout-row{display:flex;justify-content:space-between;align-items:baseline;font-size:13.5px;gap:8px;}
+  .readout-row .n{font-family:'IBM Plex Mono',monospace;font-variant-numeric:tabular-nums;color:var(--accent);font-weight:600;white-space:nowrap;}
+  .readout-row.fixed .n{color:var(--fixed);}
+  .tag{display:inline-block;font-family:'IBM Plex Mono',monospace;font-size:9.5px;padding:1px 6px;border-radius:4px;margin-left:6px;vertical-align:middle;}
+  .tag.grow{background:var(--accent-soft);color:var(--accent);}
+  .tag.fix{background:var(--fixed-soft);color:var(--fixed);}
+  .legend{font-size:12.5px;color:var(--ink-dim);line-height:1.6;}
+  footer{font-size:12px;color:var(--ink-dim);line-height:1.6;}
+  footer a{color:var(--accent);}
+  @media (max-width:640px){ .main{flex-direction:column;} }
+</style>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Source+Serif+4:wght@400;500&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;600&display=swap">
+</head>
+<body>
+<div class="wrap">
+  <div>
+    <p class="kicker">Bedroom gym &middot; current vs. Grecian ideal &middot; schematic, not a body scan</p>
+    <h1>Proportion dial</h1>
+    <p class="sub">A deliberately simplified figure &mdash; tapered cylinders, not an anatomical model &mdash; built from your real measurements. Drag the slider to morph from your current numbers toward the Grecian-ideal targets already computed in the main program doc. Only the four measurements with a named classical target actually move; everything else (waist, neck, thigh, forearm, bone lengths) holds fixed &mdash; shown that way deliberately, not an oversight.</p>
+  </div>
+
+  <div class="main">
+    <div class="stage">
+      <div class="canvas-wrap">
+        <canvas id="viewer"></canvas>
+        <span class="badge" id="pctBadge">0% toward ideal</span>
+      </div>
+      <div class="panel">
+        <div class="dial-row">
+          <span class="dial-label">Current</span>
+          <input type="range" id="dial" min="0" max="100" value="0" step="1">
+          <span class="dial-label">Ideal</span>
+        </div>
+        <div class="presets">
+          <button data-v="0">Current (0%)</button>
+          <button data-v="25">25%</button>
+          <button data-v="50">Halfway</button>
+          <button data-v="75">75%</button>
+          <button data-v="100">Ideal (100%)</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="side">
+      <div class="panel">
+        <h2>Live readout</h2>
+        <div class="readout" id="readout"></div>
+      </div>
+      <div class="panel legend">
+        <b style="color:var(--ink);font-family:'IBM Plex Mono',monospace;font-size:11px;text-transform:uppercase;letter-spacing:.05em;">Legend</b><br>
+        <span class="tag grow">grows</span> shoulder circumference, chest, upper arm, calf &mdash; the four with a named Grecian target<br><br>
+        <span class="tag fix">fixed</span> waist, neck, forearm, thigh, wrist/ankle anchors, all bone lengths &mdash; waist specifically moves by diet, not this dial; the others have no classical target or don't change with training
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    Segment lengths (torso/arm/leg split) are schematic estimates derived from your real height, wingspan, and sitting-height numbers &mdash; not individually measured. This shows proportion direction and scale, not a literal rendering of your body. Full numbers and sourcing: <a href="../">../</a>
+  </footer>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/build/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+<script>
+(function(){
+try{
+
+// ---------- real measurements (cm), 2026-11-19 baseline ----------
+var height=182.2, wingspan=185, sittingHeight=100.5;
+var current = { shoulder:126, chest:100, waist:92, neck:37, arm:33, forearm:29, thigh:59, calf:35, wrist:18, ankle:22.5 };
+var target  = { shoulder:148.9, chest:133.4, waist:92, neck:37, arm:45, forearm:29, thigh:59, calf:42.75, wrist:18, ankle:22.5 };
+var inKeys = ['shoulder','chest','arm','calf']; // the only ones the dial actually moves
+
+function toIn(cm){ return (cm/2.54); }
+function circR(c){ return c/(2*Math.PI); }
+
+// ---------- schematic segment lengths, derived (not individually measured) ----------
+var legLen = height - sittingHeight;           // 81.7cm total leg
+var thighLen = legLen*0.50, calfLen = legLen*0.50;
+var headLen = sittingHeight*0.13, neckLen = sittingHeight*0.05;
+var torsoLen = sittingHeight - headLen - neckLen;
+var armTotal = wingspan*0.44;                  // schematic: each arm ~44% of wingspan
+var upperArmLen = armTotal*0.47, forearmLen = armTotal*0.53;
+
+var canvas = document.getElementById('viewer');
+var scene = new THREE.Scene();
+function isDark(){
+  var t=document.documentElement.getAttribute('data-theme');
+  if(t==='light') return false; if(t==='dark') return true;
+  return window.matchMedia('(prefers-color-scheme: dark)').matches;
+}
+scene.background = new THREE.Color(isDark()?0x2b2821:0xeeece4);
+
+var camera = new THREE.PerspectiveCamera(38, 4/5, 1, 3000);
+var renderer = new THREE.WebGLRenderer({canvas:canvas, antialias:true});
+renderer.setPixelRatio(Math.min(window.devicePixelRatio||1,2));
+renderer.shadowMap.enabled = true; renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+renderer.toneMapping = THREE.ACESFilmicToneMapping; renderer.toneMappingExposure = 1.05;
+
+function resize(){
+  var w = canvas.clientWidth||400, h = w*5/4;
+  renderer.setSize(w,h,false); camera.aspect=w/h; camera.updateProjectionMatrix();
+}
+var controls = new THREE.OrbitControls(camera, renderer.domElement);
+controls.enableDamping=true; controls.dampingFactor=0.08;
+controls.minDistance=120; controls.maxDistance=500;
+controls.target.set(0, 95, 0);
+camera.position.set(190,130,330);
+
+scene.add(new THREE.HemisphereLight(0xeaf4ff,0x2a241c,0.7));
+var key=new THREE.DirectionalLight(0xfff1dc,1.1); key.position.set(90,160,120); key.castShadow=true;
+key.shadow.mapSize.set(1024,1024);
+scene.add(key);
+var fill=new THREE.DirectionalLight(0xcfe8ff,0.4); fill.position.set(-100,80,80); scene.add(fill);
+
+var ground = new THREE.Mesh(new THREE.CircleGeometry(140,48), new THREE.MeshStandardMaterial({color:0xd8d4c6, roughness:0.95}));
+ground.rotation.x=-Math.PI/2; ground.position.y=-1; ground.receiveShadow=true;
+scene.add(ground);
+
+function mat(color){ return new THREE.MeshStandardMaterial({color:color, roughness:0.55, metalness:0.08}); }
+function cyl(rTop,rBot,len,color){
+  var m = new THREE.Mesh(new THREE.CylinderGeometry(rTop,rBot,len,24), mat(color));
+  m.castShadow=true; m.receiveShadow=true; return m;
+}
+
+var figure = new THREE.Group(); scene.add(figure);
+
+var COLOR_GROW = 0xe07b3e, COLOR_FIXED = 0x7e7eb8, COLOR_SKIN = 0x9b968a;
+
+// head (decorative, not measured)
+var head = new THREE.Mesh(new THREE.SphereGeometry(headLen*0.42,24,24), mat(COLOR_SKIN));
+head.castShadow=true;
+figure.add(head);
+
+// neck (fixed)
+var neckR = circR(current.neck);
+var neck = cyl(neckR,neckR,neckLen,COLOR_FIXED);
+figure.add(neck);
+
+// torso: two tapered bands (shoulder->chest, chest->waist)
+var bandUpper = cyl(1,1,torsoLen*0.38,COLOR_GROW);
+var bandLower = cyl(1,1,torsoLen*0.62,COLOR_GROW);
+figure.add(bandUpper, bandLower);
+
+// arms (upper arm grows, forearm fixed)
+var armL_upper = cyl(1,1,upperArmLen,COLOR_GROW);
+var armR_upper = cyl(1,1,upperArmLen,COLOR_GROW);
+var armL_fore  = cyl(1,1,forearmLen,COLOR_FIXED);
+var armR_fore  = cyl(1,1,forearmLen,COLOR_FIXED);
+figure.add(armL_upper, armR_upper, armL_fore, armR_fore);
+
+// legs (thigh fixed, calf grows)
+var thighR = circR(current.thigh);
+var legL_thigh = cyl(thighR,thighR,thighLen,COLOR_FIXED);
+var legR_thigh = cyl(thighR,thighR,thighLen,COLOR_FIXED);
+var legL_calf = cyl(1,1,calfLen,COLOR_GROW);
+var legR_calf = cyl(1,1,calfLen,COLOR_GROW);
+figure.add(legL_thigh, legR_thigh, legL_calf, legR_calf);
+
+var armGap = circR(current.chest)*0.9; // horizontal offset for arms/legs, fixed layout
+var legGap = thighR*1.3;
+
+function layout(t){
+  // lerp the 4 named-target measurements
+  var shoulderR = lerp(circR(current.shoulder), circR(target.shoulder), t);
+  var chestR    = lerp(circR(current.chest),    circR(target.chest),    t);
+  var waistR    = circR(current.waist); // fixed
+  var armR      = lerp(circR(current.arm),      circR(target.arm),      t);
+  var calfR     = lerp(circR(current.calf),     circR(target.calf),     t);
+
+  // vertical stack, from the hip up
+  var hipY = thighLen; // local y of hip joint relative to feet at 0
+  var feetY = 0;
+
+  // legs
+  legL_thigh.geometry.dispose(); legR_thigh.geometry.dispose();
+  legL_thigh.geometry = new THREE.CylinderGeometry(thighR,thighR,thighLen,24);
+  legR_thigh.geometry = new THREE.CylinderGeometry(thighR,thighR,thighLen,24);
+  legL_calf.geometry.dispose(); legR_calf.geometry.dispose();
+  legL_calf.geometry = new THREE.CylinderGeometry(calfR,calfR*0.85,calfLen,24);
+  legR_calf.geometry = new THREE.CylinderGeometry(calfR,calfR*0.85,calfLen,24);
+  legL_thigh.position.set(-legGap, feetY+calfLen+thighLen/2, 0);
+  legR_thigh.position.set( legGap, feetY+calfLen+thighLen/2, 0);
+  legL_calf.position.set(-legGap, feetY+calfLen/2, 0);
+  legR_calf.position.set( legGap, feetY+calfLen/2, 0);
+
+  var hipTopY = feetY+calfLen+thighLen;
+
+  // torso bands
+  bandLower.geometry.dispose();
+  bandLower.geometry = new THREE.CylinderGeometry(chestR, waistR, torsoLen*0.62, 24);
+  bandUpper.geometry.dispose();
+  bandUpper.geometry = new THREE.CylinderGeometry(shoulderR, chestR, torsoLen*0.38, 24);
+  bandLower.position.set(0, hipTopY + torsoLen*0.31, 0);
+  bandUpper.position.set(0, hipTopY + torsoLen*0.62 + torsoLen*0.19, 0);
+
+  var shoulderY = hipTopY + torsoLen;
+
+  // neck + head
+  neck.position.set(0, shoulderY + neckLen/2, 0);
+  head.position.set(0, shoulderY + neckLen + headLen*0.42, 0);
+
+  // arms, hanging from shoulder, slightly outward
+  armL_upper.geometry.dispose(); armR_upper.geometry.dispose();
+  armL_upper.geometry = new THREE.CylinderGeometry(armR,armR*0.92,upperArmLen,20);
+  armR_upper.geometry = new THREE.CylinderGeometry(armR,armR*0.92,upperArmLen,20);
+  armL_fore.geometry.dispose(); armR_fore.geometry.dispose();
+  armL_fore.geometry = new THREE.CylinderGeometry(armR*0.78,circR(current.forearm),forearmLen,20);
+  armR_fore.geometry = new THREE.CylinderGeometry(armR*0.78,circR(current.forearm),forearmLen,20);
+
+  var armX = shoulderR + armR + 1.5;
+  armL_upper.position.set(-armX, shoulderY - upperArmLen/2, 0);
+  armR_upper.position.set( armX, shoulderY - upperArmLen/2, 0);
+  armL_fore.position.set(-armX, shoulderY - upperArmLen - forearmLen/2, 0);
+  armR_fore.position.set( armX, shoulderY - upperArmLen - forearmLen/2, 0);
+
+  controls.target.y = hipTopY + torsoLen*0.35;
+
+  return {shoulderR:shoulderR, chestR:chestR, armR:armR, calfR:calfR};
+}
+function lerp(a,b,t){ return a+(b-a)*t; }
+
+var dial = document.getElementById('dial');
+var pctBadge = document.getElementById('pctBadge');
+var readoutEl = document.getElementById('readout');
+
+function fmt(cm){ return cm.toFixed(1)+'cm ('+toIn(cm).toFixed(1)+'in)'; }
+
+function render(t){
+  layout(t);
+  pctBadge.textContent = Math.round(t*100)+'% toward ideal';
+  var rows = [
+    {label:'Shoulder circumference', cur:current.shoulder, tgt:target.shoulder, grow:true},
+    {label:'Chest', cur:current.chest, tgt:target.chest, grow:true},
+    {label:'Upper arm', cur:current.arm, tgt:target.arm, grow:true},
+    {label:'Calf', cur:current.calf, tgt:target.calf, grow:true},
+    {label:'Waist', cur:current.waist, tgt:current.waist, grow:false},
+    {label:'Neck', cur:current.neck, tgt:current.neck, grow:false}
+  ];
+  readoutEl.innerHTML = rows.map(function(r){
+    var val = r.grow ? lerp(r.cur,r.tgt,t) : r.cur;
+    var tag = r.grow ? '<span class="tag grow">grows</span>' : '<span class="tag fix">fixed</span>';
+    return '<div class="readout-row'+(r.grow?'':' fixed')+'"><span>'+r.label+tag+'</span><span class="n">'+fmt(val)+'</span></div>';
+  }).join('');
+}
+
+dial.addEventListener('input', function(){ render(dial.value/100); });
+document.querySelectorAll('.presets button').forEach(function(b){
+  b.addEventListener('click', function(){ dial.value=b.dataset.v; render(dial.value/100); });
+});
+
+window.addEventListener('resize', resize);
+resize();
+render(0);
+
+function animate(){ requestAnimationFrame(animate); controls.update(); renderer.render(scene,camera); }
+animate();
+
+}catch(e){
+  var el=document.getElementById('viewer');
+  if(el&&el.parentNode){
+    var msg=document.createElement('div');
+    msg.style.cssText='padding:20px;color:#8a8478;font-size:13px;';
+    msg.textContent='Model failed to load ('+e.message+').';
+    el.parentNode.replaceChild(msg,el);
+  }
+}
+})();
+</script>
+</body>
+</html>
