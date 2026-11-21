@@ -1,0 +1,578 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Training Block One</title>
+<meta name="description" content="Weeks 1–12 of Meciah's bedroom training program: week-by-week periodization on top of the stable five-day structure, a deload at week 7, a retest week at week 12, and a deepened mobility and longevity layer grounded in FRC and the flexibility-mortality literature.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..800;1,9..144,300..800&family=Source+Serif+4:ital,opsz,wght@0,8..60,300..700;1,8..60,300..700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#f7f2ea;
+  --bg-2:#efe7da;
+  --paper:#fffdf9;
+  --ink:#1f1a14;
+  --ink-2:#4a4036;
+  --ink-3:#7a6d5f;
+  --rule:#d9cdbb;
+  --accent:#9a4b1e;
+  --accent-2:#2f6b57;
+  --accent-3:#5a4e9c;
+  --warn:#a3591a;
+  --warn-bg:#fbead8;
+  --ok-bg:#e3efe8;
+  --info-bg:#e9e6f5;
+  --head-bg:#efe7da;
+  --load-bg:#f3e3d3;
+  --deload-bg:#dfeae4;
+  --test-bg:#e6e2f3;
+  --shadow:0 1px 0 rgba(0,0,0,.04),0 8px 24px -16px rgba(60,40,20,.25);
+  --serif:"Source Serif 4",Georgia,"Times New Roman",serif;
+  --display:"Fraunces","Source Serif 4",Georgia,serif;
+  --mono:"IBM Plex Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#15120e; --bg-2:#1f1a14; --paper:#1b1712;
+    --ink:#efe6d8; --ink-2:#cbbfae; --ink-3:#9a8d7c; --rule:#3a3128;
+    --accent:#e08a57; --accent-2:#7fc2a7; --accent-3:#a79cdf;
+    --warn:#e9a86a; --warn-bg:#2d2116; --ok-bg:#16271f; --info-bg:#201d2e; --head-bg:#241e17;
+    --load-bg:#2a1f16; --deload-bg:#16271f; --test-bg:#201d2e;
+    --shadow:0 1px 0 rgba(0,0,0,.3),0 8px 24px -16px rgba(0,0,0,.7);
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#15120e; --bg-2:#1f1a14; --paper:#1b1712;
+  --ink:#efe6d8; --ink-2:#cbbfae; --ink-3:#9a8d7c; --rule:#3a3128;
+  --accent:#e08a57; --accent-2:#7fc2a7; --accent-3:#a79cdf;
+  --warn:#e9a86a; --warn-bg:#2d2116; --ok-bg:#16271f; --info-bg:#201d2e; --head-bg:#241e17;
+  --load-bg:#2a1f16; --deload-bg:#16271f; --test-bg:#201d2e;
+  --shadow:0 1px 0 rgba(0,0,0,.3),0 8px 24px -16px rgba(0,0,0,.7);
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--serif);font-size:17px;line-height:1.6;font-feature-settings:"onum" 0,"lnum" 1}
+.wrap{max-width:760px;margin:0 auto;padding-block:40px 80px;padding-inline:16px}
+header.masthead{padding:16px 0 28px;border-bottom:2px solid var(--ink)}
+.kicker{font-family:var(--mono);font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-3)}
+h1{font-family:var(--display);font-weight:600;font-variation-settings:"opsz" 144,"SOFT" 40;font-size:clamp(34px,7vw,52px);line-height:1.05;margin:10px 0 14px;letter-spacing:-.01em;text-wrap:balance}
+.lede{font-size:19px;color:var(--ink-2);margin:0 0 12px;max-width:62ch}
+.meta{font-family:var(--mono);font-size:12.5px;color:var(--ink-3);display:flex;flex-wrap:wrap;gap:8px 18px}
+nav.toc{margin:24px 0 8px;padding:16px 18px;background:var(--paper);border:1px solid var(--rule);border-radius:10px;box-shadow:var(--shadow)}
+nav.toc ol{margin:6px 0 0;padding-left:1.3em;columns:2;column-gap:28px}
+@media (max-width:520px){nav.toc ol{columns:1}}
+nav.toc li{margin:3px 0;font-size:15.5px;break-inside:avoid}
+nav.toc a{color:var(--ink-2);text-decoration:none;border-bottom:1px solid var(--rule)}
+nav.toc a:hover,nav.toc a:focus-visible{color:var(--accent);border-color:var(--accent);outline:none}
+section{margin-top:52px}
+h2{font-family:var(--display);font-weight:600;font-size:clamp(26px,5vw,32px);line-height:1.15;margin:0 0 6px;font-variation-settings:"opsz" 72;text-wrap:balance}
+h2 .num{font-family:var(--mono);font-size:13px;color:var(--accent);letter-spacing:.1em;display:block;margin-bottom:6px;font-weight:500}
+h3{font-family:var(--display);font-weight:600;font-size:21px;margin:28px 0 8px;line-height:1.25;text-wrap:balance}
+h4{font-family:var(--serif);font-weight:700;font-size:17px;margin:18px 0 6px}
+p{margin:10px 0}
+ul,ol{padding-left:1.35em}
+li{margin:5px 0}
+strong{font-weight:700}
+em{font-style:italic}
+code,.mono{font-family:var(--mono);font-size:.88em}
+.small{font-size:14.5px;color:var(--ink-3)}
+a{color:var(--accent)}
+a:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+
+.callout{padding:14px 18px;border-radius:10px;margin:18px 0;border:1px solid var(--rule);background:var(--paper)}
+.callout.rule{background:var(--warn-bg);border-color:transparent}
+.callout.ok{background:var(--ok-bg);border-color:transparent}
+.callout.info{background:var(--info-bg);border-color:transparent}
+.callout .label{font-family:var(--mono);font-size:11.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-3);display:block;margin-bottom:4px}
+.callout p:first-of-type{margin-top:4px}
+.callout p:last-child{margin-bottom:2px}
+
+.tbl{overflow-x:auto;-webkit-overflow-scrolling:touch;margin:14px 0;border:1px solid var(--rule);border-radius:10px;background:var(--paper);box-shadow:var(--shadow)}
+table{border-collapse:collapse;width:100%;min-width:480px;font-size:15px}
+table.narrow{min-width:0}
+th,td{padding:9px 12px;text-align:left;vertical-align:top;border-bottom:1px solid var(--rule)}
+th{background:var(--head-bg);font-family:var(--mono);font-size:11.5px;letter-spacing:.08em;text-transform:uppercase;font-weight:600;color:var(--ink-2)}
+tr:last-child td{border-bottom:0}
+td.n,th.n{text-align:right;font-family:var(--mono);font-size:14px;white-space:nowrap;font-variant-numeric:tabular-nums}
+tbody tr.sub td{background:var(--bg-2);font-family:var(--mono);font-size:11.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-3);padding:6px 12px}
+.tag{display:inline-block;font-family:var(--mono);font-size:11px;letter-spacing:.06em;padding:1px 7px;border-radius:999px;border:1px solid var(--rule);color:var(--ink-2);white-space:nowrap}
+.tag.load{background:var(--load-bg);color:var(--warn);border-color:transparent}
+.tag.deload{background:var(--deload-bg);color:var(--accent-2);border-color:transparent}
+.tag.test{background:var(--test-bg);color:var(--accent-3);border-color:transparent}
+
+/* block strip */
+.strip{display:grid;grid-template-columns:repeat(12,1fr);gap:4px;margin:18px 0 6px}
+.strip div{height:44px;border-radius:6px;display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:12px;font-weight:600;color:var(--ink-2);background:var(--load-bg)}
+.strip div.d{background:var(--deload-bg);color:var(--accent-2)}
+.strip div.t{background:var(--test-bg);color:var(--accent-3)}
+.strip div.m{box-shadow:inset 0 -4px 0 var(--accent)}
+.legend{display:flex;flex-wrap:wrap;gap:8px 18px;font-family:var(--mono);font-size:12px;color:var(--ink-3);margin-bottom:8px}
+.legend span::before{content:"";display:inline-block;width:12px;height:12px;border-radius:3px;margin-right:6px;vertical-align:-2px;background:var(--load-bg)}
+.legend span.d::before{background:var(--deload-bg)}
+.legend span.t::before{background:var(--test-bg)}
+.legend span.m::before{background:var(--load-bg);box-shadow:inset 0 -4px 0 var(--accent)}
+@media (max-width:520px){.strip{grid-template-columns:repeat(6,1fr)}}
+
+/* week cards */
+.week{background:var(--paper);border:1px solid var(--rule);border-radius:12px;padding:16px 18px 12px;margin:14px 0;box-shadow:var(--shadow)}
+.week .wh{display:flex;flex-wrap:wrap;align-items:baseline;gap:6px 14px;border-bottom:1px solid var(--rule);padding-bottom:8px;margin-bottom:8px}
+.week .wh h3{margin:0;font-size:20px}
+.week .wh .tags{margin-left:auto;display:flex;gap:6px;flex-wrap:wrap}
+@media (max-width:520px){.week .wh .tags{margin-left:0}}
+.week ul{margin:6px 0}
+.week li{margin:5px 0}
+.week .k{font-family:var(--mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-3)}
+
+/* protocol steps */
+.proto{counter-reset:step;list-style:none;padding:0;margin:10px 0}
+.proto li{position:relative;padding:8px 0 8px 46px;border-left:2px solid var(--rule);margin:0 0 0 14px}
+.proto li::before{counter-increment:step;content:counter(step);position:absolute;left:-15px;top:9px;width:28px;height:28px;border-radius:50%;background:var(--paper);border:2px solid var(--accent);color:var(--accent);font-family:var(--mono);font-size:12.5px;font-weight:600;display:flex;align-items:center;justify-content:center}
+.proto .t{font-weight:700}
+.proto .rx{display:block;font-family:var(--mono);font-size:13px;color:var(--accent-2);margin-top:2px}
+
+footer{margin-top:64px;padding-top:18px;border-top:1px solid var(--rule);font-size:14px;color:var(--ink-3)}
+.src li{font-size:14.5px;color:var(--ink-2)}
+@media (prefers-reduced-motion: reduce){*{scroll-behavior:auto!important}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header class="masthead">
+  <div class="kicker">Meciah · Training program · Block 1 · companion to the v2 base document</div>
+  <h1>Training Block One</h1>
+  <p class="lede">Weeks 1–12 of the bedroom program. The five-day week, the exercises, the progression rules, the skill ladders and the measurements are exactly as the base document settled them; this page adds the calendar on top: which weeks load, which week backs off, which week measures, and what should realistically have moved by the end. It also deepens the mobility and joint-health layer with the actual research behind it.</p>
+  <div class="meta">
+    <span>Block 1 start: week of 2026-11-23</span>
+    <span>Baseline: 2026-11-21</span>
+    <span>Age 23 (turning 24)</span>
+    <span>Deload: week 7 · Retest: week 12</span>
+  </div>
+  <nav class="toc" aria-label="Contents">
+    <span class="kicker">Contents</span>
+    <ol>
+      <li><a href="#what">What this adds, and what it leaves alone</a></li>
+      <li><a href="#shape">Shape of the block</a></li>
+      <li><a href="#weeks">Week by week</a></li>
+      <li><a href="#skills">Skill pacing over 12 weeks</a></li>
+      <li><a href="#retest">Week 12: the retest protocol</a></li>
+      <li><a href="#warmup">Warm-up, now with a pulse-raiser</a></li>
+      <li><a href="#frc">CARs, PAILs and RAILs: the FRC source</a></li>
+      <li><a href="#longevity">Flexibility, movement and longevity: the evidence</a></li>
+      <li><a href="#nippard">Nippard, frequency and the age mismatch</a></li>
+      <li><a href="#aesthetic">The aesthetic direction, briefly</a></li>
+      <li><a href="#after">After week 12</a></li>
+      <li><a href="#sources">Sources</a></li>
+    </ol>
+  </nav>
+</header>
+
+<!-- ============================================================ -->
+<section id="what">
+  <h2><span class="num">01</span>What this adds, and what it leaves alone</h2>
+  <p>The base document (<a href="https://meciahblacknoll.github.io/training-8dv7/">Bedroom Training Program v2</a>) is the authority on <em>what</em> you do: the three goals in priority order, the 13 baseline measurements, the Monday Push A / Tuesday Lower + Pull A / Wednesday Skill / Thursday Lower + Pull B / Friday Push B week, double progression, the tier rule, the deload rule, the sleep rule, the 48-hour joint-health override, the three skill ladders, and the Reeves ratios as a de-emphasised reference point rather than a target. Nothing on this page re-opens any of that. Where this page and the base disagree, the base is right and this page has a bug.</p>
+  <p>What the base deliberately does not say is <em>when</em>. "Every 6–8 weeks" for the deload, "monthly" for the tape, "1–3 years" for the planche. Those are correct as rules, but a rule is not a calendar. This block puts the rules on one: twelve named weeks, one scheduled deload, one scheduled retest, and an honest statement of how far each ladder should have moved by the end.</p>
+
+  <h3>Why a 12-week block when the week never changes</h3>
+  <ul>
+    <li><strong>The deload rule only works if it is on the calendar.</strong> The base says "put the deload on the calendar in advance; do not wait to feel like you need it." This is that calendar. Week 7 is the deload whether or not week 6 felt hard.</li>
+    <li><strong>Twelve weeks is three monthly tape measurements.</strong> Weeks 4, 8 and 12 are the base document's monthly re-measure days, so a block lines up exactly with three data points, and the week-12 retest is the third one with a few extra tests bolted on.</li>
+    <li><strong>Skill timelines need checkpoints, not just end dates.</strong> "4–8 months to three handstand push-ups" is honest but unactionable week to week. Section 04 translates each ladder into "where you should plausibly be at week 6 and week 12," so a stall is visible early and a fast run is not mistaken for permission to skip tiers.</li>
+    <li><strong>The research you asked about has programming consequences.</strong> The CARs-to-FRC connection, PAILs/RAILs, the Nippard warm-up, and the flexibility-mortality literature each change a specific line of the daily layer or the splits work. Those changes are additive and are introduced on a schedule inside this block (Sections 06 and 07) rather than all at once.</li>
+  </ul>
+
+  <div class="callout rule">
+    <span class="label">Still the override</span>
+    <p><strong>Any new ache that lingers past 48 hours drops that movement back one tier, or out of the session entirely, for that week.</strong> Nothing in this block, including the week-by-week expectations, the PAILs/RAILs introduction, or the week-12 retest, outranks this. If the retest week lands on a sore wrist, the wrist tests are skipped and logged as skipped.</p>
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<section id="shape">
+  <h2><span class="num">02</span>Shape of the block</h2>
+  <p>Six weeks of loading, one deload, four more weeks of loading, one retest week. The deload at week 7 is the base document's "every 6–8 weeks" rule at its earliest point, chosen because this is a returning lifter's first block and connective tissue is the thing being protected. The retest week is itself run at reduced volume, so the span from week 7 to the next full deload (Block 2, week 7) contains a light week in its middle.</p>
+
+  <div class="legend">
+    <span>Loading week</span>
+    <span class="d">Deload</span>
+    <span class="t">Retest</span>
+    <span class="m">Monthly tape</span>
+  </div>
+  <div class="strip" aria-label="Twelve-week block layout">
+    <div>1</div><div>2</div><div>3</div><div class="m">4</div><div>5</div><div>6</div>
+    <div class="d">7</div><div class="m">8</div><div>9</div><div>10</div><div>11</div><div class="t m">12</div>
+  </div>
+
+  <div class="tbl">
+    <table>
+      <thead><tr><th>Phase</th><th>Weeks</th><th>Lifting</th><th>Skill ladders</th><th>Splits</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Re-entry and placement</strong></td><td class="n">1–2</td><td>Find honest working weights at the bottom of each rep range at 2–3 reps shy of failure. Err light.</td><td>Place yourself on each ladder (Section 04). Most likely tier 1 on all three.</td><td>Base method exactly as written: static holds + PNF contract-relax. Log hand-support height.</td></tr>
+        <tr><td><strong>Loading A</strong></td><td class="n">3–6</td><td>Double progression running. Expect the first load increases on the big lifts in weeks 3–5.</td><td>Climb by the tier rule. No testing a new tier in a short-sleep week.</td><td>Week 4: PAILs/RAILs enter on Wednesday only, at low effort (Section 07).</td></tr>
+        <tr><td><strong>Deload</strong></td><td class="n">7</td><td>Half the sets, same loads, same exercises.</td><td>Hold the current tier, fewer sets, nothing tested.</td><td>Gentle daily touch only. No intense sessions, no PAILs/RAILs.</td></tr>
+        <tr><td><strong>Loading B</strong></td><td class="n">8–11</td><td>Resume at week-6 loads. Double progression continues.</td><td>Climb by the tier rule. This is where a second HSPU tier is plausible.</td><td>PAILs/RAILs on Wednesday and Friday at moderate effort. Monday stays PNF.</td></tr>
+        <tr><td><strong>Retest</strong></td><td class="n">12</td><td>Roughly 60 % of normal sets; one top set per main lift for the log (Section 05).</td><td>Best clean hold or rep count per ladder, fresh.</td><td>Gentle daily touch; the measurement is support height, not a max stretch.</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3>Why the deload is half-volume and not a week off</h3>
+  <p>The only randomised trial that has tested a one-week deload directly (Coleman et al., 2024, PeerJ) used a <em>complete</em> week off in week 5 of a 9-week programme in resistance-trained young adults (about 21–22 years old, three-plus years of training). Muscle growth was the same whether the week off was taken or not; lower-body strength gained a little more in the group that trained straight through. The authors themselves noted that coaches almost never deload by stopping completely, and that reduced-volume deloads were not tested. Two conclusions follow for this block. First, a deload will not cost you muscle, so there is no reason to skip it. Second, the half-volume version the base document prescribes keeps you lifting, which is the version least likely to show the small strength dip, and the one most compatible with the point of the deload here: connective tissue, which those trials did not measure at all.</p>
+</section>
+
+<!-- ============================================================ -->
+<section id="weeks">
+  <h2><span class="num">03</span>Week by week</h2>
+  <p>Every week is the same five sessions from the base document. What is written below is only what <em>changes</em> that week: load expectations, which rules are in play, what to log, and what enters the mobility layer. Where a week says nothing about a lift, run double progression as normal.</p>
+
+  <div class="week">
+    <div class="wh"><h3>Week 1</h3><span class="k">Nov 23 – 27</span><div class="tags"><span class="tag load">placement</span></div></div>
+    <ul>
+      <li><strong>Loads.</strong> Every compound starts at a weight you can do for the <em>bottom</em> of its range (6 for the 6–12 lifts, 10 for the 10–20 lifts) with 3 reps clearly in reserve. If in doubt go lighter; you will add reps next week anyway. Barbell lifts use the "no barbell yet" column of the base substitution ladder until the bar lands.</li>
+      <li><strong>Ladder placement.</strong> Wednesday: test each ladder's tier 1 pass criterion once, fresh. Planche lean 30 s clean? Pike push-up 10 clean? If yes, you are at tier 2 next week; if no, tier 1. Do not test tier 2 the same day.</li>
+      <li><strong>Splits.</strong> Record hand-support height for front split (both sides) and side split: blocks, fingers, or none. This is the single number that tracks splits all block.</li>
+      <li><strong>Longevity markers, once.</strong> Section 08 explains why; they take five minutes. Sitting-rising test score (0–10), 10-second one-leg stance each side, standing toe-reach distance to the floor, knee-to-wall ankle dorsiflexion distance each side. Log and forget until week 12.</li>
+      <li><strong>Warm-up.</strong> From today every session opens with the 3-minute pulse-raiser then CARs (Section 06).</li>
+    </ul>
+  </div>
+
+  <div class="week">
+    <div class="wh"><h3>Week 2</h3><span class="k">Nov 30 – Dec 4</span><div class="tags"><span class="tag load">placement</span></div></div>
+    <ul>
+      <li><strong>Loads.</strong> Add reps, not weight. A returning lifter usually finds week-1 weights were too light; if a set hits the top of the range with reps to spare, that lift may add the smallest increment now, otherwise hold.</li>
+      <li><strong>Technique bank.</strong> Film one set of each main lift from the side this week. It is the comparison footage for week 12, and the "last rep looks like the first" check is easier against video than memory.</li>
+      <li><strong>Sleep log begins to matter.</strong> From here, the base rule applies: a week averaging under 7 hours means no new tier is tested that week.</li>
+    </ul>
+  </div>
+
+  <div class="week">
+    <div class="wh"><h3>Week 3</h3><span class="k">Dec 7 – 11</span><div class="tags"><span class="tag load">loading A</span></div></div>
+    <ul>
+      <li><strong>Loads.</strong> First real load increases on the most practised patterns (pull-ups via backpack, rows, RDL). Smallest increment, back to the bottom of the range.</li>
+      <li><strong>Skill.</strong> First realistic week for a tier-1 to tier-2 move on the HSPU ladder if pike push-ups were already comfortable. Planche stays on the lean. Nothing moves faster than the tier rule allows.</li>
+    </ul>
+  </div>
+
+  <div class="week">
+    <div class="wh"><h3>Week 4</h3><span class="k">Dec 14 – 18</span><div class="tags"><span class="tag load">loading A</span><span class="tag">tape · month 1</span></div></div>
+    <ul>
+      <li><strong>Monthly tape (Friday morning).</strong> The eight training-responsive measurements, same tape, same landmarks as the baseline table. Recompute Navy body fat. Expect noise, not signal, at four weeks: the honest read is "waist flat or slightly down, nothing else distinguishable from measurement error."</li>
+      <li><strong>Splits.</strong> PAILs/RAILs enter on Wednesday only, replacing the "light loaded stretching" line of the Wednesday session, at no more than 50 % effort (Section 07 has the procedure). Monday and Friday stay as written.</li>
+      <li><strong>Loads.</strong> Bench/floor press, squat variant and deadlift typically take their first increment around here.</li>
+    </ul>
+  </div>
+
+  <div class="week">
+    <div class="wh"><h3>Week 5</h3><span class="k">Dec 21 – 25</span><div class="tags"><span class="tag load">loading A</span></div></div>
+    <ul>
+      <li><strong>Holiday week.</strong> If it collapses to four slots, drop Friday Push B per the base rule, never Wednesday, never a pull day. Do not move Friday's work into another day.</li>
+      <li><strong>Loads.</strong> Normal double progression. If two lifts have stalled for two sessions each, the base rule says deload immediately; here that means pulling week 7 forward to week 6, not adding a second deload.</li>
+    </ul>
+  </div>
+
+  <div class="week">
+    <div class="wh"><h3>Week 6</h3><span class="k">Dec 28 – Jan 1</span><div class="tags"><span class="tag load">loading A · last before deload</span></div></div>
+    <ul>
+      <li><strong>Loads.</strong> Last loading week before the deload. Do not chase a number because the deload is coming; the deload is not a reward for a heavy week.</li>
+      <li><strong>Skill checkpoint.</strong> Plausible state: HSPU ladder at tier 2 (elevated pike) or finishing tier 1; planche at a clean 30-second lean, possibly first tuck attempts; splits one support level lower than week 1 on at least one side. If you are ahead of this, good; the tier rule still governs. If behind, nothing changes yet.</li>
+      <li><strong>Write down week-6 loads.</strong> Week 8 restarts at these exact loads and reps.</li>
+    </ul>
+  </div>
+
+  <div class="week">
+    <div class="wh"><h3>Week 7</h3><span class="k">Jan 4 – 8</span><div class="tags"><span class="tag deload">deload</span></div></div>
+    <ul>
+      <li><strong>Everything at half the sets, same loads, same exercises.</strong> 4 × 6–12 becomes 2 × 6–12 at the week-6 weight. Reps stay in the range; this is not a week to grind.</li>
+      <li><strong>Ladders held.</strong> Current tier, half the sets, no testing. Monday's planche-lean primer stays at 2 sets.</li>
+      <li><strong>Splits.</strong> Gentle daily touch only. No intense sessions, no PNF, no PAILs/RAILs. The CARs daily layer continues in full: it is the lowest-load thing in the programme and the one that should never be skipped.</li>
+      <li><strong>Why now.</strong> Six weeks of loading is the earliest the base rule allows, and it is deliberately early for a first block. The deload is for tendons and ligaments, which do not announce fatigue the way muscles do.</li>
+    </ul>
+  </div>
+
+  <div class="week">
+    <div class="wh"><h3>Week 8</h3><span class="k">Jan 11 – 15</span><div class="tags"><span class="tag load">loading B</span><span class="tag">tape · month 2</span></div></div>
+    <ul>
+      <li><strong>Loads.</strong> Resume at the week-6 loads and reps. Most lifts feel noticeably easier than they did in week 6; that is the deload working, and the right response is to add reps, not to jump weight.</li>
+      <li><strong>Monthly tape (Friday morning).</strong> Second data point. By eight weeks the waist trend is usually readable; arm, calf and neck convergence (the base document's simplest read) may or may not be.</li>
+      <li><strong>Splits.</strong> PAILs/RAILs now on Wednesday <em>and</em> Friday, effort up to 70 %. Monday stays PNF contract-relax. Three intense sessions a week, non-consecutive, unchanged from the base.</li>
+    </ul>
+  </div>
+
+  <div class="week">
+    <div class="wh"><h3>Week 9</h3><span class="k">Jan 18 – 22</span><div class="tags"><span class="tag load">loading B</span></div></div>
+    <ul>
+      <li><strong>Loads.</strong> Double progression. This and week 10 are where the post-deload bump usually shows as a load increase on the main lifts.</li>
+      <li><strong>Skill.</strong> Second HSPU tier move becomes plausible for the first time (elevated pike to wall negatives). Only if the pass criterion is met clean across 3–4 sets.</li>
+    </ul>
+  </div>
+
+  <div class="week">
+    <div class="wh"><h3>Week 10</h3><span class="k">Jan 25 – 29</span><div class="tags"><span class="tag load">loading B</span></div></div>
+    <ul>
+      <li><strong>Loads.</strong> Double progression. If a lift has stalled since week 8, the base document's first fix applies before anything else: for the squat, a fifth set; for other lifts, hold and keep adding reps.</li>
+      <li><strong>Equipment check.</strong> If the barbell and plates have landed, move each lift one column left on the substitution ladder and re-find the bottom-of-range load for the new variation. A new exercise is a new double-progression run, not a continuation.</li>
+    </ul>
+  </div>
+
+  <div class="week">
+    <div class="wh"><h3>Week 11</h3><span class="k">Feb 1 – 5</span><div class="tags"><span class="tag load">loading B · last full week</span></div></div>
+    <ul>
+      <li><strong>Loads.</strong> Last full loading week of the block. Nothing special; the retest is a record of the block, not an event to peak for.</li>
+      <li><strong>Write down week-11 loads.</strong> Block 2 week 1 starts from them.</li>
+    </ul>
+  </div>
+
+  <div class="week">
+    <div class="wh"><h3>Week 12</h3><span class="k">Feb 8 – 12</span><div class="tags"><span class="tag test">retest</span><span class="tag">tape · month 3</span></div></div>
+    <ul>
+      <li><strong>Section 05 is the whole week.</strong> Reduced volume, one honest top set per main lift, best clean hold or rep count per ladder, splits support height, the full tape, and the five-minute longevity-marker battery from week 1.</li>
+      <li><strong>Then stop and read the numbers</strong> before writing Block 2 (Section 11).</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<section id="skills">
+  <h2><span class="num">04</span>Skill pacing over 12 weeks</h2>
+  <p>The base document's timelines are the honest ones: planche 1–3 years, three strict wall HSPU 4–8 months, front split 3–12 months, side split 6–18 months. Twelve weeks is roughly a quarter of the fastest HSPU timeline and a tenth of the slowest planche one. So the question for this block is not "is the goal reached" but "is the ladder being climbed at a rate consistent with those ranges." The table gives the plausible band; the tier rule, not the table, decides when you actually move.</p>
+
+  <div class="tbl">
+    <table>
+      <thead><tr><th>Ladder</th><th>Week 1 (likely)</th><th>Week 6 (plausible)</th><th>Week 12 (plausible)</th><th>Would be a stall</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Planche</strong><br><span class="small">Wed main · Mon primer</span></td><td>Tier 1, planche lean. Working toward 30 s with shoulders well past the wrists.</td><td>Tier 1 passed or close. First tuck attempts, feet barely off the floor for a few seconds.</td><td>Tier 2, tuck planche, holds in the 5–15 s range. A clean 30 s tuck by week 12 would be fast, not expected.</td><td>Lean still under 20 s clean at week 12, with no wrist or shoulder ache to explain it. First fix: check the lean is really a lean (shoulders forward) and not an arm-strength hold.</td></tr>
+        <tr><td><strong>Handstand push-up</strong><br><span class="small">Wed · Fri</span></td><td>Tier 1, pike push-up, or tier 2 if the placement test passes.</td><td>Tier 2, elevated pike push-up, building to 3–4 × 10.</td><td>Tier 2 passed; tier 3 wall negatives started, 5 × 3 with a 3-second lower. Reaching tier 4 partial presses by week 12 would be the fast end of the 4–8-month range.</td><td>Still on tier 1 at week 12. First fix: check Wednesday's HSPU sets are really being done fresh with the full 2–3 minutes' rest, and use the base document's own Friday fallback (pike push-ups one tier down) whenever Wednesday left tenderness, rather than grinding the tier twice a week.</td></tr>
+        <tr><td><strong>Front split</strong><br><span class="small">Mon · Wed · Fri + daily touch</span></td><td>Hand support on blocks or fingers; log the height, both sides.</td><td>One support level lower on at least one side.</td><td>Fingers or lower on the better side. A floor-flat front split at week 12 is possible only if week 1 was already near the floor.</td><td>No change in support height on either side by week 12. First fix: confirm the PNF contract phase is actually a hard 5–10 s contraction, and that the daily gentle touch is daily.</td></tr>
+        <tr><td><strong>Side split</strong><br><span class="small">Mon · Wed · Fri + daily touch</span></td><td>Hands on floor in front; log hip height from the floor.</td><td>Hip height down by a hand-width or less. Small is normal here.</td><td>Measurable but modest drop in hip height. The 6–18-month range means week 12 is early.</td><td>Any inside-hip or knee pain at any point is a 48-hour event, not a stall. A stall with no pain is just the side split being the side split.</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="small">The "would be a stall" column is diagnostic, not punitive. A stall with a clean log and good sleep is information for Block 2; a stall with a sore joint is the 48-hour rule and nothing else.</p>
+</section>
+
+<!-- ============================================================ -->
+<section id="retest">
+  <h2><span class="num">05</span>Week 12: the retest protocol</h2>
+  <p>The retest week compares the end of the block to the start of it, using numbers you already keep. It is run at about 60 % of normal set volume so that the measurements are taken fresh and the week doubles as the light week before Block 2. Nothing is maxed; "top set" below means the current working weight taken to 1 rep in reserve, exactly the same stopping point as every other set in the programme.</p>
+
+  <div class="tbl">
+    <table>
+      <thead><tr><th>Day</th><th>What runs</th><th>What is recorded</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Mon · Push A</strong></td><td>Warm-up and daily layer in full. Bench / floor press: 1 top set. Overhead press: 1 top set. Dips, calves, prehab at 2 sets each. Planche primer 2 sets. Splits gentle only.</td><td>Load × reps on each top set. Compare to the same lift's best set in weeks 1–2.</td></tr>
+        <tr><td><strong>Tue · Lower + Pull A</strong></td><td>Squat variant: 1 top set. RDL: 1 top set. Pull-ups: 1 top set (note added load). Rows, calves, wrist prehab at 2 sets.</td><td>Load × reps. For pull-ups, backpack load and reps.</td></tr>
+        <tr><td><strong>Wed · Skill</strong></td><td>Full prep. Planche: best clean hold at current tier, 3 attempts, 3 min rest. HSPU: best clean set at current tier, 2 attempts. Then the five-minute longevity battery (below). Splits: one gentle set to the comfortable end range, measure support height, done.</td><td>Tier + best hold/reps per ladder. Front split support height both sides; side split hip height. Battery scores.</td></tr>
+        <tr><td><strong>Thu · Lower + Pull B</strong></td><td>Deadlift: 1 top set. Split squat: 2 sets. Chin-ups: 1 top set. Rows, calves, leg raises, wrist prehab at 2 sets.</td><td>Load × reps.</td></tr>
+        <tr><td><strong>Fri · Push B + tape</strong></td><td><em>Morning, before anything:</em> the eight-measurement tape and Navy body fat. Then a light session: close-grip press 2 sets, HSPU tier 2 sets, ring push-ups 2, lateral raises 2, prehab 2, calves 2. Splits gentle.</td><td>All eight training-responsive measurements; body fat; the three ratio reads from the base document (arm/calf/neck convergence, arm ÷ 18.0, calf ÷ 22.5).</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3>The five-minute longevity battery</h3>
+  <p>Four tests that the mortality literature in Section 08 actually used or closely resembles, each cheap enough to do on the bedroom mat. They are recorded in week 1 and week 12 and then at every block retest. The point is explained in Section 08: at 23 you should ceiling most of them, and the job is to still ceiling them at 53.</p>
+  <ol class="proto">
+    <li><span class="t">Sitting-rising test (SRT).</span> Stand barefoot on the mat. Lower yourself to sitting cross-legged on the floor and stand back up, using as little support as you can. Score 5 for sitting and 5 for rising; subtract 1 for each hand, forearm, knee or side-of-leg touch used for support, and 0.5 for a visible wobble.<span class="rx">record: score out of 10 · the published cohorts treat 8 or above as the top band</span></li>
+    <li><span class="t">10-second one-leg stance.</span> Eyes open, arms by your sides, free foot resting against the back of the standing leg's calf, looking straight ahead. Up to three attempts per side. Pass is 10 s without the free foot touching down.<span class="rx">record: pass/fail each side · if both pass, also record best time to 30 s</span></li>
+    <li><span class="t">Standing toe reach.</span> Feet together, knees straight, reach down slowly. Measure fingertip distance to the floor (positive) or past it (negative, hands flat on a block to measure).<span class="rx">record: cm, signed</span></li>
+    <li><span class="t">Knee-to-wall ankle dorsiflexion.</span> Half-kneeling or standing lunge facing a wall, test foot flat, drive the knee to the wall without the heel lifting. Slide the foot back until the knee can only just touch. Measure big toe to wall.<span class="rx">record: cm each side · asymmetry over 2 cm is worth a note</span></li>
+  </ol>
+  <p class="small">The toe reach and knee-to-wall are stand-ins for two of the twenty joint movements in the Flexitest battery used by the Brazilian cohort; the full Flexitest requires a trained assessor and is not reproducible at home, so these are not Flexindex scores and should not be compared to the published ones.</p>
+
+  <h3>Reading the block</h3>
+  <ul>
+    <li><strong>Lifts.</strong> A returning lifter's first twelve weeks usually re-acquire old strength quickly; a load increase on every compound and a reps-at-the-same-load increase on the rest is a normal result, not a great one. The useful comparison is against your own weeks 1–2, not against any standard.</li>
+    <li><strong>Ladders.</strong> Section 04's "week 12 plausible" column is the benchmark. One tier gained on HSPU and a stable or started tuck on the planche is on schedule.</li>
+    <li><strong>Tape.</strong> Direction only, per the base document: waist down, shoulder and chest up, thigh holding, arm/calf/neck closer together. No ratio is a pass/fail.</li>
+    <li><strong>Battery.</strong> Should be unchanged at the ceiling. If anything went backwards (a side that no longer balances, a toe reach that got worse while the splits improved), that is a joint-health signal worth more attention than any lift number.</li>
+  </ul>
+</section>
+
+<!-- ============================================================ -->
+<section id="warmup">
+  <h2><span class="num">06</span>Warm-up, now with a pulse-raiser</h2>
+  <p>The base document's daily layer is 5–10 minutes of CARs then light band external rotation. That is the specific-joint half of a warm-up and it stays exactly as written. What the base does not have is a general, whole-body half: a few minutes of easy movement that raises heart rate and tissue temperature before the joints are taken through range. Jeff Nippard's programme documents prescribe this as 5–10 minutes of low-intensity work raising heart rate to roughly 100–120 bpm (some of his programmes give 100–135), to the point of a light sweat, followed by 2–3 minutes of foam rolling on tight areas and dynamic drills, then ramp-up sets on the first lift. The heart-rate framing is a reasonable, conservative version of what the warm-up literature generally supports: raise temperature, rehearse the pattern, do not fatigue.</p>
+
+  <h3>What changes in the daily layer</h3>
+  <div class="tbl">
+    <table>
+      <thead><tr><th>Step</th><th>Time</th><th>What</th><th>Status vs base</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Pulse-raiser</strong></td><td class="n">3 min</td><td>Any easy continuous movement that fits a bedroom: march in place, step-ups on the bench, jump rope if the ceiling allows, shadow-boxing. Target is "breathing a little harder, skin warm," which for most people lands in Nippard's 100–120 bpm band without a monitor. Not a conditioning set.</td><td><span class="tag">added</span></td></tr>
+        <tr><td><strong>CARs</strong></td><td class="n">5–7 min</td><td>Neck, shoulders, elbows, wrists, spine, hips, knees, ankles, exactly as the base lists them, now done the FRC way (Section 07): slow, one joint at a time, light whole-body tension, to the painless outer limit of today's range.</td><td><span class="tag">unchanged · made specific</span></td></tr>
+        <tr><td><strong>Cuff wake-up</strong></td><td class="n">1–2 min</td><td>2 light sets of band external rotation on Mon/Wed/Fri as written.</td><td><span class="tag">unchanged</span></td></tr>
+        <tr><td><strong>Ramp-up sets</strong></td><td class="n">2–3 min</td><td>On the first main lift: an empty-bar or very light set, then one at roughly half the working load, then work. Already implied by the base; written down here so it is not skipped on a short day.</td><td><span class="tag">made explicit</span></td></tr>
+        <tr><td><strong>Foam rolling</strong></td><td class="n">—</td><td>Nippard includes 2–3 minutes on tight areas. The acute evidence shows small range-of-motion gains without a strength penalty, which is real but modest. You do not own a roller and this programme does not require one; if one turns up secondhand, use it on calves and quads before Tuesday/Thursday and treat it as optional.</td><td><span class="tag">optional</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p>Net cost: about three minutes per session, inside the 45–60 minute envelope. On the two rest days, the base document's gentle daily layer (CARs plus the gentle split touch) continues; the pulse-raiser is for training days only.</p>
+</section>
+
+<!-- ============================================================ -->
+<section id="frc">
+  <h2><span class="num">07</span>CARs, PAILs and RAILs: the FRC source</h2>
+  <p>The base document uses "CARs (controlled articular rotations)" as the daily joint layer without saying where the method comes from. It comes from one place: <strong>Functional Range Conditioning (FRC)</strong>, the mobility system developed by Dr. Andreo Spina and taught through Functional Anatomy Seminars. CARs are FRC's foundational daily drill; PAILs and RAILs are FRC's formalised method of loaded end-range stretching. Making the connection explicit does two things for this programme: it turns the CARs line into a precise procedure instead of a vague "move each joint," and it gives the base document's loosely worded "light loaded stretching" in the Wednesday splits session a real, step-by-step protocol with sensible effort limits.</p>
+
+  <div class="callout info">
+    <span class="label">Evidence status, stated plainly</span>
+    <p>FRC is a coaching system, not a research programme. CARs are a structured form of active full-range joint movement; PAILs/RAILs are a structured form of the contract-relax (PNF) stretching the base document already uses, with a long passive hold and a ramped isometric. There are no large trials on PAILs/RAILs by name. What <em>is</em> well supported is the family they belong to: PNF and static stretching both reliably improve range of motion over weeks (Thomas et al., 2018; Ingram et al., 2024, Section 08), and long-duration end-range loading produces small strength and hypertrophy effects in the stretched muscle (Warneke et al., 2024). FRC is adopted here for its procedure and its safety structure, not because it has been shown to beat simpler stretching.</p>
+  </div>
+
+  <h3>CARs, done the FRC way</h3>
+  <p>FRC prescribes CARs as a daily "morning routine," one to two times a day, the joint-health equivalent of brushing teeth. The base document's 5–10 minute daily layer, every session and every rest day, is already that routine. The procedure:</p>
+  <ol class="proto">
+    <li><span class="t">Isolate one joint.</span> Everything else stays still; the rotation comes from the joint being trained, not from the spine or the neighbouring joint cheating range in.<span class="rx">one joint at a time, both sides where paired</span></li>
+    <li><span class="t">Create light whole-body tension (irradiation).</span> Brace the trunk, make loose fists, keep breathing. Around 20–30 % effort in the daily layer: enough to feel the joint doing the work, not a strain.<span class="rx">irradiation 20–30 % · never hold the breath</span></li>
+    <li><span class="t">Move slowly to the painless outer limit.</span> One full rotation takes 15–30 seconds. The goal is the largest circle today's joint can draw under control; when a spot catches or pinches, back off a little and keep the circle smooth.<span class="rx">3–6 slow rotations per joint per direction</span></li>
+    <li><span class="t">Order and time.</span> Neck, shoulders, elbows, wrists, spine (segmental if you can), hips, knees, ankles. At 3 reps per direction this is about 6 minutes; at 5 reps closer to 10. On Wednesday, wrist CARs get extra reps, as the base already specifies.<span class="rx">5–10 min, fits the base layer exactly</span></li>
+  </ol>
+
+  <h3>PAILs and RAILs for the splits</h3>
+  <p>PAILs (progressive angular isometric loading) is a ramped contraction <em>of the muscle being stretched</em>, pushing against the floor or the hand in the stretch position. RAILs (regressive angular isometric loading) immediately follows: a contraction of the <em>opposite</em> side of the joint, actively pulling deeper into the range. The sequence is PNF contract-relax with a long warm-in, a slow ramp, and an added active pull. In this programme it replaces, on a schedule, the "light loaded stretching (a plate on the thigh in the side split, hands on blocks in the front split)" line in the Wednesday splits session, and later the loaded element of Friday's.</p>
+
+  <ol class="proto">
+    <li><span class="t">Passive hold.</span> Settle into the front split (then side split) at the deepest position you can hold with the hips square and no joint pain. Breathe in for four, out for four. FRC practitioners use a minimum of two minutes here; this is the warm-in and should feel like letting go, not pushing.<span class="rx">2 min minimum per position</span></li>
+    <li><span class="t">PAILs ramp.</span> Irradiate the whole body, then drive the stretched leg into the floor (front split: front heel and back knee press down; side split: both legs press down and inward) ramping from about 10 % to the day's ceiling over 10–20 seconds. Hold the ceiling 5–15 seconds. The range does not change during PAILs; the tension does.<span class="rx">ramp 10–20 s · hold 5–15 s · ceiling per schedule below</span></li>
+    <li><span class="t">RAILs, no release between.</span> Switch, smoothly, to contracting the opposing muscles to pull yourself deeper (front split: pull the front heel back toward you and the back knee forward through the floor; side split: pull the legs apart). 5–15 seconds. Then exhale and settle into whatever new depth appeared.<span class="rx">5–15 s · smooth transition, not a reset</span></li>
+    <li><span class="t">Rounds.</span> One to three rounds per position, about 3–5 minutes each including the passive hold. The Wednesday 15–25 minute splits block holds two to three positions at two rounds comfortably.<span class="rx">1–3 rounds per position</span></li>
+  </ol>
+
+  <div class="tbl">
+    <table class="narrow">
+      <thead><tr><th>Weeks</th><th>Where</th><th>PAILs/RAILs effort ceiling</th><th>Everything else</th></tr></thead>
+      <tbody>
+        <tr><td class="n">1–3</td><td>Nowhere yet</td><td>—</td><td>Base method exactly as written: static holds + PNF contract-relax, Mon/Wed/Fri.</td></tr>
+        <tr><td class="n">4–6</td><td>Wednesday only</td><td class="n">≤ 50 %</td><td>Mon and Fri unchanged. Learning the ramp and the switch is the point; depth is not.</td></tr>
+        <tr><td class="n">7</td><td>Nowhere</td><td>—</td><td>Deload: gentle daily touch only.</td></tr>
+        <tr><td class="n">8–11</td><td>Wednesday + Friday</td><td class="n">≤ 70 %</td><td>Monday stays PNF contract-relax. Still three intense sessions, non-consecutive, per the base cap.</td></tr>
+        <tr><td class="n">12</td><td>Nowhere</td><td>—</td><td>Retest week: gentle touch, measure support height.</td></tr>
+        <tr><td class="n">Block 2+</td><td>Wed + Fri</td><td class="n">up to 100 %</td><td>Only once two blocks of ≤ 70 % have produced zero 48-hour events in the hips or knees. Maximal PAILs/RAILs are strength work and recover like strength work.</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="callout rule">
+    <span class="label">Safety, in order of strictness</span>
+    <p>FRC practitioners treat soreness lasting past 24–36 hours as the signal to reduce PAILs/RAILs intensity or frequency. The base document's rule is stricter about <em>where</em> and governs here: stretch sensation belongs in the muscle belly, and any pain at the knee, the inside of the hip joint or the sitting-bone tendon attachment is a 48-hour event that drops that position out for the week. The two rules stack; the stricter one wins at every point.</p>
+  </div>
+
+  <h3>Kelly Starrett, for completeness</h3>
+  <p>The other long-established figure in this space is Kelly Starrett (The Ready State; <em>Built to Move</em>, 2023, with Juliet Starrett). His framing is complementary rather than competing: ten self-tests ("vital signs") including getting up and down from the floor without hands, hip extension, shoulder range and single-leg balance, each with a benchmark and a daily 10-minute practice attached. Two of those tests (the floor sit-and-rise, the balance stand) are exactly the Araújo-group mortality predictors in Section 08, which is why they appear in the week-12 battery. Nothing else from Starrett's system is imported; the base programme already covers the daily movement practice he argues for.</p>
+</section>
+
+<!-- ============================================================ -->
+<section id="longevity">
+  <h2><span class="num">08</span>Flexibility, movement and longevity: the evidence</h2>
+  <p>You asked for the actual studies. Here they are, with the numbers as published, followed by what they do and do not imply for a 23-year-old.</p>
+
+  <h3>Flexibility and death: the Flexitest cohort</h3>
+  <p>The study you will have seen referenced is <strong>Araújo et al., 2024</strong>, <em>Scandinavian Journal of Medicine &amp; Science in Sports</em>: a prospective cohort of <strong>3,139 adults aged 46–65</strong> (2,087 men, 1,052 women) assessed at the CLINIMEX exercise-medicine clinic in Rio de Janeiro with the <strong>Flexitest</strong>, a 20-movement passive range-of-motion battery scored 0–4 per movement and summed into a "Flexindex" (0–80). Over a mean <strong>12.9 years</strong> of follow-up there were <strong>302 deaths</strong> (9.6 %). Survivors' Flexindex was about <strong>10 % higher</strong> than non-survivors' in both sexes. Comparing the least flexible to the most flexible, after adjusting for age, body-mass index and health status, mortality risk was <strong>1.87 times higher in men and 4.78 times higher in women</strong>. Women scored about 35 % higher on the Flexindex than men overall.</p>
+
+  <h3>The same clinic's other "non-aerobic fitness" predictors</h3>
+  <div class="tbl">
+    <table>
+      <thead><tr><th>Test</th><th>Study</th><th>Cohort</th><th>Finding</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Sitting-rising test</strong> (sit to the floor and stand, scored 0–10 by supports used)</td><td>Brito, Ricardo, Araújo et al., 2014, <em>Eur J Prev Cardiol</em></td><td>2,002 adults aged 51–80, median 6.3 yr follow-up, 159 deaths</td><td>Each one-point increase in score associated with a 21 % lower mortality; scores of 0–3 carried roughly 5–6 times the mortality of scores 8–10. A 2025 follow-up from the same group (<em>Eur J Prev Cardiol</em>) extended the result to natural and cardiovascular deaths in a larger cohort.</td></tr>
+        <tr><td><strong>10-second one-leg stance</strong></td><td>Araújo et al., 2022, <em>Br J Sports Med</em></td><td>1,702 adults aged 51–75, median 7 yr follow-up</td><td>Inability to balance 10 s on one leg: adjusted hazard ratio 1.84 for all-cause death. About 20 % of the cohort failed; the fail rate rose steeply with age (around half at 70, near 90 % at 81–85).</td></tr>
+        <tr><td><strong>Muscular strength</strong> (grip and knee extension)</td><td>García-Hermoso et al., 2018, <em>Arch Phys Med Rehabil</em>, meta-analysis of about 2 million people</td><td>Apparently healthy adults, many cohorts</td><td>Higher grip strength: 31 % lower all-cause mortality. Higher knee-extension strength: 14 % lower. Not a flexibility finding, included because the "movement quality for longevity" case rests on strength, flexibility and balance together, and the lifting half of this programme is the strength input.</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="callout info">
+    <span class="label">What these studies do not show</span>
+    <p>Every result above is observational. None of them is a trial in which people were made more flexible or stronger and then lived longer. Low flexibility, poor floor-rising and poor balance in a 60-year-old are plausibly markers of the same things that kill people (sarcopenia, frailty, inactivity, neurological decline), not independent causes. The authors of the 2024 paper say as much and call for flexibility to be <em>assessed</em> routinely; they do not claim stretching extends life. Also, every cohort is middle-aged or older. There is no cohort of 23-year-olds, because almost no 23-year-old fails these tests, and almost none die during follow-up.</p>
+  </div>
+
+  <h3>What it means at 23</h3>
+  <p>Three things, none of which require changing the programme and all of which argue for keeping its priorities.</p>
+  <ul>
+    <li><strong>The markers are a floor to protect, not a target to chase.</strong> You should score 10 on the sitting-rising test and pass the balance test on both legs now. The useful fact is that half of 70-year-olds cannot; the decline between here and there is the thing to prevent, and the earliest possible baseline (week 1) is how you will know if it starts.</li>
+    <li><strong>The programme already trains the mechanism behind every marker.</strong> Floor-rising is hip and ankle range plus relative leg strength: the splits, the squat pattern and CARs. One-leg balance is ankle control and hip stability: single-leg RDLs, Bulgarian split squats, ankle CARs. Grip and knee-extension strength: deadlifts, pull-ups, squats. Nothing new is needed; the longevity case is a second reason for what the base document already prescribes.</li>
+    <li><strong>Joint health as Priority 1 is the longevity position.</strong> A programme that trades a wrist or a hip for a faster planche is also trading the 50-year version of these tests. The base document's override is, read this way, a longevity rule.</li>
+  </ul>
+
+  <h3>How much stretching, revisited for the longevity angle</h3>
+  <p>The dosing literature the base splits section drew on is consistent and worth stating precisely, because it bears on the "gentle daily touch" line more than on the intense sessions.</p>
+  <ul>
+    <li><strong>Thomas et al., 2018</strong> (<em>Int J Sports Med</em>, systematic review of chronic stretching): total weekly time per muscle was what predicted range-of-motion gains, with a threshold around <strong>5 minutes per week</strong>; time within a single session did not matter once the weekly total was met; <strong>weekly frequency was positively associated with gains</strong>, with the authors suggesting at least 5 days a week; and static stretching produced larger long-term gains than ballistic or PNF.</li>
+    <li><strong>Ingram et al., 2024</strong> (<em>Sports Medicine</em>, 189 studies, 6,654 adults, mean age about 27): static stretching has a moderate acute effect (g = 0.63) and a large chronic effect (g = 0.96) on flexibility. Gains plateaued at about <strong>4 minutes per muscle group per session and about 10 minutes per muscle group per week</strong>, with no extra benefit beyond that. Stretch intensity, session frequency, intervention length, age, sex and training status did <em>not</em> moderate the effect; people with poor baseline flexibility gained more.</li>
+    <li><strong>Behm et al., 2023</strong> (<em>Sports Medicine – Open</em>, 47 studies): a single bout of stretching of any type produces a small acute range-of-motion increase; the type matters less than doing it.</li>
+    <li><strong>Warneke et al., 2024</strong> (<em>Sports Medicine – Open</em>): long-duration static stretching produces small but real increases in maximal strength (d ≈ 0.30) and muscle size (d ≈ 0.20) in the stretched muscle, and only when the dose is long and frequent. Relevant to the splits, not a reason to stretch instead of lift.</li>
+  </ul>
+  <p><strong>What this means for the programme.</strong> The 3–5 minute gentle daily touch per split position already clears both the Thomas threshold (5 min/week) and the Ingram plateau (10 min/week) on its own, seven days a week, which is the high-frequency pattern Thomas found most effective. That is the longevity-relevant dose: a modest amount, every day, forever. The three intense sessions on top of it are for a different goal, a full split, which is an extreme end-range outcome the general stretching literature was not designed to test; Ingram's "no benefit beyond 10 minutes" is a finding about average flexibility gains in average people, not a ceiling on what full splits require. The base document's framing stands exactly: the intense-session cap is a conservative coaching heuristic, the daily touch is the evidence-backed floor, and if you ever had to keep only one of the two, keep the daily touch.</p>
+</section>
+
+<!-- ============================================================ -->
+<section id="nippard">
+  <h2><span class="num">09</span>Nippard, frequency and the age mismatch</h2>
+  <p>Jeff Nippard is a natural bodybuilder whose programmes and videos cite the exercise-science literature, and two of his positions were raised for this block. One transfers cleanly (the warm-up, Section 06). The other needs to be handled carefully because it was built for a different person.</p>
+
+  <h3>What could and could not be verified</h3>
+  <ul>
+    <li><strong>Warm-up:</strong> verified from his own programme documents. 5–10 minutes raising heart rate to about 100–120 bpm (100–135 in some programmes), a light sweat, optional 2–3 minutes of foam rolling on tight areas, dynamic drills, ramp-up sets. Adopted in Section 06.</li>
+    <li><strong>Lower-frequency "longevity" split for natural lifters over 30, with a "96-hour recovery curve":</strong> only partly verifiable. His Essentials programme (jeffnippard.com) does offer a 3-day option and argues for lower volume at higher intensity for time-constrained lifters, and his public commentary on frequency is consistent with "fewer days is fine if volume is kept." But the specific "30+, 3 days a week, 96-hour recovery curve" phrasing turned up only on third-party summary sites, not in a primary Nippard video or document that could be checked. It is treated below as a plausible paraphrase of his position, not a quotation.</li>
+    <li><strong>"Science Based Movers":</strong> no channel of that exact name could be found. The real, checkable lineage of the "science-based movement" coaching world used here is Spina's FRC (Section 07) and Starrett's The Ready State. If you had a specific creator in mind, send the link and this section gets corrected.</li>
+  </ul>
+
+  <h3>The age mismatch, addressed directly</h3>
+  <p>You are 23, turning 24. A guideline written for natural lifters over 30, aimed at protecting joints across decades by training each pattern less often, does not transfer to you as a frequency rule, and importing it would quietly contradict the base document's five-day structure, which was chosen for other, good reasons. Three points make the decision clear:</p>
+  <ul>
+    <li><strong>The evidence on frequency does not favour three days for your situation.</strong> Once weekly volume is matched, the hypertrophy difference between training a muscle twice versus three or more times a week is small (Pelland et al., 2024 meta-regression; the earlier Schoenfeld frequency reviews point the same way). Five sessions of 45–60 minutes with every pattern twice a week is simply the way the base document fits 10–20 sets per muscle into the available time. Three longer sessions would hit the same volume with more fatigue per session, which is worse for skill practice and no better for joints.</li>
+    <li><strong>The underlying principle is already in the base document, applied per joint rather than per week.</strong> The reason to lower frequency in an older lifter is connective-tissue recovery. The base handles that directly: pressing shoulder and extended wrist are loaded on three <em>non-adjacent</em> days with at least 48 hours between heavy exposures, pull-and-lower days sit in between, hard splits are capped at three non-consecutive sessions, and the 48-hour rule catches anything that slips through. That is a joint-recovery design; it does not need to be a lower-frequency one.</li>
+    <li><strong>The transferable part is the attitude, and it is adopted.</strong> Nippard's longevity argument is that natural lifters should plan for decades, not months, and keep set quality high rather than piling on volume. The base document's "repeat, don't rotate," its volume at the lower-middle of the evidence range for the lower body, its 1–3 reps shy of failure, and this block's early deload are the same attitude in a 23-year-old's calendar. If, at 30-plus, a joint starts needing more than 48 hours, the right move is the one the base already describes (drop a Friday Push B, not a pull day) and at that point a four-day version of the same week becomes the standing structure. Not now.</li>
+  </ul>
+</section>
+
+<!-- ============================================================ -->
+<section id="aesthetic">
+  <h2><span class="num">10</span>The aesthetic direction, briefly</h2>
+  <p>You shared a post from a natural bodybuilder (@shotta_john, "DonJohn") captioned "Discipline is boring until the results start speaking," as a physique you like: visibly muscular, athletic and defined, the result of ordinary consistent training rather than anything exotic. That is useful context and it is all it is. The base document already settled, after an earlier correction, that this programme does not lock onto any individual's physique as a target, including Reeves, whose ratios sit in Section 04 of the base as a reference point for reading your own numbers and nothing more. The same applies here: the post confirms the direction ("visibly muscular and defined through real training") and changes no number, no exercise, no rule. The caption, as it happens, is a fair one-line summary of a 12-week block in which nothing changes except the log.</p>
+</section>
+
+<!-- ============================================================ -->
+<section id="after">
+  <h2><span class="num">11</span>After week 12</h2>
+  <p>The honest answer, and the one consistent with the base document's "repeat, don't rotate" principle: <strong>re-measure everything, start Block 2 with the updated baselines, same five-day week.</strong></p>
+  <ul>
+    <li><strong>Block 2 week 1</strong> begins the Monday after the retest, at the week-11 loads and reps (not the retest top sets, which were single sets taken fresh). It is a loading week, not a placement week; placement was a Block 1 feature.</li>
+    <li><strong>Same structure, same ladders, same rules.</strong> Mon Push A, Tue Lower + Pull A, Wed Skill, Thu Lower + Pull B, Fri Push B. Deload at week 7, retest at week 12. The only structural edits allowed between blocks are the ones the base document already names as responses to specific findings: a fifth squat set if the squat stalled, two sets of curls on Thursday if the arm has not moved on three consecutive tapes, moving a lift one column left on the substitution ladder when equipment arrives.</li>
+    <li><strong>Updated baselines.</strong> The week-12 tape becomes the "now" column for the base document's ratio reads. The arm = calf = neck convergence point is re-set at the new neck measurement, as the base specifies. The week-12 battery scores become the floor to protect for the next block.</li>
+    <li><strong>PAILs/RAILs</strong> may go to full effort on Wednesday and Friday in Block 2 only if Block 1 produced zero hip or knee 48-hour events in weeks 4–11. Otherwise they stay at 70 % for another block.</li>
+    <li><strong>What would justify a bigger change.</strong> Only a Priority 1 event: a recurring ache in the same joint across two blocks despite the 48-hour rule. That is a signal to remove a movement, not to redesign the week. Variety-seeking is not a reason, by your own instruction.</li>
+  </ul>
+  <p>Block 2 is therefore not a new document. It is this one with the dates moved forward twelve weeks and the week-1 numbers replaced by the week-12 ones.</p>
+</section>
+
+<!-- ============================================================ -->
+<section id="sources">
+  <h2><span class="num">12</span>Sources</h2>
+  <p class="small">Sources already listed in the base document (Reeves, Barban, the Navy method, ANSUR 1988, Steven Low, Plotkin 2022, Schoenfeld 2017) are not repeated. Everything below was checked for this block.</p>
+  <ul class="src">
+    <li>Araújo CGS, et al. Reduced Body Flexibility Is Associated With Poor Survival in Middle-Aged Men and Women: A Prospective Cohort Study. <em>Scand J Med Sci Sports</em>. 2024;34:e14708. (3,139 adults aged 46–65; 12.9-year follow-up; 302 deaths; low-vs-high Flexindex mortality 1.87× men, 4.78× women.)</li>
+    <li>Brito LBB, Ricardo DR, Araújo DSMS, Ramos PS, Myers J, Araújo CGS. Ability to sit and rise from the floor as a predictor of all-cause mortality. <em>Eur J Prev Cardiol</em>. 2014;21(7):892–898. Follow-up: Araújo CGS et al. Sitting–rising test scores predict natural and cardiovascular causes of deaths in middle-aged and older men and women. <em>Eur J Prev Cardiol</em>. 2025; doi:10.1093/eurjpc/zwaf325.</li>
+    <li>Araújo CG, de Souza e Silva CG, Laukkanen JA, et al. Successful 10-second one-legged stance performance predicts survival in middle-aged and older individuals. <em>Br J Sports Med</em>. 2022;56:975–980. doi:10.1136/bjsports-2021-105360.</li>
+    <li>García-Hermoso A, Cavero-Redondo I, et al. Muscular Strength as a Predictor of All-Cause Mortality in an Apparently Healthy Population: A Systematic Review and Meta-Analysis of Data From Approximately 2 Million Men and Women. <em>Arch Phys Med Rehabil</em>. 2018;99(10):2100–2113.e5.</li>
+    <li>Thomas E, Bianco A, Paoli A, Palma A. The Relation Between Stretching Typology and Stretching Duration: The Effects on Range of Motion. <em>Int J Sports Med</em>. 2018;39(4):243–254.</li>
+    <li>Ingram LA, Tomkinson GR, et al. Optimising the Dose of Static Stretching to Improve Flexibility: A Systematic Review, Meta-analysis and Multivariate Meta-regression. <em>Sports Med</em>. 2024; doi:10.1007/s40279-024-02143-9. (189 studies, 6,654 adults; plateau at ~4 min/session, ~10 min/week per muscle group.)</li>
+    <li>Behm DG, Alizadeh S, Daneshjoo A, et al. Acute Effects of Various Stretching Techniques on Range of Motion: A Systematic Review with Meta-Analysis. <em>Sports Med Open</em>. 2023;9:107.</li>
+    <li>Warneke K, et al. Effects of Chronic Static Stretching on Maximal Strength and Muscle Hypertrophy: A Systematic Review and Meta-Analysis with Meta-Regression. <em>Sports Med Open</em>. 2024.</li>
+    <li>Coleman M, Burke R, et al. Gaining more from doing less? The effects of a one-week deload period during supervised resistance training on muscular adaptations. <em>PeerJ</em>. 2024;12:e16777. (39 trained adults; complete one-week cessation at week 5 of 9; equal hypertrophy, slightly better lower-body strength with continuous training.)</li>
+    <li>Pelland JC, Remmert JF, Robinson Z, Hinson SR, Zourdos MC. The Resistance Training Dose-Response: Meta-Regressions Exploring the Effects of Weekly Volume and Frequency on Muscle Hypertrophy and Strength Gain. SportRxiv preprint, 2024 (peer-reviewed version 2025). Frequency effects small once weekly volume is matched.</li>
+    <li>Spina A. Functional Range Conditioning (FRC), Functional Anatomy Seminars: origin of CARs (controlled articular rotations) and PAILs/RAILs (progressive and regressive angular isometric loading). Procedural numbers (2-minute passive hold, 10–20 s ramp, 5–15 s holds, 1–3 rounds, 2–3 maximal sessions per joint per week, 24–36 h soreness signal) taken from FRC-certified practitioner write-ups (Markow Training Systems, 2021–2022; Move With Purpose). FRC's own curriculum is seminar-based and not published as a paper.</li>
+    <li>Starrett K, Starrett J. <em>Built to Move: The Ten Essential Habits to Help You Move Freely and Live Fully</em>. Knopf, 2023. The Ready State.</li>
+    <li>Nippard J. Programme documents (Fundamentals Hypertrophy Program, Powerbuilding Phase 2.0): general warm-up of 5–10 min at ~100–120 bpm (100–135 in some), 2–3 min foam rolling on tight areas, dynamic drills, ramp-up sets. The Essentials Program (jeffnippard.com): 2–5 day options, lower-volume higher-intensity rationale. The "over 30 / 3 days / 96-hour recovery" formulation was found only in third-party summaries and is treated as paraphrase.</li>
+    <li>"Science Based Movers": no channel by that exact name located; not cited.</li>
+  </ul>
+</section>
+
+<footer>
+  Training Block One · weeks 1–12 of the Bedroom Training Program · companion to <a href="https://meciahblacknoll.github.io/training-8dv7/">v2 (clean rebuild, 2026-11-21)</a>, which remains the authority on every exercise, measurement, rule and ratio. This page adds the calendar, the retest, the FRC procedure and the longevity evidence; where the two disagree, the base is right.
+</footer>
+
+</div>
+</body>
+</html>
