@@ -2,332 +2,672 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Bedroom Gym Program</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Bedroom Training Program</title>
+<meta name="description" content="Meciah's multi-year bedroom training program: joint-health-first, planche / handstand push-up / splits skill track, Reeves-proportion aesthetic framework, 5-day repeating structure. Rebuilt clean 2026-11-21.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..800;1,9..144,300..800&family=Source+Serif+4:ital,opsz,wght@0,8..60,300..700;1,8..60,300..700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
-  :root{
-    --bg:#f6f5f1; --surface:#ffffff; --surface-2:#eeece4; --line:#c9c4b4;
-    --ink:#211f1a; --ink-dim:#6b6558; --accent:#8a5a35; --accent-soft:#f0e3d4;
-    --joint:#3f6e58; --joint-soft:#e5efe9; --skill:#5a5a8a; --skill-soft:#e8e8f2;
+:root{
+  --bg:#f7f2ea;
+  --bg-2:#efe7da;
+  --paper:#fffdf9;
+  --ink:#1f1a14;
+  --ink-2:#4a4036;
+  --ink-3:#7a6d5f;
+  --rule:#d9cdbb;
+  --accent:#9a4b1e;
+  --accent-2:#2f6b57;
+  --accent-3:#5a4e9c;
+  --warn:#a3591a;
+  --warn-bg:#fbead8;
+  --ok-bg:#e3efe8;
+  --info-bg:#e9e6f5;
+  --head-bg:#efe7da;
+  --shadow:0 1px 0 rgba(0,0,0,.04),0 8px 24px -16px rgba(60,40,20,.25);
+  --serif:"Source Serif 4",Georgia,"Times New Roman",serif;
+  --display:"Fraunces","Source Serif 4",Georgia,serif;
+  --mono:"IBM Plex Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#15120e;
+    --bg-2:#1f1a14;
+    --paper:#1b1712;
+    --ink:#efe6d8;
+    --ink-2:#cbbfae;
+    --ink-3:#9a8d7c;
+    --rule:#3a3128;
+    --accent:#e08a57;
+    --accent-2:#7fc2a7;
+    --accent-3:#a79cdf;
+    --warn:#e9a86a;
+    --warn-bg:#2d2116;
+    --ok-bg:#16271f;
+    --info-bg:#201d2e;
+    --head-bg:#241e17;
+    --shadow:0 1px 0 rgba(0,0,0,.3),0 8px 24px -16px rgba(0,0,0,.7);
   }
-  @media (prefers-color-scheme: dark){
-    :root:not([data-theme="light"]){
-      --bg:#1a1814; --surface:#221f1a; --surface-2:#2b2821; --line:#433e34;
-      --ink:#ece7dc; --ink-dim:#a39b89; --accent:#d6a06a; --accent-soft:#3a2d1f;
-      --joint:#7fb89a; --joint-soft:#1f2f27; --skill:#9a9ad0; --skill-soft:#262640;
-    }
-  }
-  :root[data-theme="dark"]{
-    --bg:#1a1814; --surface:#221f1a; --surface-2:#2b2821; --line:#433e34;
-    --ink:#ece7dc; --ink-dim:#a39b89; --accent:#d6a06a; --accent-soft:#3a2d1f;
-    --joint:#7fb89a; --joint-soft:#1f2f27; --skill:#9a9ad0; --skill-soft:#262640;
-  }
-  *{box-sizing:border-box;}
-  body{margin:0;background:var(--bg);color:var(--ink);font-family:'Source Serif 4', Georgia, serif;padding:28px 16px;padding-block:32px;}
-  .wrap{max-width:880px;margin:0 auto;display:flex;flex-direction:column;gap:28px;}
-  .kicker{font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.09em;text-transform:uppercase;color:var(--accent);margin:0 0 6px;}
-  h1{font-family:'Fraunces',Georgia,serif;font-size:clamp(26px,5vw,38px);font-weight:600;margin:0;text-wrap:balance;}
-  .sub{color:var(--ink-dim);font-size:15px;max-width:68ch;margin:8px 0 0;line-height:1.55;}
-  h2{font-family:'Fraunces',Georgia,serif;font-size:21px;font-weight:600;margin:0 0 4px;}
-  h3{font-family:'IBM Plex Mono',monospace;font-size:12px;text-transform:uppercase;letter-spacing:.06em;color:var(--ink-dim);margin:0 0 10px;font-weight:500;}
-  p{line-height:1.6;font-size:15px;margin:0 0 10px;}
-  p:last-child{margin-bottom:0;}
-  .panel{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:22px;}
-  .goals{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px;}
-  .goal{background:var(--surface-2);border-radius:10px;padding:16px;}
-  .goal .label{font-family:'IBM Plex Mono',monospace;font-size:10.5px;text-transform:uppercase;letter-spacing:.06em;color:var(--accent);margin-bottom:6px;}
-  .goal ul{margin:0;padding-left:18px;font-size:14px;line-height:1.55;}
-  .principle{display:flex;gap:14px;padding:14px 0;border-top:1px solid var(--line);}
-  .principle:first-child{border-top:none;padding-top:0;}
-  .principle .n{font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--ink-dim);flex:0 0 22px;padding-top:2px;}
-  .principle .body b{color:var(--accent);}
-  .week-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:14px;}
-  .day{background:var(--surface-2);border-radius:10px;padding:16px;display:flex;flex-direction:column;gap:8px;}
-  .day .dayname{font-family:'Fraunces',Georgia,serif;font-size:16px;font-weight:600;}
-  .day .focus{font-family:'IBM Plex Mono',monospace;font-size:10.5px;text-transform:uppercase;letter-spacing:.05em;color:var(--ink-dim);}
-  .day ol{margin:4px 0 0;padding-left:18px;font-size:13.5px;line-height:1.5;}
-  .day ol li{margin-bottom:4px;}
-  .tag{display:inline-block;font-family:'IBM Plex Mono',monospace;font-size:10px;padding:2px 7px;border-radius:5px;margin-top:2px;}
-  .tag.joint{background:var(--joint-soft);color:var(--joint);}
-  .tag.skill{background:var(--skill-soft);color:var(--skill);}
-  .daily-layer{border-left:3px solid var(--joint);background:var(--joint-soft);border-radius:0 10px 10px 0;padding:16px 18px;}
-  .daily-layer b{color:var(--joint);}
-  .rule-list{display:flex;flex-direction:column;gap:12px;}
-  .rule{background:var(--surface-2);border-radius:10px;padding:14px 16px;}
-  .rule .k{font-family:'IBM Plex Mono',monospace;font-size:11px;text-transform:uppercase;letter-spacing:.05em;color:var(--accent);margin-bottom:4px;}
-  .open-items{border-left:3px solid var(--ink-dim);padding:16px 18px;background:var(--surface-2);border-radius:0 10px 10px 0;}
-  .open-items ul{margin:6px 0 0;padding-left:18px;font-size:14px;line-height:1.6;}
-  table{width:100%;border-collapse:collapse;font-size:13.5px;margin-top:4px;}
-  th,td{text-align:left;padding:8px 10px;border-bottom:1px solid var(--line);}
-  th{font-family:'IBM Plex Mono',monospace;font-size:10.5px;text-transform:uppercase;color:var(--ink-dim);font-weight:500;}
-  tr:last-child td{border-bottom:none;}
-  footer{font-size:12px;color:var(--ink-dim);line-height:1.6;text-align:center;}
-  @media (max-width:600px){ .goals,.week-grid{grid-template-columns:1fr;} }
+}
+:root[data-theme="dark"]{
+  --bg:#15120e;
+  --bg-2:#1f1a14;
+  --paper:#1b1712;
+  --ink:#efe6d8;
+  --ink-2:#cbbfae;
+  --ink-3:#9a8d7c;
+  --rule:#3a3128;
+  --accent:#e08a57;
+  --accent-2:#7fc2a7;
+  --accent-3:#a79cdf;
+  --warn:#e9a86a;
+  --warn-bg:#2d2116;
+  --ok-bg:#16271f;
+  --info-bg:#201d2e;
+  --head-bg:#241e17;
+  --shadow:0 1px 0 rgba(0,0,0,.3),0 8px 24px -16px rgba(0,0,0,.7);
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{
+  margin:0;
+  background:var(--bg);
+  color:var(--ink);
+  font-family:var(--serif);
+  font-size:17px;
+  line-height:1.6;
+  font-feature-settings:"onum" 0,"lnum" 1;
+}
+.wrap{max-width:760px;margin:0 auto;padding:40px 16px 80px}
+header.masthead{padding:16px 0 28px;border-bottom:2px solid var(--ink)}
+.kicker{font-family:var(--mono);font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-3)}
+h1{
+  font-family:var(--display);
+  font-weight:600;
+  font-variation-settings:"opsz" 144,"SOFT" 40;
+  font-size:clamp(34px,7vw,52px);
+  line-height:1.05;
+  margin:10px 0 14px;
+  letter-spacing:-.01em;
+}
+.lede{font-size:19px;color:var(--ink-2);margin:0 0 12px;max-width:62ch}
+.meta{font-family:var(--mono);font-size:12.5px;color:var(--ink-3);display:flex;flex-wrap:wrap;gap:8px 18px}
+nav.toc{
+  margin:24px 0 8px;padding:16px 18px;background:var(--paper);border:1px solid var(--rule);border-radius:10px;box-shadow:var(--shadow)
+}
+nav.toc ol{margin:6px 0 0;padding-left:1.3em;columns:2;column-gap:28px}
+@media (max-width:520px){nav.toc ol{columns:1}}
+nav.toc li{margin:3px 0;font-size:15.5px;break-inside:avoid}
+nav.toc a{color:var(--ink-2);text-decoration:none;border-bottom:1px solid var(--rule)}
+nav.toc a:hover{color:var(--accent);border-color:var(--accent)}
+section{margin-top:52px}
+h2{
+  font-family:var(--display);font-weight:600;font-size:clamp(26px,5vw,32px);line-height:1.15;margin:0 0 6px;
+  font-variation-settings:"opsz" 72;
+}
+h2 .num{font-family:var(--mono);font-size:13px;color:var(--accent);letter-spacing:.1em;display:block;margin-bottom:6px;font-weight:500}
+h3{font-family:var(--display);font-weight:600;font-size:21px;margin:28px 0 8px;line-height:1.25}
+h4{font-family:var(--serif);font-weight:700;font-size:17px;margin:18px 0 6px}
+p{margin:10px 0}
+ul,ol{padding-left:1.35em}
+li{margin:5px 0}
+li>ul{margin-top:4px}
+strong{font-weight:700}
+em{font-style:italic}
+code,.mono{font-family:var(--mono);font-size:.88em}
+.small{font-size:14.5px;color:var(--ink-3)}
+hr{border:0;border-top:1px solid var(--rule);margin:28px 0}
+a{color:var(--accent)}
+
+/* callouts */
+.callout{padding:14px 18px;border-radius:10px;margin:18px 0;border:1px solid var(--rule);background:var(--paper)}
+.callout.rule{background:var(--warn-bg);border-color:transparent}
+.callout.ok{background:var(--ok-bg);border-color:transparent}
+.callout.info{background:var(--info-bg);border-color:transparent}
+.callout .label{font-family:var(--mono);font-size:11.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-3);display:block;margin-bottom:4px}
+.callout p:first-of-type{margin-top:4px}
+.callout p:last-child{margin-bottom:2px}
+
+/* goal cards */
+.goals{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:18px 0}
+@media (max-width:640px){.goals{grid-template-columns:1fr}}
+.goal{background:var(--paper);border:1px solid var(--rule);border-radius:10px;padding:16px 16px 14px;box-shadow:var(--shadow);position:relative}
+.goal .rank{font-family:var(--mono);font-size:12px;color:var(--accent);letter-spacing:.1em}
+.goal h3{margin:4px 0 6px;font-size:19px}
+.goal p{margin:0;font-size:15px;color:var(--ink-2)}
+.goal.first{border-color:var(--accent)}
+
+/* tables */
+.tbl{overflow-x:auto;-webkit-overflow-scrolling:touch;margin:14px 0;border:1px solid var(--rule);border-radius:10px;background:var(--paper);box-shadow:var(--shadow)}
+table{border-collapse:collapse;width:100%;min-width:480px;font-size:15px}
+table.narrow{min-width:0}
+th,td{padding:9px 12px;text-align:left;vertical-align:top;border-bottom:1px solid var(--rule)}
+th{background:var(--head-bg);font-family:var(--mono);font-size:11.5px;letter-spacing:.08em;text-transform:uppercase;font-weight:600;color:var(--ink-2)}
+tr:last-child td{border-bottom:0}
+td.n,th.n{text-align:right;font-family:var(--mono);font-size:14px;white-space:nowrap}
+td.c,th.c{text-align:center}
+tbody tr.sub td{background:var(--bg-2);font-family:var(--mono);font-size:11.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-3);padding:6px 12px}
+.tag{display:inline-block;font-family:var(--mono);font-size:11px;letter-spacing:.06em;padding:1px 7px;border-radius:999px;border:1px solid var(--rule);color:var(--ink-2);white-space:nowrap}
+.tag.heavy{background:var(--warn-bg);color:var(--warn);border-color:transparent}
+.tag.light{background:var(--ok-bg);color:var(--accent-2);border-color:transparent}
+.tag.none{color:var(--ink-3)}
+.tag.target{background:var(--info-bg);color:var(--accent-3);border-color:transparent}
+
+/* day cards */
+.day{background:var(--paper);border:1px solid var(--rule);border-radius:12px;padding:18px 18px 14px;margin:16px 0;box-shadow:var(--shadow)}
+.day .dh{display:flex;flex-wrap:wrap;align-items:baseline;gap:6px 14px;border-bottom:1px solid var(--rule);padding-bottom:10px;margin-bottom:10px}
+.day .dh h3{margin:0;font-size:21px}
+.day .dh .when{font-family:var(--mono);font-size:12.5px;color:var(--ink-3)}
+.day .dh .joints{margin-left:auto;display:flex;gap:6px;flex-wrap:wrap}
+@media (max-width:520px){.day .dh .joints{margin-left:0}}
+.day ol{margin:6px 0;padding-left:1.4em}
+.day li{margin:6px 0}
+.day .rx{font-family:var(--mono);font-size:13.5px;color:var(--accent);white-space:nowrap}
+.day .note{font-size:14.5px;color:var(--ink-3);margin:2px 0 0 0}
+.day .foot{margin-top:10px;padding-top:8px;border-top:1px dashed var(--rule);font-size:14.5px;color:var(--ink-2)}
+
+/* ladders */
+.ladder{counter-reset:tier;list-style:none;padding:0;margin:10px 0}
+.ladder li{position:relative;padding:8px 0 8px 46px;border-left:2px solid var(--rule);margin:0 0 0 14px}
+.ladder li::before{
+  counter-increment:tier;content:counter(tier);
+  position:absolute;left:-15px;top:9px;width:28px;height:28px;border-radius:50%;
+  background:var(--paper);border:2px solid var(--accent);color:var(--accent);
+  font-family:var(--mono);font-size:12.5px;font-weight:600;display:flex;align-items:center;justify-content:center
+}
+.ladder .t{font-weight:700}
+.ladder .pass{display:block;font-family:var(--mono);font-size:13px;color:var(--accent-2);margin-top:2px}
+.ladder .pass::before{content:"pass → ";color:var(--ink-3)}
+
+footer{margin-top:64px;padding-top:18px;border-top:1px solid var(--rule);font-size:14px;color:var(--ink-3)}
+.src li{font-size:14.5px;color:var(--ink-2)}
 </style>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Source+Serif+4:wght@400;500&family=IBM+Plex+Mono:wght@400;500&display=swap">
 </head>
 <body>
 <div class="wrap">
-  <div>
-    <p class="kicker">Bedroom gym &middot; Phase 1 &middot; built, not bought</p>
-    <h1>A training skeleton, not a workout</h1>
-    <p class="sub">This is the governing logic and a first real weekly structure &mdash; built around your stated goals, returning-lifter baseline, and the rule that joint health wins every tie-break. It's deliberately not yet anatomy-tailored in the fullest sense; the open items at the bottom are what's still missing for that.</p>
-  </div>
 
-  <div class="panel">
-    <h2>The three goals, as stated</h2>
-    <div class="goals" style="margin-top:14px;">
-      <div class="goal">
-        <div class="label">Aesthetic</div>
-        <ul>
-          <li>Greek-statue proportions &mdash; balanced, built, not just big</li>
-          <li>No skinny legs &mdash; legs get real direct volume, not an afterthought</li>
-          <li>No fixed numeric target; this gets more specific once there's a visible baseline</li>
-        </ul>
-      </div>
-      <div class="goal">
-        <div class="label">Skill / strength</div>
-        <ul>
-          <li>Full front split, full side split</li>
-          <li>Full planche</li>
-          <li>3+ strict handstand push-ups</li>
-        </ul>
-      </div>
-      <div class="goal">
-        <div class="label">Health</div>
-        <ul>
-          <li>Joints feel protected, safe, good &mdash; not sacrificed for the other two</li>
-          <li>Connective tissue gets stronger over years, never just "good enough for now"</li>
-          <li>This goal wins any conflict with the other two, by your own call</li>
-        </ul>
-      </div>
+<header class="masthead">
+  <div class="kicker">Meciah · Training program · v2 (clean rebuild)</div>
+  <h1>Bedroom Training Program</h1>
+  <p class="lede">A five-day structure you repeat for years. Joint health wins every tie-break; the planche, handstand push-ups and both splits are the skill line; a Reeves-proportioned "Greek statue" build is the aesthetic line. Everything below is built from one complete set of baseline measurements taken 2026-11-21.</p>
+  <div class="meta">
+    <span>Baseline: 2026-11-21</span>
+    <span>Age 23 (turning 24)</span>
+    <span>5 days · 45–60 min</span>
+    <span>Units: cm (in) everywhere</span>
+  </div>
+  <nav class="toc" aria-label="Contents">
+    <span class="kicker">Contents</span>
+    <ol>
+      <li><a href="#goals">The three goals</a></li>
+      <li><a href="#baseline">Baseline measurements</a></li>
+      <li><a href="#leverage">Leverage and build</a></li>
+      <li><a href="#ratios">Proportion framework (resolved)</a></li>
+      <li><a href="#principles">Governing principles</a></li>
+      <li><a href="#equipment">Equipment and substitutions</a></li>
+      <li><a href="#week">The week</a></li>
+      <li><a href="#progression">Progression rules</a></li>
+      <li><a href="#ladders">Skill ladders</a></li>
+      <li><a href="#tracking">Measure and re-measure</a></li>
+      <li><a href="#open">Still open</a></li>
+      <li><a href="#sources">Sources</a></li>
+    </ol>
+  </nav>
+</header>
+
+<!-- ============================================================ -->
+<section id="goals">
+  <h2><span class="num">01</span>The three goals</h2>
+  <p>Three goals, in strict priority order. When two of them pull in different directions, the higher one wins. You chose this order yourself, and you chose it again when asked directly which one wins a conflict.</p>
+  <div class="goals">
+    <div class="goal first">
+      <div class="rank">PRIORITY 1 · WINS EVERY TIE</div>
+      <h3>Joint health</h3>
+      <p>Joints feel protected and good every session. Tendons, ligaments and cartilage get <em>better</em> over years, never traded away for a faster skill or a bigger lift. Currently no joint pain; keep it that way.</p>
+    </div>
+    <div class="goal">
+      <div class="rank">PRIORITY 2</div>
+      <h3>Skill and strength</h3>
+      <p>Full front split. Full side split. Full planche. Three or more strict handstand push-ups against the wall.</p>
+    </div>
+    <div class="goal">
+      <div class="rank">PRIORITY 3</div>
+      <h3>Greek-statue build</h3>
+      <p>Built on purpose, not just bigger. Classical proportions (Section 04), no "skinny legs." No specific numeric aesthetic goals beyond the proportion framework.</p>
     </div>
   </div>
+  <div class="callout rule">
+    <span class="label">The override</span>
+    <p><strong>Any new ache that lingers past 48 hours drops that movement back one tier, or out of the session entirely, for that week.</strong> This overrides every other rule in this document, including progression targets, with no exceptions. It is the operational form of Priority 1.</p>
+  </div>
+  <p><strong>Context the program is built around.</strong> Returning lifter: push-ups and pull-ups are fine, prior barbell experience, just out of practice. Up about 20 lb since the relationship started. Trains in a bedroom that becomes a gym when the Murphy bed folds up. Wants 4–5 sessions a week of 45–60 minutes, repeating the same structure indefinitely with progressive overload. No variety-seeking: the structure stays, the numbers move.</p>
+</section>
 
-  <div class="panel">
-    <h2>Baseline, 2026-11-19 &mdash; all 13 measurements in</h2>
-    <p style="margin-top:4px;">The reference point every future monthly re-measurement compares against. Body-fat/size-baseline numbers repeat every 4 weeks, same conditions each time; the pure-leverage numbers (height, wingspan, sitting height) only need taking once since bone length doesn't change. <b>Corrected:</b> shoulder circumference is NOT in that once-only group &mdash; it's training-responsive (it's the numerator of one of the two waist-based ratio gaps) and needs the same monthly re-measurement as chest/arm/calf.</p>
-    <table style="margin-top:12px;">
-      <thead><tr><th>Measurement</th><th>Value</th><th>Measurement</th><th>Value</th></tr></thead>
-      <tbody>
-        <tr><td>Height</td><td>182.2cm (71.73in)</td><td>Chest</td><td>100cm (39.37in)</td></tr>
-        <tr><td>&nbsp;</td><td>&nbsp;</td><td>Waist</td><td>92cm (36.22in)</td></tr>
-        <tr><td>Wingspan</td><td>185cm (72.83in)</td><td>Neck</td><td>37cm (14.57in)</td></tr>
-        <tr><td>Sitting height</td><td>93cm (36.61in)</td><td>Upper arm (flexed)</td><td>33cm (12.99in)</td></tr>
-        <tr><td>Shoulder circumference</td><td>126cm (49.61in)</td><td>Forearm</td><td>29cm (11.42in)</td></tr>
-        <tr><td>Wrist</td><td>18cm (7.09in)</td><td>Thigh</td><td>59cm (23.23in)</td></tr>
-        <tr><td>Ankle</td><td>22.5cm (8.86in)</td><td>Calf</td><td>35cm (13.78in)</td></tr>
-      </tbody>
-    </table>
-    <p style="margin-top:10px;"><b>Navy-method body fat, computed from neck/waist/height above: &asymp;21.5%.</b> This is the real first tracked number &mdash; re-measure neck+waist (height doesn't change) in 4 weeks at the same conditions to see real direction, not a one-off read to judge.</p>
+<!-- ============================================================ -->
+<section id="baseline">
+  <h2><span class="num">02</span>Baseline measurements</h2>
+  <p>Confirmed accurate as of <strong>2026-11-21</strong>. Every number is given in centimetres and inches. Rows marked <span class="tag target">trains</span> are expected to change with training and are re-measured monthly (Section 10); the others are skeletal and fixed.</p>
+  <div class="tbl">
+  <table>
+    <thead><tr><th>Measurement</th><th class="n">cm</th><th class="n">in</th><th>How it was taken</th></tr></thead>
+    <tbody>
+      <tr class="sub"><td colspan="4">Skeletal / fixed</td></tr>
+      <tr><td>Height</td><td class="n">182.2</td><td class="n">71.73</td><td>Standing, no shoes</td></tr>
+      <tr><td>Wingspan</td><td class="n">185.0</td><td class="n">72.83</td><td>Fingertip to fingertip, arms level</td></tr>
+      <tr><td>Sitting height</td><td class="n">93.0</td><td class="n">36.61</td><td>Seated on a hard flat surface, top of head to seat. Corrected, final reading; an earlier higher value was a measurement error and is retired.</td></tr>
+      <tr><td>Wrist</td><td class="n">18.0</td><td class="n">7.09</td><td>Narrowest point just past the wrist bones, toward the hand (not over the bony bumps)</td></tr>
+      <tr><td>Ankle</td><td class="n">22.5</td><td class="n">8.86</td><td>Narrowest point above the ankle bones. Population-normal: a 1988 US Army anthropometric survey of 1,774 men puts the male mean at 22.17 cm (8.73 in)</td></tr>
+      <tr class="sub"><td colspan="4">Training-responsive <span class="tag target">trains</span></td></tr>
+      <tr><td>Shoulder circumference</td><td class="n">126.0</td><td class="n">49.61</td><td>Full circumference around the torso at shoulder height: over both deltoids, under the armpits, across chest and back. Not a point-to-point width.</td></tr>
+      <tr><td>Chest</td><td class="n">100.0</td><td class="n">39.37</td><td>At the nipple line, relaxed breathing</td></tr>
+      <tr><td>Waist</td><td class="n">92.0</td><td class="n">36.22</td><td>At the navel, standing relaxed</td></tr>
+      <tr><td>Neck</td><td class="n">37.0</td><td class="n">14.57</td><td>Just below the larynx, at the narrow point (not the wider base near the shoulders)</td></tr>
+      <tr><td>Upper arm, flexed</td><td class="n">33.0</td><td class="n">12.99</td><td>Peak of the flexed biceps</td></tr>
+      <tr><td>Forearm, flexed</td><td class="n">29.0</td><td class="n">11.42</td><td>Widest point</td></tr>
+      <tr><td>Thigh</td><td class="n">59.0</td><td class="n">23.23</td><td>Midpoint between hip crease and kneecap</td></tr>
+      <tr><td>Calf</td><td class="n">35.0</td><td class="n">13.78</td><td>Widest point, standing</td></tr>
+      <tr class="sub"><td colspan="4">Not recorded</td></tr>
+      <tr><td>Body weight</td><td class="n">—</td><td class="n">—</td><td>Not needed: the Navy body-fat method below uses only neck, waist and height. Weigh in monthly if you want a trend line, but no rule in this program keys off it.</td></tr>
+    </tbody>
+  </table>
   </div>
 
-  <div class="panel">
-    <h2>Grecian Ideal ratios &mdash; the aesthetic goal, made concrete</h2>
-    <p style="margin-top:4px;">"Built like a Greek statue" has an actual named proportion system behind it, not just a vibe &mdash; measurements taken directly off classical statuary, most famously reconstructed by Steve Reeves. Each ratio below is computed from the real measurements in the baseline table above &mdash; this is a live scorecard, not a template waiting on data. <b>All measurements in cm</b> (tailor's tape, not inches) &mdash; a 17mm wrist would be smaller than a pencil, so any reading that low is the cm side of the tape, not mm.</p>
-    <table style="margin-top:14px;">
-      <thead>
-        <tr><th>Ratio</th><th>Target</th><th>From which measurements</th><th>Status</th></tr>
-      </thead>
-      <tbody>
-        <tr><td>Shoulders : waist</td><td>1.618 : 1 (&phi;, the golden ratio)</td><td>Shoulder circumference &divide; waist</td><td><b>126 &divide; 92 = 1.37</b> &mdash; target 148.9cm (58.62in), needs +22.9cm (+9.02in). <i>Gap is provisional &mdash; see the sourcing note below the table.</i></td></tr>
-        <tr><td>Arm = calf = neck</td><td>All three equal</td><td>Upper arm (flexed), calf (widest point), neck</td><td><b>arm = 33cm (13.0in), calf = 35cm (13.8in), neck = 37cm (14.6in)</b> &mdash; already fairly close together; arm is the lowest of the three</td></tr>
-        <tr><td>Chest : waist</td><td>&asymp;1.4&ndash;1.5 : 1</td><td>Chest (nipple line) &divide; waist</td><td><b>100 &divide; 92 = 1.09</b> &mdash; target &asymp;133.4cm (52.5in) at the 1.45 midpoint, needs +33.4cm (+13.1in). <i>This is currently the larger of the two waist-based gaps &mdash; but see the sourcing note below, it's provisional too.</i></td></tr>
-        <tr><td>Arm : wrist</td><td>&asymp;2.5 : 1</td><td>Upper arm (flexed) &divide; wrist</td><td><b>wrist = 18cm (7.09in) &rarr; target arm &asymp; 45cm (17.72in); current 33cm (13.0in), needs +12cm (+4.72in)</b></td></tr>
-        <tr><td>Calf : ankle</td><td>&asymp;1.9 : 1</td><td>Calf &divide; ankle</td><td><b>ankle = 22.5cm (8.86in) &rarr; target calf &asymp; 42.75cm (16.83in); current 35cm (13.8in), needs +7.75cm (+3.05in)</b></td></tr>
-      </tbody>
-    </table>
-    <p style="margin-top:12px;"><b>Open sourcing problem, found by Fable's review, not yet resolved:</b> the 1.618 shoulder:waist figure is actually John Barban's "Adonis Index" marketing number, not Reeves &mdash; and the 1.4-1.5 chest:waist figure doesn't match Reeves' own build either (his real chest:waist, backed out from his published measurements, is closer to 1.72). Separately, both gaps above were computed by holding waist FIXED at the current 92cm, which produces misleading deltas (a 33cm chest gain is not how anyone actually hits this ratio). The real lever on both ratios is the DENOMINATOR, not the numerator: as body fat drops toward a leaner waist (projected ~83-85cm at ~12-14% BF, down from today's 92cm/21.5%), the same shoulder/chest measurements close most of this gap without adding nearly as much raw size. Needs a decision: recompute both gaps against a projected leaner waist, or drop the 1.618/chest:waist framing entirely and keep only the three Reeves-verified ratios below (arm=calf=neck, arm:wrist 2.5, calf:ankle 1.9), which all check out against his real published numbers.</p>
-    <p style="margin-top:12px;"><b>Why this changes where effort goes, not just what gets measured:</b> the shoulder:waist ratio responds mainly to <i>width</i> work &mdash; overhead pressing, lateral raises, vertical pulling (Day 4, Upper B) &mdash; more than to bench press, which mostly adds chest thickness rather than shoulder width. The waist side of that same ratio is almost entirely a body-composition question, not a training one &mdash; ab work (already present via hollow holds/L-sits) adds visible definition but doesn't shrink the actual circumference. And the arm=calf=neck rule is a hard numeric version of the "no skinny legs" goal: it's not satisfied by legs that merely look okay, it's satisfied by a calf measurement in the same range as the arm measurement. <b>Real finding, 2026-11-19:</b> the two arm targets already disagree &mdash; the neck-match rule asks for 37cm, the wrist-ratio rule asks for 45cm. That's not a contradiction to resolve by picking one; it means your wrist is proportionally larger relative to your neck than the classical statues' average build, so a single body part (the neck, which barely responds to training) can't be the only anchor &mdash; the wrist-ratio target is the more informative one here since it's the more training-independent of your two "fixed" bones. This is a build with its own specific proportions, not a perfect match to a textbook ratio, and that's fine &mdash; the point of measuring both is catching exactly this kind of thing instead of chasing one number blind.</p>
-    <p style="margin-top:10px;"><b>Leverage reading, 2026-11-19:</b> height 182.2cm (71.73in), wingspan 185cm (72.83in) &mdash; wingspan exceeds height by 2.8cm (1.1in), a mild positive "ape index." Practical read: bench press and planche will both be very slightly harder to leverage than for someone whose wingspan matches their height exactly, while pull-ups/rows simply have a longer range of motion to cover, which reads as roughly neutral rather than a real advantage. Small effect at this margin, not something to change programming over, but it sets honest expectations rather than a surprise later if planche/bench progress feels a notch slower than the handstand/pull-up side.</p>
-    <p style="margin-top:10px;"><b>Corrected 2026-11-19</b> &mdash; the original sitting-height reading (100.5cm) was off; re-measured at 93cm. This flips the earlier read: legs are now <b>49.0%</b> of height, and the Cormic index (sitting height &divide; height = 51.0%) sits almost exactly on the population male average (&asymp;52%) &mdash; an unremarkable, average leg:torso build, not notably short- or long-legged in either direction. No real squat/deadlift leverage advantage or disadvantage to plan around here; the earlier "upper body carries the aesthetic ceiling" framing was built on a measurement error and should be dropped along with it.</p>
+  <h3>Derived numbers</h3>
+  <div class="tbl">
+  <table>
+    <thead><tr><th>Quantity</th><th class="n">Value</th><th>Computation</th></tr></thead>
+    <tbody>
+      <tr><td>Body fat (US Navy method)</td><td class="n">≈ 21.5 %</td><td>495 ÷ (1.0324 − 0.19077·log₁₀(waist − neck) + 0.15456·log₁₀(height)) − 450, all in cm. With waist − neck = 55 cm and height 182.2 cm the denominator is 1.0498, giving 471.5 − 450 ≈ 21.5 %. The inch-based variant of the same formula gives ≈ 21.7 %; both round to "about 21–22 %."</td></tr>
+      <tr><td>Cormic index (sitting height ÷ height)</td><td class="n">51.0 %</td><td>93 ÷ 182.2 = 0.510. Male population average ≈ 52 %.</td></tr>
+      <tr><td>Leg length (height − sitting height)</td><td class="n">89.2 cm (35.12 in)</td><td>182.2 − 93 = 89.2 cm, i.e. legs are 49.0 % of height.</td></tr>
+      <tr><td>Ape index (wingspan − height)</td><td class="n">+2.8 cm (+1.10 in)</td><td>185 − 182.2. Wingspan is 1.5 % longer than height: a mild positive ape index.</td></tr>
+    </tbody>
+  </table>
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<section id="leverage">
+  <h2><span class="num">03</span>Leverage and build</h2>
+  <p><strong>Torso-to-leg proportion: average.</strong> A Cormic index of 51.0 % against a population mean of about 52 % is an unremarkable, middle-of-the-distribution build. Legs at 49.0 % of height are neither long nor short. There is no "short legs, long torso" story here; a previous draft said there was, but that conclusion came from the erroneous earlier sitting-height reading and is retracted. Practical consequence: no squat-stance or deadlift-style adjustments are indicated by proportion. Set up however feels best on your hips and ankles.</p>
+  <p><strong>Arm length: slightly long, and it barely matters.</strong> Wingspan exceeds height by 2.8 cm (1.1 in). Longer levers make the planche and the bench press marginally harder to leverage; on pull-ups and rows the only effect is a slightly longer range of motion to cover, which is roughly neutral rather than an advantage. Treat this as a footnote, not a design input. Nothing in the program is changed because of it.</p>
+  <p><strong>Wrist and ankle: average frames, so Reeves' ratios apply cleanly.</strong> The wrist (18.0 cm) and ankle (22.5 cm) are the two fixed reference points in the proportion framework below. Both sit in the normal male range, which means the Reeves multipliers produce targets that are ambitious but not structurally impossible.</p>
+</section>
+
+<!-- ============================================================ -->
+<section id="ratios">
+  <h2><span class="num">04</span>Proportion framework (resolved)</h2>
+  <p>The aesthetic goal is a classical, Greek-statue build. The modern lifter most associated with that look is Steve Reeves (Mr. America 1947, Mr. Universe 1950), and his published measurements and proportion formula are the natural source for targets. An earlier draft used five "classical ratios" attributed to Reeves. Two of them were not Reeves at all. This section fixes the sourcing and makes a decision.</p>
+
+  <h3>What Reeves actually published</h3>
+  <div class="tbl">
+  <table>
+    <thead><tr><th>Reeves, peak</th><th class="n">in</th><th class="n">cm</th><th>Derived ratio</th></tr></thead>
+    <tbody>
+      <tr><td>Wrist</td><td class="n">7.25</td><td class="n">18.4</td><td rowspan="2">Arm ÷ wrist = 18.25 ÷ 7.25 = <strong>2.52</strong></td></tr>
+      <tr><td>Upper arm</td><td class="n">18.25</td><td class="n">46.4</td></tr>
+      <tr><td>Ankle</td><td class="n">9.5</td><td class="n">24.1</td><td rowspan="2">Calf ÷ ankle = 18.25 ÷ 9.5 = <strong>1.92</strong></td></tr>
+      <tr><td>Calf</td><td class="n">18.25</td><td class="n">46.4</td></tr>
+      <tr><td>Neck</td><td class="n">18.25</td><td class="n">46.4</td><td>Arm = calf = neck, exactly, by design</td></tr>
+      <tr><td>Chest</td><td class="n">52</td><td class="n">132.1</td><td rowspan="2">Chest ÷ waist = 52 ÷ 29 = <strong>1.79</strong></td></tr>
+      <tr><td>Waist</td><td class="n">29</td><td class="n">73.7</td></tr>
+      <tr><td>Hips (pelvis)</td><td class="n">38</td><td class="n">96.5</td><td>Chest ÷ pelvis = 1.37; waist ÷ pelvis = 0.76</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <p class="small">Reeves' later written formula (in <em>Building the Classic Physique the Natural Way</em>) states the targets as: arm = 252 % of wrist, calf = 192 % of ankle, neck = 79 % of head, chest = 148 % of <strong>pelvis</strong>, waist = 86 % of <strong>pelvis</strong>, thigh = 175 % of knee. The implied chest ÷ waist from that formula is 1.48 ÷ 0.86 ≈ 1.72, close to his measured 1.79.</p>
+
+  <h3>Audit of the five drafted ratios</h3>
+  <div class="tbl">
+  <table>
+    <thead><tr><th>Drafted ratio</th><th>Source check</th><th>Verdict</th></tr></thead>
+    <tbody>
+      <tr><td>Arm = calf = neck</td><td>Reeves, verbatim; his own numbers are all 18.25 in.</td><td><span class="tag light">keep</span></td></tr>
+      <tr><td>Arm : wrist ≈ 2.5</td><td>Reeves formula 2.52; his measurements give 2.52.</td><td><span class="tag light">keep</span></td></tr>
+      <tr><td>Calf : ankle ≈ 1.9</td><td>Reeves formula 1.92; his measurements give 1.92.</td><td><span class="tag light">keep</span></td></tr>
+      <tr><td>Shoulders : waist = 1.618</td><td><strong>Not Reeves.</strong> This is John Barban's "Adonis Index," a marketing-driven golden-ratio claim. Reeves never published a shoulder-circumference target.</td><td><span class="tag heavy">drop as target</span></td></tr>
+      <tr><td>Chest : waist ≈ 1.4–1.5</td><td><strong>Mis-sourced.</strong> The 1.48 figure is Reeves' chest ÷ <em>pelvis</em>, not chest ÷ waist. His real chest ÷ waist is 1.72–1.79, a championship-bodybuilder number.</td><td><span class="tag heavy">drop as target</span></td></tr>
+    </tbody>
+  </table>
   </div>
 
-  <div class="panel">
-    <h2>Why it's structured this way</h2>
-    <div style="margin-top:12px;">
-      <div class="principle">
-        <div class="n">01</div>
-        <div class="body"><b>Two different overload mechanisms, running at once.</b> Barbell/dumbbell lifts progress the normal way: hit the top of your rep range, add weight next time. Bodyweight skill lines (planche, handstand push-ups, splits) don't have that dial &mdash; they progress through <i>leverage tiers</i> instead. The rule that governs when you're allowed to move to a harder tier: <b>3-4 sets of 8-12 clean reps, or a clean 30-second hold, at the current tier</b>, before advancing. This is the standard from Steven Low's <i>Overcoming Gravity</i>, the reference text for exactly this kind of progression.</div>
-      </div>
-      <div class="principle">
-        <div class="n">02</div>
-        <div class="body"><b>Joint health is a pacing rule, not a separate workout.</b> Tendons and ligaments adapt 2-3&times; slower than muscle. Practically: every session opens with a few minutes of joint-specific CARs (controlled articular rotations) for whatever you're about to load, and the progression rule above is never skipped for being "ready early." A new ache that lingers past 48 hours knocks that movement back a tier that week &mdash; no exceptions. That's what "joint health wins the tie-break" actually means in practice, not just as a stated value.</div>
-      </div>
-      <div class="principle">
-        <div class="n">03</div>
-        <div class="body"><b>Movement patterns, not muscle groups, organize the week.</b> Every pattern &mdash; horizontal push/pull, vertical push/pull, squat, hinge, core &mdash; gets hit roughly twice a week, which is the frequency sweet spot in the hypertrophy literature and also what keeps a repeating week from quietly neglecting legs (direct cause of "skinny legs").</div>
-      </div>
-      <div class="principle">
-        <div class="n">04</div>
-        <div class="body"><b>Flexibility doesn't fit the same weekly rhythm as strength.</b> Real split progress comes from near-daily stretch exposure (a time-under-stretch adaptation), not a once-a-week session. So split work shows up in small doses every day as a baseline layer underneath the whole week, with one dedicated longer block on its own leg day.</div>
-      </div>
-      <div class="principle">
-        <div class="n">05</div>
-        <div class="body"><b>Skills get practiced 2-3&times;/week, not once.</b> Planche and handstand push-up work appear on two different days each (once as the main focus, once as a lighter second touch), because skill acquisition responds better to frequent, sub-maximal practice than to one hard weekly session.</div>
-      </div>
-    </div>
+  <h3>The decision</h3>
+  <div class="callout info">
+    <span class="label">Resolved</span>
+    <p><strong>The target system is the three Reeves-verified ratios only:</strong> arm = calf = neck, arm = 2.52 × wrist, calf = 1.92 × ankle. Shoulder circumference and chest are <strong>tracked, trained up, and have no fixed ratio target.</strong></p>
+    <p>Why this and not "keep all five against a projected waist": (1) the two dropped ratios have no defensible classical source, so any number put on them would be invented; (2) both are dominated by the waist, which the program expects to shrink through fat loss, so a fixed shoulder or chest target computed today would be stale the moment the waist moves; (3) the three kept ratios are anchored to <em>skeletal</em> measurements (wrist, ankle) that never change, so their targets stay valid for the life of the program. That is exactly the property a years-long document needs.</p>
   </div>
 
-  <div class="panel">
-    <h2>The repeating week</h2>
-    <p style="margin-top:4px;">5 days, repeated indefinitely, progressing in place rather than changing shape &mdash; matches wanting something you run for years, not something you get bored of and replace.</p>
-    <div class="week-grid" style="margin-top:14px;">
-      <div class="day">
-        <div class="dayname">Day 1 &middot; Upper A</div>
-        <div class="focus">Horizontal push / pull</div>
-        <ol>
-          <li>Barbell bench press &mdash; 4&times;6-10</li>
-          <li>Barbell or DB row &mdash; 4&times;8-12</li>
-          <li>Incline DB press &mdash; 3&times;10-12</li>
-          <li>Band face pulls &mdash; 3&times;15-20</li>
-          <li>Hollow body hold &mdash; 3&times;20-30s</li>
-        </ol>
-        <span class="tag joint">shoulder CARs + wrist prep first</span>
-      </div>
-      <div class="day">
-        <div class="dayname">Day 2 &middot; Lower A</div>
-        <div class="focus">Squat emphasis</div>
-        <ol>
-          <li>Barbell back squat (goblet squat until rack is sorted) &mdash; 4&times;6-10</li>
-          <li>Romanian deadlift &mdash; 3&times;8-12</li>
-          <li>Walking lunges &mdash; 3&times;12/leg</li>
-          <li>Inverted rows or rings rows &mdash; 3&times;8-12 <i>(2nd weekly horizontal-pull touch)</i></li>
-          <li>Calf raises &mdash; 4&times;15-20</li>
-          <li>Front split progression hold &mdash; 3&times;45-60s/side</li>
-        </ol>
-        <span class="tag joint">hip CARs + 90/90 first</span>
-      </div>
-      <div class="day">
-        <div class="dayname">Day 3 &middot; Skill</div>
-        <div class="focus">Low-fatigue, joint-protective by design</div>
-        <ol>
-          <li>Handstand practice &mdash; 5-8&times;20-40s</li>
-          <li>Handstand push-up progression &mdash; 4&times;quality reps</li>
-          <li>Planche progression (tuck lean/hold) &mdash; 4&times;10-20s</li>
-          <li>Front split progression &mdash; 2&times;30-45s/side</li>
-          <li>Side split progression &mdash; 3&times;45-60s</li>
-          <li>L-sit progression &mdash; 3&times;max hold</li>
-          <li>Calf raises &mdash; 3&times;15-20 <i>(3rd weekly touch, closes the 10-20 set/week target)</i></li>
-          <li>Wrist curls/extensions &mdash; 2&times;15-20 + band external rotation &mdash; 2&times;15 <i>(prehab for planche/HSPU wrists and shoulders)</i></li>
-        </ol>
-        <span class="tag skill">everything sub-maximal &mdash; quality over fatigue</span>
-      </div>
-      <div class="day">
-        <div class="dayname">Day 4 &middot; Upper B</div>
-        <div class="focus">Vertical push / pull</div>
-        <ol>
-          <li>Overhead press &mdash; 4&times;6-10</li>
-          <li>Weighted/assisted pull-ups or rows &mdash; 4&times;6-10</li>
-          <li>Dips (bench or rings) &mdash; 3&times;8-12</li>
-          <li>DB lateral raise &mdash; 3&times;12-15</li>
-          <li>Planche progression &mdash; 2nd weekly touch, lighter</li>
-        </ol>
-        <span class="tag joint">band pull-aparts + shoulder CARs first</span>
-      </div>
-      <div class="day">
-        <div class="dayname">Day 5 &middot; Lower B</div>
-        <div class="focus">Hinge emphasis</div>
-        <ol>
-          <li>Deadlift (conventional, floor-start &mdash; no rack needed) &mdash; 4&times;5-8</li>
-          <li>Front squat or goblet squat &mdash; 3&times;8-12</li>
-          <li>Bulgarian split squat &mdash; 3&times;10/leg</li>
-          <li>Pull-ups or band-assisted pull-ups &mdash; 3&times;6-10 <i>(2nd weekly vertical-pull touch)</i></li>
-          <li>Calf raises &mdash; 4&times;15-20</li>
-          <li>Side split progression &mdash; 2nd weekly touch, dedicated block</li>
-        </ol>
-        <span class="tag skill">handstand push-up &mdash; 2nd weekly touch</span>
-      </div>
-    </div>
+  <h3>Current vs target: the three ratios</h3>
+  <div class="tbl">
+  <table>
+    <thead><tr><th>Ratio</th><th class="n">Now</th><th class="n">Reeves target</th><th class="n">Target size</th><th class="n">Gap</th></tr></thead>
+    <tbody>
+      <tr><td>Arm ÷ wrist</td><td class="n">33.0 ÷ 18.0 = 1.83</td><td class="n">2.52</td><td class="n">45.4 cm (17.9 in)</td><td class="n">+12.4 cm (+4.9 in)</td></tr>
+      <tr><td>Calf ÷ ankle</td><td class="n">35.0 ÷ 22.5 = 1.56</td><td class="n">1.92</td><td class="n">43.2 cm (17.0 in)</td><td class="n">+8.2 cm (+3.2 in)</td></tr>
+      <tr><td>Arm = calf = neck</td><td class="n">33.0 / 35.0 / 37.0</td><td class="n">all equal</td><td class="n">converge first at ≈ 37–38 cm (14.6–15.0 in)</td><td class="n">arm +4 cm (1.6 in); calf +2 cm (0.8 in)</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <p><strong>Reading this honestly.</strong> The Reeves multipliers describe a championship physique at the end of a career; they are the <em>direction</em>, not a two-year promise. Of the two, the arm is proportionally furthest from its ratio (currently 73 % of the Reeves target), the calf second (81 %). Both are legitimate size gaps and both get direct volume in the week. The first concrete aesthetic milestone is the one Reeves put first: <strong>arm, calf and neck converging at the same number</strong>, which at today's neck means roughly 37–38 cm (14.6–15.0 in). The neck will thicken somewhat with heavy pulling and pressing, so the convergence point drifts upward a little over time; re-check it at each monthly re-measure rather than fixing it now. Realistic intermediate markers along the way: a 40 cm (15.7 in) arm is 2.22 × wrist; a 38 cm (15.0 in) calf is 1.69 × ankle.</p>
+
+  <h3>Shoulders and chest: tracked, not targeted</h3>
+  <p>Both numbers are reported every month and both are expected to rise, but the governing lever for how they <em>look</em> is the waist. At today's waist (92.0 cm / 36.2 in) the shoulder ÷ waist ratio is 126 ÷ 92 = 1.37 and chest ÷ waist is 100 ÷ 92 = 1.09. For context only, here is what the same shoulders and chest look like against a projected leaner waist:</p>
+  <div class="tbl">
+  <table>
+    <thead><tr><th>Scenario (same 126 cm shoulders, 100 cm chest)</th><th class="n">Waist</th><th class="n">Navy BF % at today's neck</th><th class="n">Shoulder ÷ waist</th><th class="n">Chest ÷ waist</th></tr></thead>
+    <tbody>
+      <tr><td>Today</td><td class="n">92.0 cm (36.2 in)</td><td class="n">≈ 21.5 %</td><td class="n">1.37</td><td class="n">1.09</td></tr>
+      <tr><td>Projection: leaner, no upper-body growth</td><td class="n">83.0 cm (32.7 in)</td><td class="n">≈ 15.0 %</td><td class="n">1.52</td><td class="n">1.20</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <p class="small">The 83 cm waist is a projection, not a target or a prediction, chosen because it is a believable multi-year outcome for a 182 cm man who trains and eats well. By the Navy formula it corresponds to about 15.0 % body fat <em>if the neck stays at 37 cm</em>; a thicker trained neck would read a point or two leaner at the same waist. The point of the row is that the ratio moves 0.15 with zero shoulder growth, which is why no shoulder or chest "gap" is stated in this document: the honest answer is "lose the waist, train the shoulders and chest hard, measure, repeat."</p>
+</section>
+
+<!-- ============================================================ -->
+<section id="principles">
+  <h2><span class="num">05</span>Governing principles</h2>
+  <p>Why the program is shaped the way it is. Each of these shows up as a concrete rule somewhere below.</p>
+  <ol>
+    <li><strong>Connective tissue adapts slower than muscle.</strong> Tendons and ligaments remodel over months, muscle over weeks. A program that lets strength run ahead of tendon capacity produces exactly the kind of lingering ache that Priority 1 forbids. So: smallest increments, progression gated on clean reps, and heavy shoulder/wrist loading never on consecutive days.</li>
+    <li><strong>Joint stress is counted per joint, per week, not per exercise.</strong> Bench, overhead press, dips, pike/handstand push-ups and planche leans all load the same shoulder and the same extended wrist. The week is laid out so those sit on three non-adjacent days (Mon / Wed / Fri), with pull-and-lower days between them. Section 07 shows the joint map.</li>
+    <li><strong>Every pattern twice a week, really.</strong> Horizontal push, horizontal pull, vertical push, vertical pull, squat, hinge each appear on at least two different days (vertical push lands on three, via the handstand push-up ladder). The previous draft claimed this and quietly missed it for the pull patterns; the table in Section 07 is the proof for this version.</li>
+    <li><strong>Skill is practised fresh.</strong> Planche and handstand push-up progressions live on a dedicated mid-week day with low systemic fatigue, stopped well short of failure, because motor learning degrades when tired and tendons are most at risk when form breaks.</li>
+    <li><strong>Hard stretching is training.</strong> Loaded and PNF split work is recovery-limited like lifting. It is capped at three intense sessions a week on non-consecutive days (Mon / Wed / Fri, when the legs are not freshly squatted), with a gentle daily touch everywhere else.</li>
+    <li><strong>The barbell is the long-term tool.</strong> It has no practical weight ceiling and is being bought used and cheaply. The 35 lb adjustable dumbbells are already too light for a returning lifter's main lifts; they stay for lateral raises, calf work and wrist prehab, and no larger dumbbell set should be bought.</li>
+    <li><strong>Volume lands in the evidence range and stays there.</strong> 10–20 hard sets per muscle per week, 1–3 reps shy of failure. Calves are deliberately dosed at 14 sets because the calf is a flagged size gap and gets almost nothing from the skill work.</li>
+    <li><strong>Sleep is a training input.</strong> 7–9 hours. Tendon and ligament remodeling happens disproportionately during sleep; a short night is a missed session for the joints even if the lifting happened.</li>
+    <li><strong>Repeat, don't rotate.</strong> The structure does not change. Only the loads, reps, hold times and tiers move. Deloads are scheduled, not improvised.</li>
+  </ol>
+</section>
+
+<!-- ============================================================ -->
+<section id="equipment">
+  <h2><span class="num">06</span>Equipment and substitutions</h2>
+  <div class="tbl">
+  <table>
+    <thead><tr><th>Item</th><th>Status</th><th>Role</th></tr></thead>
+    <tbody>
+      <tr><td>Flat bench</td><td><span class="tag light">owned</span></td><td>Pressing, rows, split squats, seated calf raises, Zercher pick-up</td></tr>
+      <tr><td>Olympic barbell + plates</td><td><span class="tag target">buying, used</span></td><td>Primary notation for every loaded lift. Until it arrives, use the substitutions below.</td></tr>
+      <tr><td>Squat rack or squat stands</td><td><span class="tag heavy">gap</span></td><td>Needed for a conventional back squat and for a bench press with a real bar path. Not a style choice: a real gap, listed in Section 11.</td></tr>
+      <tr><td>Doorway pull-up bar</td><td><span class="tag light">owned</span></td><td>Vertical pull, hanging core</td></tr>
+      <tr><td>Gymnastic rings</td><td><span class="tag light">owned</span></td><td>Rows, dips, push-ups, support holds</td></tr>
+      <tr><td>Resistance bands</td><td><span class="tag light">owned</span></td><td>External rotation, face pulls, planche-lean assistance</td></tr>
+      <tr><td>Stall mat</td><td><span class="tag light">owned</span></td><td>Floor press, deadlift, splits, planche</td></tr>
+      <tr><td>35 lb adjustable dumbbells</td><td><span class="tag none">phasing out</span></td><td>Lateral raises, calf raises, wrist curls, goblet warm-ups. Too light for main lifts; do not replace with a heavier set.</td></tr>
+    </tbody>
+  </table>
   </div>
 
-  <div class="daily-layer">
-    <h3 style="color:var(--joint);">Non-negotiable, every single day</h3>
-    <p><b>5-10 min of joint CARs</b> (shoulders, hips, spine, wrists, ankles) before anything else, and <b>a gentle 5-min split touch</b> (well short of max tension) even on full rest days. The dedicated hard split work lives inside the weekly template instead (3 sessions/week combined across Lower A, Skill, Lower B) &mdash; intense PNF/loaded stretching is recovery-limited just like lifting, so "daily maximal stretching" would actually work against progress, not for it.</p>
+  <h3>Substitution ladder, in order of preference</h3>
+  <div class="tbl">
+  <table>
+    <thead><tr><th>Pattern</th><th>Barbell + rack (end state)</th><th>Barbell, no rack (soon)</th><th>No barbell yet (now)</th></tr></thead>
+    <tbody>
+      <tr><td>Squat</td><td>Back squat or front squat</td><td>Zercher squat (bar picked up from the bench into the elbow crooks), or front squat cleaned from the floor</td><td>Bulgarian split squat with dumbbells; goblet squat as warm-up only</td></tr>
+      <tr><td>Horizontal push</td><td>Bench press</td><td>Floor press (roll the bar over, lie back on the mat)</td><td>Ring push-ups, feet elevated; weighted push-ups with a plate on the back</td></tr>
+      <tr><td>Vertical push</td><td>Overhead press</td><td>Overhead press, cleaned from the floor (no rack needed)</td><td>Pike push-up progression (also the HSPU ladder, Section 09)</td></tr>
+      <tr><td>Hinge</td><td>Deadlift, RDL</td><td>Deadlift, RDL (no rack needed)</td><td>Single-leg RDL with dumbbells; ring-assisted Nordic negatives</td></tr>
+      <tr><td>Horizontal pull</td><td>Barbell row</td><td>Barbell row</td><td>Ring rows, feet elevated or weighted</td></tr>
+      <tr><td>Vertical pull</td><td colspan="3">Pull-ups and chin-ups on the doorway bar; add load with a backpack or a plate in a belt when 12 clean reps are easy</td></tr>
+    </tbody>
+  </table>
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<section id="week">
+  <h2><span class="num">07</span>The week</h2>
+  <p>Five sessions, Monday to Friday, weekend off. The order is chosen so that the three days that load the shoulder in pressing and the wrist in extension (Mon, Wed, Fri) are never back to back, and the two pull-and-lower days (Tue, Thu) sit between them. Every session starts with the daily layer.</p>
+
+  <div class="callout ok">
+    <span class="label">Daily layer, every session and every rest day</span>
+    <p><strong>5–10 min of joint CARs</strong> (controlled articular rotations: neck, shoulders, elbows, wrists, spine, hips, knees, ankles) before anything else, every session. <strong>A gentle, not maximal, split-stretch touch every day</strong>, 3–5 min each for front and side split positions, including rest days. The hard split work lives inside Mon / Wed / Fri below, never as a second daily max-effort session.</p>
   </div>
 
-  <div class="panel">
-    <h2>Progression rules &mdash; the actual dial</h2>
-    <div class="rule-list" style="margin-top:12px;">
-      <div class="rule">
-        <div class="k">Barbell / dumbbell lifts &mdash; double progression</div>
-        <p>Compound lifts (bench, squat, deadlift, press, rows) work a <b>6-12 rep range</b>; isolation/accessory work (lateral raises, curls) works <b>10-20</b>. Hit the top of the range for every set &rarr; add the smallest available increment next session, then drop back to the bottom of the range and repeat. This is the method the actual research supports: a 2022 controlled trial found reps-first and load-first progression perform about equally for both strength and hypertrophy over 8-10 weeks, so there's no real penalty for defaulting to this simpler version instead of something more complicated. Target <b>10-20 hard sets per muscle group per week</b> across the program, each set finishing 1-3 reps short of failure &mdash; that volume range is the current evidence-based sweet spot, not a round number.</p>
-      </div>
-      <div class="rule">
-        <div class="k">Bodyweight skill lines (planche, HSPU, handstand, splits)</div>
-        <p>Advance to the next progression tier only after <b>3-4 sets of 8-12 clean reps, or a clean 30-second hold</b>, at the current tier (exact pass criteria per tier are in the ladders below). Never sooner, even if it starts feeling easy early &mdash; the connective tissue adapting underneath the movement is slower than the muscle feeling ready.</p>
-      </div>
-      <div class="rule">
-        <div class="k">Joint-health override</div>
-        <p>Any new ache lingering past 48 hours drops that specific movement back a tier, or out of the session entirely that week. This overrides both of the rules above, every time, no exceptions &mdash; this is what makes "joint health wins" a mechanism rather than a slogan.</p>
-      </div>
-      <div class="rule">
-        <div class="k">Deload &mdash; added 2026-11-19, flagged missing by Fable's review</div>
-        <p>Every 6-8 weeks, or immediately if 2 or more lifts stall for 2 sessions in a row (no rep/weight progress), take one full week at roughly half the normal sets per exercise, same weights. This isn't optional recovery time &mdash; it's where the connective-tissue adaptation underneath the joint-health goal actually catches up to the muscle.</p>
-      </div>
-      <div class="rule">
-        <div class="k">Sleep &mdash; added 2026-11-19</div>
-        <p>7-9 hours is treated as a training input, not a lifestyle nicety. Tendon/ligament remodeling (the actual mechanism behind the joint-health goal) happens disproportionately during sleep, more so than muscle protein synthesis does &mdash; skimping here undercuts the slowest-adapting tissue in the whole program.</p>
-      </div>
-    </div>
+  <h3>Joint-load map</h3>
+  <div class="tbl">
+  <table>
+    <thead><tr><th>Day</th><th>Shoulder (press / planche)</th><th>Wrist (extension / compression)</th><th>Knee</th><th>Hip</th><th>Spine</th></tr></thead>
+    <tbody>
+      <tr><td>Mon · Push A</td><td><span class="tag heavy">heavy</span></td><td><span class="tag heavy">heavy</span></td><td><span class="tag none">—</span></td><td><span class="tag light">splits</span></td><td><span class="tag none">—</span></td></tr>
+      <tr><td>Tue · Lower + Pull A</td><td><span class="tag light">traction only</span></td><td><span class="tag light">grip + light prehab</span></td><td><span class="tag heavy">heavy</span></td><td><span class="tag heavy">heavy</span></td><td><span class="tag heavy">heavy</span></td></tr>
+      <tr><td>Wed · Skill</td><td><span class="tag heavy">heavy, low fatigue</span></td><td><span class="tag heavy">heavy, low fatigue</span></td><td><span class="tag none">—</span></td><td><span class="tag light">splits</span></td><td><span class="tag none">—</span></td></tr>
+      <tr><td>Thu · Lower + Pull B</td><td><span class="tag light">traction only</span></td><td><span class="tag light">grip + light prehab</span></td><td><span class="tag heavy">heavy</span></td><td><span class="tag heavy">heavy</span></td><td><span class="tag heavy">heavy</span></td></tr>
+      <tr><td>Fri · Push B</td><td><span class="tag heavy">heavy</span></td><td><span class="tag heavy">heavy</span></td><td><span class="tag none">—</span></td><td><span class="tag light">splits</span></td><td><span class="tag none">—</span></td></tr>
+    </tbody>
+  </table>
+  </div>
+  <p class="small">"Traction only" means pull-ups and rows, which load the shoulder in the opposite direction from pressing and do not load the extended wrist. The light wrist prehab on Tue/Thu is 15–20-rep curls and extensions with a 35 lb dumbbell or lighter: tendon conditioning, placed on the days the wrist is otherwise fresh so it is never done on top of planche fatigue. If a wrist ever aches, that prehab is the first thing to drop, before any main lift.</p>
+
+  <h3>Pattern-frequency check</h3>
+  <div class="tbl">
+  <table>
+    <thead><tr><th>Pattern</th><th>Session 1</th><th>Session 2</th><th class="c">Per week</th></tr></thead>
+    <tbody>
+      <tr><td>Horizontal push</td><td>Mon: bench / floor press, ring dips</td><td>Fri: close-grip bench / floor press, ring push-ups</td><td class="c">2</td></tr>
+      <tr><td>Vertical push</td><td>Mon: overhead press</td><td>Wed: HSPU ladder · Fri: HSPU ladder</td><td class="c">3</td></tr>
+      <tr><td>Horizontal pull</td><td>Tue: barbell / ring row</td><td>Thu: barbell / ring row</td><td class="c">2</td></tr>
+      <tr><td>Vertical pull</td><td>Tue: pull-ups</td><td>Thu: chin-ups</td><td class="c">2</td></tr>
+      <tr><td>Squat</td><td>Tue: squat (primary)</td><td>Thu: Bulgarian split squat</td><td class="c">2</td></tr>
+      <tr><td>Hinge</td><td>Tue: Romanian deadlift</td><td>Thu: deadlift (primary)</td><td class="c">2</td></tr>
+      <tr><td>Planche line</td><td>Mon: planche-lean primer</td><td>Wed: planche ladder</td><td class="c">2</td></tr>
+      <tr><td>Calves</td><td>Mon 3 · Tue 4</td><td>Thu 4 · Fri 3</td><td class="c">14 sets</td></tr>
+      <tr><td>Intense splits</td><td>Mon 10–12 min</td><td>Wed 15–25 min · Fri 10–12 min</td><td class="c">3</td></tr>
+    </tbody>
+  </table>
   </div>
 
-  <div class="panel">
-    <h2>Skill progression ladders</h2>
-    <p style="margin-top:4px;">The actual named steps for each skill target, not just "work up to it" &mdash; each step has a real pass criterion that triggers moving to the next one.</p>
-
-    <h3 style="margin-top:18px;">Planche</h3>
-    <table>
-      <thead><tr><th>Step</th><th>Pass criterion to advance</th></tr></thead>
-      <tbody>
-        <tr><td>1. Planche lean</td><td>Builds wrist/shoulder tolerance first &mdash; no hold target, just comfortable loaded wrists at increasing lean angle</td></tr>
-        <tr><td>2. Tuck planche</td><td>30s clean hold, knees fully tucked to chest</td></tr>
-        <tr><td>3. Advanced tuck planche</td><td>30s clean hold, knees away from chest but still bent</td></tr>
-        <tr><td>4. Straddle planche</td><td>15-20s clean hold</td></tr>
-        <tr><td>5. Full planche</td><td>Goal state &mdash; legs fully extended, toes pointed</td></tr>
-      </tbody>
-    </table>
-    <p style="font-size:13px;color:var(--ink-dim);margin-top:8px;">Realistic timeline: first clean tuck hold around 3-6 months in; full planche typically 1-3 years depending on starting strength and bodyweight. This is a genuinely long skill line &mdash; the 2-3&times;/week practice frequency in the weekly template matters more than any single session's intensity.</p>
-
-    <h3 style="margin-top:20px;">Handstand push-up</h3>
-    <table>
-      <thead><tr><th>Step</th><th>Pass criterion to advance</th></tr></thead>
-      <tbody>
-        <tr><td>1. Pike push-up (feet on floor)</td><td>10 clean reps</td></tr>
-        <tr><td>2. Elevated pike push-up (feet on box/bench)</td><td>10 clean reps, hips stacked over shoulders</td></tr>
-        <tr><td>3. Wall HSPU negative</td><td>5 reps, 3-second controlled lower each</td></tr>
-        <tr><td>4. Partial-ROM wall press</td><td>Press back up 25% &rarr; 50% &rarr; 75% of the way across successive sessions</td></tr>
-        <tr><td>5. Full wall HSPU</td><td>Goal state &mdash; 3+ strict reps, full range, no head-rest at the bottom</td></tr>
-      </tbody>
-    </table>
-    <p style="font-size:13px;color:var(--ink-dim);margin-top:8px;">Realistic timeline: 4-8 months to a first full-range wall HSPU once the pike/negative prerequisites are solid.</p>
-
-    <h3 style="margin-top:20px;">Front &amp; side splits</h3>
-    <p>This one works differently from the other two &mdash; it's not a strength-leverage ladder, it's a stretch-tolerance adaptation, and the evidence changes how often it should actually be trained <b>hard</b> vs. just touched.</p>
-    <table style="margin-top:10px;">
-      <thead><tr><th>Parameter</th><th>Evidence-based target</th></tr></thead>
-      <tbody>
-        <tr><td>Static hold duration</td><td>30-60s per stretch, 15s minimum</td></tr>
-        <tr><td>Session length (dedicated work)</td><td>15-25 min</td></tr>
-        <tr><td><b>Intense PNF / loaded stretching</b></td><td><b>Capped at 3-4&times;/week</b> &mdash; recovery-limited like any other hard tissue stimulus, more isn't automatically better</td></tr>
-        <tr><td>Light daily maintenance</td><td>A few gentle minutes is fine and useful every day; this is NOT the same session as the capped hard work above</td></tr>
-        <tr><td>Front split timeline</td><td>3-6 months if already comfortable sitting on the floor; up to 12 for most adults</td></tr>
-        <tr><td>Side split timeline</td><td>6-18 months &mdash; genuinely the longer of the two</td></tr>
-      </tbody>
-    </table>
-    <p style="margin-top:10px;"><b>This corrects something in the original weekly template above:</b> "daily hard stretching" was the wrong framing. The template's dedicated split blocks (Lower A, Skill day, Lower B) land at 2 touches/week each for front and side split (Fable's second review confirmed both are now balanced) &mdash; the daily layer should be read as a light touch only, not a second hard session. <b>Still a heuristic, not strongly evidence-based:</b> real research (Thomas 2018, Ingram 2024) leans toward total weekly volume/frequency mattering more than a hard frequency cap &mdash; treat "3-4x/week for intense work" as a practical, joint-health-first choice, not a settled finding.</p>
+  <!-- ---------------- MONDAY ---------------- -->
+  <div class="day">
+    <div class="dh"><h3>Monday · Push A</h3><span class="when">≈ 55–60 min</span><span class="joints"><span class="tag heavy">shoulder</span><span class="tag heavy">wrist</span></span></div>
+    <ol>
+      <li>Daily layer: CARs 5–10 min, then 2 light sets of band external rotation to wake the cuff.</li>
+      <li><strong>Bench press</strong> (floor press until stands arrive) <span class="rx">4 × 6–12</span></li>
+      <li><strong>Overhead press</strong>, cleaned from the floor <span class="rx">3 × 6–12</span></li>
+      <li><strong>Ring dips</strong> (bench dips or deficit push-ups if rings are too hard yet) <span class="rx">3 × 8–12</span></li>
+      <li><strong>Planche-lean primer</strong>: on hands, shoulders forward past the wrists, fingers pointing out or back, hollow body <span class="rx">3 × 15–25 s</span>
+        <p class="note">Skill primer, not a hard set. Stop each hold while the elbows are still locked and the hips still high. This keeps planche frequency at twice a week without adding a fourth shoulder/wrist day.</p></li>
+      <li><strong>Shoulder prehab</strong>: band external rotation at 90° abduction <span class="rx">2 × 15–20</span> + band face pulls <span class="rx">2 × 15–20</span></li>
+      <li><strong>Seated (bent-knee) calf raise</strong>, dumbbell or plate on the knees, on the bench <span class="rx">3 × 12–20</span></li>
+      <li><strong>Intense split work</strong>: front split and side split, 30–60 s holds, PNF contract-relax, legs are fresh today <span class="rx">10–12 min</span></li>
+    </ol>
+    <div class="foot">Why here: this is the first of three non-adjacent press/planche days. The two prehab movements are a finisher on purpose: pressing days are when the rear cuff most needs the balancing work.</div>
   </div>
 
-  <div class="open-items">
-    <h3>Still open before this is truly anatomy-tailored</h3>
-    <ul>
-      <li>Your actual current handstand hold time, split depth (fist-widths from floor), planche-lean tolerance, and HSPU regression tier &mdash; these set the real starting rung on each skill line, rather than a generic starting point</li>
-      <li>Any shoulder/hip structural tendencies that make one skill line more natural than another for your build specifically &mdash; needs either real testing or just noticing what feels disproportionately easy or hard once this is running</li>
-      <li>Equipment timeline &mdash; this assumes a used barbell + plates + some kind of rack show up; goblet squat and dumbbell press substitutes are already written in above as the fallback until then</li>
-    </ul>
+  <!-- ---------------- TUESDAY ---------------- -->
+  <div class="day">
+    <div class="dh"><h3>Tuesday · Lower + Pull A</h3><span class="when">≈ 55–60 min</span><span class="joints"><span class="tag heavy">knee</span><span class="tag heavy">hip</span><span class="tag heavy">spine</span></span></div>
+    <ol>
+      <li>Daily layer: CARs 5–10 min, gentle split touch.</li>
+      <li><strong>Squat</strong>, the primary quad lift (Zercher or front squat without a rack; Bulgarian split squat until the bar arrives) <span class="rx">4 × 6–12</span></li>
+      <li><strong>Romanian deadlift</strong> <span class="rx">3 × 8–12</span></li>
+      <li><strong>Pull-ups</strong>, overhand; add a backpack when 12 clean reps are easy <span class="rx">3 × 6–12</span></li>
+      <li><strong>Barbell row</strong> (ring row, feet elevated, until the bar arrives) <span class="rx">3 × 8–12</span></li>
+      <li><strong>Standing calf raise</strong>, single-leg with a dumbbell, or barbell held in front, off a plate edge for full stretch <span class="rx">4 × 10–20</span></li>
+      <li><strong>Wrist prehab</strong>: light dumbbell wrist curls <span class="rx">2 × 15–20</span> + wrist extensions <span class="rx">2 × 15–20</span>
+        <p class="note">Light, done fresh, never to failure. This is tendon conditioning for the planche line, placed on a day the wrists carry nothing else.</p></li>
+    </ol>
+    <div class="foot">Squat is primary today, hinge secondary; Thursday flips that. Pressing shoulder and extended wrist get a full day off between Monday and Wednesday.</div>
   </div>
 
-  <footer>Phase 1 &middot; built 2026-11-18 &middot; revise freely as real data comes in &mdash; this is meant to be marked up, not treated as final. Interactive current-vs-ideal proportion dial: <a href="model/">model/</a></footer>
+  <!-- ---------------- WEDNESDAY ---------------- -->
+  <div class="day">
+    <div class="dh"><h3>Wednesday · Skill</h3><span class="when">≈ 55–60 min</span><span class="joints"><span class="tag heavy">shoulder</span><span class="tag heavy">wrist</span></span></div>
+    <ol>
+      <li>Daily layer: CARs 5–10 min, with extra wrist CARs and 2 light sets of band external rotation.</li>
+      <li><strong>Wrist and shoulder prep</strong>: wrist push-ups on all fours (fingers forward, then backward) <span class="rx">2 × 10</span>, scapular push-ups <span class="rx">2 × 10</span>, hollow-body hold <span class="rx">2 × 20–30 s</span></li>
+      <li><strong>Planche ladder</strong>, current tier (Section 09) <span class="rx">5–6 sets</span>
+        <p class="note">Hold or rep sets stopped at the first sign of form loss: hips dropping, elbows bending, shoulders drifting back. Rest 2–3 min between sets. This is practice, not a workout.</p></li>
+      <li><strong>Handstand push-up ladder</strong>, current tier (Section 09) <span class="rx">4–5 sets</span></li>
+      <li><strong>Intense split work</strong>: the main weekly session. Front split both sides and side split, 30–60 s static holds, PNF contract-relax, light loaded stretching (a plate on the thigh in the side split, hands on blocks in the front split) <span class="rx">15–25 min</span></li>
+    </ol>
+    <div class="foot">Deliberately low-fatigue: no set is taken near failure and total hard sets are around ten. It is the mid-week press/planche day, with pull-and-lower days on either side.</div>
+  </div>
+
+  <!-- ---------------- THURSDAY ---------------- -->
+  <div class="day">
+    <div class="dh"><h3>Thursday · Lower + Pull B</h3><span class="when">≈ 55–60 min</span><span class="joints"><span class="tag heavy">knee</span><span class="tag heavy">hip</span><span class="tag heavy">spine</span></span></div>
+    <ol>
+      <li>Daily layer: CARs 5–10 min, gentle split touch.</li>
+      <li><strong>Deadlift</strong>, the primary hinge, from the floor <span class="rx">3 × 6–10</span></li>
+      <li><strong>Bulgarian split squat</strong>, rear foot on the bench, dumbbells or plates in hand <span class="rx">4 × 8–12 per leg</span></li>
+      <li><strong>Chin-ups</strong>, underhand; add load as for pull-ups <span class="rx">3 × 6–12</span></li>
+      <li><strong>Barbell row</strong> or chest-supported row lying on the bench (ring row until the bar arrives) <span class="rx">3 × 8–12</span></li>
+      <li><strong>Standing calf raise</strong> <span class="rx">4 × 10–20</span></li>
+      <li><strong>Hanging leg raise</strong> or knee raise on the pull-up bar <span class="rx">3 × 8–15</span></li>
+      <li><strong>Wrist prehab</strong>: wrist curls <span class="rx">2 × 15–20</span> + wrist extensions <span class="rx">2 × 15–20</span></li>
+    </ol>
+    <div class="foot">Hinge is primary today, squat secondary. This is the second pull day, so both pull patterns genuinely land twice a week.</div>
+  </div>
+
+  <!-- ---------------- FRIDAY ---------------- -->
+  <div class="day">
+    <div class="dh"><h3>Friday · Push B</h3><span class="when">≈ 55–60 min</span><span class="joints"><span class="tag heavy">shoulder</span><span class="tag heavy">wrist</span></span></div>
+    <ol>
+      <li>Daily layer: CARs 5–10 min, 2 light sets of band external rotation.</li>
+      <li><strong>Close-grip bench press</strong> (close-grip floor press until stands arrive) <span class="rx">3 × 8–12</span></li>
+      <li><strong>Handstand push-up ladder</strong>, current tier, as the day's vertical push <span class="rx">4 × tier reps</span>
+        <p class="note">Second weekly exposure to the HSPU line. If Wednesday's session left any shoulder or wrist tenderness, do pike push-ups one tier down instead.</p></li>
+      <li><strong>Ring push-ups</strong>, feet elevated or plate on the back <span class="rx">3 × 8–12</span></li>
+      <li><strong>Dumbbell lateral raise</strong> <span class="rx">3 × 12–20</span></li>
+      <li><strong>Shoulder prehab</strong>: band external rotation <span class="rx">2 × 15–20</span> + band face pulls <span class="rx">2 × 15–20</span></li>
+      <li><strong>Seated (bent-knee) calf raise</strong> <span class="rx">3 × 12–20</span></li>
+      <li><strong>Intense split work</strong>, 30–60 s holds, PNF <span class="rx">10–12 min</span></li>
+    </ol>
+    <div class="foot">Third and last press/planche day, followed by two full rest days before Monday. No planche primer here on purpose: Friday's wrist load comes from the HSPU ladder and pressing only.</div>
+  </div>
+
+  <h3>Weekly set count per muscle</h3>
+  <div class="tbl">
+  <table class="narrow">
+    <thead><tr><th>Muscle group</th><th class="n">Hard sets / wk</th><th>Where</th></tr></thead>
+    <tbody>
+      <tr><td>Chest</td><td class="n">13</td><td>Mon bench 4 + dips 3; Fri close-grip 3 + ring push-ups 3</td></tr>
+      <tr><td>Shoulders (delts)</td><td class="n">14–15 + skill</td><td>Mon OHP 3; Wed HSPU 4–5; Fri HSPU 4 + lateral raise 3; plus planche holds</td></tr>
+      <tr><td>Back (lats, upper back)</td><td class="n">12</td><td>Tue pull-ups 3 + row 3; Thu chin-ups 3 + row 3</td></tr>
+      <tr><td>Quads</td><td class="n">8 direct + deadlift</td><td>Tue squat 4; Thu split squat 4. Low end on purpose (60-min cap): when squat progress stalls, the first change is a fifth squat set, not a new exercise.</td></tr>
+      <tr><td>Hamstrings / glutes</td><td class="n">6 direct + squats + splits</td><td>Tue RDL 3; Thu deadlift 3; heavy hip work from both squat variations and the split sessions</td></tr>
+      <tr><td>Calves</td><td class="n">14</td><td>Mon 3 seated; Tue 4 standing; Thu 4 standing; Fri 3 seated</td></tr>
+      <tr><td>Arms</td><td class="n">indirect, ample</td><td>Triceps: all pressing, dips, HSPU. Biceps: chin-ups, rows. Add 2 sets of curls on Thu only if the arm stalls on the monthly tape for 3 months running.</td></tr>
+      <tr><td>Core</td><td class="n">3 + holds</td><td>Thu leg raises; hollow holds Wed; every planche set</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <h3>When a week only has four slots</h3>
+  <p>Drop <strong>Friday (Push B)</strong> that week. Never drop Wednesday (it is the whole skill goal) and never drop a pull day (it is what keeps the shoulders balanced against the pressing). Horizontal push falls to once that week, which is fine occasionally. Do not try to cram Friday's work into another day: that is how the four-of-five shoulder clustering happened in the first place.</p>
+</section>
+
+<!-- ============================================================ -->
+<section id="progression">
+  <h2><span class="num">08</span>Progression rules</h2>
+
+  <h3>Loaded lifts: double progression</h3>
+  <ul>
+    <li>Compounds (bench, press, squat, deadlift, RDL, rows, weighted pull-ups): <strong>6–12 reps</strong>. Isolation and calves: <strong>10–20 reps</strong>.</li>
+    <li>Work at <strong>1–3 reps shy of failure</strong>. The last rep should look like the first.</li>
+    <li>Start a new weight at the bottom of the range. Add reps session to session. <strong>When every set hits the top of the range, add the smallest increment available</strong> (2.5 lb per side on the bar; one backpack plate for pull-ups) and start again at the bottom.</li>
+    <li>Reps-first vs load-first progression were compared in a 2022 controlled trial and performed about equally, so this simpler reps-first default is fine; there is nothing to gain from a more elaborate scheme.</li>
+    <li>10–20 hard sets per muscle per week, which the Section 07 table already satisfies for the upper body; the lower body sits at the floor of the range by design and is raised one set at a time when it stalls.</li>
+  </ul>
+
+  <h3>Bodyweight skills: the tier rule</h3>
+  <p>Advance a tier only after <strong>3–4 sets of 8–12 clean reps</strong>, or a <strong>clean 30-second hold</strong>, at the current tier (Steven Low, <em>Overcoming Gravity</em>). "Clean" means the last set looks like the first: locked elbows, no hip sag, no arching, no wrist pain. Falling short on a new tier for two straight sessions means go back one tier for a week, then retry.</p>
+
+  <h3>Deload</h3>
+  <p><strong>Every 6–8 weeks</strong>, or <strong>immediately on a two-session stall on two or more lifts</strong>, take <strong>one week at about half volume</strong>: same exercises, same loads, half the sets, skill ladders held at the current tier with fewer sets, splits at the gentle daily level only. Put the deload on the calendar in advance; do not wait to feel like you need it.</p>
+
+  <h3>Sleep</h3>
+  <p><strong>7–9 hours</strong>, treated as a programmed input. Tendon and ligament remodeling happens disproportionately during sleep, so a run of short nights is a connective-tissue deficit even if every session was completed. If sleep is short for a week, treat it like a deload week for the skill ladders: hold the tier, do not test a new one.</p>
+
+  <div class="callout rule">
+    <span class="label">Joint-health override, restated</span>
+    <p>Any new ache lingering past 48 hours drops that movement back one tier or out of the session entirely for that week. Overrides double progression, overrides the tier rule, overrides the deload calendar. No exceptions.</p>
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<section id="ladders">
+  <h2><span class="num">09</span>Skill ladders</h2>
+  <p>Each ladder is climbed with the tier rule from Section 08. Timelines are honest ranges for a returning lifter with your starting point, not promises.</p>
+
+  <h3>Planche</h3>
+  <p class="small">Realistic timeline to a full planche: <strong>1–3 years</strong>. Trained Wednesday (main) and Monday (primer).</p>
+  <ol class="ladder">
+    <li><span class="t">Planche lean</span>: hands on the floor, shoulders travel forward past the wrists, hollow body, feet on the ground. <span class="pass">3–4 sets of 30 s clean, shoulders well past the wrists</span></li>
+    <li><span class="t">Tuck planche</span>: knees tucked to chest, feet off the floor, hips at shoulder height. <span class="pass">30 s clean hold</span></li>
+    <li><span class="t">Advanced tuck planche</span>: back flat, hips opened to roughly 90°. <span class="pass">30 s clean hold</span></li>
+    <li><span class="t">Straddle planche</span>: legs straight and wide. <span class="pass">15–20 s clean hold</span></li>
+    <li><span class="t">Full planche</span>: legs together. <span class="pass">goal reached; then build to 10 s</span></li>
+  </ol>
+
+  <h3>Handstand push-up</h3>
+  <p class="small">Realistic timeline to 3 strict wall handstand push-ups: <strong>4–8 months</strong>. Trained Wednesday and Friday.</p>
+  <ol class="ladder">
+    <li><span class="t">Pike push-up</span>: feet on the floor, hips high, head to the floor between the hands. <span class="pass">3–4 sets of 10 clean reps</span></li>
+    <li><span class="t">Elevated pike push-up</span>: feet on the bench, torso near vertical. <span class="pass">3–4 sets of 10 clean reps</span></li>
+    <li><span class="t">Wall HSPU negative</span>: kick up to a wall handstand, lower under control to the head touching, kick down. <span class="pass">5 sets of 3 reps with a 3-second controlled lower each</span></li>
+    <li><span class="t">Partial-range wall press</span>: press out of the bottom quarter, then half, then three-quarters, using stacked books or a block under the head to set the depth. <span class="pass">3 sets of 5 at 25 %, then 50 %, then 75 % of the range</span></li>
+    <li><span class="t">Full wall handstand push-up</span>. <span class="pass">3 or more strict reps: goal reached</span></li>
+  </ol>
+
+  <h3>Splits</h3>
+  <p class="small">Realistic timelines: <strong>front split 3–6 months</strong> if you are already comfortable near the floor, up to about 12 months typically; <strong>side split 6–18 months</strong>, genuinely longer. Intense sessions Monday, Wednesday (main) and Friday; gentle daily touch everywhere else.</p>
+  <ul>
+    <li><strong>Method:</strong> 30–60 s static holds, PNF contract-relax (contract into the floor 5–10 s, release, sink), light loaded stretching once holds are stable. Dedicated session 15–25 min (Wednesday); shorter 10–12 min sessions Monday and Friday.</li>
+    <li><strong>Cap:</strong> intense work <strong>3–4 times a week maximum</strong>, non-consecutive days, because it is recovery-limited like lifting. Be aware this specific frequency cap is a practical coaching heuristic rather than something with the same evidence base as the volume and progression rules above; it is the conservative choice, which is what Priority 1 asks for.</li>
+    <li><strong>Pass criteria:</strong> front split is "full" when the back knee and front hamstring both rest on the floor with the hips square; side split is "full" when the inner thighs rest on the floor with the hips stacked over the knees. Partial milestones to log: hand-support height needed (blocks, then fingers, then none).</li>
+    <li><strong>Joint rule applies:</strong> stretching sensation belongs in the muscle belly, never in the knee, the inside of the hip joint, or the sitting bone tendon attachment. Pain in any of those is a 48-hour-rule event.</li>
+  </ul>
+</section>
+
+<!-- ============================================================ -->
+<section id="tracking">
+  <h2><span class="num">10</span>Measure and re-measure</h2>
+  <p><strong>Monthly</strong>, same morning conditions, same tape, same landmarks as the baseline table: shoulder circumference, chest, waist, neck, upper arm flexed, forearm, thigh, calf. Recompute Navy body fat from neck, waist and height. Do not re-measure height, wingspan, sitting height, wrist or ankle; they are fixed and the ratios depend on them staying fixed.</p>
+  <p><strong>What to look for each month:</strong></p>
+  <ul>
+    <li>Arm, calf and neck converging. The first aesthetic milestone is the three numbers within 1 cm of each other.</li>
+    <li>Arm ÷ 18.0 and calf ÷ 22.5 creeping toward 2.52 and 1.92.</li>
+    <li>Waist moving down while shoulder circumference and chest move up. No target on the ratio; the direction is the target.</li>
+    <li>Thigh holding or rising. If it falls while the waist falls, quad and hamstring volume goes up before anything else changes (no skinny legs).</li>
+  </ul>
+  <p><strong>Weekly</strong>, in the training log: every working set's load and reps, every skill tier's best hold or rep count, splits hand-support height, hours slept, and any ache with its start date (the 48-hour rule needs the date).</p>
+</section>
+
+<!-- ============================================================ -->
+<section id="open">
+  <h2><span class="num">11</span>Still open</h2>
+  <ul>
+    <li><strong>Squat rack or squat stands.</strong> A genuine equipment gap. Without them there is no conventional back squat and no bench press with a proper bar path; the Zercher / front squat / floor press substitutions in Section 06 are good but are substitutions. Used squat stands plus the existing flat bench cover both lifts and are the cheapest fix; keep the Marketplace watch running alongside the barbell purchase.</li>
+    <li><strong>Barbell and plates: not yet acquired.</strong> The program is written in barbell notation because that is the near-term plan; the "no barbell yet" column in Section 06 is in force until it lands.</li>
+    <li><strong>The arm = calf = neck convergence point.</strong> Stated as 37–38 cm (14.6–15.0 in) at today's neck; it will drift upward as the neck thickens. It is re-set at each monthly re-measure rather than fixed here.</li>
+  </ul>
+  <p>Everything else that earlier drafts left open (ratio sourcing, the shoulder/wrist clustering, pull-pattern frequency, calf volume, the sitting-height and ankle questions, the leg:torso claim) is resolved in this document.</p>
+</section>
+
+<!-- ============================================================ -->
+<section id="sources">
+  <h2><span class="num">12</span>Sources</h2>
+  <ul class="src">
+    <li>Steve Reeves, <em>Building the Classic Physique the Natural Way</em> (1995): the proportion formula (arm 252 % of wrist, calf 192 % of ankle, neck 79 % of head, chest 148 % of pelvis, waist 86 % of pelvis, thigh 175 % of knee). Peak measurements as widely republished: neck 18¼ in, chest 52 in, waist 29 in, hips 38 in, biceps 18¼ in, wrist 7¼ in, calf 18¼ in, ankle 9½ in.</li>
+    <li>John Barban, "Adonis Index": the origin of the 1.618 shoulder-to-waist claim. Not a classical or Reeves source; dropped as a target in Section 04.</li>
+    <li>US Navy circumference body-fat method (Hodgdon &amp; Beckett, 1984): formula as stated in Section 02.</li>
+    <li>Gordon et al., <em>1988 Anthropometric Survey of U.S. Army Personnel</em> (ANSUR, n = 1,774 men): ankle circumference mean 22.17 cm.</li>
+    <li>Steven Low, <em>Overcoming Gravity</em> (2nd ed.): the 3–4 × 8–12 reps / 30-second-hold tier-advancement rule, and the planche and handstand push-up progressions.</li>
+    <li>Plotkin et al., 2022, <em>PeerJ</em>: reps-first vs load-first progression produced similar strength and hypertrophy outcomes over 8 weeks.</li>
+    <li>Schoenfeld, Ogborn &amp; Krieger, 2017, <em>J Sports Sci</em>: dose-response between weekly set volume and hypertrophy, supporting the 10–20 sets per muscle per week range.</li>
+  </ul>
+</section>
+
+<footer>
+  Bedroom Training Program v2 · rebuilt in one pass from the complete 2026-11-21 baseline · supersedes every earlier draft and sub-page. If a number here disagrees with a number anywhere else, this document is the one that is right.
+</footer>
+
 </div>
 </body>
 </html>
