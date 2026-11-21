@@ -115,7 +115,7 @@
 try{
 
 // ---------- real measurements (cm), 2026-11-19 baseline ----------
-var height=182.2, wingspan=185, sittingHeight=100.5;
+var height=182.2, wingspan=185, sittingHeight=93; // corrected 2026-11-19, was 100.5 (measurement error)
 var current = { shoulder:126, chest:100, waist:92, neck:37, arm:33, forearm:29, thigh:59, calf:35, wrist:18, ankle:22.5 };
 var target  = { shoulder:148.9, chest:133.4, waist:92, neck:37, arm:45, forearm:29, thigh:59, calf:42.75, wrist:18, ankle:22.5 };
 var inKeys = ['shoulder','chest','arm','calf']; // the only ones the dial actually moves
@@ -124,7 +124,7 @@ function toIn(cm){ return (cm/2.54); }
 function circR(c){ return c/(2*Math.PI); }
 
 // ---------- schematic segment lengths, derived (not individually measured) ----------
-var legLen = height - sittingHeight;           // 81.7cm total leg
+var legLen = height - sittingHeight;           // 89.2cm total leg
 var thighLen = legLen*0.50, calfLen = legLen*0.50;
 var headLen = sittingHeight*0.13, neckLen = sittingHeight*0.05;
 var torsoLen = sittingHeight - headLen - neckLen;
