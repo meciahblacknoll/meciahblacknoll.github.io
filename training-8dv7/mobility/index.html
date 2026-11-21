@@ -1,0 +1,411 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Mobility Skill Lines</title>
+<meta name="description" content="Companion to Meciah's bedroom training program: two trackable end-range skills (pistol squat, back bridge) in the Elliot Kim / Strong &amp; Mobile mould, numeric strength benchmarks for push-ups, pull-ups and dips with a one-time test, their slot in the five-day week, and the longevity connection. Adds; does not re-open the base or Block 1.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..800;1,9..144,300..800&family=Source+Serif+4:ital,opsz,wght@0,8..60,300..700;1,8..60,300..700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#f7f2ea;
+  --bg-2:#efe7da;
+  --paper:#fffdf9;
+  --ink:#1f1a14;
+  --ink-2:#4a4036;
+  --ink-3:#7a6d5f;
+  --rule:#d9cdbb;
+  --accent:#9a4b1e;
+  --accent-2:#2f6b57;
+  --accent-3:#5a4e9c;
+  --warn:#a3591a;
+  --warn-bg:#fbead8;
+  --ok-bg:#e3efe8;
+  --info-bg:#e9e6f5;
+  --head-bg:#efe7da;
+  --shadow:0 1px 0 rgba(0,0,0,.04),0 8px 24px -16px rgba(60,40,20,.25);
+  --serif:"Source Serif 4",Georgia,"Times New Roman",serif;
+  --display:"Fraunces","Source Serif 4",Georgia,serif;
+  --mono:"IBM Plex Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#15120e; --bg-2:#1f1a14; --paper:#1b1712;
+    --ink:#efe6d8; --ink-2:#cbbfae; --ink-3:#9a8d7c; --rule:#3a3128;
+    --accent:#e08a57; --accent-2:#7fc2a7; --accent-3:#a79cdf;
+    --warn:#e9a86a; --warn-bg:#2d2116; --ok-bg:#16271f; --info-bg:#201d2e; --head-bg:#241e17;
+    --shadow:0 1px 0 rgba(0,0,0,.3),0 8px 24px -16px rgba(0,0,0,.7);
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#15120e; --bg-2:#1f1a14; --paper:#1b1712;
+  --ink:#efe6d8; --ink-2:#cbbfae; --ink-3:#9a8d7c; --rule:#3a3128;
+  --accent:#e08a57; --accent-2:#7fc2a7; --accent-3:#a79cdf;
+  --warn:#e9a86a; --warn-bg:#2d2116; --ok-bg:#16271f; --info-bg:#201d2e; --head-bg:#241e17;
+  --shadow:0 1px 0 rgba(0,0,0,.3),0 8px 24px -16px rgba(0,0,0,.7);
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--serif);font-size:17px;line-height:1.6;font-feature-settings:"onum" 0,"lnum" 1}
+.wrap{max-width:760px;margin:0 auto;padding-block:40px 80px;padding-inline:16px}
+header.masthead{padding:16px 0 28px;border-bottom:2px solid var(--ink)}
+.kicker{font-family:var(--mono);font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-3)}
+h1{font-family:var(--display);font-weight:600;font-variation-settings:"opsz" 144,"SOFT" 40;font-size:clamp(34px,7vw,52px);line-height:1.05;margin:10px 0 14px;letter-spacing:-.01em;text-wrap:balance}
+.lede{font-size:19px;color:var(--ink-2);margin:0 0 12px;max-width:62ch}
+.meta{font-family:var(--mono);font-size:12.5px;color:var(--ink-3);display:flex;flex-wrap:wrap;gap:8px 18px}
+nav.toc{margin:24px 0 8px;padding:16px 18px;background:var(--paper);border:1px solid var(--rule);border-radius:10px;box-shadow:var(--shadow)}
+nav.toc ol{margin:6px 0 0;padding-left:1.3em;columns:2;column-gap:28px}
+@media (max-width:520px){nav.toc ol{columns:1}}
+nav.toc li{margin:3px 0;font-size:15.5px;break-inside:avoid}
+nav.toc a{color:var(--ink-2);text-decoration:none;border-bottom:1px solid var(--rule)}
+nav.toc a:hover,nav.toc a:focus-visible{color:var(--accent);border-color:var(--accent);outline:none}
+section{margin-top:52px}
+h2{font-family:var(--display);font-weight:600;font-size:clamp(26px,5vw,32px);line-height:1.15;margin:0 0 6px;font-variation-settings:"opsz" 72;text-wrap:balance}
+h2 .num{font-family:var(--mono);font-size:13px;color:var(--accent);letter-spacing:.1em;display:block;margin-bottom:6px;font-weight:500}
+h3{font-family:var(--display);font-weight:600;font-size:21px;margin:28px 0 8px;line-height:1.25;text-wrap:balance}
+h4{font-family:var(--serif);font-weight:700;font-size:17px;margin:18px 0 6px}
+p{margin:10px 0}
+ul,ol{padding-left:1.35em}
+li{margin:5px 0}
+li>ul{margin-top:4px}
+strong{font-weight:700}
+em{font-style:italic}
+code,.mono{font-family:var(--mono);font-size:.88em}
+.small{font-size:14.5px;color:var(--ink-3)}
+a{color:var(--accent)}
+a:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+
+.callout{padding:14px 18px;border-radius:10px;margin:18px 0;border:1px solid var(--rule);background:var(--paper)}
+.callout.rule{background:var(--warn-bg);border-color:transparent}
+.callout.ok{background:var(--ok-bg);border-color:transparent}
+.callout.info{background:var(--info-bg);border-color:transparent}
+.callout .label{font-family:var(--mono);font-size:11.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-3);display:block;margin-bottom:4px}
+.callout p:first-of-type{margin-top:4px}
+.callout p:last-child{margin-bottom:2px}
+
+.tbl{overflow-x:auto;-webkit-overflow-scrolling:touch;margin:14px 0;border:1px solid var(--rule);border-radius:10px;background:var(--paper);box-shadow:var(--shadow)}
+table{border-collapse:collapse;width:100%;min-width:480px;font-size:15px}
+table.narrow{min-width:0}
+th,td{padding:9px 12px;text-align:left;vertical-align:top;border-bottom:1px solid var(--rule)}
+th{background:var(--head-bg);font-family:var(--mono);font-size:11.5px;letter-spacing:.08em;text-transform:uppercase;font-weight:600;color:var(--ink-2)}
+tr:last-child td{border-bottom:0}
+td.n,th.n{text-align:right;font-family:var(--mono);font-size:14px;white-space:nowrap;font-variant-numeric:tabular-nums}
+td.c,th.c{text-align:center}
+tbody tr.sub td{background:var(--bg-2);font-family:var(--mono);font-size:11.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-3);padding:6px 12px}
+.tag{display:inline-block;font-family:var(--mono);font-size:11px;letter-spacing:.06em;padding:1px 7px;border-radius:999px;border:1px solid var(--rule);color:var(--ink-2);white-space:nowrap}
+.tag.heavy{background:var(--warn-bg);color:var(--warn);border-color:transparent}
+.tag.light{background:var(--ok-bg);color:var(--accent-2);border-color:transparent}
+.tag.none{color:var(--ink-3)}
+.tag.target{background:var(--info-bg);color:var(--accent-3);border-color:transparent}
+
+.day{background:var(--paper);border:1px solid var(--rule);border-radius:12px;padding:18px 18px 14px;margin:16px 0;box-shadow:var(--shadow)}
+.day .dh{display:flex;flex-wrap:wrap;align-items:baseline;gap:6px 14px;border-bottom:1px solid var(--rule);padding-bottom:10px;margin-bottom:10px}
+.day .dh h3{margin:0;font-size:21px}
+.day .dh .when{font-family:var(--mono);font-size:12.5px;color:var(--ink-3)}
+.day .dh .joints{margin-left:auto;display:flex;gap:6px;flex-wrap:wrap}
+@media (max-width:520px){.day .dh .joints{margin-left:0}}
+.day ol{margin:6px 0;padding-left:1.4em}
+.day li{margin:6px 0}
+.day .rx{font-family:var(--mono);font-size:13.5px;color:var(--accent);white-space:nowrap}
+.day .note{font-size:14.5px;color:var(--ink-3);margin:2px 0 0 0}
+.day .foot{margin-top:10px;padding-top:8px;border-top:1px dashed var(--rule);font-size:14.5px;color:var(--ink-2)}
+.day li.new{background:var(--ok-bg);margin-left:-8px;padding:4px 8px;border-radius:6px}
+.day li.moved{background:var(--info-bg);margin-left:-8px;padding:4px 8px;border-radius:6px}
+
+.ladder{counter-reset:tier;list-style:none;padding:0;margin:10px 0}
+.ladder li{position:relative;padding:8px 0 8px 46px;border-left:2px solid var(--rule);margin:0 0 0 14px}
+.ladder li::before{counter-increment:tier;content:counter(tier);position:absolute;left:-15px;top:9px;width:28px;height:28px;border-radius:50%;background:var(--paper);border:2px solid var(--accent);color:var(--accent);font-family:var(--mono);font-size:12.5px;font-weight:600;display:flex;align-items:center;justify-content:center}
+.ladder li.gate::before{content:"G";border-color:var(--accent-3);color:var(--accent-3)}
+.ladder .t{font-weight:700}
+.ladder .pass{display:block;font-family:var(--mono);font-size:13px;color:var(--accent-2);margin-top:2px}
+.ladder .pass::before{content:"pass → ";color:var(--ink-3)}
+.ladder .src{display:block;font-size:13.5px;color:var(--ink-3);margin-top:2px}
+
+footer{margin-top:64px;padding-top:18px;border-top:1px solid var(--rule);font-size:14px;color:var(--ink-3)}
+ul.src li{font-size:14.5px;color:var(--ink-2)}
+@media (prefers-reduced-motion: reduce){*{scroll-behavior:auto!important}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header class="masthead">
+  <div class="kicker">Meciah · Training program · Mobility skill lines · companion to v2 and Block 1</div>
+  <h1>Mobility Skill Lines</h1>
+  <p class="lede">Two new skills you can actually win in months rather than years, the pistol squat and the back bridge, in the mould of Elliot Kim's Strong &amp; Mobile work; numeric strength benchmarks for push-ups, pull-ups and dips with a one-time test so your real numbers get logged instead of guessed; where all of it fits in the five-day week without blowing the time budget; and why the two skills are the best real-world demonstration of the longevity capacities Block 1 already documents.</p>
+  <div class="meta">
+    <span>Written: 2026-11-21</span>
+    <span>Enters: Block 1, week 2</span>
+    <span>Changes to base or Block 1: none</span>
+    <span>Time cost per week: ≈ +1–2 min</span>
+  </div>
+  <nav class="toc" aria-label="Contents">
+    <span class="kicker">Contents</span>
+    <ol>
+      <li><a href="#what">What this adds, and what it leaves alone</a></li>
+      <li><a href="#kim">Elliot Kim: what is verified and what is not</a></li>
+      <li><a href="#pistol">Pistol squat ladder</a></li>
+      <li><a href="#bridge">Back bridge ladder</a></li>
+      <li><a href="#standards">Strength benchmarks and the one-time test</a></li>
+      <li><a href="#slot">Where they live in the week</a></li>
+      <li><a href="#pacing">Pacing inside Block 1</a></li>
+      <li><a href="#longevity">The longevity connection</a></li>
+      <li><a href="#sources">Sources</a></li>
+    </ol>
+  </nav>
+</header>
+
+<!-- ============================================================ -->
+<section id="what">
+  <h2><span class="num">01</span>What this adds, and what it leaves alone</h2>
+  <p>The base document (<a href="https://meciahblacknoll.github.io/training-8dv7/">Bedroom Training Program v2</a>) settles what you do; <a href="https://meciahblacknoll.github.io/training-8dv7/block1/">Block 1</a> settles when. Neither is re-opened here. The three goals and their priority order, the five-day week, double progression, the tier rule, the deload at week 7, the retest at week 12, the 48-hour override, the FRC procedure and the splits cap all stand exactly as written. Where this page and either of them disagree, they are right and this page has a bug.</p>
+  <p>What this page adds is an answer to a gap that was real. Every skill goal currently in the program takes a long time: three strict handstand push-ups 4–8 months, a front split 3–12 months, a side split 6–18 months, a full planche 1–3 years. Those are honest numbers and they stay. But there is nothing on the skill line that gives a real, trackable win inside a block or two, and a program you repeat for years needs some of those, especially in the first six months when a returning lifter's barbell numbers are the only thing visibly moving.</p>
+  <p>The two skills chosen fill that gap and serve Priority 1 at the same time. The <strong>pistol squat</strong> (a full-depth single-leg squat) is ankle, knee and hip range under load plus single-leg balance. The <strong>back bridge</strong> (hands and feet on the floor, hips high, spine and shoulders in loaded extension) is the one position almost nothing else in the program trains: spinal extension and overhead shoulder range, loaded. Both have a realistic path measured in months, both have named tiers with pass criteria in the same format as the base document's ladders, and both are the kind of movement the longevity research in Block 1 Section 08 is about.</p>
+
+  <div class="callout info">
+    <span class="label">How these relate to the three goals</span>
+    <p>The base document's Priority 2 card names four skills (front split, side split, full planche, 3+ strict wall HSPU). This page does not rewrite that card. The pistol squat and back bridge are added as <strong>tracked skill lines under Priority 2</strong>, below the four named goals in importance: if a week is short, the four original ladders keep their sets and these two lose theirs first. They earn their place by also being Priority 1 work (joint range under control), which is why they are worth the two minutes a week they cost.</p>
+  </div>
+
+  <div class="callout rule">
+    <span class="label">Still the override</span>
+    <p><strong>Any new ache that lingers past 48 hours drops that movement back one tier, or out of the session entirely, for that week.</strong> For the pistol that means knee or ankle; for the bridge that means the low back, the neck, the front of the shoulder or the wrist. Nothing on this page outranks it.</p>
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<section id="kim">
+  <h2><span class="num">02</span>Elliot Kim: what is verified and what is not</h2>
+  <p>You asked about Elliot Kim (Strong &amp; Mobile, @strongandmobile). His public material was checked directly for this page, and the honest summary is that his <em>philosophy and skill choices</em> are well documented, while his <em>specific progression steps</em> are inside paid programs and could not be read. So the ladders below use his skills and his standards where he states them, and well-established general calisthenics progressions for the step-by-step.</p>
+
+  <div class="tbl">
+    <table>
+      <thead><tr><th>Claim</th><th>Status</th><th>Where it comes from</th></tr></thead>
+      <tbody>
+        <tr><td>Kim is a strength and mobility coach whose method is building range of motion and then strength through that range</td><td><span class="tag light">verified, his own words</span></td><td>His program page: "increase your ranges of motion and build strength throughout those new ranges." His app listing: "unlock tight joints, build real-world strength," "structured programs that combine strength, mobility, and control," "strong, mobile, and injury-resistant for life."</td></tr>
+        <tr><td>The pistol squat and the back bridge are his signature skill programs</td><td><span class="tag light">verified</span></td><td>His program catalogue lists "Skill specific programs (back bridge, pistol squat, sissy squat…)" and "Strength specific programs (chinup, dip, deadlift)." The app listing also names "pistol squats, handstands."</td></tr>
+        <tr><td>His pistol test is a full-depth pistol, coached with the arms reached forward as a counterbalance and the free leg's toes pointed</td><td><span class="tag light">verified, third-party write-up</span></td><td>A published write-up of a filmed session in which he tested a calisthenics athlete on "the full-depth pistol squat." His cues: "reach forward," "protract" the shoulders, "pretend the arms are heavy," "point the toes." "Full depth" is taken in tiers 3–5 below in its usual meaning, hamstring resting on the calf; that definition is general, not a quotation from him.</td></tr>
+        <tr><td>His bridge is entered from a squat with thumbs pointing back and eyes on the hands; his regression is heels on a bench with a neutral grip</td><td><span class="tag light">verified, same write-up</span></td><td>Same source. The eye-line and hand cues are adopted in the bridge ladder. The heels-on-bench regression is noted but not used, because the hands-on-bench version below loads the shoulders more progressively.</td></tr>
+        <tr><td>"End-range strength" as his phrase</td><td><span class="tag heavy">not verified as his wording</span></td><td>It is a fair description of his method and is used in this program's own notes, but the phrase was not found in his app listing, his program page or his storefront. His own wording is the "strength throughout those new ranges" line above.</td></tr>
+        <tr><td>His specific tier-by-tier progression for either skill, with pass criteria and timelines</td><td><span class="tag heavy">not available publicly</span></td><td>Inside the paid app and programs. Not read, so not cited. Every step in Sections 03 and 04 is sourced elsewhere and says so.</td></tr>
+        <tr><td>His general program structure</td><td><span class="tag light">verified</span></td><td>His introductory program is 4 days a week, two upper and two lower days, repeated in 4-week cycles. This is noted only to show his model is compatible with the five-day week here; nothing from it is imported.</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p><strong>Why this still counts as "doing Kim's thing."</strong> His method, in his own words, is building range and then strength through that range. That is exactly what the Block 1 PAILs/RAILs work does for the splits, and it is what the two ladders below do for the hips, ankles, spine and shoulders. The skills are his; the tier scaffolding underneath is the common calisthenics canon that his programs, Steven Low's and the Convict Conditioning lineage all draw on.</p>
+</section>
+
+<!-- ============================================================ -->
+<section id="pistol">
+  <h2><span class="num">03</span>Pistol squat ladder</h2>
+  <p class="small">Realistic timeline to one clean full-depth pistol each side: <strong>3–6 months</strong> for a returning lifter who passes the ankle gate at the start; <strong>6–12 months</strong> if the ankle gate fails first, because the ankle has to be earned before the strength matters. These are consensus coaching ranges from several independent progression guides, not trial data. Trained <strong>Tuesday</strong> (Section 06). Tiers 1–2 are climbed with the base document's tier rule (3–4 sets of 8–12 clean reps). Tiers 3–5 state lower rep criteria on purpose: a full-depth single-leg rep is strength-limited the way a weighted lift is, and 3 × 5 clean is the honest equivalent of the rule there.</p>
+
+  <ol class="ladder">
+    <li class="gate"><span class="t">Ankle gate (not a tier, a prerequisite).</span> The knee-to-wall dorsiflexion test you already log in Block 1 week 1 and week 12: foot flat, drive the knee to the wall without the heel lifting, measure big toe to wall. Full-depth pistols need roughly 35–45° of dorsiflexion, which coaching guides translate to <strong>about 10–12 cm</strong> on this test. Also: a full-depth two-leg bodyweight squat with heels down. <span class="pass">≥ 10 cm each side and a heels-down full squat. Below 10 cm, the pistol stays at tier 1 regardless of strength, and ankle CARs get extra reps in the daily layer until it passes.</span><span class="src">Source: general (knee-to-wall figure is a coaching heuristic repeated across pistol guides, not a validated cutoff; the test itself is the one Block 1 adopted).</span></li>
+    <li><span class="t">Bench pistol.</span> Stand on one leg in front of the flat bench (about 45 cm), other leg held straight out front, arms reached forward. Sit back to the bench under control, no drop, then stand without the free foot touching down. <span class="pass">3 × 8 per leg, clean: heel down, knee tracking over the foot, no plop onto the bench.</span><span class="src">Source: general (box pistol is the universal first step).</span></li>
+    <li><span class="t">Low-box pistol.</span> Same movement to a lower target, about 25–30 cm (stacked plates, a stack of books, a step). Depth is the variable; everything else is the same. <span class="pass">3 × 8 per leg at ~25 cm, clean.</span><span class="src">Source: general.</span></li>
+    <li><span class="t">Assisted full-depth pistol.</span> Full depth now: hamstring touches the calf at the bottom, the usual definition of a full pistol and the depth Kim tests. Assistance is either one hand on a ring or the doorframe, used as lightly as possible, or a light counterweight held out front (a 5–10 lb plate or the adjustable dumbbell set light), which shifts your centre of mass forward and is what makes the bottom position balanceable. Kim's cues apply: arms reached forward, shoulders protracted, free leg's toes pointed. <span class="pass">3 × 5 per leg, full depth, heel down, counterweight ≤ 10 lb or fingertip assistance only.</span><span class="src">Source: cues from Kim (verified write-up); the depth definition and the counterweight method are general.</span></li>
+    <li><span class="t">Full pistol.</span> No assistance, no counterweight, arms forward, full depth, stand up without the heel lifting or the free foot touching. <span class="pass">1 clean rep each side: goal reached. Then build to 3 × 5 per leg.</span><span class="src">Source: general.</span></li>
+    <li><span class="t">Weighted pistol.</span> Dumbbell held at the chest, goblet-style. Open-ended; double progression as for any loaded lift. <span class="pass">ongoing. This is where the 35 lb adjustable dumbbells, which the base document says are too light for main lifts, get a genuine long-term job without buying anything.</span><span class="src">Source: general.</span></li>
+  </ol>
+
+  <div class="callout rule">
+    <span class="label">Joint rule, pistol edition</span>
+    <p>Pain at the front of the knee, the inside of the knee, or the front of the ankle at the bottom position is a 48-hour event, not a mobility sensation to push through. Hamstring, glute and quad fatigue is fine. If the heel lifts to reach depth, that is the ankle gate failing in real time: go back to the box tier that depth allows, do not force the heel.</p>
+  </div>
+  <p><strong>Why this skill is plausibly fast for you.</strong> You already train Bulgarian split squats on Thursday, you have a squat pattern twice a week, and you are a returning lifter with prior barbell experience. The strength to pistol is usually there before the ankle range and the balance are; the ladder is mostly about earning the bottom position. Placement in Block 1 week 2 (Section 07) will put you at tier 1 or 2 and tell you which of the two it is.</p>
+</section>
+
+<!-- ============================================================ -->
+<section id="bridge">
+  <h2><span class="num">04</span>Back bridge ladder</h2>
+  <p class="small">Realistic timeline to a <strong>full bridge</strong> (hands and feet on the floor, hips high, head off the floor, elbows allowed to bend): <strong>2–5 months</strong>. To a <strong>wheel-quality bridge</strong> (arms straight, shoulders stacked over the wrists, feet walked in): <strong>5–12 months</strong>. These ranges are thinner than the pistol's: the bridge has no cohort or trial data on time-to-skill at all, and the figures are what the coaching progressions imply when each step takes its usual weeks. Treat them as a sketch. Trained <strong>Wednesday</strong> (Section 06), inside the mobility block, after the strength skills.</p>
+
+  <p>The step order is the Convict Conditioning bridge series (Paul Wade) as reproduced in Hybrid Calisthenics' free progression, which is the most widely used version of it. Their rep standards are given alongside each tier for reference; the pass criteria actually used here are the base document's tier rule (3–4 sets of 8–12 clean, or a clean hold), deliberately lower-rep than the source because high-rep bridging is endurance work and the point here is end-range control.</p>
+
+  <ol class="ladder">
+    <li><span class="t">Glute bridge (short bridge).</span> On your back, knees bent, feet flat, press the hips up until the trunk is a straight line from knees to shoulders, squeeze at the top. <span class="pass">3 × 12 with a 2-second top squeeze. (Hybrid Calisthenics standard: 3 × 50.)</span><span class="src">Source: Convict Conditioning / Hybrid Calisthenics.</span></li>
+    <li><span class="t">Straight bridge (reverse plank).</span> Sit with legs straight, hands on the floor behind you, press the hips up until the body is one straight line from heels to shoulders, head neutral. First real shoulder-extension load. <span class="pass">3 × 12 with a 2-second hold. (HC: 3 × 30.)</span><span class="src">Source: CC / HC.</span></li>
+    <li><span class="t">Wall bridge.</span> Stand with your back to a wall about a step away. Reach overhead and back, place the hands on the wall, and walk them down a few hand-widths and back up. Eyes on the hands throughout. This teaches the extension pattern standing, where you can bail at any time. <span class="pass">3 × 8 walking the hands to roughly hip height and back up, under control. (HC: 3 × 30.)</span><span class="src">Source: CC / HC. Eye-line cue from Kim.</span></li>
+    <li><span class="t">Incline bridge.</span> Hands on the flat bench, feet on the floor, press up into a bridge with the hips high. The bench takes some range out of the shoulders so the spine and hips learn the shape first. Hands flat, fingers pointing toward the feet, eyes on the hands. <span class="pass">3 × 8 with a 3-second hold at the top, arms as straight as they will go. (HC: 2 × 25.)</span><span class="src">Source: CC / HC. Kim's own regression is the mirror of this (heels on a bench, neutral grip); the hands-on-bench version is used because it builds the shoulder range the full bridge needs.</span></li>
+    <li><span class="t">Full bridge.</span> Hands and feet on the floor, hips pressed high, head off the floor, eyes on the hands. Elbows may bend. <span class="pass">3 × 5 with a 5-second hold: "full bridge" reached. (HC: 2 × 15.)</span><span class="src">Source: CC / HC.</span></li>
+    <li><span class="t">Wheel-quality bridge.</span> Same, but arms straight and shoulders stacked over or slightly past the wrists, feet walked in toward the hands. This is the gymnastics bridge / yoga wheel (urdhva dhanurasana). <span class="pass">3 holds of 15–20 seconds, arms locked: goal reached. Beyond this (one-leg bridges, wall walks down and up, stand-to-stand) is open-ended and not programmed here.</span><span class="src">Source: CC / HC for the step; the straight-arm, shoulders-over-wrists standard is the gymnastics/yoga definition of the position.</span></li>
+  </ol>
+
+  <div class="callout info">
+    <span class="label">One step deliberately skipped</span>
+    <p>The Convict Conditioning series has a <strong>head bridge</strong> (crown of the head on the floor, like a wrestler's bridge) between the incline and full bridge. It is left out here on Priority 1 grounds: it loads the cervical spine in extension under bodyweight, which is not a joint this program has any reason to load that way, and Hybrid Calisthenics' own note on it is "avoid this exercise if it consistently causes back pain." The incline bridge on a progressively lower surface does the same job: if the jump from the bench to the floor is too big, put the hands on a stack of plates or thick books and lower it a few centimetres at a time.</p>
+  </div>
+
+  <div class="callout rule">
+    <span class="label">Joint rule, bridge edition</span>
+    <p>The stretch belongs in the front of the hips, the abdominals, the chest and the front of the shoulders. A pinch at the base of the spine, anything in the neck, or pain at the front of the shoulder joint or in the wrist is a 48-hour event. Breathe out into the position, the same in-for-four, out-for-four breathing Block 1's PAILs procedure uses. Never hold the breath in a bridge.</p>
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<section id="standards">
+  <h2><span class="num">05</span>Strength benchmarks and the one-time test</h2>
+  <p>The base document prescribes pull-ups, dips and pressing by rep range and double progression, but never says where your numbers sit on any named scale. That makes "ambitious yet realistic" hard to judge for anything but the skills. This section adds a scale and a test. It does not add any set to the program: the test replaces an existing set in one week, and the benchmark is read from the log afterwards.</p>
+
+  <h3>The scale</h3>
+  <p>Two general calisthenics standards references were checked. They agree on the shape (beginner / intermediate / advanced by strict reps in one set) and disagree on exact cut-points, which is normal: these are coaching conventions, not measured population percentiles, and no source gives a derivation. The <strong>Playthenics</strong> ladder is adopted because it has the tightest criteria stated ("reps in one strict set, bodyweight only; a kipped chin-over-bar or a half push-up does not count") and because the base document already uses Steven Low's tier logic, which these numbers sit comfortably beside. The second source (Cinnabar Calisthenics) is shown so the variance is visible.</p>
+
+  <div class="tbl">
+    <table>
+      <thead><tr><th>Lift (strict, bodyweight, one set)</th><th class="n">Beginner I</th><th class="n">Intermediate I</th><th class="n">Advanced I</th><th>Second source (Cinnabar) for variance</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Push-ups</strong>: chest within a fist of the floor, full lockout, straight body</td><td class="n">20</td><td class="n">30</td><td class="n">40</td><td>beginner 0–20 · intermediate 20–30 · advanced 30+</td></tr>
+        <tr><td><strong>Pull-ups</strong>: dead hang to chin clearly over the bar, no kip</td><td class="n">5</td><td class="n">12</td><td class="n">20</td><td>beginner 0–10 · intermediate 10–20 · advanced 20+</td></tr>
+        <tr><td><strong>Dips</strong>: shoulder below elbow at the bottom, full lockout, parallel bars</td><td class="n">5</td><td class="n">12</td><td class="n">20</td><td>beginner 0–15 · intermediate 15–30 · advanced 30+</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="small">Playthenics' full ladder has sub-steps (Beginner II at 24 push-ups / 7 pull-ups / 7 dips, Intermediate II at 34 / 14 / 14, and so on up to Advanced III at 50 / 28 / 28); only the three entry points are shown because that is enough to place yourself. <strong>A claim that was checked and dropped:</strong> an earlier note for this page gave "+25 % / +50 % bodyweight loaded" as pull-up equivalents for the intermediate and advanced tiers. Neither source states any such equivalence, so it is not used. What Playthenics does say is that past 20 strict reps you add load on a belt and work in the 5–8 rep range, which is consistent with the base document's own rule of adding a backpack once 12 clean pull-ups are easy.</p>
+
+  <h3>Where you probably are, and why it is not written down</h3>
+  <p>The base document's starting point is "returning lifter: push-ups and pull-ups are fine, prior barbell experience, just out of practice." On this scale that is most likely the <strong>beginner-to-intermediate band</strong>: somewhere between 5 and 12 strict pull-ups, 20 and 30 strict push-ups, and on dips probably the low end because ring dips are harder than the bar dips the standard assumes. That is a guess. It is not entered anywhere as your number. The test below produces the real one.</p>
+
+  <h3>The one-time test: Block 1 week 2, and week 2 of every block after</h3>
+  <p>Week 1 of Block 1 is already full of placement tests; week 2 is the "add reps, film your lifts" week and has room. Each test is the <em>first</em> set of a lift already in that day's session, taken as a strict max-rep set instead of the usual 6–12 working set, and the remaining sets run as normal. No session gets longer.</p>
+  <div class="tbl">
+    <table>
+      <thead><tr><th>Day (week 2)</th><th>Replaces</th><th>Test</th><th>Record</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Mon · Push A</strong></td><td>First set of ring dips</td><td>Strict max reps of dips, on the rings if that is what you have. Shoulder below the elbow at the bottom, full lockout, no swing. If rings are still too hard for a clean set of 3, log "not yet testable" and bench dips do not count.</td><td>Reps, and whether on rings or bars. Ring numbers are not comparable one-for-one to the bar standard; log them as "ring dips" and compare to your own number later.</td></tr>
+        <tr><td><strong>Tue · Lower + Pull A</strong></td><td>First set of pull-ups</td><td>Strict max reps of overhand pull-ups from a dead hang, chin clearly over the bar, no kip, stop at the first rep that does not clear.</td><td>Reps.</td></tr>
+        <tr><td><strong>Fri · Push B</strong></td><td>First set of ring push-ups</td><td>Strict max reps of floor push-ups (not rings, not elevated): hands under the shoulders, chest within a fist of the floor, full lockout, body a straight line, steady tempo. Stop at the first rep where the hips sag or the lockout is incomplete.</td><td>Reps.</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p><strong>Reading the result.</strong> Place each number on the scale above and write the band next to it in the log. Then set the ambitious-but-realistic target for the block: <strong>one band entry point up</strong> is realistic over two blocks (24 weeks) for a returning lifter, and <strong>reaching Intermediate I on all three</strong> (30 / 12 / 12) within the first year is an honest target for your starting point. Retest in week 2 of each block, same sets replaced, so the retest never touches Block 1's week-12 protocol.</p>
+</section>
+
+<!-- ============================================================ -->
+<section id="slot">
+  <h2><span class="num">06</span>Where they live in the week</h2>
+  <p>Both skills need a weekly slot, every session already runs at about 55–60 minutes, and the base document's joint rules constrain the choice more than the clock does. The decisions, then the two session cards with only the changed lines marked.</p>
+
+  <h3>Decisions</h3>
+  <ul>
+    <li><strong>Pistol squat on Tuesday, not Thursday.</strong> It is a knee-dominant squat pattern, so it belongs on a lower day, and Tuesday's quad lift is the <em>bilateral</em> squat while Thursday already has the <em>unilateral</em> Bulgarian split squat. Putting the pistol on Tuesday gives each lower day one bilateral and one single-leg knee movement instead of stacking both single-leg movements on Thursday, which is also the longer list of the two. The joint-load map does not change: Tuesday knee and hip were already "heavy."</li>
+    <li><strong>Pistol first, as the squat's warm-up.</strong> The base document says skill is practised fresh, and the early tiers are low-fatigue bodyweight work. So the pistol sets go straight after the daily layer and <em>replace</em> the squat's general ramp-up (the base's "goblet squat as warm-up only" line and Block 1's 2–3 minutes of ramp-up sets). One light set on the bar itself stays. Three sets per leg, alternating legs with 90 seconds' rest after each pair, is about 7–8 minutes; minus the 2–3 minutes of ramp-up it replaces, the pistol adds roughly 4–5 minutes on its own.</li>
+    <li><strong>Wrist prehab moves into the pistol rest periods.</strong> Tuesday's four light wrist sets currently sit at the end of the session on their own clock (about 4 minutes). Supersetting them with the pistol sets costs nothing: the wrists are fresh, the work is light, and the three 90-second pistol rests hold four 30–40-second prehab sets comfortably. This is the explicit trim that pays for the pistol: it recovers about 4 of the 4–5 minutes the pistol adds. <strong>Tuesday's total stays at about 55–60 minutes</strong>, roughly a minute longer than before on an average day.</li>
+    <li><strong>Back bridge on Wednesday, inside the mobility block, after the strength skills.</strong> Two reasons it must be Wednesday or another press day and not Tuesday or Thursday: the full bridge loads the <strong>wrist in extension</strong> (hands flat, fingers toward the feet) and the shoulder overhead, and the base document's whole week is built so that those loads land on Mon / Wed / Fri only, never on the pull-and-lower days between. Wednesday is the lowest-fatigue of the three, is the day that already holds the PAILs/RAILs end-range work the bridge resembles, and the bridge is the natural counter-shape to a session spent in the planche's protracted, hollow position. It goes last: the planche and HSPU ladders are higher-priority skills and get the fresh nervous system.</li>
+    <li><strong>The explicit trim on Wednesday: the intense splits block gives up 5–6 minutes.</strong> Wednesday's splits are "15–25 min" in the base. The bridge's 2–3 sets take about 5–6 minutes of that, so Wednesday's splits run <strong>12–20 minutes</strong> from now on, with the bridge inside the same envelope. The cost falls on the full-split timeline, slightly, and only on Wednesday: Monday and Friday splits are untouched, the gentle daily touch (which is the evidence-dosed part per Block 1 Section 08) is untouched, and the Thomas and Ingram weekly thresholds are still cleared by the daily touch alone. Wednesday's total stays at 55–60.</li>
+    <li><strong>No second weekly bridge day, on purpose.</strong> Most calisthenics templates train the bridge once or twice a week. Adding a second exposure would mean either Monday or Friday growing (both are at budget) or putting loaded spinal and wrist extension on a deadlift day. One quality session a week is the Priority 1 choice. If the bridge ladder stalls for a full block with a clean log, the first fix is a single set of the current tier added to Friday after the HSPU ladder, not a new day.</li>
+    <li><strong>Joint-load map deltas.</strong> Tuesday: none. Wednesday: spine goes from "—" to <span class="tag light">light extension</span>, and the already-"heavy" wrist column gets a few more extension reps from tier 4 upward. Because of that, on Wednesday the drop order for a sore wrist is: bridge first, then (per the base) wrist prehab on Tue/Thu, before any main lift or the planche ladder is touched.</li>
+    <li><strong>Pattern frequency and volume.</strong> The squat pattern goes from 2 to 3 exposures a week (Tue squat, Tue pistol, Thu split squat), still inside "at least twice." Direct quad sets go from 8 to 11, inside the 10–20 range. This is not the base document's "fifth squat set on a stall" rule being triggered early; it is bodyweight skill work that happens to count. If the Tuesday squat's double progression slows after the pistol is added, drop the pistol to 2 sets before touching anything else.</li>
+  </ul>
+
+  <!-- ---------------- TUESDAY ---------------- -->
+  <div class="day">
+    <div class="dh"><h3>Tuesday · Lower + Pull A</h3><span class="when">≈ 55–60 min, unchanged</span><span class="joints"><span class="tag heavy">knee</span><span class="tag heavy">hip</span><span class="tag heavy">spine</span></span></div>
+    <ol>
+      <li>Daily layer: pulse-raiser 3 min, CARs 5–7 min, gentle split touch (Block 1 Section 06, as written).</li>
+      <li class="new"><strong>Pistol squat ladder</strong>, current tier (Section 03), as the squat's warm-up <span class="rx">3 sets per leg, alternating, 90 s rest per pair</span>
+        <p class="note">Low fatigue, stopped at the first rep that loses the heel or the knee line. Replaces the goblet-squat warm-up and general ramp-up; one light set on the bar still precedes the first working set below.</p></li>
+      <li class="moved"><strong>Wrist prehab</strong>, inside the pistol rest periods: wrist curls <span class="rx">2 × 15–20</span> + wrist extensions <span class="rx">2 × 15–20</span>
+        <p class="note">Same four sets as the base, same load (35 lb dumbbell or lighter), moved from the end of the session into the rest between pistol sets. If a wrist aches, this is still the first thing to drop.</p></li>
+      <li><strong>Squat</strong>, the primary quad lift (Zercher or front squat without a rack; Bulgarian split squat until the bar arrives) <span class="rx">4 × 6–12</span></li>
+      <li><strong>Romanian deadlift</strong> <span class="rx">3 × 8–12</span></li>
+      <li><strong>Pull-ups</strong>, overhand; add a backpack when 12 clean reps are easy <span class="rx">3 × 6–12</span>
+        <p class="note">Block 1 week 2 only: the first set is the strict max-rep benchmark test (Section 05).</p></li>
+      <li><strong>Barbell row</strong> (ring row, feet elevated, until the bar arrives) <span class="rx">3 × 8–12</span></li>
+      <li><strong>Standing calf raise</strong>, single-leg with a dumbbell, or barbell held in front, off a plate edge for full stretch <span class="rx">4 × 10–20</span></li>
+    </ol>
+    <div class="foot">Everything from the base is still here at the same sets and reps; two lines are new or moved. The 14 weekly calf sets, the 12 back sets and the pull-pattern frequency are untouched.</div>
+  </div>
+
+  <!-- ---------------- WEDNESDAY ---------------- -->
+  <div class="day">
+    <div class="dh"><h3>Wednesday · Skill</h3><span class="when">≈ 55–60 min, unchanged</span><span class="joints"><span class="tag heavy">shoulder</span><span class="tag heavy">wrist</span><span class="tag light">spine · extension</span></span></div>
+    <ol>
+      <li>Daily layer: pulse-raiser 3 min, CARs 5–7 min with extra wrist CARs, 2 light sets of band external rotation.</li>
+      <li><strong>Wrist and shoulder prep</strong>: wrist push-ups on all fours <span class="rx">2 × 10</span>, scapular push-ups <span class="rx">2 × 10</span>, hollow-body hold <span class="rx">2 × 20–30 s</span></li>
+      <li><strong>Planche ladder</strong>, current tier <span class="rx">5–6 sets</span></li>
+      <li><strong>Handstand push-up ladder</strong>, current tier <span class="rx">4–5 sets</span></li>
+      <li class="moved"><strong>Intense split work</strong>: static holds, PNF contract-relax, and from week 4 PAILs/RAILs per the Block 1 schedule <span class="rx">12–20 min</span>
+        <p class="note">Was 15–25 min. The 5–6 minutes given up go to the bridge below; the two together still fill the base's 15–25 minute mobility envelope.</p></li>
+      <li class="new"><strong>Back bridge ladder</strong>, current tier (Section 04) <span class="rx">2–3 sets, 60–90 s rest</span>
+        <p class="note">Last, because it is the lowest-priority skill of the day and because it is the counter-shape to everything before it. Exhale into the position. Any neck, low-back, front-of-shoulder or wrist pain ends the set and starts the 48-hour clock.</p></li>
+    </ol>
+    <div class="foot">Still deliberately low-fatigue; the bridge sets are held well short of strain. Planche and HSPU ladders, the prep work, and the Block 1 PAILs/RAILs schedule are exactly as written.</div>
+  </div>
+
+  <h3>When a week only has four slots</h3>
+  <p>The base rule stands: drop Friday Push B, never Wednesday, never a pull day. Within a kept session, if time runs short, these two skills lose their sets before any of the four original ladders or any loaded lift does (Section 01). On a deload week both are held at the current tier at half the sets, like every other ladder.</p>
+</section>
+
+<!-- ============================================================ -->
+<section id="pacing">
+  <h2><span class="num">07</span>Pacing inside Block 1</h2>
+  <p>Block 1's calendar is unchanged; these two lines slot into it. They start in <strong>week 2</strong>, not week 1, because week 1 already carries the three ladder placements, the splits support-height log and the longevity battery, and the knee-to-wall result from that battery is the pistol's ankle gate, so it needs to exist first.</p>
+
+  <div class="tbl">
+    <table>
+      <thead><tr><th>Ladder</th><th>Week 2 (placement)</th><th>Week 6 (plausible)</th><th>Week 12 (plausible)</th><th>Would be a stall</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Pistol squat</strong><br><span class="small">Tue</span></td><td>Check the ankle gate from the week-1 battery. Test tier 1 (bench pistol, 3 × 8 per leg) once, fresh, before the squat. Pass puts you at tier 2 the following week. A returning lifter with split squats in the program very often passes tier 1 on the first try.</td><td>Tier 2 passed or close; first assisted full-depth reps (tier 3) with a counterweight or a fingertip on the doorframe.</td><td>Tier 3 passed on at least one side; first unassisted full pistols on the stronger side are the fast-but-plausible end. Both sides clean by week 12 would be ahead of the range, not expected.</td><td>Still on tier 1 at week 12 with the ankle gate passing and no knee or ankle ache. First fix: confirm the free leg is held out front (not tucked) and the arms are reaching forward; most "strength" stalls are balance stalls.</td></tr>
+        <tr><td><strong>Back bridge</strong><br><span class="small">Wed</span></td><td>Run tiers 1 and 2 as one placement set each (they will almost certainly pass). Test tier 3 (wall bridge) once. Most likely start: tier 3 or 4.</td><td>Tier 4 (incline bridge) passed or close. Shoulders are usually the limiter here, not the spine.</td><td>Tier 5 (full bridge, elbows bent) reached on at least one attempt; 3 × 5 with a 5-second hold by week 12 is the fast end. Wheel-quality (tier 6) by week 12 is not expected.</td><td>Still at tier 3 at week 12 with no shoulder or wrist ache. First fix: lower the incline surface a few centimetres at a time instead of jumping bench-to-floor, and check the hands are flat with fingers toward the feet, not turned out.</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3>How the block's existing events apply</h3>
+  <ul>
+    <li><strong>Week 2.</strong> Placement for both ladders (above) and the three strength benchmark tests (Section 05). Film one set of each, same as the technique bank for the lifts.</li>
+    <li><strong>Week 7, deload.</strong> Both held at the current tier at half the sets (pistol 1–2 sets per leg, bridge 1 set), nothing tested, like every other ladder.</li>
+    <li><strong>Week 12, retest.</strong> Pistol: on the Tuesday retest, one best clean set per leg at the current tier before the squat top set; log tier and reps. Bridge: on the Wednesday retest, after the planche and HSPU attempts and before the longevity battery, one best clean hold at the current tier; log tier and seconds. Each is one added set on a day already run at about 60 % volume; no other line of Block 1's retest protocol changes. The strength benchmarks are <em>not</em> retested in week 12; they recur in week 2 of Block 2.</li>
+    <li><strong>Sleep rule.</strong> Block 1's rule applies: a week averaging under 7 hours means no new tier is tested on either ladder.</li>
+  </ul>
+</section>
+
+<!-- ============================================================ -->
+<section id="longevity">
+  <h2><span class="num">08</span>The longevity connection</h2>
+  <p>Block 1 Section 08 lays out the evidence that, in middle-aged and older cohorts, poor flexibility, poor floor-rising, poor one-leg balance and low muscular strength each predict earlier death, with all the observational caveats stated there, which carry over unchanged here. It also makes the point that at 23 those markers are a floor to protect, not a target to chase, and that the program already trains the mechanism behind each one. The two new skills are the most direct demonstration of those mechanisms in the whole program, and that is the real reason they earn a slot, over and above being trackable wins.</p>
+
+  <div class="tbl">
+    <table>
+      <thead><tr><th>Longevity marker (Block 1 Section 08)</th><th>What it actually requires</th><th>Which new skill is that, loaded</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Sitting-rising test</strong> (Brito / Araújo 2014, 2025): sit to the floor and stand with as few supports as possible</td><td>Deep hip and knee flexion with the ankle dorsiflexed, then enough single-leg and bilateral leg strength to stand from the floor without hands, under balance</td><td><strong>Pistol squat.</strong> The bottom of a pistol is the SRT's hardest position with all the weight on one leg; a full pistol each side is a 10/10 SRT with a wide margin, and the ankle gate is the same joint the SRT most often fails on in older adults.</td></tr>
+        <tr><td><strong>10-second one-leg stance</strong> (Araújo 2022)</td><td>Ankle and hip control on one leg with the other leg off the floor</td><td><strong>Pistol squat.</strong> Every rep is a one-leg stance taken through full range and back. Passing the 10-second test is a prerequisite you will meet in week 1; the pistol is the same capacity trained far past its floor.</td></tr>
+        <tr><td><strong>Knee-extension and grip strength</strong> (García-Hermoso 2018)</td><td>Quad strength relative to body mass; grip from pulling</td><td><strong>Pistol squat</strong> for the quad half (single-leg knee extension against full bodyweight); pull-ups and deadlifts already cover grip.</td></tr>
+        <tr><td><strong>Flexitest / Flexindex</strong> (Araújo 2024): 20 passive joint movements summed</td><td>Among the 20 movements are trunk extension and the shoulder movements; the battery is total joint range across the body</td><td><strong>Back bridge.</strong> Trunk extension, hip extension and shoulder flexion/extension under load. These are the ranges the rest of the program leaves nearly untouched (the deadlift and RDL load the spine heavily but in neutral, not through extension range, and the overhead press and HSPU load the shoulder overhead as strength work, not as a loaded end-range <em>stretch</em>), so the bridge is the one movement that extends the program's coverage of the Flexitest's range rather than deepening something already covered.</td></tr>
+        <tr><td><strong>Starrett's "vital signs"</strong> (Block 1 Section 07): floor sit-and-rise, hip extension, shoulder range, single-leg balance</td><td>Self-tests with benchmarks and a daily practice attached</td><td>Both. The pistol is the sit-and-rise and the balance test; the bridge is hip extension and shoulder range in one position. Nothing further from Starrett is imported, exactly as Block 1 decided.</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="callout info">
+    <span class="label">The same caveats, restated</span>
+    <p>None of this says a pistol squat or a bridge makes you live longer. The cohort studies are observational, the subjects are 46 and older, and the markers are plausibly signals of the underlying things that kill people rather than causes. What the two skills do is train and <em>measure</em> the exact capacities those studies found to matter, at a level far above the floor the studies tested, and keep a record. Block 1's framing stands: the job is to ceiling these tests at 23 and still ceiling them at 53, and a logged pistol tier and bridge tier are a much more sensitive early-warning instrument for that than a pass/fail on a 10-second stance.</p>
+  </div>
+
+  <p><strong>And the FRC connection.</strong> Block 1 Section 07 adopted CARs, PAILs and RAILs as the procedure for building range and then owning it with strength. Kim's method, in his own words, is the same idea applied to skills: increase the range, then build strength throughout it. The bridge in particular is a loaded end-range hold for the hip flexors, abdominals, chest and anterior shoulder, which is structurally the same kind of work as a PAILs hold in the split, aimed at a different set of joints. If you ever want a PAILs/RAILs version of the bridge (press the hands and feet into the floor to contract <em>into</em> the stretch, then actively pull the hips higher), it is the obvious next step, but it waits until tier 5 is reached and the Block 2 rule on full-effort PAILs/RAILs is met. Nothing here changes that rule.</p>
+</section>
+
+<!-- ============================================================ -->
+<section id="sources">
+  <h2><span class="num">09</span>Sources</h2>
+  <p class="small">Sources already listed in the base document or Block 1 (Steven Low, the Araújo-group cohort papers, García-Hermoso 2018, Thomas 2018, Ingram 2024, Spina / FRC, Starrett) are not repeated. Everything below was read for this page on 2026-11-21.</p>
+  <ul class="src">
+    <li><strong>Elliot Kim / Strong &amp; Mobile.</strong> Program catalogue page (my.trybe.fit/strongandmobile): "Skill specific programs (back bridge, pistol squat, sissy squat…)", "Strength specific programs (chinup, dip, deadlift)". Strong &amp; Mobile Club app listing (App Store / Google Play, full description read): "Built by strength &amp; mobility coach Elliot Kim … unlock tight joints, build real-world strength … structured programs that combine strength, mobility, and control—whether you're training for pistol squats, handstands, or just want to move without pain … strong, mobile, and injury-resistant for life". Introductory program page (solin.stream/strongandmobile): 4 weeks, 4 days, two upper and two lower; "increase your ranges of motion and build strength throughout those new ranges". Instagram @strongandmobile and YouTube @strongandmobile exist and were not transcribed; the paid app content was not read. The phrase "end-range strength" was not found in any of his text.</li>
+    <li><strong>Kim's pistol and bridge cues.</strong> BoxLife Magazine write-up of a filmed mobility-testing session in which Kim tested a calisthenics athlete: full-depth pistol (hamstring to calf), cues "reach forward," "protract," "point the toes"; bridge entered from a squat with "thumbs pointing back, eyes on the hand"; regression "heels on a bench, neutral grip." Third-party but descriptive of his own coaching on camera.</li>
+    <li><strong>Pistol squat progression and timeline (general).</strong> Playthenics, "Pistol Squat Progression: From Box to Full"; Odin Fitness, "Pistol Squat Progression: Beginner to Mastery" and "Ankle Dorsiflexion / Pistol Squat Guide" (35–45° dorsiflexion; knee-to-wall 10–12 cm as the readiness heuristic); HowLongFor, "How Long to Learn a Pistol Squat" (3–6 months intermediate, 6–9 months beginner, 9–12+ months complete beginner, training 2–3×/week); Precision Movement, "3 Part Pistol Squat Progression" (mobility → balance → strength; half-bodyweight front squat as a strength floor). GMB's pistol article was not retrievable at time of writing. Timelines are coaching consensus; no trial data exists on time-to-pistol.</li>
+    <li><strong>Back bridge progression (general).</strong> Paul Wade, <em>Convict Conditioning</em> (Dragon Door, 2009) and <em>Convict Conditioning Vol. 4: Advanced Bridging</em>: the ten-step bridge series from short bridge to stand-to-stand bridge. Hybrid Calisthenics (hybridcalisthenics.com/bridges), the free progression that reproduces that series with its own standards: glute bridges 3 × 50, straight bridges 3 × 30, wall bridges 3 × 30, incline bridges 2 × 25, head bridges 2 × 25 (skipped here), full bridges 2 × 15, wheel bridges 2 × 15, then tap, wall-walking and stand-to-stand bridges; safety note on head bridges quoted in Section 04. The straight-arm, shoulders-over-wrists standard for the finished position is the gymnastics bridge / yoga wheel pose (urdhva dhanurasana) definition.</li>
+    <li><strong>Strength standards.</strong> Playthenics, "Calisthenics Strength Standards by Level": push-ups 20 / 24 / 27 / 30 / 34 / 37 / 40 / 45 / 50 and pull-ups and dips 5 / 7 / 9 / 12 / 14 / 17 / 20 / 24 / 28 for Beginner I–III, Intermediate I–III, Advanced I–III; "reps in one strict set, bodyweight only; a kipped chin-over-bar or a half push-up does not count"; past 20 strict dips, add load and work 5–8 reps. Cinnabar Calisthenics, "Calisthenics Strength Standards": push-ups 0–20 / 20–30 / 30+, pull-ups 0–10 / 10–20 / 20+, dips 0–15 / 15–30 / 30+. Neither source derives its numbers from population data or gives bodyweight-percentage loaded equivalents; both are coaching conventions and are presented as such.</li>
+  </ul>
+</section>
+
+<footer>
+  Mobility Skill Lines · companion to <a href="https://meciahblacknoll.github.io/training-8dv7/">Bedroom Training Program v2</a> and <a href="https://meciahblacknoll.github.io/training-8dv7/block1/">Training Block One</a>. Adds two tracked skill ladders, a strength-benchmark scale and test, their Tuesday and Wednesday slots, and the longevity rationale. Changes nothing in either document; where they disagree with this page, they are right.
+</footer>
+
+</div>
+</body>
+</html>
