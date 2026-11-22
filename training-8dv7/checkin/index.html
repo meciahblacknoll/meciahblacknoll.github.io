@@ -1,0 +1,570 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Daily Check-in Layer</title>
+<meta name="description" content="What a short spoken note from the bedroom gym should log, and which bounded adjustments the training program's own rules let the system propose back. Fourth companion to the Bedroom Training Program v2, Block 1 and Mobility Skill Lines.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..800;1,9..144,300..800&family=Source+Serif+4:ital,opsz,wght@0,8..60,300..700;1,8..60,300..700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#f7f2ea;
+  --bg-2:#efe7da;
+  --paper:#fffdf9;
+  --ink:#1f1a14;
+  --ink-2:#4a4036;
+  --ink-3:#7a6d5f;
+  --rule:#d9cdbb;
+  --accent:#9a4b1e;
+  --accent-2:#2f6b57;
+  --accent-3:#5a4e9c;
+  --warn:#a3591a;
+  --warn-bg:#fbead8;
+  --ok-bg:#e3efe8;
+  --info-bg:#e9e6f5;
+  --head-bg:#efe7da;
+  --shadow:0 1px 0 rgba(0,0,0,.04),0 8px 24px -16px rgba(60,40,20,.25);
+  --serif:"Source Serif 4",Georgia,"Times New Roman",serif;
+  --display:"Fraunces","Source Serif 4",Georgia,serif;
+  --mono:"IBM Plex Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#15120e; --bg-2:#1f1a14; --paper:#1b1712;
+    --ink:#efe6d8; --ink-2:#cbbfae; --ink-3:#9a8d7c; --rule:#3a3128;
+    --accent:#e08a57; --accent-2:#7fc2a7; --accent-3:#a79cdf;
+    --warn:#e9a86a; --warn-bg:#2d2116; --ok-bg:#16271f; --info-bg:#201d2e; --head-bg:#241e17;
+    --shadow:0 1px 0 rgba(0,0,0,.3),0 8px 24px -16px rgba(0,0,0,.7);
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#15120e; --bg-2:#1f1a14; --paper:#1b1712;
+  --ink:#efe6d8; --ink-2:#cbbfae; --ink-3:#9a8d7c; --rule:#3a3128;
+  --accent:#e08a57; --accent-2:#7fc2a7; --accent-3:#a79cdf;
+  --warn:#e9a86a; --warn-bg:#2d2116; --ok-bg:#16271f; --info-bg:#201d2e; --head-bg:#241e17;
+  --shadow:0 1px 0 rgba(0,0,0,.3),0 8px 24px -16px rgba(0,0,0,.7);
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--serif);font-size:17px;line-height:1.6;font-feature-settings:"onum" 0,"lnum" 1}
+.wrap{max-width:760px;margin:0 auto;padding-block:40px 80px;padding-inline:16px}
+header.masthead{padding:16px 0 28px;border-bottom:2px solid var(--ink)}
+.kicker{font-family:var(--mono);font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-3)}
+h1{font-family:var(--display);font-weight:600;font-variation-settings:"opsz" 144,"SOFT" 40;font-size:clamp(34px,7vw,52px);line-height:1.05;margin:10px 0 14px;letter-spacing:-.01em;text-wrap:balance}
+.lede{font-size:19px;color:var(--ink-2);margin:0 0 12px;max-width:62ch}
+.meta{font-family:var(--mono);font-size:12.5px;color:var(--ink-3);display:flex;flex-wrap:wrap;gap:8px 18px}
+nav.toc{margin:24px 0 8px;padding:16px 18px;background:var(--paper);border:1px solid var(--rule);border-radius:10px;box-shadow:var(--shadow)}
+nav.toc ol{margin:6px 0 0;padding-left:1.3em;columns:2;column-gap:28px}
+@media (max-width:520px){nav.toc ol{columns:1}}
+nav.toc li{margin:3px 0;font-size:15.5px;break-inside:avoid}
+nav.toc a{color:var(--ink-2);text-decoration:none;border-bottom:1px solid var(--rule)}
+nav.toc a:hover,nav.toc a:focus-visible{color:var(--accent);border-color:var(--accent);outline:none}
+section{margin-top:52px}
+h2{font-family:var(--display);font-weight:600;font-size:clamp(26px,5vw,32px);line-height:1.15;margin:0 0 6px;font-variation-settings:"opsz" 72;text-wrap:balance}
+h2 .num{font-family:var(--mono);font-size:13px;color:var(--accent);letter-spacing:.1em;display:block;margin-bottom:6px;font-weight:500}
+h3{font-family:var(--display);font-weight:600;font-size:21px;margin:28px 0 8px;line-height:1.25;text-wrap:balance}
+h4{font-family:var(--serif);font-weight:700;font-size:17px;margin:18px 0 6px}
+p{margin:10px 0}
+ul,ol{padding-left:1.35em}
+li{margin:5px 0}
+li>ul{margin-top:4px}
+strong{font-weight:700}
+em{font-style:italic}
+code,.mono{font-family:var(--mono);font-size:.88em}
+.small{font-size:14.5px;color:var(--ink-3)}
+a{color:var(--accent)}
+a:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+
+.callout{padding:14px 18px;border-radius:10px;margin:18px 0;border:1px solid var(--rule);background:var(--paper)}
+.callout.rule{background:var(--warn-bg);border-color:transparent}
+.callout.ok{background:var(--ok-bg);border-color:transparent}
+.callout.info{background:var(--info-bg);border-color:transparent}
+.callout .label{font-family:var(--mono);font-size:11.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-3);display:block;margin-bottom:4px}
+.callout p:first-of-type{margin-top:4px}
+.callout p:last-child{margin-bottom:2px}
+
+.tbl{overflow-x:auto;-webkit-overflow-scrolling:touch;margin:14px 0;border:1px solid var(--rule);border-radius:10px;background:var(--paper);box-shadow:var(--shadow)}
+table{border-collapse:collapse;width:100%;min-width:480px;font-size:15px}
+table.narrow{min-width:0}
+th,td{padding:9px 12px;text-align:left;vertical-align:top;border-bottom:1px solid var(--rule)}
+th{background:var(--head-bg);font-family:var(--mono);font-size:11.5px;letter-spacing:.08em;text-transform:uppercase;font-weight:600;color:var(--ink-2)}
+tr:last-child td{border-bottom:0}
+td.n,th.n{text-align:right;font-family:var(--mono);font-size:14px;white-space:nowrap;font-variant-numeric:tabular-nums}
+td.id{font-family:var(--mono);font-size:13px;color:var(--accent);white-space:nowrap;font-weight:600}
+tbody tr.sub td{background:var(--bg-2);font-family:var(--mono);font-size:11.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-3);padding:6px 12px}
+.tag{display:inline-block;font-family:var(--mono);font-size:11px;letter-spacing:.06em;padding:1px 7px;border-radius:999px;border:1px solid var(--rule);color:var(--ink-2);white-space:nowrap}
+.tag.heavy{background:var(--warn-bg);color:var(--warn);border-color:transparent}
+.tag.light{background:var(--ok-bg);color:var(--accent-2);border-color:transparent}
+.tag.none{color:var(--ink-3)}
+.tag.target{background:var(--info-bg);color:var(--accent-3);border-color:transparent}
+.cite{font-family:var(--mono);font-size:12.5px;color:var(--ink-3);white-space:nowrap}
+
+/* speech / reply blocks */
+.say{margin:14px 0 6px;padding:12px 16px 12px 18px;border-left:3px solid var(--accent);background:var(--paper);border-radius:0 10px 10px 0;font-style:italic;color:var(--ink-2)}
+.say .who{font-family:var(--mono);font-size:11.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-3);font-style:normal;display:block;margin-bottom:4px}
+.reply{margin:6px 0 14px;padding:12px 16px;background:var(--ok-bg);border-radius:10px;font-family:var(--mono);font-size:13.5px;line-height:1.55;white-space:pre-wrap;color:var(--ink)}
+.reply .who{font-family:var(--mono);font-size:11.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-3);display:block;margin-bottom:6px}
+.logged{margin:6px 0;padding:10px 16px;background:var(--bg-2);border-radius:10px;font-family:var(--mono);font-size:13px;line-height:1.55;white-space:pre-wrap;color:var(--ink-2)}
+.logged .who{font-size:11.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-3);display:block;margin-bottom:6px}
+.ex{background:var(--paper);border:1px solid var(--rule);border-radius:12px;padding:18px 18px 14px;margin:18px 0;box-shadow:var(--shadow)}
+.ex .dh{display:flex;flex-wrap:wrap;align-items:baseline;gap:6px 14px;border-bottom:1px solid var(--rule);padding-bottom:10px;margin-bottom:6px}
+.ex .dh h3{margin:0;font-size:21px}
+.ex .dh .when{font-family:var(--mono);font-size:12.5px;color:var(--ink-3)}
+.ex .dh .joints{margin-left:auto;display:flex;gap:6px;flex-wrap:wrap}
+@media (max-width:520px){.ex .dh .joints{margin-left:0}}
+pre.schema{margin:10px 0;padding:12px 14px;background:var(--paper);border:1px solid var(--rule);border-radius:10px;font-family:var(--mono);font-size:13px;line-height:1.5;overflow-x:auto;color:var(--ink-2)}
+
+footer{margin-top:64px;padding-top:18px;border-top:1px solid var(--rule);font-size:14px;color:var(--ink-3)}
+ul.src li{font-size:14.5px;color:var(--ink-2)}
+@media (prefers-reduced-motion: reduce){*{scroll-behavior:auto!important}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header class="masthead">
+  <div class="kicker">Meciah · Training program · Daily check-in layer · companion to v2, Block 1 and Mobility</div>
+  <h1>Daily Check-in Layer</h1>
+  <p class="lede">What a thirty-second spoken note from the bedroom gym should turn into, and what the program is allowed to say back. The three training documents already contain every rule this page uses; what they do not contain is a way for "I slept five hours" or "my right wrist is pinchy" to reach those rules. This page is that connection: the fields a note maps to, the bounded adjustments each rule permits, three worked days, and the smallest log that makes the 48-hour clock, the stall counter and the sleep week actually computable.</p>
+  <div class="meta">
+    <span>Written: 2026-11-21</span>
+    <span>Input: one spoken note, transcribed</span>
+    <span>Changes to the three documents: none</span>
+    <span>Output: a log entry and, sometimes, a proposal</span>
+  </div>
+  <nav class="toc" aria-label="Contents">
+    <span class="kicker">Contents</span>
+    <ol>
+      <li><a href="#what">What this adds, and what it leaves alone</a></li>
+      <li><a href="#already">What the program already asks you to log</a></li>
+      <li><a href="#capture">The check-in: speech to fields</a></li>
+      <li><a href="#adjust">Adjustments the system may propose</a></li>
+      <li><a href="#examples">Three worked days</a></li>
+      <li><a href="#not">What this does not do yet</a></li>
+      <li><a href="#model">The minimal log</a></li>
+      <li><a href="#gaps">Gaps the documents leave open</a></li>
+      <li><a href="#sources">Sources</a></li>
+    </ol>
+  </nav>
+</header>
+
+<!-- ============================================================ -->
+<section id="what">
+  <h2><span class="num">01</span>What this adds, and what it leaves alone</h2>
+  <p>The <a href="https://meciahblacknoll.github.io/training-8dv7/">base document</a> settles what you do, <a href="https://meciahblacknoll.github.io/training-8dv7/block1/">Block 1</a> settles when, and <a href="https://meciahblacknoll.github.io/training-8dv7/mobility/">Mobility Skill Lines</a> adds two ladders and a benchmark test. None of that is re-opened here. Not one training rule on this page is new: every adjustment in Section 04 quotes the document and section it comes from, and where the documents are silent, Section 08 says so instead of filling the silence with a plausible-sounding rule.</p>
+  <p>What this page adds is the layer the original idea was actually about. The ChatGPT conversation that started it was not about hardware; it was about a system that hears "I scraped my knee this morning" and makes an adjustment that is "not wild or crazy," decided by "whether or not it will actually slow down my goals," while you stay "the one in charge." Read against the three documents, that sentence is already almost fully specified. "Whether it slows down my goals" is the base document's priority order, with joint health winning every tie. "Not wild or crazy" is the fixed menu of moves the documents already permit: one tier down, out for the week, drop Friday, pull the deload forward, hold the tier this week. "You stay in charge" means the system proposes and never applies.</p>
+
+  <div class="callout info">
+    <span class="label">The one design rule</span>
+    <p><strong>Log everything, look up the rule, propose the move, change nothing.</strong> The system has no judgement of its own about your body. It has a log, the three documents, and a calendar. When a note matches a rule, it says which rule and what the rule permits, in one to four lines, and ends with a choice. When a note matches nothing, it logs the note word for word and says so.</p>
+  </div>
+
+  <div class="callout rule">
+    <span class="label">Still the override</span>
+    <p><strong>Any new ache that lingers past 48 hours drops that movement back one tier, or out of the session entirely, for that week.</strong> This layer exists mostly to make that rule operable: the base document says the 48-hour rule "needs the date," and until now nothing was writing the date down.</p>
+  </div>
+
+  <p>Hardware is settled and not discussed here: a voice memo to the existing Telegram bot, transcribed by the local whisper pipeline, arriving as text. Everything below starts at the moment that text exists.</p>
+</section>
+
+<!-- ============================================================ -->
+<section id="already">
+  <h2><span class="num">02</span>What the program already asks you to log</h2>
+  <p>The base document's Section 10 ends with one sentence that is, in effect, the specification for this whole page:</p>
+  <div class="say"><span class="who">Base document, Section 10</span>"Weekly, in the training log: every working set's load and reps, every skill tier's best hold or rep count, splits hand-support height, hours slept, and any ache with its start date (the 48-hour rule needs the date)."</div>
+  <p>Block 1 and Mobility add a handful of further items (session completion, ladder tier and pass, longevity battery, benchmarks, equipment arrival, PAILs effort) because their rules key off them. The table below lists every piece of state that some rule in the three documents actually reads, and the rule that reads it. Everything in the "state" column needs a logging path; today none of them has one beyond "keep a training log."</p>
+
+  <div class="tbl">
+    <table>
+      <thead><tr><th>State the rules depend on</th><th>Rule that reads it</th><th>Where</th></tr></thead>
+      <tbody>
+        <tr class="sub"><td colspan="3">Joint health</td></tr>
+        <tr><td>Any new ache: <strong>location, side, joint-vs-muscle, start date</strong>, and whether it is still there two days later</td><td>The 48-hour override. Wrist-prehab-first-to-drop. Friday pike fallback after Wednesday tenderness. Splits, pistol and bridge joint-pain rules. Wednesday drop order for a sore wrist. Retest-week skipped tests. Block 2 PAILs/RAILs gate (zero hip/knee events in weeks 4–11). Recurring ache across two blocks.</td><td class="cite">Base §01 §07 §08 §09 · Block 1 §01 §07 §11 · Mobility §01 §03 §04 §06</td></tr>
+        <tr class="sub"><td colspan="3">Sleep</td></tr>
+        <tr><td><strong>Hours slept</strong> per night</td><td>"A week averaging under 7 hours means no new tier is tested that week." Applies to all five ladders.</td><td class="cite">Base §05 §08 · Block 1 wk 2, §02 · Mobility §07</td></tr>
+        <tr class="sub"><td colspan="3">Sessions</td></tr>
+        <tr><td>Which of the five sessions <strong>happened, was cut short, or was skipped</strong>, and why</td><td>The four-slot rule (drop Friday, never Wednesday, never a pull day, do not cram). Short-session cut order (pistol and bridge lose sets first). Stall detection needs to know which sessions exist to compare.</td><td class="cite">Base §07 · Block 1 wk 5 · Mobility §01 §06</td></tr>
+        <tr class="sub"><td colspan="3">Loads</td></tr>
+        <tr><td>Per lift, per session: <strong>variant, load, reps on every working set</strong></td><td>Double progression (add reps; all sets at top of range → smallest increment, restart at bottom). Single-lift stall (squat: fifth set; others: hold and add reps; pistol to 2 sets before the squat is touched). Two-lift, two-session stall → deload now. Week-6 loads are what week 8 resumes at; week-11 loads are what Block 2 starts at. Week-12 top sets compared to weeks 1–2.</td><td class="cite">Base §07 §08 · Block 1 wk 5 6 8 10 11 §05 §11 · Mobility §06</td></tr>
+        <tr class="sub"><td colspan="3">Skills</td></tr>
+        <tr><td>Per ladder, per session: <strong>tier, sets, best hold or reps, clean or not</strong>, and what broke if not</td><td>Tier rule (3–4 × 8–12 clean or clean 30 s → advance; new tier failed two straight sessions → back one tier for a week). Pistol tiers 3–5 use 3 × 5. Pistol heel-lift = ankle gate failing in real time. Week-6 and week-12 pacing checkpoints.</td><td class="cite">Base §08 §09 · Block 1 §04 · Mobility §03 §04 §07</td></tr>
+        <tr><td>Splits: <strong>front split hand-support height each side</strong> (blocks / fingers / none); <strong>side split hip height</strong>; PAILs/RAILs effort used</td><td>"The single number that tracks splits all block." PAILs effort ceiling by week (≤ 50 % weeks 4–6, ≤ 70 % weeks 8–11, none in 7 and 12). FRC 24–36 h soreness signal stacks under the 48-hour rule.</td><td class="cite">Base §09 · Block 1 wk 1 §03 §07</td></tr>
+        <tr class="sub"><td colspan="3">Monthly and block-level</td></tr>
+        <tr><td>The <strong>eight training-responsive tape measurements</strong> (weeks 4, 8, 12), Navy body fat</td><td>Thigh falling while waist falls → quad and hamstring volume up before anything else. Arm flat on three consecutive tapes → two sets of curls on Thursday. Arm/calf/neck convergence point re-set at the new neck.</td><td class="cite">Base §07 §10 · Block 1 wk 4 8 12 §11</td></tr>
+        <tr><td><strong>Longevity battery</strong> (SRT, one-leg stance, toe reach, knee-to-wall), weeks 1 and 12</td><td>Knee-to-wall ≥ 10 cm is the pistol's ankle gate; below it the pistol stays at tier 1 and ankle CARs get extra reps. Anything going backwards at week 12 is a joint-health signal.</td><td class="cite">Block 1 wk 1 §05 · Mobility §03</td></tr>
+        <tr><td><strong>Strength benchmarks</strong> (strict dips, pull-ups, floor push-ups), week 2 of every block</td><td>Band placement on the Playthenics scale; target of one band up over two blocks.</td><td class="cite">Mobility §05</td></tr>
+        <tr><td><strong>Equipment arrival</strong> (barbell, plates, stands)</td><td>Move each lift one column left on the substitution ladder; re-find the bottom-of-range load; a new variation is a new double-progression run.</td><td class="cite">Base §06 · Block 1 wk 10</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="small">Body weight is deliberately absent: the base document says "no rule in this program keys off it." If you mention it, it is logged as a note and nothing fires.</p>
+</section>
+
+<!-- ============================================================ -->
+<section id="capture">
+  <h2><span class="num">03</span>The check-in: speech to fields</h2>
+  <p>A check-in is whatever you say into the phone, usually once after a session and sometimes once in the morning. One note can carry several facts ("slept six, floor press one-fifteen for nine eight eight eight, wrist's a bit tender") and each fact becomes its own entry. The parser is a vocabulary lookup, not a conversation: it recognises the words the documents use for joints, lifts, ladders and tiers, pulls out the numbers, and fills the fields below. Where a required field is missing it asks one question. It never guesses a side, a date or a tier.</p>
+
+  <h3>Aches and pain</h3>
+  <p>The most important field is the one the documents care most about and the one speech is loosest about: <strong>is this the joint or the muscle?</strong> The base says the stretch "belongs in the muscle belly, never in the knee, the inside of the hip joint, or the sitting bone tendon attachment"; Mobility says "hamstring, glute and quad fatigue is fine" and names, per skill, the exact spots that are not. So the vocabulary is built from those lists, and a sore muscle is logged but starts no clock.</p>
+  <div class="tbl">
+    <table>
+      <thead><tr><th>You say</th><th>Fields</th><th>Clock?</th></tr></thead>
+      <tbody>
+        <tr><td><em>"Right wrist got pinchy at the front on the planche lean, sharp when I lean onto it."</em></td><td><code>part: wrist-front · side: R · kind: joint · onset: today · during: planche lean · status: new</code></td><td><span class="tag heavy">starts 48 h</span></td></tr>
+        <tr><td><em>"Left knee, inside, has been sore since yesterday's pistols."</em></td><td><code>part: knee-inside · side: L · kind: joint · onset: yesterday · during: pistol · status: new</code></td><td><span class="tag heavy">starts 48 h</span></td></tr>
+        <tr><td><em>"Quads are wrecked from Tuesday."</em></td><td><code>part: quads · kind: muscle · onset: Tue · during: —</code></td><td><span class="tag light">no clock</span></td></tr>
+        <tr><td><em>"Something in my shoulder."</em></td><td>asks: <em>"Which side, and is it the front of the joint or the muscle?"</em></td><td><span class="tag none">pending</span></td></tr>
+        <tr><td><em>"Wrist's fine now."</em> (an open ache exists)</td><td><code>status: gone · closed: today</code></td><td><span class="tag light">clock closed</span></td></tr>
+        <tr><td><em>"Still there."</em> (asked at 48 h)</td><td><code>status: still · confirmed: today</code></td><td><span class="tag heavy">48 h event fires</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="small">Joint vocabulary, taken from the documents: wrist (front / extension), shoulder-front, elbow, neck, low back / base of spine, knee-front, knee-inside, ankle-front, inside-hip, sitting-bone. Muscle vocabulary: quads, hamstrings, glutes, calves, chest, lats, forearms, abs, hip flexors. Anything else is logged as <code>part: other</code> with your words kept, and treated as joint-type for the clock, because that is the conservative reading of Priority 1.</p>
+
+  <h3>Sleep</h3>
+  <div class="tbl">
+    <table>
+      <thead><tr><th>You say</th><th>Fields</th></tr></thead>
+      <tbody>
+        <tr><td><em>"Got like six hours."</em></td><td><code>night_of: last night · hours: 6.0</code></td></tr>
+        <tr><td><em>"Slept badly."</em></td><td>asks: <em>"Roughly how many hours?"</em> One number is all the rule needs.</td></tr>
+        <tr><td><em>"Seven and a half, finally."</em></td><td><code>night_of: last night · hours: 7.5</code></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3>Sessions</h3>
+  <div class="tbl">
+    <table>
+      <thead><tr><th>You say</th><th>Fields</th></tr></thead>
+      <tbody>
+        <tr><td><em>"Done, full session."</em> (on a Tuesday)</td><td><code>slot: Tue Lower+Pull A · status: done</code></td></tr>
+        <tr><td><em>"Skipping today, work ran late."</em> (Thursday)</td><td><code>slot: Thu Lower+Pull B · status: skipped · reason: work</code> → the four-slot rule is checked (Section 04, W1)</td></tr>
+        <tr><td><em>"Had to cut it, dropped the bridge and the splits."</em> (Wednesday)</td><td><code>slot: Wed Skill · status: partial · cut: [bridge, splits-intense]</code></td></tr>
+        <tr><td><em>"I'm out of town Thursday and Friday."</em></td><td><code>week_shape: slots 3 · lost: Thu, Fri</code> → four-slot rule, with the gap noted in Section 08</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3>Loaded lifts</h3>
+  <p>The base document's notation is the spec: load, then reps on every working set. The variant matters because a change of column on the substitution ladder is "a new double-progression run, not a continuation" (Block 1, week 10).</p>
+  <div class="tbl">
+    <table>
+      <thead><tr><th>You say</th><th>Fields</th></tr></thead>
+      <tbody>
+        <tr><td><em>"Floor press one-fifteen, nine eight eight eight."</em></td><td><code>lift: horizontal-push · variant: floor press · load: 115 lb · reps: [9,8,8,8]</code></td></tr>
+        <tr><td><em>"Pull-ups three sets of ten with the ten-pound plate."</em></td><td><code>lift: vertical-pull · variant: pull-up (overhand) · load: +10 lb · reps: [10,10,10]</code></td></tr>
+        <tr><td><em>"Zercher ninety-five for eight eight seven seven, last two were grindy."</em></td><td><code>lift: squat · variant: Zercher · load: 95 lb · reps: [8,8,7,7] · note: grindy</code> ("grindy" is kept as a note; the base's "last rep looks like the first" check is a video check, not a logged field)</td></tr>
+        <tr><td><em>"Deadlift felt good."</em></td><td>asks: <em>"Load and reps?"</em> Without them nothing can be compared.</td></tr>
+        <tr><td><em>"Bar came today."</em></td><td><code>equipment: barbell · status: landed · date</code> → column shift (Section 04, W5)</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3>Skill ladders</h3>
+  <p>Five ladders: planche, handstand push-up, front split, side split (both tracked by support height rather than tier), pistol squat, back bridge. The field that matters most for the tier rule is <strong>clean</strong>, defined in the base as "the last set looks like the first: locked elbows, no hip sag, no arching, no wrist pain."</p>
+  <div class="tbl">
+    <table>
+      <thead><tr><th>You say</th><th>Fields</th></tr></thead>
+      <tbody>
+        <tr><td><em>"Pike push-ups, four sets of ten, all clean."</em></td><td><code>ladder: hspu · tier: 1 · sets: 4 · reps: [10,10,10,10] · clean: yes</code> → tier pass criterion met (Section 04, P2)</td></tr>
+        <tr><td><em>"Tuck planche, got maybe eight seconds, hips dropped on the last two."</em></td><td><code>ladder: planche · tier: 2 · best_hold: 8 s · clean: no · broke: hips</code></td></tr>
+        <tr><td><em>"Bench pistols three by eight both legs, heel stayed down."</em></td><td><code>ladder: pistol · tier: 1 · sets: 3 · reps: 8 · side: both · clean: yes</code></td></tr>
+        <tr><td><em>"Low-box pistol, heel kept lifting on the left."</em></td><td><code>ladder: pistol · tier: 2 · side: L · clean: no · broke: heel</code> → ankle-gate real-time rule (Section 04, S6)</td></tr>
+        <tr><td><em>"Front split, fingers on the left, still blocks on the right. Side split hips about a hand off the floor."</em></td><td><code>front_L: fingers · front_R: blocks · side_hip: ~10 cm</code></td></tr>
+        <tr><td><em>"Went pretty hard on the PAILs today."</em></td><td>asks: <em>"Roughly what percent effort?"</em> then <code>pails_effort: n %</code> → ceiling check (Section 04, W7)</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3>Monthly and one-time measurements</h3>
+  <p>Tape (eight numbers, Friday of weeks 4, 8 and 12), the longevity battery (weeks 1 and 12) and the strength benchmarks (week 2) are better typed than spoken, but the parser accepts them spoken as "name, number" pairs and reads back the whole set before saving, because a mis-heard waist measurement corrupts three ratio reads.</p>
+
+  <h3>Anything else</h3>
+  <p>If no vocabulary matches, the note is saved verbatim as <code>type: note</code> and the reply is one line: <em>"Logged as a note, word for word. Nothing in the program keys off this, so no change proposed."</em> Section 06 says more about why that is the right behaviour.</p>
+</section>
+
+<!-- ============================================================ -->
+<section id="adjust">
+  <h2><span class="num">04</span>Adjustments the system may propose</h2>
+  <p>Every row below is a rule that already exists, written in the trigger form the documents use, with its source and the exact shape of what the system says. Replies are short, name the rule in plain words, propose one move, and end with <em>yes / no / something else</em>. Nothing is ever applied silently; "applied" here means you said yes and the log records that you did.</p>
+
+  <div class="callout ok">
+    <span class="label">Reply template, every time</span>
+    <p><code>Logged: [what was recorded].</code> · <code>Rule: [one plain sentence, with the document].</code> · <code>Proposal: [one bounded move].</code> · <code>Yes / no / something else?</code> Four lines maximum. No explanation of why the rule exists; that lives in the documents.</p>
+  </div>
+
+  <h3>A · Same-day joint rules (no 48-hour wait)</h3>
+  <p>These fire immediately because the documents say they do. None of them is the override; each is a specific, narrower rule that the base or Mobility placed in a particular session.</p>
+  <div class="tbl">
+    <table>
+      <thead><tr><th>ID</th><th>Trigger</th><th>Source</th><th>What it says</th></tr></thead>
+      <tbody>
+        <tr><td class="id">A1</td><td>An ache of <code>kind: joint</code> is logged with <code>part: wrist</code> (any status), and today or tomorrow is Tue or Thu</td><td class="cite">Base §07: "If a wrist ever aches, that prehab is the first thing to drop, before any main lift."</td><td><em>"Wrist is open in the log. Rule: wrist prehab is the first thing to drop. Proposal: skip the four wrist sets today, everything else as written."</em></td></tr>
+        <tr><td class="id">A2</td><td>An open wrist ache, and today is Wednesday</td><td class="cite">Mobility §06: "on Wednesday the drop order for a sore wrist is: bridge first, then (per the base) wrist prehab on Tue/Thu, before any main lift or the planche ladder is touched."</td><td><em>"Wrist still open. Rule: Wednesday drop order is bridge first. Proposal: no bridge today; planche and HSPU as planned unless the 48-hour clock says otherwise (see B2)."</em></td></tr>
+        <tr><td class="id">A3</td><td>Wednesday's session logged any shoulder or wrist ache (joint kind), and today is Friday</td><td class="cite">Base §07, Friday: "If Wednesday's session left any shoulder or wrist tenderness, do pike push-ups one tier down instead."</td><td><em>"Wednesday left [right wrist] tender. Rule: Friday's HSPU goes one tier down after Wednesday tenderness. Proposal: [pike push-ups, tier 1] instead of [elevated pike, tier 2] today, 4 sets."</em></td></tr>
+        <tr><td class="id">A4</td><td>Pain logged at knee-front, knee-inside, inside-hip or sitting-bone <strong>during splits, PAILs/RAILs</strong></td><td class="cite">Base §09: "Pain in any of those is a 48-hour-rule event." Block 1 §07: "…a 48-hour event that drops that position out for the week."</td><td><em>"[Inside left hip] during the side split. Rule: that is a 48-hour event and the position is out for the week. Proposal: no side split (intense or PAILs) through Friday; gentle front-split touch continues. Clock started today."</em></td></tr>
+        <tr><td class="id">A5</td><td>Pain logged at knee-front, knee-inside or ankle-front <strong>during the pistol</strong></td><td class="cite">Mobility §03: "Pain at the front of the knee, the inside of the knee, or the front of the ankle at the bottom position is a 48-hour event, not a mobility sensation to push through."</td><td><em>"[Right knee, front] at the bottom of the pistol. Rule: that is a 48-hour event. Proposal: pistol sets stop for today; clock started; I'll ask Thursday whether it's still there."</em></td></tr>
+        <tr><td class="id">A6</td><td>Pain logged at low back, neck, shoulder-front or wrist <strong>during the bridge</strong></td><td class="cite">Mobility §04 and §06: "Any neck, low-back, front-of-shoulder or wrist pain ends the set and starts the 48-hour clock."</td><td><em>"[Base of spine] in the incline bridge. Rule: that ends the set and starts the clock. Proposal: bridge done for today; I'll ask Friday."</em></td></tr>
+        <tr><td class="id">A7</td><td>Pistol logged with <code>broke: heel</code></td><td class="cite">Mobility §03: "If the heel lifts to reach depth, that is the ankle gate failing in real time: go back to the box tier that depth allows, do not force the heel."</td><td><em>"Heel lifted on the [left] at tier [2]. Rule: that's the ankle gate failing live. Proposal: next Tuesday, [left] leg at the box height the heel allows (tier 1), right leg stays at tier 2. Extra ankle CARs in the daily layer."</em></td></tr>
+        <tr><td class="id">A8</td><td>It is week 12 and an open wrist ache exists</td><td class="cite">Block 1 §01: "If the retest week lands on a sore wrist, the wrist tests are skipped and logged as skipped."</td><td><em>"Wrist open in retest week. Rule: wrist tests are skipped and logged as skipped. Proposal: today's [planche attempts / HSPU attempts / bench top set] logged as 'skipped, wrist'; everything else runs."</em></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3>B · The 48-hour clock</h3>
+  <div class="tbl">
+    <table>
+      <thead><tr><th>ID</th><th>Trigger</th><th>Source</th><th>What it says</th></tr></thead>
+      <tbody>
+        <tr><td class="id">B1</td><td>A new joint-kind ache is logged</td><td class="cite">Base §10: "any ache with its start date (the 48-hour rule needs the date)." Base §01: "lingers past 48 hours."</td><td><em>"Logged: [right wrist, front], started [today], during [planche lean]. Rule: 48 hours. No change today; I'll ask on [Wednesday] whether it's still there."</em> The system does nothing else at this point unless an A-row also applies.</td></tr>
+        <tr><td class="id">B2</td><td>48 hours after onset, the next check-in confirms <code>status: still</code></td><td class="cite">Base §01 / §08: "Any new ache that lingers past 48 hours drops that movement back one tier, or out of the session entirely, for that week. Overrides double progression, overrides the tier rule, overrides the deload calendar. No exceptions."</td><td><em>"[Right wrist] still there at 48 h. Rule: the override. The movement was [planche]. Proposal, pick one: (a) planche back one tier to [lean] this week, or (b) planche out this week. Everything else as written."</em> The document gives both options; the system never chooses between them.</td></tr>
+        <tr><td class="id">B3</td><td>48 hours after onset, the check-in says <code>status: gone</code></td><td class="cite">Same rule, not triggered.</td><td><em>"[Right wrist] gone. Clock closed, nothing changes. It stays in the log for the block-level checks (D3, D4)."</em></td></tr>
+        <tr><td class="id">B4</td><td>48 hours have passed and no check-in has mentioned the ache</td><td class="cite">Base §10 (the date is what the rule needs); the system cannot assume either way.</td><td><em>"Two days since the [right wrist] note. Still there, or gone?"</em> One question; no proposal until answered.</td></tr>
+        <tr><td class="id">B5</td><td>The movement in a B2 event is a <strong>loaded lift</strong>, not a ladder</td><td class="cite">Base §01: "back one tier, or out of the session entirely." No tier exists for a barbell lift.</td><td><em>"[Shoulder-front] still there; the movement was [overhead press]. Rule: one tier back or out for the week. 'One tier back' isn't defined for a loaded lift (Section 08, gap 5). Proposal: overhead press out this week. Something else?"</em></td></tr>
+        <tr><td class="id">B6</td><td>Soreness from PAILs/RAILs still present at 24–36 h (joint or muscle), before the 48-hour mark</td><td class="cite">Block 1 §07: "FRC practitioners treat soreness lasting past 24–36 hours as the signal to reduce PAILs/RAILs intensity or frequency. The base document's rule is stricter … The two rules stack; the stricter one wins at every point."</td><td><em>"[Front of hips] still sore 30 h after Wednesday's PAILs. Rule: the FRC 24–36 h signal says lower PAILs intensity or frequency; the 48-hour rule still applies on top. Proposal: Friday's PAILs at the low end of this week's ceiling ([≤ 50 %]) or PNF only. If it's a joint spot, see A4."</em></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3>P · Progression and stalls</h3>
+  <p>"Stalled" is the one word these rules depend on that the documents never define numerically. The definition used here is in Section 08, gap 1, and it is the most literal reading available: a session at the same load where total reps did not go up is a no-progress session; two in a row is a stall. Nothing fires on one.</p>
+  <div class="tbl">
+    <table>
+      <thead><tr><th>ID</th><th>Trigger</th><th>Source</th><th>What it says</th></tr></thead>
+      <tbody>
+        <tr><td class="id">P1</td><td>A lift's logged sets are all at the top of the range (12 for compounds, 20 for isolation/calves)</td><td class="cite">Base §08: "When every set hits the top of the range, add the smallest increment available (2.5 lb per side on the bar; one backpack plate for pull-ups) and start again at the bottom."</td><td><em>"[Floor press 115 × 12, 12, 12, 12]. Rule: every set at the top → smallest increment, restart at the bottom. Next [Monday]: [120] for 4 × 6–12, aiming for the bottom of the range."</em> This is a read-back of the rule, not a choice; the reply still ends with "something else?"</td></tr>
+        <tr><td class="id">P2</td><td>A ladder session meets its tier pass criterion (3–4 sets of 8–12 clean, or a clean 30 s hold; pistol tiers 3–5: 3 × 5 clean; splits: by support height, no tier)</td><td class="cite">Base §08: "Advance a tier only after 3–4 sets of 8–12 clean reps, or a clean 30-second hold, at the current tier." Mobility §03 for the pistol's 3 × 5.</td><td><em>"[Pike push-up: 4 × 10 clean]. Rule: that's the tier-1 pass. Proposal: next [Wednesday] start tier 2, [elevated pike]. Unless the sleep week (W3), the deload (W4) or an open ache (B2) says hold."</em></td></tr>
+        <tr><td class="id">P3</td><td>Two consecutive sessions at a <em>newly entered</em> tier log <code>clean: no</code> or fall short of the tier's rep/hold target</td><td class="cite">Base §08: "Falling short on a new tier for two straight sessions means go back one tier for a week, then retry."</td><td><em>"[Tuck planche]: two sessions short ([6 s, 8 s], hips dropping). Rule: two straight misses on a new tier → back one tier for a week, then retry. Proposal: next week planche at [lean], retry tuck the week after."</em></td></tr>
+        <tr><td class="id">P4</td><td>One lift stalled (two no-progress sessions), and that lift is the <strong>Tuesday squat</strong></td><td class="cite">Mobility §06: "If the Tuesday squat's double progression slows after the pistol is added, drop the pistol to 2 sets before touching anything else." Base §07: "when squat progress stalls, the first change is a fifth squat set, not a new exercise."</td><td><em>"[Zercher 95]: two sessions at [8, 8, 7, 7]. Rule: for the squat, pistol to 2 sets first, then a fifth squat set. Proposal: next Tuesday pistol 2 sets per leg instead of 3; if the squat is still flat the week after, add set 5."</em></td></tr>
+        <tr><td class="id">P5</td><td>One lift stalled, any other lift</td><td class="cite">Block 1 wk 10: "If a lift has stalled since week 8, the base document's first fix applies before anything else: for the squat, a fifth set; for other lifts, hold and keep adding reps."</td><td><em>"[Floor press 115]: two sessions at [9, 8, 8, 8]. Rule: one stalled lift → hold the load and keep adding reps; no deload on one lift. Proposal: nothing changes; I'm watching for a second lift."</em></td></tr>
+        <tr><td class="id">P6</td><td><strong>Two or more</strong> compound lifts each stalled for two sessions, in weeks 1–6</td><td class="cite">Base §08: "or immediately on a two-session stall on two or more lifts, take one week at about half volume." Block 1 wk 5: "here that means pulling week 7 forward to week 6, not adding a second deload."</td><td><em>"[Zercher] and [floor press] both stalled two sessions. Rule: two lifts, two sessions → deload immediately; in Block 1 that means pulling week 7 forward. Proposal: next week ([week 6, Dec 28]) becomes the deload, half the sets at this week's loads; week 7 becomes a loading week. Week 8 restarts at this week's loads instead of week 6's."</em></td></tr>
+        <tr><td class="id">P7</td><td>Two or more compound lifts each stalled for two sessions, in weeks 8–11</td><td class="cite">Base §08, same rule. Block 1 only spells out the week-5 case; in Loading B there is no scheduled deload left to pull forward, so the base rule applies as written.</td><td><em>"[Deadlift] and [chin-ups] both stalled two sessions. Rule: two lifts, two sessions → one half-volume week, immediately. Block 1 doesn't give a special case here, so that's next week. Note: it would sit right before the week-12 retest, which is already light. Proposal: half-volume week [11]; your call."</em></td></tr>
+        <tr><td class="id">P8</td><td>Equipment logged as landed (barbell, stands)</td><td class="cite">Block 1 wk 10: "move each lift one column left on the substitution ladder and re-find the bottom-of-range load for the new variation. A new exercise is a new double-progression run, not a continuation." Base §06 for the columns.</td><td><em>"Bar landed. Rule: each lift moves one column left and starts a new run at a bottom-of-range load. Proposal: from [Monday]: floor press replaces ring push-ups, OHP from the floor replaces pike press [etc. per column]; find a load for 6 clean with 3 in reserve. Stall counters reset for those lifts."</em></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3>W · Week shape, sleep, deload</h3>
+  <div class="tbl">
+    <table>
+      <thead><tr><th>ID</th><th>Trigger</th><th>Source</th><th>What it says</th></tr></thead>
+      <tbody>
+        <tr><td class="id">W1</td><td>It becomes known that only four of Mon–Fri can happen this week (a skip is logged, or a <code>week_shape</code> note), and the free choice of which day to lose is still open</td><td class="cite">Base §07: "Drop Friday (Push B) that week. Never drop Wednesday (it is the whole skill goal) and never drop a pull day… Do not try to cram Friday's work into another day." Block 1 wk 5 repeats it.</td><td><em>"Four slots this week. Rule: the day to lose is Friday Push B; never Wednesday, never Tuesday or Thursday; nothing gets moved into another day. Proposal: Friday off, Mon/Tue/Wed/Thu as written."</em></td></tr>
+        <tr><td class="id">W2</td><td>The lost day is <strong>already fixed</strong> and it is Wednesday or a pull day (Tue/Thu)</td><td class="cite">Same rule; the documents assume the choice is yours. They do not say what to do when the lost day is forced (Section 08, gap 4).</td><td><em>"[Thursday] is gone this week. Rule: never drop a pull day, and don't cram, but the documents don't cover a forced loss. Logged as a four-slot week with Thursday lost. No proposal; your call, and I'll note what you chose."</em></td></tr>
+        <tr><td class="id">W3</td><td>Trailing seven nights average under 7.0 h (at least five nights logged), and today is a day a tier could be tested (Tue pistol, Wed planche/HSPU/bridge, Fri HSPU)</td><td class="cite">Base §08: "If sleep is short for a week, treat it like a deload week for the skill ladders: hold the tier, do not test a new one." Block 1 wk 2: "a week averaging under 7 hours means no new tier is tested that week." Mobility §07 extends it to both new ladders.</td><td><em>"Sleep: [6.3 h] average over the last seven nights. Rule: under 7 → no new tier tested this week, any ladder. Proposal: [pistol] stays at tier [1] today even though last week passed; loads run double progression as normal."</em> The sleep rule gates ladders only; it says nothing about loads, so the system says nothing about loads.</td></tr>
+        <tr><td class="id">W4</td><td>Today falls in the deload week (week 7, or the week P6 moved it to)</td><td class="cite">Base §08 and Block 1 wk 7: "Everything at half the sets, same loads, same exercises… Ladders held. Current tier, half the sets, no testing… Splits: gentle daily touch only." Mobility §07: pistol 1–2 sets per leg, bridge 1 set.</td><td><em>"Deload week. Today: [Mon Push A] at half sets, [week-6 loads: floor press 120, OHP 75…]; planche primer 2 sets; splits gentle only. Stall counting is off this week."</em> Read-back only; no proposal needed.</td></tr>
+        <tr><td class="id">W5</td><td>First session of week 8 (or the week after a moved deload)</td><td class="cite">Block 1 wk 6: "Write down week-6 loads. Week 8 restarts at these exact loads and reps." Block 1 wk 8: "the right response is to add reps, not to jump weight."</td><td><em>"Week 8. Rule: resume at the week-6 loads and reps, add reps not weight. [Floor press 120 × 8, 8, 7, 7; Zercher 105 × 7, 7, 6, 6 …]."</em></td></tr>
+        <tr><td class="id">W6</td><td>A session is logged <code>partial</code> with time as the reason, before the cut is decided</td><td class="cite">Mobility §01 / §06: "if time runs short, these two skills lose their sets before any of the four original ladders or any loaded lift does."</td><td><em>"Short on time [Tuesday]. Rule: pistol loses its sets before any lift. Proposal: skip the pistol today, run the squat with a normal ramp-up, wrist prehab at the end as in the base."</em></td></tr>
+        <tr><td class="id">W7</td><td>PAILs/RAILs effort logged above the week's ceiling, or on a day/week where the schedule has none</td><td class="cite">Block 1 §07 table: weeks 1–3 none; 4–6 Wednesday only ≤ 50 %; 7 none; 8–11 Wed + Fri ≤ 70 %; 12 none. Block 2 full effort only after "zero 48-hour events in the hips or knees" in weeks 4–11.</td><td><em>"PAILs at [~90 %] in week [5]. Rule: the ceiling this week is 50 %, Wednesday only. Logged. Proposal: next Wednesday back under 50 %; the point in weeks 4–6 is the ramp and the switch, not depth."</em></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3>D · Monthly and block-level</h3>
+  <div class="tbl">
+    <table>
+      <thead><tr><th>ID</th><th>Trigger</th><th>Source</th><th>What it says</th></tr></thead>
+      <tbody>
+        <tr><td class="id">D1</td><td>A tape entry shows thigh down <em>and</em> waist down versus the previous tape</td><td class="cite">Base §10: "Thigh holding or rising. If it falls while the waist falls, quad and hamstring volume goes up before anything else changes (no skinny legs)."</td><td><em>"Tape: waist [92 → 90], thigh [59 → 58]. Rule: thigh falling with the waist → quad and hamstring volume up before anything else. Proposal: a fifth squat set on Tuesday and a fourth RDL set from next week."</em> The documents name "volume up" but not the exact sets; the proposal is the smallest step and is labelled as such.</td></tr>
+        <tr><td class="id">D2</td><td>Three consecutive tapes with the flexed upper arm unchanged</td><td class="cite">Base §07: "Add 2 sets of curls on Thu only if the arm stalls on the monthly tape for 3 months running."</td><td><em>"Arm: [33.0, 33.0, 33.0] on three tapes. Rule: three flat tapes → two sets of curls on Thursday. Proposal: add them from next Thursday."</em></td></tr>
+        <tr><td class="id">D3</td><td>Week 12 reached; count joint-kind aches at knee or inside-hip with onset in weeks 4–11</td><td class="cite">Block 1 §07 and §11: "PAILs/RAILs may go to full effort on Wednesday and Friday in Block 2 only if Block 1 produced zero hip or knee 48-hour events in weeks 4–11. Otherwise they stay at 70 % for another block."</td><td><em>"Block 1 hip/knee events in weeks 4–11: [1, left inside hip, Jan 20, confirmed at 48 h]. Rule: any such event → PAILs/RAILs stay at 70 % in Block 2."</em> or <em>"…: none. Rule met; Block 2 may run PAILs at full effort."</em></td></tr>
+        <tr><td class="id">D4</td><td>The same joint logs a confirmed 48-hour event in two consecutive blocks</td><td class="cite">Block 1 §11: "Only a Priority 1 event: a recurring ache in the same joint across two blocks despite the 48-hour rule. That is a signal to remove a movement, not to redesign the week."</td><td><em>"[Right wrist]: 48-hour events in Block 1 ([Jan 18]) and Block 2 ([Apr 6]), both on the planche line. Rule: a recurring ache across two blocks is a signal to remove a movement. This is a between-blocks decision, not a today one; flagging it for the Block 3 write-up."</em></td></tr>
+        <tr><td class="id">D5</td><td>Week-1 knee-to-wall below 10 cm on either side</td><td class="cite">Mobility §03: "Below 10 cm, the pistol stays at tier 1 regardless of strength, and ankle CARs get extra reps in the daily layer until it passes."</td><td><em>"Knee-to-wall: [left 8 cm, right 11 cm]. Rule: under 10 → pistol stays at tier 1 on that side, extra ankle CARs daily. Left leg: tier 1 until a retest clears 10."</em></td></tr>
+        <tr><td class="id">D6</td><td>Week-12 battery shows any test worse than week 1</td><td class="cite">Block 1 §05: "If anything went backwards … that is a joint-health signal worth more attention than any lift number."</td><td><em>"Battery: [one-leg stance, left: pass → fail]. Rule: anything backwards is a joint-health signal. No automatic change; flagged at the top of the Block 2 notes."</em></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="callout info">
+    <span class="label">What is deliberately not on this list</span>
+    <p><strong>A same-day exercise swap "from the substitution ladder" because of pain.</strong> The substitution ladder (Base §06) is indexed by equipment, not by injury: its columns are "barbell + rack," "barbell, no rack," "no barbell yet." The only pain-triggered moves the documents permit are the ones above: one tier back, out for the week, the Friday pike fallback, and the named drop orders. The ladder is used by P8 when equipment arrives, and nowhere else. Inventing a "sore shoulder → do ring push-ups instead" rule would be exactly the kind of training logic this page promised not to add.</p>
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<section id="examples">
+  <h2><span class="num">05</span>Three worked days</h2>
+  <p>Three realistic notes inside Block 1, one for each rule family, with the log entries and the replies exactly as they would be sent. All loads assume the barbell landed before week 3, so lifts are in the "barbell, no rack" column (Zercher squat, floor press). The numbers are plausible for a returning lifter and are made up; the rules and dates are the documents'.</p>
+
+  <!-- Example 1: sleep -->
+  <div class="ex">
+    <div class="dh"><h3>Sleep gate · Tuesday, December 15 (week 4)</h3><span class="when">morning, before the session</span><div class="joints"><span class="tag target">W3</span></div></div>
+    <p class="small">State going in: last Tuesday (Dec 8) the pistol logged <code>tier 1 · 3 × 8 both legs · clean</code>, so the tier-1 pass is met and tier 2 (low-box) was due to be tested today. Last Wednesday the HSPU logged <code>tier 1 · 4 × 10 clean</code>; tier 2 (elevated pike) was due tomorrow. Nights logged Dec 8–14: 7.5, 7, 6.5, 6, 5.5, 6, 5.5.</p>
+    <div class="say"><span class="who">Meciah</span>"Slept like five and a half again, that's the third bad night. Doing Tuesday in a minute. Pistols felt close to passing last week so I was going to try the low box."</div>
+    <div class="logged"><span class="who">Logged</span>sleep   night_of 2026-12-14  hours 5.5
+derived trailing-7 avg = (7.5+7+6.5+6+5.5+6+5.5)/7 = 6.29 h  → under 7, 7 of 7 nights logged
+derived pistol tier-1 pass met 2026-12-08 · hspu tier-1 pass met 2026-12-09
+note    "pistols felt close to passing" (verbatim)</div>
+    <div class="reply"><span class="who">Reply</span>Logged: 5.5 h last night. Seven-night average is 6.3 h.
+Rule: a week averaging under 7 hours means no new tier is tested that week, any ladder (base §08, Block 1 wk 2).
+Proposal: pistol stays at tier 1 today (bench, 3 × 8) even though you passed it; same for the HSPU tomorrow, pike not elevated pike. Loads run double progression as normal; the sleep rule only gates ladders.
+Yes / no / something else?</div>
+    <p class="small">What it did not say: nothing about going lighter, nothing about skipping, nothing about bedtime. The documents' sleep rule has exactly one consequence and the reply states exactly that one. If the average climbs back over 7.0 by next Tuesday, the tier tests simply come back, with no rule needed.</p>
+  </div>
+
+  <!-- Example 2: stall -->
+  <div class="ex">
+    <div class="dh"><h3>Two-lift stall · Tuesday, December 22 (week 5)</h3><span class="when">after the session</span><div class="joints"><span class="tag target">P6</span><span class="tag none">P4 queued</span></div></div>
+    <p class="small">State going in. Zercher squat at 95 lb: Dec 1 <code>7, 7, 6, 6</code>; Dec 8 <code>8, 8, 7, 7</code> (progress); Dec 15 <code>8, 8, 7, 7</code> (no progress, 1). Floor press at 115 lb: Nov 30 <code>8, 8, 7, 7</code>; Dec 7 <code>9, 8, 8, 8</code>; Dec 14 <code>9, 8, 8, 8</code> (no progress, 1); Dec 21 <code>9, 8, 8, 8</code> (no progress, 2 → stalled). Pistol is at 3 sets per leg.</p>
+    <div class="say"><span class="who">Meciah</span>"Zercher ninety-five, eight eight seven seven, same as last week. RDL one thirty-five for ten ten nine, pull-ups three by nine with the ten plate, ring rows three by twelve, calves done. Everything else felt fine."</div>
+    <div class="logged"><span class="who">Logged</span>session  2026-12-22  Tue Lower+Pull A  done
+lift  squat        Zercher      95 lb   [8,8,7,7]   total 30  prev 30  → no progress (2) → STALLED
+lift  hinge        RDL         135 lb   [10,10,9]   total 29  prev 27  → progress
+lift  vert-pull    pull-up    +10 lb    [9,9,9]     total 27  prev 25  → progress
+lift  horiz-pull   ring row    bw       [12,12,12]  → all sets at top of range → P1 next time
+derived stalled compounds: Zercher (Dec 15, Dec 22) · floor press (Dec 14, Dec 21) → 2 lifts, 2 sessions each
+derived block week 5 → Block 1 wk 5 rule applies</div>
+    <div class="reply"><span class="who">Reply</span>Logged: Zercher 95 × 8/8/7/7, RDL 135 × 10/10/9, pull-ups +10 × 9/9/9, ring rows 3 × 12.
+Rule: two lifts stalled two sessions each (Zercher, floor press) → deload immediately; in Block 1 that means pulling week 7 forward to week 6, not adding a second deload (base §08, Block 1 wk 5).
+Proposal: next week (Dec 28 – Jan 1) is the deload: half the sets, same loads. Week 7 (Jan 4–8) becomes a loading week. Week 8 restarts at this week's loads. Also: ring rows hit 12s across the board, so Thursday's rows add load.
+Yes / no / something else?</div>
+    <p class="small">What is queued, not said: the squat-specific first fixes (pistol to 2 sets, then a fifth squat set; P4) apply "if a lift has stalled since week 8" in Block 1's wording, i.e. after the deload has had its chance. The system notes them in the log and brings them up only if the Zercher is still flat two sessions after the deload. It does not stack three fixes into one reply.</p>
+  </div>
+
+  <!-- Example 3: ache -->
+  <div class="ex">
+    <div class="dh"><h3>Wrist ache, Monday to Friday · week 9, January 18–22</h3><span class="when">four check-ins</span><div class="joints"><span class="tag heavy">B1</span><span class="tag heavy">A1</span><span class="tag heavy">A2</span><span class="tag heavy">B2</span><span class="tag heavy">A3</span></div></div>
+    <p class="small">State going in: planche is at tier 2 (tuck) on Wednesdays, with the lean primer on Mondays. HSPU is at tier 2 (elevated pike). Bridge is at tier 4 (incline). Week 9 is Loading B, PAILs on Wed and Fri at ≤ 70 %.</p>
+
+    <h4>Monday, after Push A</h4>
+    <div class="say"><span class="who">Meciah</span>"Right wrist got pinchy on the planche lean primer. Front of the wrist, kind of sharp when I lean onto it. Fine on the press, fine on the dips. Floor press one twenty-five for eight seven seven seven, OHP eighty for nine eight eight."</div>
+    <div class="logged"><span class="who">Logged</span>ache   id a-0118  part wrist-front  side R  kind joint  onset 2026-01-18  during planche-lean  status new
+clock  a-0118 → ask on 2026-01-20
+lift   horiz-push  floor press  125 lb [8,7,7,7] · lift vert-push OHP 80 lb [9,8,8]
+session 2026-01-18 Mon Push A done</div>
+    <div class="reply"><span class="who">Reply</span>Logged: right wrist, front, started today, during the planche lean. Floor press 125 × 8/7/7/7, OHP 80 × 9/8/8.
+Rule: 48 hours. No change today; I'll ask Wednesday morning whether it's still there.
+One thing for tomorrow: wrist prehab is the first thing to drop when a wrist aches (base §07), so Tuesday's four wrist sets are off if it's still there in the morning.
+Yes / no / something else?</div>
+
+    <h4>Tuesday, morning</h4>
+    <div class="say"><span class="who">Meciah</span>"Wrist's still a bit there. Seven hours sleep."</div>
+    <div class="logged"><span class="who">Logged</span>ache   a-0118  status still  (26 h; clock not yet at 48)
+sleep  2026-01-18  7.0</div>
+    <div class="reply"><span class="who">Reply</span>Logged: wrist still there (26 h), 7.0 h sleep.
+Rule: wrist prehab first to drop (base §07). Proposal: no wrist curls or extensions today; pistol, squat and everything else as written.
+Still asking tomorrow for the 48-hour call.
+Yes / no / something else?</div>
+
+    <h4>Wednesday, morning (48 h)</h4>
+    <div class="say"><span class="who">Meciah</span>"Yeah it's still there. Not worse, not gone."</div>
+    <div class="logged"><span class="who">Logged</span>ache   a-0118  status still  confirmed 2026-01-20  → 48-HOUR EVENT  movement: planche
+derived today Wed Skill · open wrist → Mobility §06 drop order: bridge first
+derived Friday flag: Wednesday-tenderness → A3 check on 2026-01-22</div>
+    <div class="reply"><span class="who">Reply</span>Logged: right wrist confirmed at 48 h. The movement was the planche.
+Rule: the override. Planche goes back one tier or out for the week (base §01). Also, Wednesday's drop order for a sore wrist is bridge first (Mobility §06).
+Proposal, pick one for today: (a) planche at the lean, not the tuck, stopped at any wrist pain, or (b) no planche today. Either way: no bridge today; HSPU and splits as planned. Friday's HSPU will be pike one tier down if the wrist is still tender after today (base §07).
+(a) / (b) / something else?</div>
+
+    <h4>Friday, morning</h4>
+    <div class="say"><span class="who">Meciah</span>"Did the lean Wednesday, it was okay. Wrist is maybe eighty percent. Slept six and a half."</div>
+    <div class="logged"><span class="who">Logged</span>ache   a-0118  status still (improving, "80 %")
+sleep  2026-01-21  6.5   trailing-7 avg 6.9 → under 7 (W3 active today)
+derived A3: Wednesday left wrist tenderness → Friday HSPU one tier down</div>
+    <div class="reply"><span class="who">Reply</span>Logged: wrist still present, improving. 6.5 h; seven-night average 6.9.
+Rule: Wednesday left the wrist tender → Friday's HSPU is pike push-ups one tier down (base §07). And the sleep average is under 7, so no new tier tested today anyway (base §08).
+Proposal: pike push-ups (tier 1) × 4 sets instead of elevated pike; close-grip floor press and the rest as written. If the wrist is clear by Monday, the planche primer comes back at the lean; the week's drop ends Sunday.
+Yes / no / something else?</div>
+    <p class="small">What the system did across the week: logged one ache once, asked about it three times, and proposed four moves, each quoting a different rule that already existed. It never said what the wrist "probably" was, never suggested ice, rest or a doctor, and never changed Tuesday's or Thursday's main lifts, because no rule touched them. Whether the drop carries into week 10's Monday primer is a question the documents do not settle (Section 08, gap 3), so the reply states the week boundary the documents do give and leaves Monday to him.</p>
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<section id="not">
+  <h2><span class="num">06</span>What this does not do yet</h2>
+  <p>This is a logging and rule-lookup layer. It has a vocabulary, a log and the three documents. It does not have a model of your body, your week outside the gym, or your goals beyond the three the base document ranks. Being specific about that boundary is what keeps it trustworthy.</p>
+  <ul>
+    <li><strong>It does not diagnose.</strong> "Pinchy," "sharp," "tight" are stored as your words. The only classification it makes is joint-location versus muscle, because the documents make exactly that distinction and no finer one.</li>
+    <li><strong>It does not invent a fix.</strong> If a situation has no rule (Section 08), it says so and logs your decision. It will not reach for "generally sensible" training advice, because that is the thing the documents were written to replace.</li>
+    <li><strong>It does not apply anything.</strong> Every proposal waits for a yes. A "yes" is itself a log entry, so the record shows what the plan was and what you actually did.</li>
+    <li><strong>It does not plan around unknowns.</strong> It does not reshuffle the week on a guess that Thursday might be busy. It acts when a skip or a week-shape note is logged, not before.</li>
+    <li><strong>It does not coach the lift.</strong> "Last rep looks like the first" is a video check; Block 1 week 2's technique bank is the mechanism for that. "Grindy" is logged as a note, not scored.</li>
+    <li><strong>It does not touch nutrition, body weight, mood or schedule.</strong> Body weight is explicitly keyed to nothing in the base. Everything else is out of scope and is logged as a note if mentioned.</li>
+    <li><strong>It does not fire on a single data point</strong> except where the documents do: a joint-kind ache starts a clock (one point), a tier pass is one session (one point), but stalls need two sessions and the sleep week needs seven nights.</li>
+    <li><strong>It does not run multi-week analysis</strong> beyond the specific comparisons named in the documents: week 12 versus weeks 1–2, three consecutive tapes, two consecutive blocks.</li>
+  </ul>
+  <div class="callout">
+    <span class="label">When a note matches nothing</span>
+    <p>The note is saved verbatim with its date, and the reply is: <em>"Logged as a note, word for word. Nothing in the program keys off this, so no change proposed."</em> If the note is <em>partly</em> recognised (a body part with no side, a lift with no numbers), the reply is one question, and the entry sits as pending until it is answered. Never two questions, never a guess. If you do not answer, it stays a note.</p>
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<section id="model">
+  <h2><span class="num">07</span>The minimal log</h2>
+  <p>One append-only file of dated entries is enough. Every quantity the rules need (the 48-hour clock, the stall counter, the sleep average, the week's sessions, the current tier, the week-6 loads) can be recomputed from the log plus two constants: the Block 1 start date (2026-11-23) and the deload week (7, or wherever P6 moved it). Nothing needs a second table.</p>
+
+  <h3>Entry types</h3>
+  <pre class="schema">{ "t": "ache",    "date", "id", "part", "side", "kind": "joint|muscle|other",
+                  "onset", "during", "status": "new|still|gone", "text" }
+{ "t": "sleep",   "date", "night_of", "hours" }
+{ "t": "session", "date", "slot": "MonA|TueA|Wed|ThuB|FriB",
+                  "status": "done|partial|skipped", "cut": [], "reason" }
+{ "t": "lift",    "date", "lift", "variant", "load_lb", "reps": [], "note" }
+{ "t": "skill",   "date", "ladder": "planche|hspu|pistol|bridge", "tier", "side",
+                  "sets", "reps": [] | "best_hold_s", "clean": true|false, "broke": [] }
+{ "t": "split",   "date", "front_L", "front_R": "blocks|fingers|none",
+                  "side_hip_cm", "pails_pct" }
+{ "t": "measure", "date", "kind": "tape|battery|benchmark", "values": {} }
+{ "t": "equip",   "date", "item", "status": "landed" }
+{ "t": "week",    "date", "slots", "lost": [] }
+{ "t": "decision","date", "proposal_id", "answer": "yes|no|other", "text" }
+{ "t": "note",    "date", "text" }</pre>
+  <p class="small">Everything is in the units the documents use: pounds on the bar (the base's increments are in lb), centimetres on the tape, hours of sleep, seconds of hold. "During" and "variant" use the documents' own exercise names so a future reader can grep the log against the program.</p>
+
+  <h3>The three clocks, derived</h3>
+  <div class="tbl">
+    <table>
+      <thead><tr><th>Derived quantity</th><th>Computed from</th><th>Feeds</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Open aches</strong> and their age</td><td>Latest <code>ache</code> entry per <code>id</code>; age = now − <code>onset</code>. Open until a <code>status: gone</code>. "Confirmed" when a <code>still</code> is logged at ≥ 48 h.</td><td>A1–A8, B1–B6, D3, D4</td></tr>
+        <tr><td><strong>Stall counter</strong> per lift</td><td>Consecutive <code>lift</code> entries for the same lift at the same load and variant. No-progress if total reps ≤ previous total. Reset on a load change, a variant change (P8), or a deload week. Week 8's first session is compared to week 6, not week 7.</td><td>P4–P7</td></tr>
+        <tr><td><strong>Trailing sleep average</strong></td><td>Mean of the last seven <code>night_of</code> values ending last night; requires five or more logged, else "not enough nights."</td><td>W3</td></tr>
+        <tr><td><strong>Block week and mode</strong></td><td>Days since 2026-11-23 ÷ 7, plus 1. Mode: placement (1–2), loading (3–6, 8–11), deload (7 or as moved), retest (12).</td><td>P6/P7 split, W4, W5, W7, D3, A8</td></tr>
+        <tr><td><strong>Week shape</strong></td><td>This Mon–Fri's <code>session</code> entries plus any <code>week</code> note.</td><td>W1, W2</td></tr>
+        <tr><td><strong>Current tier</strong> per ladder, and misses at that tier</td><td>Last <code>skill</code> entry per ladder (per side for the pistol); consecutive <code>clean: false</code> or short-of-target sessions since the tier was entered.</td><td>P2, P3, A7, W3</td></tr>
+        <tr><td><strong>Snapshot loads</strong></td><td>Last <code>lift</code> entry per lift inside week 6 and week 11 (or the week before a moved deload).</td><td>W4, W5, Block 2 start</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p>Concretely: a JSONL file at something like <code>~/Projects/recorder-pipeline/training/log.jsonl</code>, one small script that appends and one that evaluates the rule table against the derived state. The Telegram bot already exists and already receives voice; whisper already produces text. The two scripts are the whole build.</p>
+</section>
+
+<!-- ============================================================ -->
+<section id="gaps">
+  <h2><span class="num">08</span>Gaps the documents leave open</h2>
+  <p>The self-check for this page was: does every adjustment trace to a quotable rule? Everything in Section 04 does. But making the rules computable exposed six places where the documents use a word without defining it, or state a rule without covering a case the log will certainly produce. These are listed here rather than quietly resolved, because resolving them would be writing training rules, and the documents are closed. Where this page has to pick a reading to function at all, it says which and why; the reading is the system's default, not the program's law, and a one-line amendment to the base would settle each.</p>
+  <ol>
+    <li><strong>"Stalled" is never defined.</strong> The base says "a two-session stall on two or more lifts"; Block 1 says "if two lifts have stalled for two sessions each." Neither says what a stalled session is under double progression. <em>Reading used:</em> a session at the same load where total working-set reps did not exceed the previous session's. Two consecutive such sessions is a stall. This is the most literal reading of "add reps session to session" failing. A looser reading (no set added a rep) or a stricter one (reps fell) would both be defensible; the base would need one sentence to pick.</li>
+    <li><strong>Which seven nights make a "sleep week."</strong> "A week averaging under 7 hours" could be Mon–Sun of the training week, which is unknowable on a Wednesday, or the trailing seven nights. <em>Reading used:</em> trailing seven nights ending last night, so the rule can be evaluated on the morning of a tier test. Fewer than five logged nights: the system says it cannot evaluate and tests nothing new, which is the Priority 1 default.</li>
+    <li><strong>A 48-hour event that matures late in the week.</strong> "For that week" is clear when the clock confirms on a Wednesday. When an ache starts Thursday and is confirmed Saturday, "that week" is already over, and the documents do not say whether the drop carries into Monday. <em>Reading used:</em> none. The system states the Sunday boundary the documents give and asks.</li>
+    <li><strong>A forced loss of Wednesday or a pull day.</strong> The four-slot rule says which day to drop when you choose; it says nothing about a week where Thursday is simply gone. "Do not cram" rules out moving it. <em>Reading used:</em> none. The system logs the lost day and asks; W2 is the honest reply.</li>
+    <li><strong>"One tier back" for a loaded lift.</strong> The override offers "one tier, or out of the session." Barbell lifts have no tiers. Moving one column right on the substitution ladder, or reducing load, are both readings; neither is in the text. <em>Reading used:</em> propose "out for the week" as the only option the text unambiguously gives, and say so (B5).</li>
+    <li><strong>Which lifts count toward "two or more lifts."</strong> Isolation work and calves also run double progression. <em>Reading used:</em> the base §08 compound list (bench/floor press, overhead press, squat, deadlift, RDL, rows, weighted pull-ups and chin-ups), because that is the sentence in which the deload rule appears. Calves and lateral raises stall without consequence.</li>
+  </ol>
+  <p>Two smaller notes from the same check. The reply for D1 (thigh falling with the waist) names a fifth squat set and a fourth RDL set; the base says only "volume goes up," so the specific sets are the system's smallest-step suggestion and are labelled that way in the reply. And P4's ordering (pistol to 2 sets, then a fifth squat set) joins a Mobility sentence to a base sentence that were written separately; both are quoted, but the sequence between them is this page's reading.</p>
+</section>
+
+<!-- ============================================================ -->
+<section id="sources">
+  <h2><span class="num">09</span>Sources</h2>
+  <ul class="src">
+    <li><a href="https://meciahblacknoll.github.io/training-8dv7/">Bedroom Training Program v2</a> (2026-11-21). Quoted: §01 the override; §05 sleep as a training input; §06 the substitution ladder; §07 the week, wrist-prehab-first-to-drop, the Friday pike fallback, the four-slot rule, the quad "fifth set" note, the Thursday curls rule; §08 double progression, the tier rule, the deload rule, the sleep rule, the override restated; §09 the splits joint rule; §10 the weekly log sentence and the monthly tape reads.</li>
+    <li><a href="https://meciahblacknoll.github.io/training-8dv7/block1/">Training Block One</a> (2026-11-21). Quoted: §01 the retest-week sore-wrist clause; §02 the phase table; §03 weeks 1, 2, 5, 6, 7, 8, 10, 11 and 12; §04 the pacing table; §05 the retest protocol and battery; §07 the PAILs/RAILs schedule and the stacked FRC/base safety rule; §11 the Block 2 PAILs gate and the recurring-ache rule.</li>
+    <li><a href="https://meciahblacknoll.github.io/training-8dv7/mobility/">Mobility Skill Lines</a> (2026-11-21). Quoted: §01 the cut-order under Priority 2 and the override for each skill; §03 the ankle gate, pistol tiers and the pistol joint rule; §04 the bridge joint rule; §05 the benchmark test; §06 the Wednesday wrist drop order, the pistol-to-2-sets rule, the four-slot restatement; §07 the sleep rule applied to both ladders.</li>
+    <li>The ChatGPT conversation that originated the idea (shared transcript, read in full): "I scraped my knee this morning and it can actually make me an adjustment that is not, you know, wild or crazy… based on whether or not it will actually slow down my goals… you stay the one in charge, while the system quietly keeps the context in the background."</li>
+    <li>The prior research pass settling the capture route (phone voice memo → existing Telegram bot → local whisper pipeline at <code>~/Projects/recorder-pipeline</code>) is relied on and not repeated.</li>
+  </ul>
+</section>
+
+<footer>
+  Daily Check-in Layer · companion to Bedroom Training Program v2, Training Block One and Mobility Skill Lines. Adds a logging vocabulary, a rule-lookup table with citations, three worked days, a minimal log format and a list of the gaps the documents leave open. Changes nothing in any of the three; where they disagree with this page, they are right.
+</footer>
+
+</div>
+</body>
+</html>
