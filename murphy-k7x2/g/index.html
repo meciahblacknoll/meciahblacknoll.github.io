@@ -52,9 +52,9 @@ input[type=range]{width:min(260px,60vw);accent-color:var(--accent)}
   <div class="group"><span class="lbl">Show</span>
     <button id="t-decor" class="on">Decor</button><button id="t-wall">Entry wall</button><button id="t-grid">Grid</button><button id="t-fan" class="on">Fan</button><button id="t-night">Night</button></div>
   <div class="group"><span class="lbl">Rack</span>
-    <button id="t-rack" class="on">Show</button><button id="t-rackout">Fold out</button><button id="v-rack">Look at it</button></div>
+    <button id="t-rack" class="on">Show</button><button id="t-rackout">Fold out</button><button id="t-cable">Cable</button><button id="v-rack">Look at it</button></div>
 </div>
-<p class="facts">Rev G tray: your queen sits inside the 63.5 × 83.5 in box on 2x6 sleepers and 1x6 slats, with 3 in of rail standing proud as a rim; one 7/16 OSB bottom sheet is both floor and face. Two 12 V linear actuators lift it. Bed down reaches <b>102.5 in</b> from the rear wall and leaves <b>51.5 in</b> to the entry wall. Standing it is <b>86 in</b> tall and <b>25 in</b> deep. The swing's highest point (86 in) is 21 in from the rear wall; under the fan it passes 18 in below the light glass (86 in) and 12 in below the 20 in blade tips. No headboard; the rails are the rim. Door and window positions are Meciah's tape measurements of 15 Nov 2026; the window's height is still assumed. <b>Squat rack:</b> a gate-style fold-flat rack on the right wall between the closet door and the window: two 4x4 posts on 21 in 2x6 arms that swing on 1/2 in hinge bolts from two 2x6 stringers lagged to the studs. Folded it is 5 in off the wall; out, the bar sits 28 in off the wall and 102 in from the rear wall, clear of the standing bed and the window. Use it with the bed up only.</p>
+<p class="facts">Rev G tray: your queen sits inside the 63.5 × 83.5 in box on 2x6 sleepers and 1x6 slats, with 3 in of rail standing proud as a rim; one 7/16 OSB bottom sheet is both floor and face. Two 12 V linear actuators lift it. Bed down reaches <b>102.5 in</b> from the rear wall and leaves <b>51.5 in</b> to the entry wall. Standing it is <b>86 in</b> tall and <b>25 in</b> deep. The swing's highest point (86 in) is 21 in from the rear wall; under the fan it passes 18 in below the light glass (86 in) and 12 in below the 20 in blade tips. No headboard; the rails are the rim. Door and window positions are Meciah's tape measurements of 15 Nov 2026; the window's height is still assumed. <b>Squat rack:</b> a gate-style fold-flat rack on the right wall between the closet door and the window: two 4x4 posts on 21 in 2x6 arms that swing on 1/2 in hinge bolts from two 2x6 stringers lagged to the studs. Folded it is 5 in off the wall; out, the bar sits 28 in off the wall and 102 in from the rear wall, clear of the standing bed and the window. Use it with the bed up only. <b>Cable:</b> one DIY setup is drawn, a lat pulldown: pulley 1 under the pull-up pipe, pulley 2 on a bracket off the top stringer, the loading pin and plates hanging against the wall, your flat bench inside the rack with knees under the safety. Move pulley 2 to the bottom arm pin for a low row.</p>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 <script>
@@ -203,10 +203,24 @@ const gates=rkY.map((hy,i)=>{ const g=new THREE.Group(); g.position.copy(P(R.X-3
   g.userData.dir = i===0? -1 : 1; return g; });
 const rackLoad=new THREE.Group(); rack.add(rackLoad);
 const rkPostX=R.X-3.25-rkArm-rkPost, barX=rkPostX-1.5+0.6, barZ=54.6;
-{ const bar=new THREE.Mesh(new THREE.CylinderGeometry(0.55,0.55,84,14),M.steel); bar.rotation.x=Math.PI/2; bar.position.copy(P(barX,79,barZ)); rackLoad.add(bar);
-  for(const y of [40.5,42.2,115.8,117.5]){ const pl=new THREE.Mesh(new THREE.CylinderGeometry(8.85,8.85,1.4,28),M.black); pl.rotation.x=Math.PI/2; pl.position.copy(P(barX,y,barZ)); pl.castShadow=true; rackLoad.add(pl); }   /* four 45s */
+const barParts=[];
+{ const bar=new THREE.Mesh(new THREE.CylinderGeometry(0.55,0.55,84,14),M.steel); bar.rotation.x=Math.PI/2; bar.position.copy(P(barX,79,barZ)); rackLoad.add(bar); barParts.push(bar);
+  for(const y of [40.5,42.2,115.8,117.5]){ const pl=new THREE.Mesh(new THREE.CylinderGeometry(8.85,8.85,1.4,28),M.black); pl.rotation.x=Math.PI/2; pl.position.copy(P(barX,y,barZ)); pl.castShadow=true; rackLoad.add(pl); barParts.push(pl); }   /* four 45s */
   box(rackLoad, rkPostX-1.5, rkY[0]+rkPost/2, 34, 1.5,rkY[1]-rkY[0]-rkPost,5.5, M.pine);   /* 2x6 safety on edge, resting on pins at 34 in */
-  const pu=new THREE.Mesh(new THREE.CylinderGeometry(0.67,0.67,rkY[1]-rkY[0]+6,12),M.steel); pu.rotation.x=Math.PI/2; pu.position.copy(P(rkPostX+rkPost/2,79,82.5)); rackLoad.add(pu); }   /* 1 in pipe pull-up bar dropped into the post tops */
+  const pu=new THREE.Mesh(new THREE.CylinderGeometry(0.67,0.67,rkY[1]-rkY[0]+6,12),M.steel); pu.rotation.x=Math.PI/2; pu.position.copy(P(rkPostX+rkPost/2,79,82.5)); rackLoad.add(pu); }   /* 1-1/4 in pipe pull-up bar dropped into the post tops */
+/* DIY cable, one setup shown: lat pulldown. Pulley 1 hangs under the pull-up pipe, pulley 2 on a 6 in bracket off the top stringer; the plates hang against the wall, the lifter sits on the flat bench inside the rack with knees under the safety. */
+const cable=new THREE.Group(); rackLoad.add(cable); cable.visible=false;
+{ const cy=79, pipeX=rkPostX+rkPost/2, p1z=79.6, p2x=118, p2z=79.6, hx=pipeX-2.2, hz=56, pinX=p2x+1.8;
+  const pulley=(x,z)=>{ const p=new THREE.Mesh(new THREE.CylinderGeometry(1.8,1.8,1,24),M.black); p.rotation.x=Math.PI/2; p.position.copy(P(x,cy,z)); cable.add(p); };
+  pulley(pipeX,p1z); box(cable, pipeX-0.5,cy-0.6,p1z,1,1.2,2.9, M.steel,false);                      /* pulley 1 and its hanger on the pipe */
+  pulley(p2x,p2z); box(cable, p2x,cy-0.6,p2z+1.6, R.X-3.25-p2x,1.2,1, M.steel,false);               /* pulley 2 on a bracket from the top stringer */
+  const pts=[P(hx,cy,hz),P(pipeX-1.8,cy,p1z),P(pipeX,cy,p1z+1.8),P(p2x,cy,p2z+1.8),P(pinX,cy,p2z),P(pinX,cy,42)];
+  cable.add(new THREE.Line(new THREE.BufferGeometry().setFromPoints(pts), M.rope));                   /* 1/4 in rope */
+  const lat=new THREE.Mesh(new THREE.CylinderGeometry(0.6,0.6,36,12),M.steel); lat.rotation.x=Math.PI/2; lat.position.copy(P(hx,cy,hz)); cable.add(lat);   /* lat bar */
+  const pin=new THREE.Mesh(new THREE.CylinderGeometry(0.5,0.5,14,10),M.steel); pin.position.copy(P(pinX,cy,35)); cable.add(pin);                            /* loading pin */
+  for(const z of [30.5,32.2]){ const pl=new THREE.Mesh(new THREE.CylinderGeometry(5.5,5.5,1.4,24),M.black); pl.position.copy(P(pinX,cy,z)); pl.castShadow=true; cable.add(pl); }   /* two 25s */
+  box(cable, 60,cy-6,15.5, 48,12,2.2, M.black); [62,104].forEach(x=>box(cable, x,cy-5,0, 2,10,15.5, M.steel));   /* his flat bench, slid in under the safety */ }
+function setCable(on){ cable.visible=on; barParts.forEach(m=>m.visible=!on); }
 let foldF=0, foldT=0;
 function setFold(f){ foldF=f; gates.forEach(g=>g.rotation.y=g.userData.dir*(1-f)*Math.PI/2); rackLoad.visible=f>0.98; }
 setFold(0);
@@ -268,6 +282,7 @@ toggle('t-wall', on=>entryWall.visible=on); entryWall.visible=false;
 toggle('t-grid', on=>grid.visible=on);
 toggle('t-rack', on=>rack.visible=on);
 toggle('t-rackout', on=>foldT=on?1:0);
+toggle('t-cable', on=>setCable(on));
 toggle('t-fan', on=>{fan.visible=on; fanLight.visible=on;});
 toggle('t-night', on=>{ sun.intensity=on?0.08:1.1; hemi.intensity=on?0.12:0.55; warm.intensity=on?1.6:0; read.forEach(l=>l.intensity=on?0.9:0); fanLight.intensity=on?0.9:0.35; renderer.toneMappingExposure=on?1.25:1.05; scene.background.set(on?0x2a2623:0xcfc6b8); });
 ['pro','corner','bed','plan','rack'].forEach(k=>document.getElementById('v-'+k).addEventListener('click',()=>setView(k)));
