@@ -54,7 +54,7 @@ input[type=range]{width:min(260px,60vw);accent-color:var(--accent)}
   <div class="group"><span class="lbl">Rack</span>
     <button id="t-rack" class="on">Show</button><button id="t-rackout">Fold out</button><button id="t-cable">Cable</button><button id="b-fsquat">Fail a squat</button><button id="b-fbench">Fail a bench</button><button id="v-rack">Look at it</button></div>
 </div>
-<p class="facts">Rev G tray: your queen sits inside the 63.5 × 83.5 in box on 2x6 sleepers and 1x6 slats, with 3 in of rail standing proud as a rim; one 7/16 OSB bottom sheet is both floor and face. Two 12 V linear actuators lift it. Bed down reaches <b>102.5 in</b> from the rear wall and leaves <b>51.5 in</b> to the entry wall. Standing it is <b>86 in</b> tall and <b>25 in</b> deep. The swing's highest point (86 in) is 21 in from the rear wall; under the fan it passes 18 in below the light glass (86 in) and 12 in below the 20 in blade tips. No headboard; the rails are the rim. Door and window positions are Meciah's tape measurements of 15 Nov 2026; the window's height is still assumed. <b>Squat rack:</b> a gate-style fold-flat rack on the right wall between the closet door and the window: two 4x4 posts on 21 in 2x6 arms that swing on 1/2 in hinge bolts from two 2x6 stringers lagged to the studs. Folded it is 5 in off the wall; out, the bar sits 28 in off the wall and 102 in from the rear wall, clear of the standing bed and the window. Use it with the bed up only. <b>Cable:</b> one DIY setup is drawn, a lat pulldown: pulley 1 under the pull-up pipe, pulley 2 on a bracket off the top stringer, the loading pin and plates hanging against the wall, your flat bench inside the rack. In cable mode the safety drops to the 26 in pins and wears a length of pipe insulation: that is the knee hold-down, like the pad on a gym pulldown. The loading pin rests on the floor between sets so plates go on standing up. Move pulley 2 to the bottom arm pin for a low row. Blue comforter and blue blackout curtains added; the rack stringers stop at 104 in so the stacked curtain clears them. <b>What saves you:</b> spotter arms, not the plank. Each post carries a 2x6 arm bolted through two of its holes, with a 2x4 leg down to a 2x4 foot at the post base, so a dropped bar goes arm, leg, floor. Press "Fail a squat" or "Fail a bench" to watch the bar come off the J-blocks, move out in front of the posts and land on the arms. <b>Storage, rack folded:</b> plates on a 14 in peg under the window, bar and pull-up pipe upright in the rear-right corner in a floor cup with a clip at 78 in, the plank on two hooks above the top stringer. The spotter arms, legs and feet fold with the posts.</p>
+<p class="facts">Rev G tray: your queen sits inside the 63.5 × 83.5 in box on 2x6 sleepers and 1x6 slats, with 3 in of rail standing proud as a rim; one 7/16 OSB bottom sheet is both floor and face. Two 12 V linear actuators lift it. Bed down reaches <b>102.5 in</b> from the rear wall and leaves <b>51.5 in</b> to the entry wall. Standing it is <b>86 in</b> tall and <b>25 in</b> deep. The swing's highest point (86 in) is 21 in from the rear wall; under the fan it passes 18 in below the light glass (86 in) and 12 in below the 20 in blade tips. No headboard; the rails are the rim. Door and window positions are Meciah's tape measurements of 15 Nov 2026; the window's height is still assumed. <b>Squat rack:</b> a gate-style fold-flat rack on the right wall between the closet door and the window: two 4x4 posts on 21 in 2x6 arms that swing on 1/2 in hinge bolts from two 2x6 stringers lagged to the studs. Folded it is 5 in off the wall; out, the bar sits 28 in off the wall and 102 in from the rear wall, clear of the standing bed and the window. Use it with the bed up only. <b>Cable:</b> one DIY setup is drawn, a lat pulldown: pulley 1 under the pull-up pipe, pulley 2 on a bracket off the top stringer, the loading pin and plates hanging against the wall, your flat bench inside the rack. In cable mode the safety drops to the 26 in pins and wears a length of pipe insulation: that is the knee hold-down, like the pad on a gym pulldown. The loading pin rests on the floor between sets so plates go on standing up. Move pulley 2 to the bottom arm pin for a low row. Blue comforter and blue blackout curtains added; the rack stringers stop at 104 in so the stacked curtain clears them. <b>What saves you:</b> spotter arms, not the plank. Each post carries a pair of 2x8 cheeks, one on each face, bolted through two of its holes with the bolts in double shear and projecting 24 in, plus a 2x4 leg from the arm tip to a foot at the post base, so a dropped bar goes arm, leg, floor. Gate locks are vertical drop pins top and bottom. Pull-up pipe is 1-1/2 in schedule 40, pinned in a 2 in notch. These are the fixes from the 23 Nov independent review. Press "Fail a squat" or "Fail a bench" to watch the bar come off the J-blocks, move out in front of the posts and land on the arms. <b>Storage, rack folded:</b> plates on a 14 in peg under the window, bar and pull-up pipe upright in the rear-right corner in a floor cup with a clip at 78 in, the plank on two hooks above the top stringer. The spotter arms, legs and feet fold with the posts.</p>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 <script>
@@ -194,33 +194,39 @@ const grid=new THREE.Group(); scene.add(grid); grid.visible=false;
 
 // ---------- fold-flat squat rack on the right wall (gate style: each post swings on a hinge line at the wall) ----------
 const rack=new THREE.Group(); scene.add(rack);
-const rkY=[55,103], rkArm=21, rkPost=3.5, rkStrY0=52, rkStrL=52;   /* stringers 52 to 104: the curtain stack starts at 105 */
+const rkY=[55,103], rkArm=19, rkPost=3.5, rkStrY0=52, rkStrL=52;   /* 19 in gate arms: folded posts sit at 74-77.5 and 80.5-84, 3 in apart (21 in arms overlapped by 1 in) */   /* stringers 52 to 104: the curtain stack starts at 105 */
 [76,3].forEach(z=>box(rack, R.X-1.5,rkStrY0,z, 1.5,rkStrL,5.5, M.pine));          // two 2x6 x 54 in stringers, lagged into every stud
-const gates=rkY.map((hy,i)=>{ const g=new THREE.Group(); g.position.copy(P(R.X-3.25,hy,0)); rack.add(g);   /* hinge pin 1-3/4 in off the stringer face so the folded post clears the stringer */
+const lockBlocks=[]; const gates=rkY.map((hy,i)=>{ const g=new THREE.Group(); g.position.copy(P(R.X-3.75,hy,0)); rack.add(g);   /* hinge pin 2-1/4 in off the stringer face: room for the arm's 2 in tail; folded post clears the stringer */
   const L=(x,y,z,dx,dy,dz,m)=>box(g, x,y,z, dx,dy,dz, m);                         /* local plan coords, hinge at the origin, the room is toward -x */
-  [76,3].forEach(z=>L(-rkArm,-0.75,z, rkArm,1.5,5.5, M.pine));                    /* 2x6 x 21 in arms, top and bottom */
+  [76,3].forEach(z=>L(-rkArm,-0.75,z, rkArm+2.25,1.5,5.5, M.pine));               /* 2x6 arms with a 2 in rounded tail past the hinge pin */
   L(-rkArm-rkPost,-rkPost/2,0, rkPost,rkPost,84, M.pine);                           /* 4x4 x 84 in post, standing on the floor */
   for(let z=18;z<=72;z+=3){ const h=new THREE.Mesh(new THREE.CylinderGeometry(0.55,0.55,rkPost+0.3,10),M.black); h.rotation.z=Math.PI/2; h.position.copy(P(-rkArm-rkPost/2,0,z)); g.add(h); }   /* 1-1/16 in pin holes every 3 in, 18 to 72 */
   g.userData.j=L(-rkArm-rkPost-1.5,-2.75,49, 1.5,5.5,8, M.walnut);                    /* 2x6 J-block hung on two pins; height set per lift */
-  [76,3].forEach(z=>{ const k=new THREE.Mesh(new THREE.CylinderGeometry(0.4,0.4,7.5,10),M.steel); k.position.copy(P(0,0,z+2.75)); g.add(k); L(0,-2,z-1, 1.75,0.25,7.5, M.steel); L(0,1.75,z-1, 1.75,0.25,7.5, M.steel); });   /* 1/2 in hinge bolt through two bed-frame angle plates */
-  g.userData.dir = i===0? -1 : 1; return g; });
+  [76,3].forEach(z=>{ const k=new THREE.Mesh(new THREE.CylinderGeometry(0.4,0.4,7.5,10),M.steel); k.position.copy(P(0,0,z+2.75)); g.add(k); L(0,-2,z-1, 2.25,0.25,7.5, M.steel); L(0,1.75,z-1, 2.25,0.25,7.5, M.steel); });   /* 1/2 in hinge bolt through two bed-frame angle plates */
+  g.userData.dir = i===0? -1 : 1;
+  [76,3].forEach(z=>{ const pin=new THREE.Mesh(new THREE.CylinderGeometry(0.3,0.3,9,10),M.steel); pin.position.copy(P(-6,0,z+2.75+1)); g.add(pin); });   /* 1/2 in drop pins through arm and stop block, gravity-held and visible */
+  [76,3].forEach(z=>box(rack, R.X-3.75-7.5, hy+(i===0?0.75:-2.25), z-1.5, 7.5,1.5,1.5, M.pine));   /* 2x4 stop blocks on the stringer face beside the arms' square position, drilled for the drop pins */
+  return g; });
 const rackLoad=new THREE.Group(); rack.add(rackLoad);
-const rkPostX=R.X-3.25-rkArm-rkPost, barX=rkPostX-1.5+0.6, barY=79;
+const rkPostX=R.X-3.75-rkArm-rkPost, barX=rkPostX-1.5+0.6, barY=79;
 const barGrp=new THREE.Group(); rackLoad.add(barGrp);
 { const bar=new THREE.Mesh(new THREE.CylinderGeometry(0.55,0.55,84,14),M.steel); bar.rotation.x=Math.PI/2; barGrp.add(bar);
   for(const dy of [-38.5,-36.8,36.8,38.5]){ const pl=new THREE.Mesh(new THREE.CylinderGeometry(8.85,8.85,1.4,28),M.black); pl.rotation.x=Math.PI/2; pl.position.set(0,0,-dy); pl.castShadow=true; barGrp.add(pl); } }   /* bar with four 45s */
 function placeBar(x,z){ barGrp.position.copy(P(x,barY,z)); }
 function setJ(jz){ gates.forEach(g=>{ g.userData.j.position.y=jz+4; }); }
 const safety=box(rackLoad, rkPostX-1.5, rkY[0]+rkPost/2, 26, 1.5,rkY[1]-rkY[0]-rkPost,5.5, M.pine); safety.visible=false;   /* the 2x6 cross plank is the cable knee pad only; it does not catch a bar lifted in front of the posts */
-const pu=new THREE.Mesh(new THREE.CylinderGeometry(0.67,0.67,rkY[1]-rkY[0]+6,12),M.steel); pu.rotation.x=Math.PI/2; pu.position.copy(P(rkPostX+rkPost/2,barY,82.5)); rackLoad.add(pu);   /* 1-1/4 in pipe pull-up bar */
+const pu=new THREE.Mesh(new THREE.CylinderGeometry(0.95,0.95,rkY[1]-rkY[0]+6,12),M.steel); pu.rotation.x=Math.PI/2; pu.position.copy(P(rkPostX+rkPost/2,barY,82.5)); rackLoad.add(pu);   /* 1-1/2 in sched 40 pipe (1.9 OD) in a 2 x 2 in notch, pinned */
 /* spotter arms: on each gate, a 2x6 x 23.5 in arm lapping the post's outside face, bolted through two post holes, a 2x4 leg from its tip to a 2x4 x 20 in foot bolted to the post base. A dropped bar goes arm, leg, foot, floor. */
-const spotters=gates.map((g,i)=>{ const side=i===0?-1:1, ay=side>0?1.75:-3.25, x0=-rkArm-rkPost-20;
-  const sp=new THREE.Group(); g.add(sp);
-  box(sp, x0,ay,0, 23.5,1.5,5.5, M.pine);
-  for(const z of [1.25,4.25]){ const p=new THREE.Mesh(new THREE.CylinderGeometry(0.3,0.3,7,10),M.steel); p.rotation.z=Math.PI/2; p.position.copy(P(-rkArm-rkPost/2,0,z)); sp.add(p); }   /* two 1/2 in bolts through arm and post */
-  const ly=side>0?ay-2:ay; const leg=box(g, x0,ly,0, 1.5,3.5,1, M.pine); const foot=box(g, x0,ly,0, 20,3.5,1.5, M.pine);   /* leg and foot kept inside the post's wall-side face so they clear the drywall when folded */
+const spotters=gates.map((g,i)=>{ const side=i===0?-1:1, ay=side>0?1.75:-3.25, x0=-rkArm-rkPost-24;
+  const sp=new THREE.Group(); g.add(sp); g.userData.sp=sp;
+  box(sp, x0,-3.25,0, 27.5,1.5,7.25, M.pine); box(sp, x0,1.75,0, 27.5,1.5,7.25, M.pine);   /* 2x8 cheeks on both faces of the post, 24 in projecting; bolts in double shear */
+  for(const z of [1.25,6]){ const p=new THREE.Mesh(new THREE.CylinderGeometry(0.3,0.3,8.5,10),M.steel); p.rotation.z=Math.PI/2; p.position.copy(P(-rkArm-rkPost/2,0,z)); sp.add(p); }   /* two 1/2 in bolts through both cheeks and the post, 4.75 in apart */
+  box(sp, x0,-1.75,-0.1, 1.5,3.5,7.45, M.pine);   /* the 2x4 leg's upper end, pinned between the cheek tips at whichever hole puts its foot on the floor */
+  box(g, -rkArm-rkPost-1.25,-3,-0.75, 6,6,0.75, M.ply);   /* 6 x 6 x 3/4 plywood pad under the post so the post, not the hinge, carries the bar */
+  const leg=box(g, x0,-1.75,0, 1.5,3.5,1, M.pine); const foot=box(g, x0,-1.75,0, 24,3.5,1.5, M.pine); g.userData.foot=foot;   /* 2x4 leg (one length, holes every 1.5 in) and a 2x4 foot pinned to the post base; both come off with the arms when folding */
   return {sp,leg}; });
 function setSpotters(h){ spotters.forEach(({sp,leg})=>{ sp.position.y=h; leg.scale.y=h; leg.position.y=h/2; }); }
+function showSpotters(on){ spotters.forEach(({sp,leg})=>{ sp.visible=on; leg.visible=on; }); gates.forEach(g=>g.userData.foot.visible=on); }
 /* the flat bench, slid in head-first for bench press and the cable */
 const bench=new THREE.Group(); rackLoad.add(bench); bench.visible=false;
 box(bench, 56,barY-6,15.5, 48,12,2.2, M.black); [58,100].forEach(x=>box(bench, x,barY-5,0, 2,10,15.5, M.steel));
@@ -244,18 +250,19 @@ const store=new THREE.Group(); rack.add(store);
   const sbar=new THREE.Mesh(new THREE.CylinderGeometry(0.55,0.55,84,14),M.steel); sbar.position.copy(P(R.X-5,R.Y-4,42)); store.add(sbar); store.userData.sbar=sbar;
   const spipe=new THREE.Mesh(new THREE.CylinderGeometry(0.67,0.67,54,12),M.steel); spipe.position.copy(P(R.X-9,R.Y-4,27)); store.add(spipe); store.userData.spipe=spipe;
   const cup=new THREE.Mesh(new THREE.CylinderGeometry(2.2,2.2,3,16),M.white); cup.position.copy(P(R.X-7,R.Y-4,1.5)); store.add(cup); box(store, R.X-12,R.Y-1.5,78, 10,1.5,3, M.steel,false);   /* floor cup and top clip */
-  store.userData.plank=box(store, R.X-3.2,rkY[0]-2,85, 1.5,rkY[1]-rkY[0]+4-1.5,5.5, M.pine); [rkY[0]+6,rkY[1]-6].forEach(y=>box(store, R.X-3.5,y,84, 3.5,1,1, M.steel,false)); }
+  store.userData.plank=box(store, R.X-3.2,rkY[0]-2,85, 1.5,rkY[1]-rkY[0]+4-1.5,5.5, M.pine); [rkY[0]+6,rkY[1]-6].forEach(y=>box(store, R.X-3.5,y,84, 3.5,1,1, M.steel,false));
+  const sarms=new THREE.Group(); store.add(sarms); store.userData.sarms=sarms; [[rkY[0]-1,0],[rkY[1]-27.5,1]].forEach(([y,k])=>{ box(sarms, R.X-3.2,y,92, 1.5,27.5,7.25, M.pine); box(sarms, R.X-4.9,y,92, 1.5,27.5,7.25, M.pine); }); [rkY[0]+4,rkY[1]-4].forEach(y=>box(store, R.X-5.5,y,91, 5.5,1,1, M.steel,false)); }   /* the two spotter-arm assemblies hang on a second pair of hooks above the plank when the rack is folded */
 function setCable(on){ cable.visible=on; safety.visible=on; store.userData.plank.visible=!on; barGrp.visible=!on; bench.visible=on||failMode==='bench'; }
 /* failed-lift demos: the bar leaves the J-blocks, moves out in front of the posts, comes down, and lands on the spotter arms */
 const FAIL={
-  squat:{j:49, h:37.75, path:[[barX,54.6,0],[94,56.5,0.8],[92,58,1.4],[92,50,2.4],[92,44.8,3.1],[92,43.8,3.4],[92,43.8,7]], msg:'failed squat: the bar lands on the spotter arms at 44 in, just below your bottom position; walk out from under it'},
-  bench:{j:41, h:19.75, path:[[barX,46.6,0],[91,49.5,0.8],[90,50,1.4],[90,38,2.4],[90,27,3.1],[90,25.8,3.4],[90,25.8,7]], msg:'failed bench: the bar lands on the spotter arms at 26 in, an inch above your chest; slide out sideways'} };
+  squat:{j:49, h:36, path:[[barX,54.6,0],[92,56.5,0.8],[88,58,1.4],[88,50,2.4],[88,44.8,3.1],[88,43.8,3.4],[88,43.8,7]], msg:'failed squat: the bar lands on the 24 in spotter arms at 44 in, just below your bottom position; walk out from under it'},
+  bench:{j:41, h:21, path:[[barX,46.6,0],[91,49.5,0.8],[90,50,1.4],[90,38,2.4],[90,30,3.1],[90,28.8,3.4],[90,28.8,7]], msg:'failed bench: the bar lands on the spotter arms at 29 in, an inch above your chest; deflate and slide out toward your feet'} };
 let failMode=null, failT=0;
 function startFail(mode){ failMode=mode; failT=0; const f=FAIL[mode]; setJ(f.j); setSpotters(f.h); if(cable.visible){ document.getElementById('t-cable').classList.remove('on'); setCable(false);} bench.visible=mode==='bench'; document.getElementById('t-rackout').classList.add('on'); foldT=1; setFold(1); setView('rack'); }
 function stepFail(dt){ if(!failMode) return; failT+=dt; const p=FAIL[failMode].path; let i=0; while(i<p.length-2 && failT>p[i+1][2]) i++; const a=p[i], b=p[i+1]; const u=Math.min(1,Math.max(0,(failT-a[2])/(b[2]-a[2]))); placeBar(a[0]+(b[0]-a[0])*u, a[1]+(b[1]-a[1])*u); }
-setJ(49); setSpotters(37.75); placeBar(barX,54.6);
+setJ(49); setSpotters(36); placeBar(barX,54.6);
 let foldF=0, foldT=0;
-function setFold(f){ foldF=f; gates.forEach(g=>g.rotation.y=g.userData.dir*(1-f)*Math.PI/2); rackLoad.visible=f>0.98; store.userData.sbar.visible=store.userData.spipe.visible=f<0.02; }
+function setFold(f){ foldF=f; gates.forEach(g=>g.rotation.y=g.userData.dir*(1-f)*Math.PI/2); rackLoad.visible=f>0.98; store.userData.sbar.visible=store.userData.spipe.visible=f<0.02; showSpotters(f>0.98); store.userData.sarms.visible=f<0.02; }
 setFold(0);
 
 // ---------- fan ----------
@@ -314,8 +321,8 @@ toggle('t-decor', on=>decor.visible=on);
 toggle('t-wall', on=>entryWall.visible=on); entryWall.visible=false;
 toggle('t-grid', on=>grid.visible=on);
 toggle('t-rack', on=>rack.visible=on);
-toggle('t-rackout', on=>{ foldT=on?1:0; if(!on){ failMode=null; placeBar(barX,54.6); setJ(49); setSpotters(37.75); bench.visible=cable.visible; setAngle(angle); } });
-toggle('t-cable', on=>{ if(on){ failMode=null; placeBar(barX,54.6); setJ(49); setSpotters(37.75);} setCable(on); });
+toggle('t-rackout', on=>{ foldT=on?1:0; if(!on){ failMode=null; placeBar(barX,54.6); setJ(49); setSpotters(36); bench.visible=cable.visible; setAngle(angle); } });
+toggle('t-cable', on=>{ if(on){ failMode=null; placeBar(barX,54.6); setJ(49); setSpotters(36);} setCable(on); });
 document.getElementById('b-fsquat').addEventListener('click',()=>startFail('squat'));
 document.getElementById('b-fbench').addEventListener('click',()=>startFail('bench'));
 window.__rack={startFail, setFailT:t=>{failT=t; stepFail(0);} };
