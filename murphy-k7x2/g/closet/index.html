@@ -1,0 +1,389 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex,nofollow">
+<style>:root{color-scheme:light dark}body{margin:0;font:14px system-ui}img{max-width:100%}[hidden]{display:none!important}</style>
+</head>
+<body>
+<title>Closet Wall Concepts</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=IBM+Plex+Sans:wght@400;500&display=swap">
+<style>
+:root{
+  --bg:#efe9df; --panel:#f8f5ee; --ink:#2a2420; --muted:#6f655b; --line:#d9d0c2; --accent:#8a5a2b; --accent-ink:#fff;
+  --chip:#e6ddcf; --chip-on:#8a5a2b;
+}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){
+  --bg:#1c1917; --panel:#26211e; --ink:#efe7db; --muted:#a79c8e; --line:#3b332d; --accent:#d9a35f; --accent-ink:#1c1917; --chip:#342c26; --chip-on:#d9a35f; } }
+:root[data-theme="dark"]{ --bg:#1c1917; --panel:#26211e; --ink:#efe7db; --muted:#a79c8e; --line:#3b332d; --accent:#d9a35f; --accent-ink:#1c1917; --chip:#342c26; --chip-on:#d9a35f; }
+html,body{height:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font:14px/1.45 "IBM Plex Sans",system-ui,sans-serif;display:flex;flex-direction:column}
+header{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;padding:12px 16px 8px}
+h1{font:600 22px/1.1 "Fraunces",Georgia,serif;margin:0;letter-spacing:-.01em}
+header .sub{color:var(--muted);font-size:13px}
+#stage{flex:1;min-height:320px;position:relative;margin:0 16px;border-radius:10px;overflow:hidden;background:#cfc6b8;box-shadow:0 1px 0 var(--line) inset}
+canvas{display:block;width:100%;height:100%}
+#hud{position:absolute;left:12px;top:10px;font-size:12px;color:#2a2420;background:rgba(248,245,238,.85);padding:6px 9px;border-radius:6px;font-variant-numeric:tabular-nums}
+.bar{display:flex;flex-wrap:wrap;gap:10px 18px;align-items:center;padding:10px 16px calc(12px + env(safe-area-inset-bottom,0px))}
+.group{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.lbl{font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+button{font:inherit;border:1px solid var(--line);background:var(--panel);color:var(--ink);padding:6px 11px;border-radius:999px;cursor:pointer}
+button:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+button.on{background:var(--chip-on);color:var(--accent-ink);border-color:var(--chip-on)}
+button.primary{background:var(--accent);color:var(--accent-ink);border-color:var(--accent);min-width:84px}
+input[type=range]{width:min(260px,60vw);accent-color:var(--accent)}
+.val{font-variant-numeric:tabular-nums;min-width:3.2em;display:inline-block}
+.facts{padding:0 16px 14px;color:var(--muted);font-size:13px;max-width:70ch}
+.facts b{color:var(--ink);font-weight:500}
+@media (prefers-reduced-motion: reduce){ .nomo{display:none} }
+</style>
+
+<header>
+  <h1>Closet Wall Concepts</h1>
+  <span class="sub">A separate copy of the rev G room for two closet-wall ideas on the entry wall past the door. Concept A: a 6 in deep floor-to-ceiling flat-hanger wardrobe with small doors. Concept B: the same wall as a 14 in deep box that lowers to the floor on a hand winch. Fan hidden, as asked. Drag to orbit, scroll to zoom.</span>
+</header>
+<div id="stage"><canvas id="c"></canvas><div id="hud">bed 0° · down</div></div>
+<div class="bar">
+  <div class="group"><button id="play" class="primary">Play</button>
+    <input id="ang" type="range" min="0" max="90" value="0" step="0.5" aria-label="Bed angle"><span class="val" id="angv">0°</span></div>
+  <div class="group"><span class="lbl">View</span>
+    <button id="v-pro" class="on">Proscenium</button><button id="v-corner">Corner</button><button id="v-bed">From the pillow</button><button id="v-plan">Plan</button></div>
+  <div class="group"><span class="lbl">Show</span>
+    <button id="t-decor" class="on">Decor</button><button id="t-wall">Entry wall</button><button id="t-grid">Grid</button><button id="t-fan" class="on">Fan</button><button id="t-night">Night</button></div>
+  <div class="group"><span class="lbl">Closet</span>
+    <button id="c-a" class="on">A: flat wardrobe</button><button id="c-b">B: fold-down box</button><button id="c-lower">Lower B</button><button id="c-open">Open a door</button><button id="v-closet">Look at it</button></div>
+  <div class="group"><span class="lbl">Rack</span>
+    <button id="t-rack" class="on">Show</button><button id="t-rackout">Fold out</button><button id="t-cable">Cable</button><button id="b-fsquat">Fail a squat</button><button id="b-fbench">Fail a bench</button><button id="v-rack">Look at it</button></div>
+</div>
+<p class="facts"><b>Concept A, the one that works.</b> The entry wall past the door casing is 92.5 in wide and 108 in tall. A 6 in deep plywood carcass with 11.5 in wide doors: two hanging rows 46 in tall and a 13 in cubby row at the ceiling, 24 door sections in all. Each hanging section has a short rod with three or four flat-fold hangers (the ones that fold a shirt in half and hang it flat against the wall, about 1.5 in per garment), so the wall holds 70 to 100 garments plus the cubbies, in the space a bookshelf would take. The 80 x 45 in projection screen is painted matte white across the doors in its zone. The bed down still leaves 45 in of walkway. A step stool by the door reaches the top row. Cost in 1/2 in ply or OSB with hardboard doors: about $150 to $250.
+<b>Concept B, the cool one.</b> The same wall as a 14 in deep box, 87 in wide (it stops short of the folded rack) and 104 in tall, on a floor hinge along its front bottom edge, lowered into the room by a hand winch high on the rear wall through a ceiling pulley. Press "Lower B": the bed goes up and the rack folds first because the box needs 104 in of floor. Full of clothes it is about 400 to 450 lb with its weight 52 in from the hinge, so the winch sees up to about 450 lb of rope and 50 turns per cycle. Lying down it is a 14 in tall chest covering 87 x 104 in of the floor, with the doors now lids. You walk around it, not into it. It is the bed's mechanism again, heavier, for clothes that were already at arm's reach standing up. <b>Verdict:</b> build A. It is the rare storage idea that costs floor space nothing and needs no mechanism; the flat hangers are real and cheap. B is the same clothes behind a 450 lb hinge, and it only works when the bed is up and the rack is folded, which is also when you least want the floor covered. If the itch is a closet you can step into, the half-dumb middle is a 14 in deep carcass with pull-out panels: each 11.5 in section is a vertical panel on drawer slides that pulls 24 in into the room with clothes flat on both faces, like library stacks. Same depth as B, no winch, one section at a time.</p>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script>
+(function(){
+const R = {X:127, Y:154, Z:108};          // plan inches: X left→right, Y entry→rear, Z up
+const P = (x,y,z)=>new THREE.Vector3(x, z, -y);   // plan → three (Y up, Z toward the viewer at the entry side)
+
+const canvas = document.getElementById('c');
+const renderer = new THREE.WebGLRenderer({canvas, antialias:true});
+renderer.shadowMap.enabled = true; renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+renderer.outputEncoding = THREE.sRGBEncoding; renderer.toneMapping = THREE.ACESFilmicToneMapping; renderer.toneMappingExposure = 1.05;
+const scene = new THREE.Scene(); scene.background = new THREE.Color(0xcfc6b8);
+const camera = new THREE.PerspectiveCamera(52, 1, 1, 2000);
+
+// ---------- materials ----------
+function noiseTex(base, grain, scale, w=256){
+  const c=document.createElement('canvas'); c.width=c.height=w; const g=c.getContext('2d');
+  g.fillStyle=base; g.fillRect(0,0,w,w);
+  for(let i=0;i<w*w*0.35;i++){ g.fillStyle=`rgba(0,0,0,${Math.random()*grain})`; g.fillRect(Math.random()*w,Math.random()*w,1,1); }
+  const t=new THREE.CanvasTexture(c); t.wrapS=t.wrapT=THREE.RepeatWrapping; t.repeat.set(scale,scale); return t;
+}
+function woodTex(base, dark, w=512){
+  const c=document.createElement('canvas'); c.width=c.height=w; const g=c.getContext('2d');
+  g.fillStyle=base; g.fillRect(0,0,w,w);
+  for(let y=0;y<w;y+=2){ const a=0.05+0.12*Math.abs(Math.sin(y*0.045)+0.4*Math.sin(y*0.17)); g.fillStyle=dark; g.globalAlpha=a; g.fillRect(0,y,w,1+Math.random()*2); }
+  g.globalAlpha=1; const t=new THREE.CanvasTexture(c); t.wrapS=t.wrapT=THREE.RepeatWrapping; return t;
+}
+const M = {
+  wall:  new THREE.MeshStandardMaterial({color:0xe8e2d6, roughness:0.95}),
+  ceil:  new THREE.MeshStandardMaterial({color:0xf3efe7, roughness:1}),
+  carpet:new THREE.MeshStandardMaterial({map:noiseTex('#a89c8c',0.25,10), roughness:1}),
+  trim:  new THREE.MeshStandardMaterial({color:0x4a3121, roughness:0.55}),   // dark brown casings and crown
+  door:  new THREE.MeshStandardMaterial({color:0xd9d6cc, roughness:0.85, transparent:false, opacity:1}),
+  glass: new THREE.MeshStandardMaterial({color:0xcfe3f2, roughness:0.2, metalness:0.0}),
+  pine:  new THREE.MeshStandardMaterial({map:woodTex('#d8ab6a','#7a4e22'), roughness:0.7}),
+  ply:   new THREE.MeshStandardMaterial({map:woodTex('#e3c99a','#9a7a4a'), roughness:0.8}),
+  walnut:new THREE.MeshStandardMaterial({map:woodTex('#5a3b26','#241509'), roughness:0.55}),
+  mural: new THREE.MeshStandardMaterial({color:0x3f5f6b, roughness:0.9}),
+  blue:  new THREE.MeshStandardMaterial({color:0x2e4a78, roughness:0.95}),   /* his blue comforter */
+  curtain:new THREE.MeshStandardMaterial({color:0x1c2740, roughness:1}),    /* blue blackout curtains */   // painted face, plain placeholder
+  matt:  new THREE.MeshStandardMaterial({color:0xf1efe8, roughness:1}),
+  linen: new THREE.MeshStandardMaterial({color:0xd8cfc0, roughness:1}),
+  steel: new THREE.MeshStandardMaterial({color:0x3a3f45, roughness:0.4, metalness:0.7}),
+  black: new THREE.MeshStandardMaterial({color:0x111111, roughness:0.3}),
+  screen:new THREE.MeshStandardMaterial({color:0x0b0f14, roughness:0.15, metalness:0.2}),
+  leaf:  new THREE.MeshStandardMaterial({color:0x3f7a4a, roughness:0.9}),
+  pot:   new THREE.MeshStandardMaterial({color:0xb5876a, roughness:0.9}),
+  fan:   new THREE.MeshStandardMaterial({color:0x4b5056, roughness:0.5, metalness:0.4}),
+  led:   new THREE.MeshStandardMaterial({color:0xffd9a0, emissive:0xffb060, emissiveIntensity:1.6}),
+  white: new THREE.MeshStandardMaterial({color:0xfbfbf9, roughness:0.5}),
+  rope:  new THREE.LineBasicMaterial({color:0xb0392e}),
+};
+// box helper in PLAN coordinates: origin corner (x,y,z) and size (dx,dy,dz)
+function box(parent, x,y,z, dx,dy,dz, mat, shadow=true){
+  const m=new THREE.Mesh(new THREE.BoxGeometry(dx,dz,dy), mat);
+  m.position.set(x+dx/2, z+dz/2, -(y+dy/2)); m.castShadow=shadow; m.receiveShadow=true; parent.add(m); return m;
+}
+
+// ---------- room shell ----------
+const shell = new THREE.Group(); scene.add(shell);
+const floor = box(shell, 0,0,-0.5, R.X,R.Y,0.5, M.carpet, false);
+const ceiling = box(shell, -4,-4,R.Z, R.X+8,R.Y+8,2, M.ceil, false); ceiling.castShadow=false;
+const wallT=4;
+box(shell, -wallT,R.Y,0, R.X+2*wallT,wallT,R.Z, M.wall);           // rear wall
+box(shell, -wallT,0,0, wallT,R.Y,R.Z, M.wall);                     // left (bathroom) wall
+box(shell, R.X,0,0, wallT,R.Y,R.Z, M.wall);                        // right (closet/window) wall
+const entryWall = new THREE.Group(); shell.add(entryWall);
+box(entryWall, -wallT,-wallT,0, R.X+2*wallT,wallT,R.Z, M.wall);
+// openings (measured 15 Nov 2026): 2.25" casings, door tops 81.25", casing tops 83.5"
+const cas=2.25, doorW=27.5, doorH=81.25, casH=83.5;
+box(entryWall, 3.25-cas,-0.8,0, doorW+2*cas,0.8,casH, M.trim); box(entryWall, 3.25,-1.5,0, doorW,1.5,doorH, M.door);
+// projection screen: painted on the closet doors in concept A (see below)
+box(shell, R.X/2-8,R.Y-10,96, 16,10,0.75, M.ply); box(shell, R.X/2-4.5,R.Y-9,96.75, 9,7,3.5, M.black); box(shell, R.X/2-8,R.Y-1.5,91, 1.5,1.5,5, M.steel); box(shell, R.X/2+6.5,R.Y-1.5,91, 1.5,1.5,5, M.steel);   // DIY projector on a 16 x 10 in shelf at 96 in on the rear wall, above the standing bed (86 in), throwing 144 in to the screen
+const benchStore=new THREE.Group(); shell.add(benchStore);   // the flat bench hangs upright on two hooks on the LEFT wall at 30 to 42 in from the entry wall (clear of the entry door at full swing, 27.5 in, and the bathroom casing at 44), legs to the wall
+box(benchStore, 15.5,30,6, 2.2,12,48, M.black); [30.5,40.5].forEach(y=>box(benchStore, 0.5,y,8, 15,1,10, M.steel)); [30.5,40.5].forEach(y=>box(benchStore, 0.5,y,44, 15,1,10, M.steel)); [31,41].forEach(y=>box(benchStore, 0,y,52, 4,1,1, M.steel,false));
+box(shell, -0.8,46.25-cas,0, 0.8,doorW+2*cas,casH, M.trim); box(shell, -1.5,46.25,0, 1.5,doorW,doorH, M.door);   // bathroom door, solid slab
+box(shell, R.X-0.8,24.75-cas,0, 0.8,24+2*cas,casH, M.trim); box(shell, R.X-1.5,24.75,0, 1.5,24,doorH, M.door);     // closet door, solid slab
+const winY0=R.Y-14-35, winTop=R.Z-8, winH=70.5;
+box(shell, R.X-0.6,winY0-2,winTop-winH-2, 0.6,39,winH+4, M.trim); { const gl=box(shell, R.X-0.8,winY0,winTop-winH, 0.4,35,winH, M.glass, false); gl.receiveShadow=false; }
+// no crown molding (Meciah, 23 Nov): the dark brown trim is casings and baseboards only
+// baseboard
+[[0,0,R.X,0.5],[0,R.Y-0.5,R.X,0.5]].forEach(b=>box(shell,b[0],b[1],0,b[2],b[3],3.5,M.trim,false));
+box(shell,0,0,0,0.5,R.Y,3.5,M.trim,false); box(shell,R.X-0.5,0,0,0.5,R.Y,3.5,M.trim,false);
+
+// ---------- fixed bed parts ----------
+const gap=3, upT=1.5, upD=5.5, boxAlong=63.5, boxOut=83.5, boxH=9.25, deck=0.75, mattH=8, topH=2;
+const padH=3.0, bedX0=(R.X-boxAlong)/2, axY=R.Y-21, axZ=padH+1.44, axIn=2.0, axUp=axZ-0.5;   // rev E.4
+const fixed=new THREE.Group(); scene.add(fixed);
+const ledgY=R.Y-1.5;                                                               // ledger face: 2x6 ledgers at 46 and 84 in lagged into every stud
+[46,84].forEach(z=>box(fixed, 15.75,ledgY,z, 96,1.5,3.5, M.pine));
+[bedX0-gap-upT, bedX0+boxAlong+gap].forEach(x=>box(fixed, x,ledgY-upD,0, upT,upD,90, M.pine));   // uprights against the ledgers
+[[bedX0-1.1-10, bedX0-1.1-1.5],[bedX0+boxAlong+1.1, bedX0+boxAlong+1.1]].forEach(([px,bx])=>{ box(fixed, px,axY-3.625,0, 10,7.25,padH, M.pine); box(fixed, bx,axY-2.75,padH, 1.5,5.5,3.1, M.steel); });   // 10 in doubled 2x8 pads flush with the pillow blocks
+const actBack=10.5, actUp=36, actOut=12, actX=[bedX0-1.5, bedX0+boxAlong+1.5];   // two 12 V linear actuators in the gaps (rev F)
+for(const [k,x] of actX.entries()) box(fixed, k===0? x-0.75 : x-0.75, axY+actBack-2, axZ+actUp-2, 1.5,4,4, M.steel);   // anchor tabs on the uprights
+box(fixed, 96, ledgY-2.5, 44, 6,2.5,3.5, M.black);                                // 12 V supply on the lower ledger
+
+const actTubes=[],actRods=[]; for(const x of actX){ const t=new THREE.Mesh(new THREE.CylinderGeometry(1.1,1.1,20,16),M.steel); const r=new THREE.Mesh(new THREE.CylinderGeometry(0.55,0.55,1,12),M.steel); t.castShadow=r.castShadow=true; scene.add(t); scene.add(r); actTubes.push(t); actRods.push(r); }
+function updateActuators(){ bed.updateWorldMatrix(true,false); for(const [k,x] of actX.entries()){ const A=P(x,axY+actBack,axZ+actUp); const B=bed.localToWorld(new THREE.Vector3(k===0?-0.75:boxAlong+0.75,axUp,axIn+actOut)); const d=B.clone().sub(A); const L=d.length(); const u=d.clone().normalize(); actTubes[k].position.copy(A.clone().add(u.clone().multiplyScalar(10))); actTubes[k].quaternion.setFromUnitVectors(new THREE.Vector3(0,1,0),u); const rl=Math.max(1,L-19); actRods[k].scale.set(1,rl,1); actRods[k].position.copy(A.clone().add(u.clone().multiplyScalar(19+rl/2))); actRods[k].quaternion.copy(actTubes[k].quaternion); } }
+{ const deckY=axY+(boxH-axUp)+deck; for(const x of [bedX0-gap, bedX0+boxAlong+gap-1.5]) for(const z of [58,78]) box(fixed, x,deckY-10.15,z, 1.5,ledgY-(deckY-10.15),5.5, M.pine);   // keeper arms
+  for(const x of [bedX0-gap+1.5, bedX0+boxAlong+gap-1.5-2.75]) for(const z of [59,79]) box(fixed, x,deckY,z, 2.75,2,3.5, new THREE.MeshStandardMaterial({color:0x222,roughness:1})); }   // rubber stop blocks
+
+// ---------- the bed (rotates about the axle) ----------
+const pivot=new THREE.Group(); pivot.position.copy(P(bedX0, axY, axZ)); scene.add(pivot);
+const bed=new THREE.Group(); bed.position.set(0, -axUp, -axIn); pivot.add(bed);
+// bed local: x 0..83.5, Y 0..boxH up, Z 0..boxOut toward the room (plan y = -Z)
+function bbox(x,y,z,dx,dy,dz,mat){ const m=new THREE.Mesh(new THREE.BoxGeometry(dx,dy,dz),mat); m.position.set(x+dx/2,y+dy/2,z+dz/2); m.castShadow=m.receiveShadow=true; bed.add(m); return m; }
+bbox(0,0,0, boxAlong,boxH,boxOut, M.pine);
+for(const x of [1.5,20.5,39.5,boxAlong-3]) bbox(x,0,1.5, 1.5,5.5,boxOut-3, M.pine); for(let z=2;z<boxOut-6;z+=8) bbox(1.5,5.5,z, boxAlong-3,0.75,5.5, M.ply);   // rev G sleepers and slats
+bbox(0,-0.44,axIn, boxAlong,0.44,boxOut-axIn, M.mural);                          // rev G: 7/16 OSB bottom sheet, floor and painted face, held back 2 in
+bbox(1.75,6.25,1.75, boxAlong-3.5,mattH,boxOut-3.5, M.matt);
+bbox(1.75,6.25+mattH,1.75, boxAlong-3.5,topH,boxOut-3.5, M.matt);
+bbox(2,6.25+mattH+topH,20, boxAlong-4,1.2,boxOut-22, M.blue);              // blue comforter
+[4,33].forEach(x=>bbox(x,6.25+mattH+topH,3, 26,5,18, M.white));              // pillows at the headboard end
+for(const x of [-1.5,boxAlong]) bbox(x,axUp-2,axIn+actOut-2, 1.5,4,4, M.steel);   // actuator angles on the end rails
+const eye=new THREE.Mesh(new THREE.TorusGeometry(0.01,0.005,4,4),M.steel); eye.visible=false; bed.add(eye);
+// hinged headboard on the wall-side rail (Z = 0), folds onto the mattress as the bed starts up
+const hb=new THREE.Group(); hb.position.set(0, boxH+10.75, 0.75); bed.add(hb);
+
+
+// rope: pulley → eye bolt
+const ropeGeo=new THREE.BufferGeometry().setFromPoints([new THREE.Vector3(),new THREE.Vector3()]);
+const rope=new THREE.Line(ropeGeo, M.rope); scene.add(rope);
+
+// ---------- decor ----------
+const decor=new THREE.Group(); scene.add(decor);
+box(decor, 0.2,117,0, 12,36,72, M.walnut);                                       // tall bookshelf, bathroom wall, rear corner
+for(let i=1;i<5;i++) box(decor, 0.4,118,i*14.4, 11.6,34,0.8, M.pine,false);      // shelves
+for(let i=0;i<14;i++){ const s=i*2.4; box(decor, 1.5,119+s,14.4*(1+(i%3))+0.8, 9,2,8+Math.random()*3, new THREE.MeshStandardMaterial({color:new THREE.Color().setHSL(Math.random(),0.35,0.45),roughness:0.9}),false); }
+{ const rod=new THREE.Mesh(new THREE.CylinderGeometry(0.5,0.5,52,10),M.black); rod.rotation.x=Math.PI/2; rod.position.copy(P(R.X-3.5,winY0+17.5,winTop+3)); decor.add(rod);   /* curtain rod, 8 in past the glass each side */
+  box(decor, R.X-3.2,winY0,2, 1.6,8,winTop+1, M.curtain); box(decor, R.X-3.2,winY0+27,2, 1.6,8,winTop+1, M.curtain); }   /* blue blackout panels stacked open over the glass edges, clear of the plate peg below */
+const pot=new THREE.Mesh(new THREE.CylinderGeometry(6,4.5,12,20),M.pot); pot.position.copy(P(R.X-9,R.Y-12,6)); pot.castShadow=true; decor.add(pot);
+for(let i=0;i<9;i++){ const l=new THREE.Mesh(new THREE.SphereGeometry(5+Math.random()*4,10,8),M.leaf); l.position.copy(P(R.X-9+(Math.random()-0.5)*12, R.Y-12+(Math.random()-0.5)*10, 24+Math.random()*26)); l.castShadow=true; decor.add(l); }
+box(decor, -0.4,79,34, 0.6,36,48, M.white,false); box(decor, -0.6,78.5,33.5, 0.6,37,49, M.black,false);   // whiteboard, portrait 36 x 48, on the bathroom wall between the door casing and the rear wall
+const ledBar=box(decor, bedX0+6,R.Y-upD-2.5,95.5, boxAlong-12,0.8,0.8, M.led,false);
+[bedX0-gap-upT-2, bedX0+boxAlong+gap+upT].forEach(x=>box(decor, x,R.Y-upD-2.2,60, 2,2.2,2, M.led,false));   // reading lights
+const rug=box(decor, 24,16,0.01, 80,36,0.4, new THREE.MeshStandardMaterial({map:noiseTex('#4f6b48',0.35,6),roughness:1}),false);  // green floral rug in front of the bed
+const gridH=new THREE.GridHelper(1,1); scene.remove(gridH);
+const grid=new THREE.Group(); scene.add(grid); grid.visible=false;
+{ const g=new THREE.GridHelper(Math.max(R.X,R.Y), Math.max(R.X,R.Y)/12, 0x6b5e50, 0x8f8274); g.position.set(R.X/2,0.3,-R.Y/2); grid.add(g); }
+
+// ---------- fold-flat squat rack on the right wall (gate style: each post swings on a hinge line at the wall) ----------
+const rack=new THREE.Group(); scene.add(rack);
+const rkY=[55,103], rkArm=19, rkPost=3.5, rkStrY0=52, rkStrL=52;   /* 19 in gate arms: folded posts sit at 74-77.5 and 80.5-84, 3 in apart (21 in arms overlapped by 1 in) */   /* stringers 52 to 104: the curtain stack starts at 105 */
+[76,3].forEach(z=>box(rack, R.X-1.5,rkStrY0,z, 1.5,rkStrL,5.5, M.pine));          // two 2x6 x 54 in stringers, lagged into every stud
+const lockBlocks=[]; const gates=rkY.map((hy,i)=>{ const g=new THREE.Group(); g.position.copy(P(R.X-3.75,hy,0)); rack.add(g);   /* hinge pin 2-1/4 in off the stringer face: room for the arm's 2 in tail; folded post clears the stringer */
+  const L=(x,y,z,dx,dy,dz,m)=>box(g, x,y,z, dx,dy,dz, m);                         /* local plan coords, hinge at the origin, the room is toward -x */
+  [76,3].forEach(z=>L(-rkArm,-0.75,z, rkArm+2.25,1.5,5.5, M.pine));               /* 2x6 arms with a 2 in rounded tail past the hinge pin */
+  L(-rkArm-rkPost,-rkPost/2,0, rkPost,rkPost,84, M.pine);                           /* 4x4 x 84 in post, standing on the floor */
+  for(let z=18;z<=72;z+=3){ const h=new THREE.Mesh(new THREE.CylinderGeometry(0.55,0.55,rkPost+0.3,10),M.black); h.rotation.z=Math.PI/2; h.position.copy(P(-rkArm-rkPost/2,0,z)); g.add(h); }   /* 1-1/16 in pin holes every 3 in, 18 to 72 */
+  g.userData.j=L(-rkArm-rkPost-1.5,-2.75,49, 1.5,5.5,8, M.walnut);                    /* 2x6 J-block hung on two pins; height set per lift */
+  [76,3].forEach(z=>{ const k=new THREE.Mesh(new THREE.CylinderGeometry(0.4,0.4,7.5,10),M.steel); k.position.copy(P(0,0,z+2.75)); g.add(k); L(0,-2,z-1, 2.25,0.25,7.5, M.steel); L(0,1.75,z-1, 2.25,0.25,7.5, M.steel); });   /* 1/2 in hinge bolt through two bed-frame angle plates */
+  g.userData.dir = i===0? -1 : 1;
+  [76,3].forEach(z=>{ const pin=new THREE.Mesh(new THREE.CylinderGeometry(0.3,0.3,9,10),M.steel); pin.position.copy(P(-6,0,z+2.75+1)); g.add(pin); });   /* 1/2 in drop pins through the arm into the block under it, gravity-held and visible */
+  [76,3].forEach(z=>{ box(rack, R.X-3.75-9, hy-1.75, z-1.5, 9,3.5,1.5, M.pine); box(rack, R.X-3.75-6, hy+(i===0?-2.25:0.75), z, 6,1.5,5.5, M.pine); });   /* 2x4 block flat UNDER each arm, drilled for the drop pin; a second block standing on the OUTER side so the arm registers square and cannot swing outward; nothing on the inner side, which is the fold direction */
+  return g; });
+const rackLoad=new THREE.Group(); rack.add(rackLoad);
+const rkPostX=R.X-3.75-rkArm-rkPost, barX=rkPostX-1.5+0.6, barY=79;
+const barGrp=new THREE.Group(); rackLoad.add(barGrp);
+{ const bar=new THREE.Mesh(new THREE.CylinderGeometry(0.55,0.55,84,14),M.steel); bar.rotation.x=Math.PI/2; barGrp.add(bar);
+  for(const dy of [-38.5,-36.8,36.8,38.5]){ const pl=new THREE.Mesh(new THREE.CylinderGeometry(8.85,8.85,1.4,28),M.black); pl.rotation.x=Math.PI/2; pl.position.set(0,0,-dy); pl.castShadow=true; barGrp.add(pl); } }   /* bar with four 45s */
+function placeBar(x,z){ barGrp.position.copy(P(x,barY,z)); }
+function setJ(jz){ gates.forEach(g=>{ g.userData.j.position.y=jz+4; }); }
+const safety=box(rackLoad, rkPostX-1.5, rkY[0]+rkPost/2, 26, 1.5,rkY[1]-rkY[0]-rkPost,5.5, M.pine); safety.visible=false;   /* the 2x6 cross plank is the cable knee pad only; it does not catch a bar lifted in front of the posts */
+const pu=new THREE.Mesh(new THREE.CylinderGeometry(0.95,0.95,rkY[1]-rkY[0]+6,12),M.steel); pu.rotation.x=Math.PI/2; pu.position.copy(P(rkPostX+rkPost/2,barY,82.5)); rackLoad.add(pu);   /* 1-1/2 in sched 40 pipe (1.9 OD) in a 2 x 2 in notch, pinned */
+/* spotter arms: on each gate, a 2x6 x 23.5 in arm lapping the post's outside face, bolted through two post holes, a 2x4 leg from its tip to a 2x4 x 20 in foot bolted to the post base. A dropped bar goes arm, leg, foot, floor. */
+const spotters=gates.map((g,i)=>{ const side=i===0?-1:1, ay=side>0?1.75:-3.25, x0=-rkArm-rkPost-24;
+  const sp=new THREE.Group(); g.add(sp); g.userData.sp=sp;
+  box(sp, x0,-3.25,0, 27.5,1.5,7.25, M.pine); box(sp, x0,1.75,0, 27.5,1.5,7.25, M.pine);   /* 2x8 cheeks on both faces of the post, 24 in projecting; bolts in double shear */
+  for(const z of [1.25,6]){ const p=new THREE.Mesh(new THREE.CylinderGeometry(0.3,0.3,8.5,10),M.steel); p.rotation.z=Math.PI/2; p.position.copy(P(-rkArm-rkPost/2,0,z)); sp.add(p); }   /* two 1/2 in bolts through both cheeks and the post, 4.75 in apart */
+  box(sp, x0,-1.75,-0.1, 1.5,3.5,7.45, M.pine);   /* the 2x4 leg's upper end, pinned between the cheek tips at whichever hole puts its foot on the floor */
+  box(g, -rkArm-rkPost-1.25,-3,-0.75, 6,6,0.75, M.ply);   /* 6 x 6 x 3/4 plywood pad under the post so the post, not the hinge, carries the bar */
+  const leg=box(g, x0,-1.75,0, 1.5,3.5,1, M.pine); const foot=box(g, x0,-1.75,0, 24,3.5,1.5, M.pine); g.userData.foot=foot;   /* 2x4 leg (one length, holes every 1.5 in) and a 2x4 foot pinned to the post base; both come off with the arms when folding */
+  return {sp,leg}; });
+function setSpotters(h){ spotters.forEach(({sp,leg})=>{ sp.position.y=h; leg.scale.y=h; leg.position.y=h/2; }); }
+function showSpotters(on){ spotters.forEach(({sp,leg})=>{ sp.visible=on; leg.visible=on; }); gates.forEach(g=>g.userData.foot.visible=on); }
+/* the flat bench, slid in head-first for bench press and the cable */
+const bench=new THREE.Group(); rackLoad.add(bench); bench.visible=false;
+box(bench, 56,barY-6,15.5, 48,12,2.2, M.black); [58,100].forEach(x=>box(bench, x,barY-5,0, 2,10,15.5, M.steel));
+/* DIY cable, one setup shown: lat pulldown. Pulley 1 hangs under the pull-up pipe, pulley 2 on a 6 in bracket off the top stringer; the pin rests on the floor between sets; the plank on the 26 in pins is the knee hold-down. */
+const cable=new THREE.Group(); rackLoad.add(cable); cable.visible=false;
+{ const cy=barY, pipeX=rkPostX+rkPost/2, p1z=79.6, p2x=118, p2z=79.6, hx=pipeX-2.2, hz=68, pinX=p2x+1.8;
+  const pulley=(x,z)=>{ const p=new THREE.Mesh(new THREE.CylinderGeometry(1.8,1.8,1,24),M.black); p.rotation.x=Math.PI/2; p.position.copy(P(x,cy,z)); cable.add(p); };
+  pulley(pipeX,p1z); box(cable, pipeX-0.5,cy-0.6,p1z,1,1.2,2.9, M.steel,false);
+  pulley(p2x,p2z); box(cable, p2x,cy-0.6,p2z+1.6, R.X-3.25-p2x,1.2,1, M.steel,false);
+  const pts=[P(hx,cy,hz),P(pipeX-1.8,cy,p1z),P(pipeX,cy,p1z+1.8),P(p2x,cy,p2z+1.8),P(pinX,cy,p2z),P(pinX,cy,14)];
+  cable.add(new THREE.Line(new THREE.BufferGeometry().setFromPoints(pts), M.rope));
+  const lat=new THREE.Mesh(new THREE.CylinderGeometry(0.6,0.6,36,12),M.steel); lat.rotation.x=Math.PI/2; lat.position.copy(P(hx,cy,hz)); cable.add(lat);
+  const pin=new THREE.Mesh(new THREE.CylinderGeometry(0.5,0.5,14,10),M.steel); pin.position.copy(P(pinX,cy,7.5)); cable.add(pin);
+  box(cable, R.X-2.2,cy-7,0.5, 0.7,14,60, M.ply,false);
+  const pad=new THREE.Mesh(new THREE.CylinderGeometry(1.6,1.6,36,14),new THREE.MeshStandardMaterial({color:0x444,roughness:1})); pad.rotation.x=Math.PI/2; pad.position.copy(P(rkPostX-0.75,cy,28.5)); cable.add(pad);
+  for(const z of [1.5,3.2]){ const pl=new THREE.Mesh(new THREE.CylinderGeometry(5.5,5.5,1.4,24),M.black); pl.position.copy(P(pinX,cy,z)); pl.castShadow=true; cable.add(pl); } }
+/* storage when folded: one 14 in plate peg under the window, bar and pipe upright in the rear-right corner, the plank on two hooks above the top stringer */
+const store=new THREE.Group(); rack.add(store);
+{ const peg=new THREE.Mesh(new THREE.CylinderGeometry(0.95,0.95,14,12),M.steel); peg.rotation.z=Math.PI/2; peg.position.copy(P(R.X-8.5,122.5,19)); store.add(peg); box(store, R.X-1.5,120.5,16, 1.5,4,6, M.steel,false);
+  { let n=0; for(const r of [8.85,8.85,8.85,8.85,6.7,6.7,5.5,5.5]){ const pl=new THREE.Mesh(new THREE.CylinderGeometry(r,r,1.4,28),M.black); pl.rotation.z=Math.PI/2; pl.position.copy(P(R.X-2.3-(n++)*1.6,122.5,19)); pl.castShadow=true; store.add(pl);} }   /* four 45s, two 25s, two 10s */
+  const sbar=new THREE.Mesh(new THREE.CylinderGeometry(0.55,0.55,84,14),M.steel); sbar.position.copy(P(R.X-5,R.Y-4,42)); store.add(sbar); store.userData.sbar=sbar;
+  const spipe=new THREE.Mesh(new THREE.CylinderGeometry(0.67,0.67,54,12),M.steel); spipe.position.copy(P(R.X-9,R.Y-4,27)); store.add(spipe); store.userData.spipe=spipe;
+  const cup=new THREE.Mesh(new THREE.CylinderGeometry(2.2,2.2,3,16),M.white); cup.position.copy(P(R.X-7,R.Y-4,1.5)); store.add(cup); box(store, R.X-12,R.Y-1.5,78, 10,1.5,3, M.steel,false);   /* floor cup and top clip */
+  store.userData.plank=box(store, R.X-3.2,rkY[0]-2,85, 1.5,rkY[1]-rkY[0]+4-1.5,5.5, M.pine); [rkY[0]+6,rkY[1]-6].forEach(y=>box(store, R.X-3.5,y,84, 3.5,1,1, M.steel,false));
+  const sarms=new THREE.Group(); store.add(sarms); store.userData.sarms=sarms; [[rkY[0]-1,0],[rkY[1]-27.5,1]].forEach(([y,k])=>{ box(sarms, R.X-3.2,y,92, 1.5,27.5,7.25, M.pine); box(sarms, R.X-4.9,y,92, 1.5,27.5,7.25, M.pine); }); [rkY[0]+4,rkY[1]-4].forEach(y=>box(store, R.X-5.5,y,91, 5.5,1,1, M.steel,false)); }   /* the two spotter-arm assemblies hang on a second pair of hooks above the plank when the rack is folded */
+function setCable(on){ cable.visible=on; safety.visible=on; store.userData.plank.visible=!on; barGrp.visible=!on; bench.visible=on||failMode==='bench'; benchStore.visible=!bench.visible; }
+/* failed-lift demos: the bar leaves the J-blocks, moves out in front of the posts, comes down, and lands on the spotter arms */
+const FAIL={
+  squat:{j:49, h:24, path:[[barX,54.6,0],[92,56.5,0.8],[88,58,1.4],[88,42,2.4],[88,33,3.1],[88,31.8,3.4],[88,31.8,7]], msg:'failed squat: the bar lands on the 24 in spotter arms at 32 in, 2 in below your bottom position at 5 ft 11-3/4; walk out from under it'},
+  bench:{j:41, h:19.5, path:[[barX,46.6,0],[91,49.5,0.8],[90,50,1.4],[90,38,2.4],[90,28.5,3.1],[90,27.3,3.4],[90,27.3,7]], msg:'failed bench: the bar lands on the spotter arms at 27 in, an inch above your chest on a 17 in bench; deflate and slide out toward your feet'} };
+let failMode=null, failT=0;
+function startFail(mode){ failMode=mode; failT=0; const f=FAIL[mode]; setJ(f.j); setSpotters(f.h); if(cable.visible){ document.getElementById('t-cable').classList.remove('on'); setCable(false);} bench.visible=mode==='bench'; benchStore.visible=!bench.visible; document.getElementById('t-rackout').classList.add('on'); foldT=1; setFold(1); setView('rack'); }
+function stepFail(dt){ if(!failMode) return; failT+=dt; const p=FAIL[failMode].path; let i=0; while(i<p.length-2 && failT>p[i+1][2]) i++; const a=p[i], b=p[i+1]; const u=Math.min(1,Math.max(0,(failT-a[2])/(b[2]-a[2]))); placeBar(a[0]+(b[0]-a[0])*u, a[1]+(b[1]-a[1])*u); }
+setJ(49); setSpotters(24); placeBar(barX,54.6);
+let foldF=0, foldT=0;
+function setFold(f){ foldF=f; gates.forEach(g=>g.rotation.y=g.userData.dir*(1-f)*Math.PI/2); rackLoad.visible=f>0.98; store.userData.sbar.visible=store.userData.spipe.visible=f<0.02; showSpotters(f>0.98); store.userData.sarms.visible=f<0.02; }
+setFold(0);
+
+// ---------- closet wall concepts, entry wall from the door casing (33 in) to the right wall ----------
+const closetA=new THREE.Group(); scene.add(closetA);
+const cx0=34, cx1=R.X-0.5, cW=cx1-cx0, cDoorW=11.5;                 /* 92.5 in of wall past the door casing */
+{ const d=6; box(closetA, cx0,0,0, cW,d,R.Z, M.ply);                /* 6 in deep carcass, floor to ceiling, 1/2 in ply back and sides */
+  const rows=[[2,46],[48,46],[94,13]];                              /* two hanging rows 46 in tall, a 13 in cubby row at the top */
+  rows.forEach(([z,h])=>{ for(let x=cx0+0.5;x<cx1-1;x+=cDoorW+0.5){ const w=Math.min(cDoorW,cx1-1-x); const inScreen=(z<87&&z+h>42&&x+w>43&&x<123);
+      const dm=box(closetA, x,d,z, w,0.5,h, inScreen? M.white : M.walnut); if(z===48 && Math.abs(x-(cx0+0.5+(cDoorW+0.5)*3))<0.01) dm.visible=false; const k=new THREE.Mesh(new THREE.SphereGeometry(0.5,8,6),M.steel); k.position.copy(P(x+w-1.5,d+0.8,z+h/2)); closetA.add(k); } });
+  box(closetA, 43,d+0.55,42, 80,0.05,45, M.white);                  /* the 80 x 45 in screen zone, painted matte white across the doors */
+  /* one open section: door swung, three shirts on flat-fold hangers, side by side on a 1 in rod, 1.5 in each */
+  const ox=cx0+0.5+(cDoorW+0.5)*3, oz=48; const hinge=new THREE.Group(); hinge.position.copy(P(ox+cDoorW,d,0)); closetA.add(hinge); box(hinge, -cDoorW,0,oz, cDoorW,0.5,46, M.walnut); closetA.userData.door=hinge;   /* this section's door on a hinge group at its right edge; the fixed door drawn in the grid above is hidden */
+  const rod=new THREE.Mesh(new THREE.CylinderGeometry(0.4,0.4,cDoorW-1,10),M.steel); rod.rotation.z=Math.PI/2; rod.position.copy(P(ox+cDoorW/2,d-2,oz+44)); closetA.add(rod);
+  [[0.8,0x3b5a8a],[2.6,0xc9c3b4],[4.4,0x4a4a4a]].forEach(([dy,c])=>{ box(closetA, ox+1.5,dy,oz+8, cDoorW-3,1.4,35, new THREE.MeshStandardMaterial({color:c,roughness:0.95})); const hg=new THREE.Mesh(new THREE.TorusGeometry(0.8,0.12,6,12),M.steel); hg.position.copy(P(ox+cDoorW/2,dy+0.7,oz+44.5)); closetA.add(hg); });
+  box(closetA, 8,20,0, 18,14,9, M.walnut); box(closetA, 8,20,9, 18,14,0.75, M.pine);   /* step stool by the door for the top row */ }
+const closetB=new THREE.Group(); scene.add(closetB); closetB.visible=false;
+const bD=14, bX1=120, bH=104;                                        /* 14 in deep, stops at 120 in so the folded rack at 122 to 127 stays clear, 104 in tall so it lies down inside the room */
+const pan=new THREE.Group(); pan.position.copy(P(0,bD,0)); closetB.add(pan);   /* pivots on a floor hinge along its front bottom edge, 14 in off the entry wall */
+{ const L=(x,y,z,dx,dy,dz,m)=>box(pan, x,y-bD,z, dx,dy,dz, m);
+  L(cx0,0,0, bX1-cx0,bD,bH, M.ply);
+  for(let z=2;z<bH-14;z+=24) for(let x=cx0+0.5;x<bX1-1;x+=cDoorW+0.5){ const w=Math.min(cDoorW,bX1-1-x); L(x,bD,z, w,0.5,23, M.walnut); const k=new THREE.Mesh(new THREE.SphereGeometry(0.5,8,6),M.steel); k.position.copy(P(x+w-1.5,bD+0.8-bD,z+11.5)); pan.add(k); }
+  for(const x of [cx0+8,bX1-8]){ const h=new THREE.Mesh(new THREE.CylinderGeometry(1.2,1.2,6,12),M.steel); h.rotation.z=Math.PI/2; h.position.copy(P(x,0,1.2)); pan.add(h); }   /* floor hinge knuckles */
+  pan.userData.eye=new THREE.Mesh(new THREE.TorusGeometry(0.8,0.15,6,12),M.steel); pan.userData.eye.position.copy(P(77,bD+0.5-bD,bH-3)); pan.add(pan.userData.eye); }
+{ for(const x of [cx0+8,bX1-8]) box(closetB, x-4,bD-3,0, 8,6,1.5, M.steel);                                      /* hinge pads on the slab */
+  box(closetB, 70,R.Y-5,R.Z-10, 14,5,10, M.black); box(closetB, 60,R.Y-1.5,R.Z-12, 34,1.5,12, M.pine);         /* hand winch on a plate high on the rear wall, rope over a ceiling pulley */
+  const pul=new THREE.Mesh(new THREE.CylinderGeometry(2,2,1.2,16),M.black); pul.rotation.x=Math.PI/2; pul.position.copy(P(77,60,R.Z-3)); closetB.add(pul); closetB.userData.pulley=pul; }
+const bRope=new THREE.Line(new THREE.BufferGeometry().setFromPoints([new THREE.Vector3(),new THREE.Vector3(),new THREE.Vector3()]), M.rope); closetB.add(bRope);
+let lowerF=0, lowerT=0;
+function setLower(f){ lowerF=f; pan.rotation.x=-f*Math.PI/2; const e=new THREE.Vector3(); pan.userData.eye.getWorldPosition(e); bRope.geometry.setFromPoints([P(77,R.Y-5,R.Z-6),P(77,60,R.Z-3),e]); }
+setLower(0);
+function setConcept(b){ closetA.visible=!b; closetB.visible=b; document.getElementById('c-a').classList.toggle('on',!b); document.getElementById('c-b').classList.toggle('on',b); }
+let doorOpen=false;
+
+// ---------- fan ----------
+const fan=new THREE.Group(); scene.add(fan);
+{ const rod=new THREE.Mesh(new THREE.CylinderGeometry(0.6,0.6,20,12),M.fan); rod.position.copy(P(R.X/2,R.Y/2,98)); fan.add(rod);
+  const hub=new THREE.Mesh(new THREE.CylinderGeometry(4,4,3,24),M.fan); hub.position.copy(P(R.X/2,R.Y/2,89.5)); fan.add(hub);
+  for(let i=0;i<5;i++){ const b=new THREE.Mesh(new THREE.BoxGeometry(17,0.4,5),M.fan); b.position.set(11.5,0,0); /* 20 in blades */ const g=new THREE.Group(); g.rotation.y=i*Math.PI*2/5; g.add(b); g.position.copy(P(R.X/2,R.Y/2,88.2)); b.rotation.z=0.15; fan.add(g); }
+  const bulb=new THREE.Mesh(new THREE.SphereGeometry(3.5,16,12), new THREE.MeshStandardMaterial({color:0xfff2d8,emissive:0xffe0b0,emissiveIntensity:0.8})); bulb.position.copy(P(R.X/2,R.Y/2,89.5)); const glass=new THREE.Mesh(new THREE.SphereGeometry(5.5,20,14,0,Math.PI*2,Math.PI/2,Math.PI/2), new THREE.MeshStandardMaterial({color:0xfff6e6,transparent:true,opacity:0.6,roughness:0.2})); glass.position.copy(P(R.X/2,R.Y/2,91.5)); fan.add(glass); /* light-kit glass, lowest point 86 in */ fan.add(bulb); }
+
+// ---------- lights ----------
+const hemi=new THREE.HemisphereLight(0xfff4e6, 0x8a7d6c, 0.55); scene.add(hemi);
+const sun=new THREE.DirectionalLight(0xfff1dc, 1.1); sun.position.copy(P(R.X+200, R.Y-60, 150)); sun.target.position.copy(P(40,70,0)); scene.add(sun, sun.target);
+sun.castShadow=true; sun.shadow.mapSize.set(2048,2048); const sc=sun.shadow.camera; sc.left=-140; sc.right=140; sc.top=140; sc.bottom=-140; sc.near=10; sc.far=600; sun.shadow.bias=-0.0005;
+const fanLight=new THREE.PointLight(0xffe4c0, 0.35, 400, 2); fanLight.position.copy(P(R.X/2,R.Y/2,84)); scene.add(fanLight);
+const ledLight=new THREE.RectAreaLight ? null : null;
+const warm=new THREE.PointLight(0xffb870, 0.0, 160, 2); warm.position.copy(P(R.X/2, R.Y-12, 94)); scene.add(warm);
+const read=[bedX0-gap-upT-3, bedX0+boxAlong+gap+upT+3].map(x=>{ const l=new THREE.PointLight(0xffd0a0,0.0,90,2); l.position.copy(P(x,R.Y-14,58)); scene.add(l); return l; });
+
+// ---------- camera + orbit ----------
+const views={
+  pro:   {eye:P(63.5,-165,58), tgt:P(63.5,70,46)},
+  corner:{eye:P(10,6,70), tgt:P(80,110,36)},
+  bed:   {eye:P(63.5,R.Y-22,32), tgt:P(63.5,0,45)},
+  plan:  {eye:P(63.5,76,300), tgt:P(63.5,77,0)},
+  rack:  {eye:P(8,-10,72), tgt:P(108,82,42)},
+  closet:{eye:P(40,120,70), tgt:P(80,0,50)},
+};
+let tgt=views.pro.tgt.clone(); camera.position.copy(views.pro.eye); camera.lookAt(tgt);
+function setView(k){ const v=views[k]; camera.position.copy(v.eye); tgt.copy(v.tgt); camera.up.set(0,1,0); if(k==='plan') camera.up.set(0,0,-1); camera.lookAt(tgt); ceiling.visible=(k!=='plan');
+  document.querySelectorAll('[id^="v-"]').forEach(b=>b.classList.toggle('on', b.id==='v-'+k)); }
+let drag=null;
+canvas.addEventListener('pointerdown',e=>{drag={x:e.clientX,y:e.clientY}; canvas.setPointerCapture(e.pointerId);});
+canvas.addEventListener('pointerup',()=>drag=null);
+canvas.addEventListener('pointermove',e=>{ if(!drag) return; const dx=(e.clientX-drag.x)*0.005, dy=(e.clientY-drag.y)*0.005; drag={x:e.clientX,y:e.clientY};
+  const off=camera.position.clone().sub(tgt); const sph=new THREE.Spherical().setFromVector3(off); sph.theta-=dx; sph.phi=Math.min(Math.PI-0.05,Math.max(0.05,sph.phi+dy)); off.setFromSpherical(sph); camera.position.copy(tgt).add(off); camera.up.set(0,1,0); camera.lookAt(tgt); });
+canvas.addEventListener('wheel',e=>{ e.preventDefault(); const off=camera.position.clone().sub(tgt); off.multiplyScalar(1+Math.sign(e.deltaY)*0.08); if(off.length()>40&&off.length()<900){ camera.position.copy(tgt).add(off); camera.lookAt(tgt);} },{passive:false});
+
+// ---------- state + animation ----------
+let angle=0, playing=false, dir=1, hold=0;
+const slider=document.getElementById('ang'), angv=document.getElementById('angv'), hud=document.getElementById('hud');
+function setAngle(a){ angle=a; slider.value=a; angv.textContent=a.toFixed(0)+'°';
+  pivot.rotation.x=-THREE.MathUtils.degToRad(a);
+  hb.rotation.x=Math.PI/2*Math.min(1, a/8);                                    // headboard folds forward onto the mattress in the first 8°
+  // far-rail eye bolt world position → rope
+  const eyeW=new THREE.Vector3(); eye.getWorldPosition(eyeW);
+  const top=P(R.X/2, R.Y-22, 100.5); const pts=[top, a>=89.5? P(R.X/2,R.Y-22,96) : eyeW];
+  rope.visible=false; updateActuators();
+  const reach = (21 + (boxOut-axIn)*Math.cos(THREE.MathUtils.degToRad(a))).toFixed(0);
+  const h = (axZ + (boxOut-axIn)*Math.sin(THREE.MathUtils.degToRad(a)) + (6.25+mattH+topH)*Math.cos(THREE.MathUtils.degToRad(a))).toFixed(0);
+  hud.textContent = `bed ${a.toFixed(0)}° · ${a<1?'down':a>89?'standing':'moving'} · far edge ${reach} in from the rear wall, ${h} in high`;
+}
+slider.addEventListener('input',()=>{playing=false; play.textContent='Play'; setAngle(parseFloat(slider.value));});
+const play=document.getElementById('play');
+play.addEventListener('click',()=>{ playing=!playing; play.textContent=playing?'Pause':'Play'; if(playing && angle>=90){dir=-1;} if(playing && angle<=0){dir=1;} });
+function toggle(id, fn){ const b=document.getElementById(id); b.addEventListener('click',()=>{ b.classList.toggle('on'); fn(b.classList.contains('on')); }); }
+toggle('t-decor', on=>decor.visible=on);
+toggle('t-wall', on=>entryWall.visible=on); entryWall.visible=true; document.getElementById('t-wall').classList.add('on');
+toggle('t-grid', on=>grid.visible=on);
+toggle('t-rack', on=>rack.visible=on);
+document.getElementById('c-a').addEventListener('click',()=>setConcept(false));
+document.getElementById('c-b').addEventListener('click',()=>setConcept(true));
+toggle('c-lower', on=>{ setConcept(true); lowerT=on?1:0; if(on){ document.getElementById('ang').value=90; setAngle(90); if(foldT>0){ document.getElementById('t-rackout').classList.remove('on'); foldT=0; } } });
+toggle('c-open', on=>{ doorOpen=on; const d=closetA.userData.door; if(d){ d.rotation.y=on?-Math.PI*0.6:0; } });
+toggle('t-rackout', on=>{ foldT=on?1:0; if(!on){ failMode=null; placeBar(barX,54.6); setJ(49); setSpotters(24); bench.visible=cable.visible; benchStore.visible=!bench.visible; setAngle(angle); } });
+toggle('t-cable', on=>{ if(on){ failMode=null; placeBar(barX,54.6); setJ(49); setSpotters(24);} setCable(on); });
+document.getElementById('b-fsquat').addEventListener('click',()=>startFail('squat'));
+document.getElementById('b-fbench').addEventListener('click',()=>startFail('bench'));
+window.__rack={startFail, setFailT:t=>{failT=t; stepFail(0);} };
+toggle('t-fan', on=>{fan.visible=on; fanLight.visible=on;}); fan.visible=false; document.getElementById('t-fan').classList.remove('on');
+toggle('t-night', on=>{ sun.intensity=on?0.08:1.1; hemi.intensity=on?0.12:0.55; warm.intensity=on?1.6:0; read.forEach(l=>l.intensity=on?0.9:0); fanLight.intensity=on?0.9:0.35; renderer.toneMappingExposure=on?1.25:1.05; scene.background.set(on?0x2a2623:0xcfc6b8); });
+['pro','corner','bed','plan','rack','closet'].forEach(k=>document.getElementById('v-'+k).addEventListener('click',()=>setView(k)));
+
+function resize(){ const w=canvas.clientWidth, h=canvas.clientHeight; if(canvas.width!==w||canvas.height!==h){ renderer.setPixelRatio(Math.min(devicePixelRatio,2)); renderer.setSize(w,h,false); camera.aspect=w/h; camera.updateProjectionMatrix(); } }
+let last=performance.now();
+function frame(t){ const dt=Math.min(0.05,(t-last)/1000); last=t; resize();
+  if(playing){ if(hold>0){hold-=dt;} else { angle+=dir*22*dt; if(angle>=90){angle=90;dir=-1;hold=1.2;} if(angle<=0){angle=0;dir=1;hold=1.2;} setAngle(angle);} }
+  stepFail(dt); if(failMode && hud && failT>3.4) hud.textContent=FAIL[failMode].msg;
+  if(Math.abs(lowerF-lowerT)>0.001){ setLower(lowerF + Math.sign(lowerT-lowerF)*Math.min(Math.abs(lowerT-lowerF), dt*0.25)); }
+  if(Math.abs(foldF-foldT)>0.001){ setFold(foldF + Math.sign(foldT-foldF)*Math.min(Math.abs(foldT-foldF), dt*1.2)); }
+  if(fan.visible) fan.children.forEach((c,i)=>{ if(i>=2 && i<7) c.rotation.y+=dt*2.5; });
+  renderer.render(scene,camera); requestAnimationFrame(frame); }
+setAngle(0); setView('pro'); requestAnimationFrame(frame);
+})();
+</script>
+
+</body>
+</html>
