@@ -51,6 +51,8 @@ input[type=range]{width:min(260px,60vw);accent-color:var(--accent)}
     <button id="v-pro" class="on">Proscenium</button><button id="v-corner">Corner</button><button id="v-bed">From the pillow</button><button id="v-plan">Plan</button></div>
   <div class="group"><span class="lbl">Show</span>
     <button id="t-decor" class="on">Decor</button><button id="t-wall">Entry wall</button><button id="t-grid">Grid</button><button id="t-fan" class="on">Fan</button><button id="t-night">Night</button></div>
+  <div class="group"><span class="lbl">See inside</span>
+    <button id="t-ceil" class="on">Ceiling</button><button id="t-walls" class="on">Walls</button></div>
   <div class="group"><span class="lbl">Closet</span>
     <button id="c-a" class="on">A: flat wardrobe</button><button id="c-b">B: pull-out rods</button><button id="c-c">C: drawbridge</button><button id="c-deploy">Open it</button><button id="v-closet">Look at it</button></div>
   <div class="group"><span class="lbl">Rack</span>
@@ -183,6 +185,12 @@ const hb=new THREE.Group(); hb.position.set(0, boxH+10.75, 0.75); bed.add(hb);
 // rope: pulley → eye bolt
 const ropeGeo=new THREE.BufferGeometry().setFromPoints([new THREE.Vector3(),new THREE.Vector3()]);
 const rope=new THREE.Line(ropeGeo, M.rope); scene.add(rope);
+
+// ---------- see-inside toggles: the ceiling, and all four walls with their casings, doors and glass ----------
+const wallMeshes=[]; shell.traverse(o=>{ if(o.isMesh && [M.wall,M.trim,M.door,M.glass].includes(o.material)) wallMeshes.push(o); });
+let ceilOn=true, wallsOn=true;
+function applyShell(){ ceiling.visible=ceilOn && !planView; wallMeshes.forEach(m=>m.visible=wallsOn); entryWall.visible=wallsOn && entryOn; }
+let planView=false, entryOn=false;
 
 // ---------- decor ----------
 const decor=new THREE.Group(); scene.add(decor);
@@ -361,7 +369,7 @@ const views={
   closetC:{eye:P(10,150,80), tgt:P(80,40,40)},
 };
 let tgt=views.pro.tgt.clone(); camera.position.copy(views.pro.eye); camera.lookAt(tgt);
-function setView(k){ const v=views[k]; camera.position.copy(v.eye); tgt.copy(v.tgt); camera.up.set(0,1,0); if(k==='plan') camera.up.set(0,0,-1); camera.lookAt(tgt); ceiling.visible=(k!=='plan');
+function setView(k){ const v=views[k]; camera.position.copy(v.eye); tgt.copy(v.tgt); camera.up.set(0,1,0); if(k==='plan') camera.up.set(0,0,-1); camera.lookAt(tgt); planView=(k==='plan'); applyShell();
   document.querySelectorAll('[id^="v-"]').forEach(b=>b.classList.toggle('on', b.id==='v-'+k)); }
 let drag=null;
 canvas.addEventListener('pointerdown',e=>{drag={x:e.clientX,y:e.clientY}; canvas.setPointerCapture(e.pointerId);});
@@ -389,8 +397,10 @@ const play=document.getElementById('play');
 play.addEventListener('click',()=>{ playing=!playing; play.textContent=playing?'Pause':'Play'; if(playing && angle>=90){dir=-1;} if(playing && angle<=0){dir=1;} });
 function toggle(id, fn){ const b=document.getElementById(id); b.addEventListener('click',()=>{ b.classList.toggle('on'); fn(b.classList.contains('on')); }); }
 toggle('t-decor', on=>decor.visible=on);
-toggle('t-wall', on=>entryWall.visible=on); entryWall.visible=true; document.getElementById('t-wall').classList.add('on');
+toggle('t-wall', on=>{ entryOn=on; applyShell(); }); entryOn=true; document.getElementById('t-wall').classList.add('on'); applyShell();
 toggle('t-grid', on=>grid.visible=on);
+toggle('t-ceil', on=>{ ceilOn=on; applyShell(); });
+toggle('t-walls', on=>{ wallsOn=on; applyShell(); });
 toggle('t-rack', on=>rack.visible=on);
 ['A','B','C'].forEach(c=>document.getElementById('c-'+c.toLowerCase()).addEventListener('click',()=>setConcept(c)));
 toggle('c-deploy', on=>{ deployT=on?1:0; if(on&&concept==='C'){ document.getElementById('ang').value=90; setAngle(90); if(foldT>0){ document.getElementById('t-rackout').classList.remove('on'); foldT=0; } } });
