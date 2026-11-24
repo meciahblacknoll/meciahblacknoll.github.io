@@ -101,6 +101,7 @@ const M = {
   ply:   new THREE.MeshStandardMaterial({map:woodTex('#e3c99a','#9a7a4a'), roughness:0.8}),
   walnut:new THREE.MeshStandardMaterial({map:woodTex('#5a3b26','#241509'), roughness:0.55}),
   mural: new THREE.MeshStandardMaterial({color:0x3f5f6b, roughness:0.9}),
+  screen:new THREE.MeshStandardMaterial({color:0xe8e8e4, roughness:0.95}),
   blue:  new THREE.MeshStandardMaterial({color:0x2e4a78, roughness:0.95}),   /* his blue comforter */
   curtain:new THREE.MeshStandardMaterial({color:0x1c2740, roughness:1}),    /* blue blackout curtains */   // painted face, plain placeholder
   matt:  new THREE.MeshStandardMaterial({color:0xf1efe8, roughness:1}),
@@ -311,7 +312,7 @@ const bD=20, bCol=aCol, bBays=[];
   for(let c=0;c<4;c++){ const x=cx0+c*bCol; [[1,52],[55,50]].forEach(([z,h],r)=>{ const bg=new THREE.Group(); closetB.add(bg);
       const rod=new THREE.Mesh(new THREE.CylinderGeometry(0.5,0.5,bD-2,10),M.steel); rod.rotation.x=Math.PI/2; rod.position.copy(P(x+bCol/2,bD/2,z+h-3)); bg.add(rod);
       box(bg, x+bCol/2-1,1,z+h-2.5, 2,bD-2,1.5, M.steel);                                                                   /* the slide carrier the rod hangs from */
-      box(bg, x+0.75,bD-0.5,z, bCol-1.5,0.5,h, M.walnut); const k=new THREE.Mesh(new THREE.SphereGeometry(0.5,8,6),M.steel); k.position.copy(P(x+bCol/2,bD+0.3,z+h/2)); bg.add(k);   /* the bay's door face rides out with the rod */
+      box(bg, x+0.75,bD-0.5,z, bCol-1.5,0.5,h, M.screen); const k=new THREE.Mesh(new THREE.SphereGeometry(0.5,8,6),M.steel); k.position.copy(P(x+bCol/2,bD+0.3,z+h/2)); bg.add(k);   /* the bay's door face, flat screen white, rides out with the rod */
       for(let i=0;i<8;i++) shirt(bg, x+(bCol-17)/2, 2+i*2, z+h-3-30, 17,0.9,28, shirtCols[(c+i+r)%6], 'y');                   /* eight hangers on 2 in pitch, faces to the room */
       bBays.push(bg); }); } }
 function setBOut(f){ bBays.forEach((bg,i)=>{ const out=(i===2||i===5)? f : 0; bg.position.set(0,0,-out*24); }); }   /* two bays pulled 24 in into the room */
