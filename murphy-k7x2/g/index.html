@@ -268,7 +268,7 @@ const FAIL={
   squat:{j:49, h:24, path:[[barX,54.6,0],[92,56.5,0.8],[88,58,1.4],[88,42,2.4],[88,33,3.1],[88,31.8,3.4],[88,31.8,7]], msg:'failed squat: the bar lands on the 24 in spotter arms at 32 in, 2 in below your bottom position at 5 ft 11-3/4; walk out from under it'},
   bench:{j:41, h:19.5, path:[[barX,46.6,0],[91,49.5,0.8],[90,50,1.4],[90,38,2.4],[90,28.5,3.1],[90,27.3,3.4],[90,27.3,7]], msg:'failed bench: the bar lands on the spotter arms at 27 in, an inch above your chest on a 17 in bench; deflate and slide out toward your feet'} };
 let failMode=null, failT=0;
-function startFail(mode){ failMode=mode; failT=0; const f=FAIL[mode]; setJ(f.j); setSpotters(f.h); if(cable.visible){ document.getElementById('t-cable').classList.remove('on'); setCable(false);} bench.visible=mode==='bench'; benchStore.visible=!bench.visible; document.getElementById('t-rackout').classList.add('on'); foldT=1; setFold(1); setView('rack'); }
+function startFail(mode){ failMode=mode; failT=0; const f=FAIL[mode]; setJ(f.j); setSpotters(f.h); if(angle<89){ document.getElementById('ang').value=90; setAngle(90); }   /* the rack is a bed-up station */ if(cable.visible){ document.getElementById('t-cable').classList.remove('on'); setCable(false);} bench.visible=mode==='bench'; benchStore.visible=!bench.visible; document.getElementById('t-rackout').classList.add('on'); foldT=1; setFold(1); setView('rack'); }
 function stepFail(dt){ if(!failMode) return; failT+=dt; const p=FAIL[failMode].path; let i=0; while(i<p.length-2 && failT>p[i+1][2]) i++; const a=p[i], b=p[i+1]; const u=Math.min(1,Math.max(0,(failT-a[2])/(b[2]-a[2]))); placeBar(a[0]+(b[0]-a[0])*u, a[1]+(b[1]-a[1])*u); }
 setJ(49); setSpotters(24); placeBar(barX,54.6);
 let foldF=0, foldT=0;
@@ -357,7 +357,7 @@ toggle('t-walls', on=>{ wallsOn=on; applyShell(); });
 toggle('t-rack', on=>rack.visible=on);
 toggle('t-closet', on=>closetB.visible=on);
 toggle('t-bay', on=>bayT=on?1:0);
-toggle('t-rackout', on=>{ foldT=on?1:0; if(!on){ failMode=null; placeBar(barX,54.6); setJ(49); setSpotters(24); bench.visible=cable.visible; benchStore.visible=!bench.visible; setAngle(angle); } });
+toggle('t-rackout', on=>{ foldT=on?1:0; if(on && angle<89){ document.getElementById('ang').value=90; setAngle(90); } if(!on){ failMode=null; placeBar(barX,54.6); setJ(49); setSpotters(24); bench.visible=cable.visible; benchStore.visible=!bench.visible; setAngle(angle); } });
 toggle('t-cable', on=>{ if(on){ failMode=null; placeBar(barX,54.6); setJ(49); setSpotters(24);} setCable(on); });
 document.getElementById('b-fsquat').addEventListener('click',()=>startFail('squat'));
 document.getElementById('b-fbench').addEventListener('click',()=>startFail('bench'));
