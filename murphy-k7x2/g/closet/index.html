@@ -330,7 +330,7 @@ function setCLower(f){ bridge.rotation.x=-f*Math.PI/2; const e=new THREE.Vector3
 setCLower(0);
 let concept='A', deployF=0, deployT=0;
 function applyDeploy(){ setAOpen(concept==='A'?deployF:0); setBOut(concept==='B'?deployF:0); setCLower(concept==='C'?deployF:0); }
-function setConcept(k){ concept=k; closetA.visible=k==='A'; closetB.visible=k==='B'; closetC.visible=k==='C'; setView(k==='A'?'closet':k==='B'?'closetB':'closetC'); ['A','B','C'].forEach(c=>document.getElementById('c-'+c.toLowerCase()).classList.toggle('on',c===k)); applyDeploy(); }
+function setConcept(k){ concept=k; closetA.visible=k==='A'; closetB.visible=k==='B'; closetC.visible=k==='C'; setView(k==='A'?'closet':k==='B'?'closetB':'closetC'); if(k==='C'&&deployT>0){ document.getElementById('ang').value=90; setAngle(90); if(foldT>0){ document.getElementById('t-rackout').classList.remove('on'); foldT=0; } } ['A','B','C'].forEach(c=>document.getElementById('c-'+c.toLowerCase()).classList.toggle('on',c===k)); applyDeploy(); }
 let doorOpen=false;
 
 // ---------- fan ----------
