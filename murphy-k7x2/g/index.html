@@ -97,7 +97,7 @@ const M = {
   ply:   new THREE.MeshStandardMaterial({map:woodTex('#e3c99a','#9a7a4a'), roughness:0.8}),
   walnut:new THREE.MeshStandardMaterial({map:woodTex('#5a3b26','#241509'), roughness:0.55}),
   mural: new THREE.MeshStandardMaterial({color:0x3f5f6b, roughness:0.9}),
-  screen:new THREE.MeshStandardMaterial({color:0xe8e8e4, roughness:0.95}),   /* flat screen white: the whole closet face, not just the 80 x 45 zone */
+  canvas:new THREE.MeshStandardMaterial({color:0xe8e8e4, roughness:0.95}),   /* flat screen white for the closet panels (M.screen is the old TV glass) */
   blue:  new THREE.MeshStandardMaterial({color:0x2e4a78, roughness:0.95}),   /* his blue comforter */
   curtain:new THREE.MeshStandardMaterial({color:0x1c2740, roughness:1}),    /* blue blackout curtains */   // painted face, plain placeholder
   matt:  new THREE.MeshStandardMaterial({color:0xf1efe8, roughness:1}),
@@ -301,7 +301,7 @@ const bD=20, bCol=cW/4, bBays=[], bZ0=3.5, bH=104;   /* 104 in carcass on a 3.5 
 const bPanels=[]; const bRows=[[bZ0+0.75,52.25],[57.25,36.25],[94.25,12.5]];
 { bRows.forEach(([z,h],r)=>{ [z-0.75,z+h].forEach(zz=>box(closetB, cx0,bD,zz, cW,2.5,0.75, M.pine));                      /* tracks: a 1x2 with two grooves, top and bottom of each row */
     for(let c=0;c<4;c++){ const pg=new THREE.Group(); closetB.add(pg); const lane=(c%2===0)? bD+0.6 : bD+1.6;                    /* even columns in the back lane, odd in the front lane */
-      const x=cx0+c*bCol; box(pg, x+0.2,lane,z, bCol-0.4,0.75,h, M.screen); [x+0.2,x+bCol-1.7].forEach(xx=>box(pg, xx,lane-0.2,z, 1.5,0.2,h, M.pine)); box(pg, x+0.2,lane-0.2,z+h/2-0.75, bCol-0.4,0.2,1.5, M.pine);   /* canvas face on a 1x2 frame with one cross rail */
+      const x=cx0+c*bCol; box(pg, x+0.2,lane,z, bCol-0.4,0.75,h, M.canvas); [x+0.2,x+bCol-1.7].forEach(xx=>box(pg, xx,lane-0.2,z, 1.5,0.2,h, M.pine)); box(pg, x+0.2,lane-0.2,z+h/2-0.75, bCol-0.4,0.2,1.5, M.pine);   /* canvas face on a 1x2 frame with one cross rail */
       pg.userData.row=r; pg.userData.col=c; bPanels.push(pg); } }); }
 function setBOut(f){ const slide=Math.min(1,f*2), pull=Math.max(0,f*2-1);
   bPanels.forEach(pg=>{ let dx=0; if(pg.userData.row===0 && pg.userData.col===1) dx=-bCol*slide; if(pg.userData.row===1 && pg.userData.col===2) dx=bCol*slide; pg.position.set(dx,0,0); });   /* lower row: panel 2 slides left over panel 1; upper row: panel 3 slides right over panel 4 */
