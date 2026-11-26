@@ -98,6 +98,7 @@ const M = {
   door:  new THREE.MeshStandardMaterial({color:0xd9d6cc, roughness:0.85, transparent:false, opacity:1}),
   glass: new THREE.MeshStandardMaterial({color:0xcfe3f2, roughness:0.2, metalness:0.0}),
   pine:  new THREE.MeshStandardMaterial({map:woodTex('#d8ab6a','#7a4e22'), roughness:0.7}),
+  cedar: new THREE.MeshStandardMaterial({map:woodTex('#c8865a','#7a4530'), roughness:0.75}),
   ply:   new THREE.MeshStandardMaterial({map:woodTex('#e3c99a','#9a7a4a'), roughness:0.8}),
   walnut:new THREE.MeshStandardMaterial({map:woodTex('#5a3b26','#241509'), roughness:0.55}),
   mural: new THREE.MeshStandardMaterial({color:0x3f5f6b, roughness:0.9}),
@@ -171,7 +172,7 @@ const bed=new THREE.Group(); bed.position.set(0, -axUp, -axIn); pivot.add(bed);
 // bed local: x 0..83.5, Y 0..boxH up, Z 0..boxOut toward the room (plan y = -Z)
 function bbox(x,y,z,dx,dy,dz,mat){ const m=new THREE.Mesh(new THREE.BoxGeometry(dx,dy,dz),mat); m.position.set(x+dx/2,y+dy/2,z+dz/2); m.castShadow=m.receiveShadow=true; bed.add(m); return m; }
 bbox(0,0,0, boxAlong,boxH,boxOut, M.pine);
-for(const x of [1.5,20.5,39.5,boxAlong-3]) bbox(x,0,1.5, 1.5,5.5,boxOut-3, M.pine); for(let z=2;z<boxOut-6;z+=8) bbox(1.5,5.5,z, boxAlong-3,0.75,5.5, M.ply);   // rev G sleepers and slats
+for(const z of [1.5,21.0,40.5,60.0,80.5]) bbox(1.5,0,z, boxAlong-3,5.5,1.5, M.pine); for(let i=0;i<7;i++){ const x=1.5+i*(7.25+1.54); bbox(x,5.5,1.5, 7.25,0.75,39.75, M.cedar); bbox(x,5.5,41.25, 7.25,0.75,40.75, M.cedar); }   // rev G.1: five 2x6 sleepers across the box, cedar 1x8 slats at 40 in in two runs
 bbox(0,-0.44,axIn, boxAlong,0.44,boxOut-axIn, M.mural);                          // rev G: 7/16 OSB bottom sheet, floor and painted face, held back 2 in
 bbox(1.75,6.25,1.75, boxAlong-3.5,mattH,boxOut-3.5, M.matt);
 bbox(1.75,6.25+mattH,1.75, boxAlong-3.5,topH,boxOut-3.5, M.matt);
