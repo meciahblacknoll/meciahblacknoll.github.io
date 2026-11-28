@@ -1,0 +1,277 @@
+<title>Pipe Tib Bar</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#f1efe8; --paper:#fbfaf6; --ink:#1c2128; --ink-2:#4c5260; --ink-3:#7c8292;
+  --line:#c7c2b4; --accent:#b5452f; --accent-ink:#8a3220; --motion:#2f6b63; --motion-bg:#e4efed;
+  --warn-bg:#f8ecd9; --shadow:0 1px 0 rgba(0,0,0,.04), 0 10px 28px -18px rgba(20,20,10,.35);
+  --display:"IBM Plex Sans",system-ui,sans-serif; --mono:"IBM Plex Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
+  --canvas-bg:#eae6da;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#14171c; --paper:#1b1f26; --ink:#eceef2; --ink-2:#aab0bd; --ink-3:#787f8d;
+    --line:#333a45; --accent:#e2795d; --accent-ink:#e2795d; --motion:#5fb3a5; --motion-bg:#16292a;
+    --warn-bg:#2a2116; --canvas-bg:#20242b;
+    --shadow:0 1px 0 rgba(0,0,0,.3), 0 10px 28px -18px rgba(0,0,0,.6);
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#14171c; --paper:#1b1f26; --ink:#eceef2; --ink-2:#aab0bd; --ink-3:#787f8d;
+  --line:#333a45; --accent:#e2795d; --accent-ink:#e2795d; --motion:#5fb3a5; --motion-bg:#16292a;
+  --warn-bg:#2a2116; --canvas-bg:#20242b;
+  --shadow:0 1px 0 rgba(0,0,0,.3), 0 10px 28px -18px rgba(0,0,0,.6);
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--display);line-height:1.5;padding-block:28px 56px}
+.wrap{max-width:900px;margin:0 auto;padding-inline:16px}
+.kicker{font-family:var(--mono);font-size:11.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-3)}
+h1{font-size:clamp(26px,5.5vw,36px);line-height:1.1;margin:8px 0 8px;letter-spacing:-.01em;font-weight:700}
+.lede{font-size:15.5px;color:var(--ink-2);max-width:62ch;margin:0 0 20px}
+.stage{background:var(--canvas-bg);border:1px solid var(--line);border-radius:14px;box-shadow:var(--shadow);overflow:hidden;position:relative}
+#canvasHost{width:100%;aspect-ratio:16/10;display:block;touch-action:none}
+.hint{position:absolute;top:12px;left:14px;font-family:var(--mono);font-size:11px;color:var(--ink-3);background:color-mix(in srgb, var(--paper) 82%, transparent);padding:4px 9px;border-radius:999px;pointer-events:none}
+.warn{margin-top:16px;background:var(--warn-bg);border-radius:12px;padding:14px 18px;font-size:14px;color:var(--ink-2)}
+.warn b{color:var(--ink)}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:18px}
+@media (max-width:620px){.grid{grid-template-columns:1fr}}
+.card{background:var(--paper);border:1px solid var(--line);border-radius:14px;box-shadow:var(--shadow);padding:18px 20px}
+.card h2{font-size:13px;font-family:var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--accent-ink);margin:0 0 10px}
+.parts{display:grid;grid-template-columns:24px 1fr;gap:9px 10px}
+.parts .letter{font-family:var(--mono);font-size:12px;font-weight:700;color:var(--paper);background:var(--accent);width:22px;height:22px;border-radius:5px;display:flex;align-items:center;justify-content:center}
+.parts .txt{font-size:14px;color:var(--ink-2)}
+.parts .txt b{color:var(--ink)}
+footer{font-family:var(--mono);font-size:11.5px;color:var(--ink-3);text-align:center;margin-top:20px}
+</style>
+
+<div class="wrap">
+  <div class="kicker">DIY equipment · 3D model, revised from your Reddit find</div>
+  <h1>Pipe Tib Bar</h1>
+  <p class="lede">Rebuilt from the parts list and photos you found (r/Kneesovertoes, u/RedGhostBends) — black steel pipe fittings, not the PVC-and-carriage-bolt design from before. Drag to orbit, scroll to zoom. Just the bar, no foot, no bench, no motion.</p>
+
+  <div class="stage">
+    <div id="canvasHost"></div>
+    <div class="hint">drag to orbit · scroll to zoom</div>
+  </div>
+
+  <div class="warn"><b>One honest flag:</b> I couldn't read the YouTube tutorial you linked (it's client-rendered, not accessible to my fetch) or fully resolve the hand-drawn sketch's exact arm count from the photo alone. This is my best-faith reconstruction from the parts list and the laid-out photo: a 3-leg base built from three pipe tees joined by short nipples, with the long nipple as the lever arm and a dumbbell collar retaining plates at the far end. If the real build is 2 legs instead of 3, or the tees sit in a different order, tell me and I'll fix the geometry — I'd rather you correct it than trust it blind.</p></div>
+
+  <div class="grid">
+    <div class="card">
+      <h2>Parts list, as you found it</h2>
+      <div class="parts">
+        <div class="letter">A</div><div class="txt"><b>3/4" × 12" pipe nipple</b> — ×1, the main lever arm</div>
+        <div class="letter">B</div><div class="txt"><b>3/4" pipe tee</b> — ×3, joined in a row to form the base hub</div>
+        <div class="letter">C</div><div class="txt"><b>3/4" × 8" pipe nipple</b> — ×4, the splayed legs plus a lever extension</div>
+        <div class="letter">D</div><div class="txt"><b>3/4" × 2" pipe nipple</b> — ×2, short couplers between the three tees</div>
+        <div class="letter">E</div><div class="txt"><b>3/4" pipe caps</b> — ×5, finished ends on every leg and stub</div>
+        <div class="letter">F</div><div class="txt"><b>Standard dumbbell collar</b> — ×1, retains plates on the lever end</div>
+      </div>
+    </div>
+    <div class="card">
+      <h2>What changed from the first model</h2>
+      <p style="font-size:14px;color:var(--ink-2);margin:0 0 10px">Black steel pipe, not PVC. Threaded fittings, not a drilled carriage bolt. A tripod base for stability instead of resting flat on a foot. No hinge anywhere in the bar itself — a build like this is a rigid lever, balanced across a separate fixed point (a block, a step, a low box) when it's actually used, the way a real seesaw works, rather than pivoting on a built-in joint.</p>
+      <p style="font-size:13px;color:var(--ink-3);margin:0">One reported build of this design ran about $42 in modified parts; the plain 3/4" version in the list above should land under that.</p>
+    </div>
+  </div>
+
+  <footer>Reconstructed from a parts list and photo, not a verified CAD source · correct the arm count or arrangement if it's wrong</footer>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js"></script>
+<script>
+(function(){
+  function boot(){
+    var host = document.getElementById('canvasHost');
+    var w = host.clientWidth, h = host.clientHeight;
+
+    var scene = new THREE.Scene();
+    var isDark = (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches && document.documentElement.getAttribute('data-theme') !== 'light') || document.documentElement.getAttribute('data-theme') === 'dark';
+    scene.background = new THREE.Color(isDark ? 0x20242b : 0xeae6da);
+
+    var camera = new THREE.PerspectiveCamera(40, w/h, 0.1, 500);
+    var renderer = new THREE.WebGLRenderer({ antialias: true });
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio||1, 2));
+    renderer.setSize(w, h);
+    host.appendChild(renderer.domElement);
+
+    scene.add(new THREE.HemisphereLight(0xffffff, 0x444444, 1.2));
+    var sun = new THREE.DirectionalLight(0xffffff, 1.0);
+    sun.position.set(12, 20, 14);
+    scene.add(sun);
+    var fill = new THREE.DirectionalLight(0xffffff, 0.35);
+    fill.position.set(-14, 8, -10);
+    scene.add(fill);
+
+    var grid = new THREE.GridHelper(30, 15, 0x8f8a78, 0xbdb6a0);
+    scene.add(grid);
+    var floor = new THREE.Mesh(new THREE.CircleGeometry(16, 48), new THREE.MeshStandardMaterial({ color: isDark?0x262b33:0xf1efe8, roughness:1 }));
+    floor.rotation.x = -Math.PI/2;
+    floor.position.y = -0.02;
+    scene.add(floor);
+
+    // ---- pipe assembly group ----
+    var rig = new THREE.Group();
+    scene.add(rig);
+    rig.position.y = 2.2; // lift off the floor so it reads clearly, resting height roughly as laid out
+
+    var PIPE_R = 0.47; // ~3/4" nominal pipe, slightly larger OD
+    var pipeMat = new THREE.MeshStandardMaterial({ color: 0x2b2e33, roughness:0.35, metalness:0.75 });
+    var fittingMat = new THREE.MeshStandardMaterial({ color: 0x1e2024, roughness:0.4, metalness:0.7 });
+    var collarMat = new THREE.MeshStandardMaterial({ color: 0x9aa0ab, roughness:0.3, metalness:0.85 });
+
+    function nipple(lengthIn, alongAxis){
+      var geo = new THREE.CylinderGeometry(PIPE_R, PIPE_R, lengthIn, 20);
+      var m = new THREE.Mesh(geo, pipeMat);
+      return m;
+    }
+    function tee(){
+      // simplified tee: a slightly larger hex-ish hub block
+      var geo = new THREE.CylinderGeometry(PIPE_R*1.35, PIPE_R*1.35, 1.6, 8);
+      return new THREE.Mesh(geo, fittingMat);
+    }
+    function cap(){
+      var geo = new THREE.SphereGeometry(PIPE_R*1.15, 14, 10, 0, Math.PI*2, 0, Math.PI/2);
+      return new THREE.Mesh(geo, fittingMat);
+    }
+
+    // helper: place a nipple running along local X, centered at (x,y,z), with given length
+    function placeNippleX(lengthIn, cx, cy, cz){
+      var m = nipple(lengthIn);
+      m.rotation.z = Math.PI/2;
+      m.position.set(cx, cy, cz);
+      rig.add(m);
+      return m;
+    }
+    function placeTee(cx, cy, cz, rotY){
+      var m = tee();
+      m.rotation.x = Math.PI/2; // hub axis along local Z by default; rotate so branch reads correctly
+      m.rotation.y = rotY||0;
+      m.position.set(cx, cy, cz);
+      rig.add(m);
+      return m;
+    }
+    function placeCap(cx, cy, cz, flip){
+      var m = cap();
+      m.rotation.z = flip ? -Math.PI/2 : Math.PI/2;
+      m.position.set(cx, cy, cz);
+      rig.add(m);
+      return m;
+    }
+
+    // Hub: three tees in a row along X, joined by two 2" nipples (D)
+    var teeSpacing = 1.6 + 2; // tee width + 2" nipple
+    var hubCenterX = 0;
+    var t1x = hubCenterX - teeSpacing;
+    var t2x = hubCenterX;
+    var t3x = hubCenterX + teeSpacing;
+
+    placeTee(t1x, 0, 0, 0);
+    placeTee(t2x, 0, 0, 0);
+    placeTee(t3x, 0, 0, 0);
+    placeNippleX(2, (t1x+t2x)/2, 0, 0);
+    placeNippleX(2, (t2x+t3x)/2, 0, 0);
+
+    // Three legs, splayed, one per tee branch (perpendicular to hub axis, angled down/out for a tripod stance)
+    var legLen = 8, legAngles = [ -2.3, 0, 2.3 ]; // radians-ish spread around, simplified to a fan for clarity
+    var legTeeX = [t1x, t2x, t3x];
+    for (var i=0;i<3;i++){
+      var ang = -0.55 + i*0.55; // fan the legs downward/outward in the XZ-ish plane for visual spread
+      var dx = Math.sin(ang) * 0.35;
+      var dz = Math.cos(ang) * 1;
+      var leg = nipple(legLen);
+      leg.rotation.x = Math.PI/2;
+      leg.rotation.z = ang*0.4;
+      var midDist = legLen/2 + 0.8;
+      leg.position.set(legTeeX[i], -0.9 - i*0.05, Math.cos(ang)*midDist*0.9);
+      leg.position.x = legTeeX[i] + Math.sin(ang)*0.6;
+      leg.position.y = -1.0;
+      leg.position.z = Math.cos(ang)*midDist*0.55;
+      rig.add(leg);
+      // cap at the far end of each leg
+      var capPos = new THREE.Vector3().copy(leg.position);
+      var dir = new THREE.Vector3(Math.sin(ang)*0.25, -0.15, Math.cos(ang)*0.55).normalize();
+      capPos.addScaledVector(dir, legLen*0.55);
+      var c = placeCap(capPos.x, capPos.y, capPos.z, true);
+      c.lookAt(leg.position);
+    }
+
+    // Lever arm: from the far tee (t3), extends further out via an 8" nipple then the 12" nipple, ending in a collar
+    var leverStartX = t3x + 0.8;
+    var leverSeg1Len = 8;
+    placeNippleX(leverSeg1Len, leverStartX + leverSeg1Len/2, 0, 0);
+    var leverSeg2StartX = leverStartX + leverSeg1Len;
+    var leverSeg2Len = 12;
+    placeNippleX(leverSeg2Len, leverSeg2StartX + leverSeg2Len/2, 0, 0);
+    var leverEndX = leverSeg2StartX + leverSeg2Len;
+
+    // dumbbell collar near the far end
+    var collar = new THREE.Mesh(new THREE.TorusGeometry(PIPE_R*1.5, 0.22, 12, 20), collarMat);
+    collar.rotation.y = Math.PI/2;
+    collar.position.set(leverEndX - 1.2, 0, 0);
+    rig.add(collar);
+    // end cap at the very tip
+    placeCap(leverEndX, 0, 0, false);
+
+    // a spare capped stub off the first tee's open end (accounts for 5th cap)
+    var stubLen = 2;
+    placeNippleX(stubLen, t1x - teeSpacing/2 - stubLen/2 + 0.2, 0, 0);
+    placeCap(t1x - teeSpacing/2 - stubLen + 0.1, 0, 0, false);
+
+    // center the whole rig roughly in view
+    var box = new THREE.Box3().setFromObject(rig);
+    var center = box.getCenter(new THREE.Vector3());
+    rig.children.forEach(function(c){ c.position.x -= center.x; c.position.z -= center.z; });
+
+    // manual orbit controls
+    var isDragging = false, lastX=0, lastY=0;
+    var theta = 0.7, phi = 1.1, radius = 24;
+    var target = new THREE.Vector3(0, 2, 0);
+    function updateCamera(){
+      camera.position.set(
+        target.x + radius * Math.sin(phi) * Math.cos(theta),
+        target.y + radius * Math.cos(phi),
+        target.z + radius * Math.sin(phi) * Math.sin(theta)
+      );
+      camera.lookAt(target);
+    }
+    updateCamera();
+    renderer.domElement.style.cursor = 'grab';
+    renderer.domElement.addEventListener('pointerdown', function(e){
+      isDragging = true; lastX = e.clientX; lastY = e.clientY;
+      renderer.domElement.style.cursor = 'grabbing';
+      renderer.domElement.setPointerCapture(e.pointerId);
+    });
+    renderer.domElement.addEventListener('pointerup', function(){ isDragging=false; renderer.domElement.style.cursor='grab'; });
+    renderer.domElement.addEventListener('pointermove', function(e){
+      if (!isDragging) return;
+      var dx = e.clientX-lastX, dy = e.clientY-lastY;
+      lastX = e.clientX; lastY = e.clientY;
+      theta -= dx*0.008;
+      phi -= dy*0.008;
+      phi = Math.max(0.25, Math.min(Math.PI-0.25, phi));
+      updateCamera();
+    });
+    renderer.domElement.addEventListener('wheel', function(e){
+      e.preventDefault();
+      radius *= (1+e.deltaY*0.001);
+      radius = Math.max(8,Math.min(60,radius));
+      updateCamera();
+    }, {passive:false});
+
+    function animate(){ requestAnimationFrame(animate); renderer.render(scene,camera); }
+    animate();
+
+    window.addEventListener('resize', function(){
+      var w2=host.clientWidth, h2=host.clientHeight;
+      camera.aspect=w2/h2; camera.updateProjectionMatrix();
+      renderer.setSize(w2,h2);
+    });
+  }
+  if (window.THREE) boot();
+  else { var ck=setInterval(function(){ if(window.THREE){clearInterval(ck); boot();} },50); }
+})();
+</script>
