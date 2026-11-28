@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Jump Rope Flow</title>
+<meta name="description" content="An independent outdoor jump-rope practice layered on top of the bedroom training program: a four-tier flow ladder, a volume ramp built from overuse-prevention numbers, the ankle-dorsiflexion synergy with the existing CARs and pistol work, and one conservative rule for not stacking ankle load against Tuesday. Fifth companion to the Bedroom Training Program v2, Block 1, Mobility Skill Lines and the Daily Check-in Layer.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..800;1,9..144,300..800&family=Source+Serif+4:ital,opsz,wght@0,8..60,300..700;1,8..60,300..700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#f7f2ea;
+  --bg-2:#efe7da;
+  --paper:#fffdf9;
+  --ink:#1f1a14;
+  --ink-2:#4a4036;
+  --ink-3:#7a6d5f;
+  --rule:#d9cdbb;
+  --accent:#9a4b1e;
+  --accent-2:#2f6b57;
+  --accent-3:#5a4e9c;
+  --warn:#a3591a;
+  --warn-bg:#fbead8;
+  --ok-bg:#e3efe8;
+  --info-bg:#e9e6f5;
+  --head-bg:#efe7da;
+  --shadow:0 1px 0 rgba(0,0,0,.04),0 8px 24px -16px rgba(60,40,20,.25);
+  --serif:"Source Serif 4",Georgia,"Times New Roman",serif;
+  --display:"Fraunces","Source Serif 4",Georgia,serif;
+  --mono:"IBM Plex Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#15120e; --bg-2:#1f1a14; --paper:#1b1712;
+    --ink:#efe6d8; --ink-2:#cbbfae; --ink-3:#9a8d7c; --rule:#3a3128;
+    --accent:#e08a57; --accent-2:#7fc2a7; --accent-3:#a79cdf;
+    --warn:#e9a86a; --warn-bg:#2d2116; --ok-bg:#16271f; --info-bg:#201d2e; --head-bg:#241e17;
+    --shadow:0 1px 0 rgba(0,0,0,.3),0 8px 24px -16px rgba(0,0,0,.7);
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#15120e; --bg-2:#1f1a14; --paper:#1b1712;
+  --ink:#efe6d8; --ink-2:#cbbfae; --ink-3:#9a8d7c; --rule:#3a3128;
+  --accent:#e08a57; --accent-2:#7fc2a7; --accent-3:#a79cdf;
+  --warn:#e9a86a; --warn-bg:#2d2116; --ok-bg:#16271f; --info-bg:#201d2e; --head-bg:#241e17;
+  --shadow:0 1px 0 rgba(0,0,0,.3),0 8px 24px -16px rgba(0,0,0,.7);
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--serif);font-size:17px;line-height:1.6;font-feature-settings:"onum" 0,"lnum" 1}
+.wrap{max-width:760px;margin:0 auto;padding-block:40px 80px;padding-inline:16px}
+header.masthead{padding:16px 0 28px;border-bottom:2px solid var(--ink)}
+.kicker{font-family:var(--mono);font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-3)}
+h1{font-family:var(--display);font-weight:600;font-variation-settings:"opsz" 144,"SOFT" 40;font-size:clamp(34px,7vw,52px);line-height:1.05;margin:10px 0 14px;letter-spacing:-.01em;text-wrap:balance}
+.lede{font-size:19px;color:var(--ink-2);margin:0 0 12px;max-width:62ch}
+.meta{font-family:var(--mono);font-size:12.5px;color:var(--ink-3);display:flex;flex-wrap:wrap;gap:8px 18px}
+nav.toc{margin:24px 0 8px;padding:16px 18px;background:var(--paper);border:1px solid var(--rule);border-radius:10px;box-shadow:var(--shadow)}
+nav.toc ol{margin:6px 0 0;padding-left:1.3em;columns:2;column-gap:28px}
+@media (max-width:520px){nav.toc ol{columns:1}}
+nav.toc li{margin:3px 0;font-size:15.5px;break-inside:avoid}
+nav.toc a{color:var(--ink-2);text-decoration:none;border-bottom:1px solid var(--rule)}
+nav.toc a:hover,nav.toc a:focus-visible{color:var(--accent);border-color:var(--accent);outline:none}
+section{margin-top:52px}
+h2{font-family:var(--display);font-weight:600;font-size:clamp(26px,5vw,32px);line-height:1.15;margin:0 0 6px;font-variation-settings:"opsz" 72;text-wrap:balance}
+h2 .num{font-family:var(--mono);font-size:13px;color:var(--accent);letter-spacing:.1em;display:block;margin-bottom:6px;font-weight:500}
+h3{font-family:var(--display);font-weight:600;font-size:21px;margin:28px 0 8px;line-height:1.25;text-wrap:balance}
+h4{font-family:var(--serif);font-weight:700;font-size:17px;margin:18px 0 6px}
+p{margin:10px 0}
+ul,ol{padding-left:1.35em}
+li{margin:5px 0}
+li>ul{margin-top:4px}
+strong{font-weight:700}
+em{font-style:italic}
+code,.mono{font-family:var(--mono);font-size:.88em}
+.small{font-size:14.5px;color:var(--ink-3)}
+a{color:var(--accent)}
+a:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+
+.callout{padding:14px 18px;border-radius:10px;margin:18px 0;border:1px solid var(--rule);background:var(--paper)}
+.callout.rule{background:var(--warn-bg);border-color:transparent}
+.callout.ok{background:var(--ok-bg);border-color:transparent}
+.callout.info{background:var(--info-bg);border-color:transparent}
+.callout .label{font-family:var(--mono);font-size:11.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-3);display:block;margin-bottom:4px}
+.callout p:first-of-type{margin-top:4px}
+.callout p:last-child{margin-bottom:2px}
+
+.tbl{overflow-x:auto;-webkit-overflow-scrolling:touch;margin:14px 0;border:1px solid var(--rule);border-radius:10px;background:var(--paper);box-shadow:var(--shadow)}
+table{border-collapse:collapse;width:100%;min-width:480px;font-size:15px}
+table.narrow{min-width:0}
+th,td{padding:9px 12px;text-align:left;vertical-align:top;border-bottom:1px solid var(--rule)}
+th{background:var(--head-bg);font-family:var(--mono);font-size:11.5px;letter-spacing:.08em;text-transform:uppercase;font-weight:600;color:var(--ink-2)}
+tr:last-child td{border-bottom:0}
+td.n,th.n{text-align:right;font-family:var(--mono);font-size:14px;white-space:nowrap;font-variant-numeric:tabular-nums}
+td.id{font-family:var(--mono);font-size:13px;color:var(--accent);white-space:nowrap;font-weight:600}
+tbody tr.sub td{background:var(--bg-2);font-family:var(--mono);font-size:11.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-3);padding:6px 12px}
+.tag{display:inline-block;font-family:var(--mono);font-size:11px;letter-spacing:.06em;padding:1px 7px;border-radius:999px;border:1px solid var(--rule);color:var(--ink-2);white-space:nowrap}
+.tag.heavy{background:var(--warn-bg);color:var(--warn);border-color:transparent}
+.tag.light{background:var(--ok-bg);color:var(--accent-2);border-color:transparent}
+.tag.none{color:var(--ink-3)}
+.tag.target{background:var(--info-bg);color:var(--accent-3);border-color:transparent}
+.cite{font-family:var(--mono);font-size:12.5px;color:var(--ink-3);white-space:nowrap}
+
+.say{margin:14px 0 6px;padding:12px 16px 12px 18px;border-left:3px solid var(--accent);background:var(--paper);border-radius:0 10px 10px 0;font-style:italic;color:var(--ink-2)}
+.say .who{font-family:var(--mono);font-size:11.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-3);font-style:normal;display:block;margin-bottom:4px}
+
+.ladder{counter-reset:tier;list-style:none;padding:0;margin:10px 0}
+.ladder li{position:relative;padding:8px 0 8px 46px;border-left:2px solid var(--rule);margin:0 0 0 14px}
+.ladder li::before{counter-increment:tier;content:counter(tier);position:absolute;left:-15px;top:9px;width:28px;height:28px;border-radius:50%;background:var(--paper);border:2px solid var(--accent);color:var(--accent);font-family:var(--mono);font-size:12.5px;font-weight:600;display:flex;align-items:center;justify-content:center}
+.ladder li.gate::before{content:"G";border-color:var(--accent-3);color:var(--accent-3)}
+.ladder .t{font-weight:700}
+.ladder .pass{display:block;font-family:var(--mono);font-size:13px;color:var(--accent-2);margin-top:2px}
+.ladder .pass::before{content:"pass → ";color:var(--ink-3)}
+.ladder .src{display:block;font-size:13.5px;color:var(--ink-3);margin-top:2px}
+
+pre.schema{margin:10px 0;padding:12px 14px;background:var(--paper);border:1px solid var(--rule);border-radius:10px;font-family:var(--mono);font-size:13px;line-height:1.5;overflow-x:auto;color:var(--ink-2)}
+
+footer{margin-top:64px;padding-top:18px;border-top:1px solid var(--rule);font-size:14px;color:var(--ink-3)}
+ul.src li{font-size:14.5px;color:var(--ink-2)}
+@media (prefers-reduced-motion: reduce){*{scroll-behavior:auto!important}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header class="masthead">
+  <div class="kicker">Meciah · Training program · Jump rope flow · companion to v2, Block 1, Mobility and the Check-in layer</div>
+  <h1>Jump Rope Flow</h1>
+  <p class="lede">A skill practised in the driveway, not the bedroom, on its own clock and its own time budget: chaining two or three jump-rope tricks into a continuous sequence. This page gives it a four-tier ladder in the program's own format, a weekly volume ramp built from the overuse-prevention numbers rather than the enthusiast timelines, the one genuine link it has to work already in the program (the ankle gate), and a stated rule for the one place it collides with the existing week, which is Tuesday's ankle and calf work.</p>
+  <div class="meta">
+    <span>Written: 2026-11-27</span>
+    <span>Runs: outside the five sessions, outdoors</span>
+    <span>Changes to the four documents: none</span>
+    <span>Time cost: 12 min/week to start, its own budget</span>
+  </div>
+  <nav class="toc" aria-label="Contents">
+    <span class="kicker">Contents</span>
+    <ol>
+      <li><a href="#what">What this adds, and what it leaves alone</a></li>
+      <li><a href="#why">Why jump rope flow, briefly</a></li>
+      <li><a href="#ladder">The tier ladder</a></li>
+      <li><a href="#when">Where and how often</a></li>
+      <li><a href="#joints">Joint-health rules specific to this skill</a></li>
+      <li><a href="#gear">Equipment and space</a></li>
+      <li><a href="#gaps">What this does not do yet, and the gap it leaves open</a></li>
+      <li><a href="#sources">Sources</a></li>
+    </ol>
+  </nav>
+</header>
+
+<!-- ============================================================ -->
+<section id="what">
+  <h2><span class="num">01</span>What this adds, and what it leaves alone</h2>
+  <p>The <a href="https://meciahblacknoll.github.io/training-8dv7/">base document</a> settles what you do in the bedroom, <a href="https://meciahblacknoll.github.io/training-8dv7/block1/">Block 1</a> settles when, <a href="https://meciahblacknoll.github.io/training-8dv7/mobility/">Mobility Skill Lines</a> added the pistol and the bridge into existing day-cards, and the <a href="https://meciahblacknoll.github.io/training-8dv7/checkin/">Daily Check-in Layer</a> made all of it loggable. None of that is re-opened here. No day-card changes. The 45–60 minute session is not lengthened by a minute, and nothing on this page is placed as a warm-up, a finisher, or a Wednesday skill-slot item.</p>
+  <p>That is the difference from the last two skills added. The pistol squat and back bridge were slotted <em>into</em> the week because they shared joints, equipment and a room with work already there. Jump rope flow shares none of those. It is done outside, standing up, with a rope, in sessions short enough to fit before or after anything. So this page designs it as a <strong>second, independent practice layered on top of the program</strong>: its own ladder, its own volume ramp, its own log entry, its own rest day. What it does not get is its own joint rules. Those it inherits unchanged.</p>
+
+  <div class="callout rule">
+    <span class="label">Still the override</span>
+    <p><strong>Any new ache that lingers past 48 hours drops that movement back one tier, or out of the session entirely, for that week.</strong> The base document's words. A practice that happens in the driveway is not outside its reach: for this page "that movement" means the rope work, "one tier" means the ladder in Section 03 together with the volume step in Section 04, and "out of the session" means no rope that week. Section 05 spells out the shin, calf and ankle cases. Nothing below is allowed to soften this.</p>
+  </div>
+
+  <p>The ordering of priorities is also inherited. Joint health wins any conflict. Jump rope flow is a Priority-2 skill line, like the planche or the pistol, and a low one on that list: it is a new line added because it is cheap, enjoyable and compatible, not because it advances any of the four named skill goals. When it competes for time or tissue with the pistol ladder, which is a named Priority-2 goal with its own Tuesday slot, the pistol wins. That ranking is used once, concretely, in Section 04.</p>
+  <p>One term before anything else. "Flow" here means what the free jump-rope community means by it: within ordinary freestyle jump rope, the style of chaining two or three tricks into one continuous, unbroken sequence, usually to music. It is not a separately codified discipline, it is not competitive freestyle with its judged elements, and it is not double-unders, which are a conditioning skill with a different rope and a different injury profile. The target of this page is the beginner's "first simple flow," and nothing past it.</p>
+</section>
+
+<!-- ============================================================ -->
+<section id="why">
+  <h2><span class="num">02</span>Why jump rope flow, briefly</h2>
+  <p>Most cross-training rationales are vague: "it builds coordination," "it is good conditioning." Those may be true, but they are not reasons this program needs, and they are not what justified adding a line. The one reason that survives checking is specific and runs in both directions.</p>
+  <p>The research pass found, in the Pliability article on jump rope and ankle mobility, that <strong>adequate ankle dorsiflexion, named as at least 20°, is the prerequisite for jump-rope landings to load the Achilles tendon properly instead of compressing the joint</strong>. Without that range the ankle cannot fold forward over the foot on landing, so the force that should be absorbed by the calf and tendon goes into the front of the joint. That is exactly the quality the program already trains and already tests. The daily ankle CARs in the FRC layer are dorsiflexion work. The pistol squat's ankle gate in Mobility §03 is a dorsiflexion test: knee-to-wall, heel down, with 10 cm as its threshold. Block 1 measures it in week 1 and week 12.</p>
+  <p>So the synergy is not "jump rope helps the pistol" in some general way. It is that the <em>same joint range</em> is a hard prerequisite for both, the program is already building it, and the program's existing test tells you whether you have it before the first skip. The rope practice, in turn, gives that range a second real-world job, which is the same argument Mobility made for the pistol and the bridge as demonstrations of the longevity battery.</p>
+
+  <div class="callout info">
+    <span class="label">What the numbers do and do not let you say</span>
+    <p>The pistol's ankle-gate threshold (knee-to-wall ≥ 10 cm) is a coaching heuristic for roughly 35–45° of dorsiflexion, because a full-depth pistol demands far more range than a one-to-two-inch hop. The jump-rope prerequisite is 20°. No source converts 20° to a knee-to-wall distance for this purpose, and this page does not invent one. What can be said safely is directional: <strong>passing the pistol's gate is a stricter condition than the jump-rope prerequisite, so passing it is sufficient.</strong> Failing it does not mean you lack 20°; it means the program cannot confirm you have it from the test it already runs. Section 03 turns that into a conservative gate rule.</p>
+  </div>
+
+  <p>Two smaller reasons, both honest about their weight. First, cost: a rope, a driveway and free video. The research pass found the free YouTube material (The Way of the Jump Rope, Jumprope.no) sufficient for the beginner milestone this page targets; paid coaching's value appears only in how fast advanced tricks are acquired, which is out of scope. Second, it is a skill with a short feedback loop. The timeline data in Section 03 puts a visible first milestone inside the first week and a recognisable "flow" within a couple of months, which the splits and the planche cannot offer.</p>
+</section>
+
+<!-- ============================================================ -->
+<section id="ladder">
+  <h2><span class="num">03</span>The tier ladder</h2>
+  <p>The base document's tier rule, quoted so the adaptation below can be checked against it:</p>
+  <div class="say"><span class="who">Base document, Section 08</span>"Advance a tier only after 3–4 sets of 8–12 clean reps, or a clean 30-second hold, at the current tier… Falling short on a new tier for two straight sessions means go back one tier for a week, then retry."</div>
+  <p>That rule was written for strength skills where a "rep" and a "hold" are unambiguous. Jump rope is neither, exactly. A bounce is a rep but a trivially easy one; a trick is a rep with a pass/fail; a combo is a sequence that is only meaningful if it is continuous. <strong>So the pass criteria below are this page's adaptation of the rule's shape, not a quotation.</strong> No source specifies tiers or pass counts for jump rope. What the sources give is a timeline of milestones, and the ladder is built on those: "3–4 sets" becomes 3–4 timed runs, "8–12 clean reps" becomes 8–12 clean trick landings or combo cycles, and "a clean 30-second hold" becomes 30 or 60 seconds of unbroken rope. The 60-second figure at tiers 3 and 4 is the source milestone itself (a two-trick combo "held for a minute by around week 4"); it is the one place the ladder's number is the research's number rather than the base document's.</p>
+
+  <ol class="ladder">
+    <li class="gate"><span class="t">Ankle gate (not a tier, a prerequisite).</span> The knee-to-wall dorsiflexion test the program already runs: Block 1 week 1 and week 12, and whenever the pistol ladder reads it. No new test, no new number. <span class="pass">≥ 10 cm each side (the pistol's existing gate). Passing it is sufficient for the 20° jump-rope prerequisite, since it tests a larger range. Below 10 cm on either side, the rope stays at tier 1 and the week-1 volume floor (Section 04) until the gate passes; ankle CARs get the extra reps Mobility already prescribes for a failed gate.</span><span class="src">Source: Pliability for the ≥ 20° prerequisite; Mobility §03 and Block 1 week 1 for the test and threshold. The "stay at tier 1 below 10 cm" rule is this page's conservative reading, because the program has no test that confirms 20° on its own.</span></li>
+    <li><span class="t">Basic bounce.</span> Two-foot bounce, rope turning from the wrists, elbows close, eyes forward, <strong>jump height one to two inches</strong>, landing on the balls of the feet with the heels kissing the ground. The timeline sources put a reliable basic bounce at one to three sessions, so this tier is expected to pass within week 1. Its real job is to install the jump height, which is the single technique rule the injury sources care about. <span class="pass">3–4 runs of 30 s unbroken, jump height staying low on every run. Adapted from the 30-second hold.</span><span class="src">Source: ElevateRope timeline (1–3 sessions); Jump Rope Dudes for the 1–2 inch height.</span></li>
+    <li><span class="t">First trick.</span> One trick, chosen from the beginner videos, entered from the basic bounce and returned to it without the rope stopping. Which trick is yours to pick; the sources do not rank them and this page does not either. The timeline puts the first individual trick at one to two weeks. <span class="pass">3–4 runs, each containing 8–12 clean landings of the trick (rope keeps turning before and after, no trip, height still low). Adapted from 3–4 × 8–12 clean reps.</span><span class="src">Source: ElevateRope timeline (first trick 1–2 weeks).</span></li>
+    <li><span class="t">Two-trick combo.</span> Two tricks alternating, or trick-bounce-trick, as one continuous pattern. The milestone the sources name is a short two-trick combo "held for a minute by around week 4." <span class="pass">3 runs of 60 s unbroken combo, each run containing at least 8 clean cycles of the pattern. The 60 s is the source's own milestone; the 3 runs and 8 cycles are the adaptation.</span><span class="src">Source: ElevateRope timeline (two-trick combo, ~week 4).</span></li>
+    <li><span class="t">First simple flow.</span> Three tricks chained, with the bounce as the connective tissue, to music if you like. This is what the sources mean by a beginner's first flow, and they place it at roughly four to eight weeks of daily ten-minute practice. <span class="pass">3 runs of 60 s unbroken, each cycling through all three tricks at least twice, clean: "first simple flow" reached. Beyond this (longer sequences, four or more tricks, speed, double-unders) is open-ended and not programmed here.</span><span class="src">Source: ElevateRope timeline (first simple flow, 4–8 weeks at daily 10 min). The 4–8 weeks assumes more weekly volume than Section 04 allows at the start; see the note there.</span></li>
+  </ol>
+
+  <p>The back-one-tier clause carries over literally: <strong>falling short on a new tier for two straight sessions means back one tier for a week, then retry.</strong> One honest consequence of a near-daily practice is that "two straight sessions" can be two consecutive days rather than, as with the pistol, two Tuesdays a week apart. That is read as written, not loosened: two short days in a row at a new tier, one tier back for a week. "Clean" at every tier includes the jump height. A trick landed from a four-inch jump is not clean, and a run counted that way corrupts the only technique variable the injury sources name.</p>
+  <p>The sleep rule applies too, as it does to all five existing ladders: a week averaging under seven hours means no new tier is tested that week. The Check-in Layer's trailing-seven-night reading is the one used.</p>
+</section>
+
+<!-- ============================================================ -->
+<section id="when">
+  <h2><span class="num">04</span>Where and how often</h2>
+  <p>Where is easy: outside, in the driveway or yard, in a footprint and clearance given in Section 06. Never in the bedroom, because the ceiling clearance is not there and because the whole point of this page is that the rope does not touch the session budget.</p>
+  <p>How often is where the two kinds of source disagree, and the disagreement has to be resolved rather than averaged. The <em>timeline</em> sources assume daily ten-minute practice and give the 4–8 week figure on that basis. The <em>injury</em> sources, which are the ones Priority 1 answers to, say the injury profile of jump rope is pure overuse (shin splints, calf strain, jumper's knee, plantar fasciitis), driven by ramping volume too fast, and give three concrete numbers for preventing it: <strong>start at 3–5 minutes a day, three days a week; keep the jump to one to two inches; and increase volume by no more than 10–15% per week.</strong> Those three numbers are the rules. The timeline becomes a floor on how long things will take, not a target.</p>
+
+  <h3>The ramp</h3>
+  <p>The quantity that ramps is the <strong>weekly total of rope minutes</strong>. Week 1 is three sessions of four minutes, twelve minutes, the middle of the 3–5 minute start. Each week after that the total may rise by at most 10–15%. How the total is split across days is yours, within two limits: no session shorter than 3 minutes (below that nothing is learned) and <strong>no session longer than 10 minutes</strong> inside Block 1 (the daily figure the timeline sources themselves assume, and the largest single-session number any source in the pass used). Add days before adding minutes: the practice gets to near-daily on short sessions first, and only then do the sessions lengthen. The table runs the arithmetic against the Block 1 calendar, because Block 1 week 7 is a deload week and the rope holds flat there (Section 05 says why). Figures are rounded to the half-minute.</p>
+
+  <div class="tbl">
+    <table>
+      <thead><tr><th>Block 1 week</th><th class="n">Minutes / week at 10%</th><th class="n">Minutes / week at 15%</th><th>Shape it allows</th></tr></thead>
+      <tbody>
+        <tr><td>1</td><td class="n">12</td><td class="n">12</td><td>3 × 4 min, any three days except Tuesday</td></tr>
+        <tr><td>2</td><td class="n">13</td><td class="n">14</td><td>3 × 4–4.5 min</td></tr>
+        <tr><td>3</td><td class="n">14.5</td><td class="n">16</td><td>4 × 3.5–4 min, or 3 × 5</td></tr>
+        <tr><td>4</td><td class="n">16</td><td class="n">18.5</td><td>4 × 4–4.5 min. Timeline's two-trick-combo milestone lands here <em>if</em> you were doing daily 10 min; you are not, so expect it later.</td></tr>
+        <tr><td>5</td><td class="n">17.5</td><td class="n">21</td><td>5 × 3.5–4 min</td></tr>
+        <tr><td>6</td><td class="n">19.5</td><td class="n">24</td><td>5–6 × 3.5–4 min</td></tr>
+        <tr><td>7 <span class="tag none">deload</span></td><td class="n">19.5</td><td class="n">24</td><td>Hold at the week-6 total. No ramp, no tier test.</td></tr>
+        <tr><td>8</td><td class="n">21.5</td><td class="n">28</td><td>6 × 3.5–4.5 min: near-daily from here</td></tr>
+        <tr><td>9</td><td class="n">23.5</td><td class="n">32</td><td>6 × 4–5.5 min</td></tr>
+        <tr><td>10</td><td class="n">25.5</td><td class="n">36.5</td><td>6 × 4–6 min</td></tr>
+        <tr><td>11</td><td class="n">28.5</td><td class="n">42</td><td>6 × 5–7 min</td></tr>
+        <tr><td>12 <span class="tag none">retest</span></td><td class="n">31</td><td class="n">48.5</td><td>6 × 5–8 min. Ankle gate is re-measured this week anyway.</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="small">Derived, not cited: the 12-minute start, the 10% and 15% ceilings and the 10-minute session cap are the sources' numbers; everything else in the table is arithmetic on them plus the Block 1 calendar. At these rates, "daily ten minutes" (70 min/week) is reached around week 15 at 15% and around week 21 at 10%, counting the week-7 hold. So the sources' "first simple flow at 4–8 weeks" is, under this ramp, more realistically a Block 2 milestone. That is the correct trade: the 4–8 weeks is an enthusiast's timeline and the 10–15% is an injury-prevention rule, and the program ranks those.</p>
+
+  <h3>Which days, and the Tuesday rule</h3>
+  <p>This is the one place the rope and the program touch the same tissue, and it has to be handled by a stated rule rather than by caution. Tuesday (Lower + Pull A) already carries the program's deliberate ankle and calf work: the pistol ladder with its ankle gate and box progression as the squat's warm-up, and standing calf raises later in the session. Both of those load the calf and the Achilles; the pistol also loads the ankle at end-range dorsiflexion. Jump rope loads the identical structures, and its whole injury list (shin, calf, patellar tendon, plantar fascia) is downstream of the same chain. No source in the research pass addresses combining the two. The rule below is therefore a synthesis, flagged as such in Section 07, built to be conservative and bounded rather than clever.</p>
+
+  <div class="callout rule">
+    <span class="label">Volume-stacking rule</span>
+    <p><strong>1. Tuesday is the rope's fixed rest day.</strong> No rope on any Tuesday, at any tier, for any reason, for as long as the pistol ladder and calf raises live there. This mirrors the program's own no-back-to-back-joint rule, which the Check-in Layer's gaps section made absolute rather than flagged. Six days remain, which is more than the ramp can fill for most of Block 1.</p>
+    <p><strong>2. One ankle variable moves per week.</strong> In any week where the Tuesday ankle work goes up (the pistol ladder advances a tier, or the calf raise load or rep target goes up under double progression), the rope's weekly total <strong>holds at the previous week's number</strong> and no rope tier is tested. In any week where the rope ramps or a rope tier is tested, the pistol and calf raises simply follow their own rules; they are not held back, because the pistol is a named goal and the rope is not. This is the Priority-2 ranking from Section 01 applied once.</p>
+    <p><strong>3. One clock for the shared tissue.</strong> A new ache in the shin, calf, Achilles, heel or front of the ankle cannot be attributed by the log to the rope or to Tuesday, and the system must not guess. If it confirms at 48 hours, <strong>both</strong> lines take the drop that week: the rope goes back one tier and one volume step (or out), and the pistol goes back one tier with the calf raises out, exactly as Mobility's pistol joint rule would already have it. The 48-hour clock runs from the first log entry, whichever activity it was noticed after.</p>
+  </div>
+
+  <p>Monday is allowed, which puts rope on the day before the Tuesday ankle work. The program itself accepts lower sessions 48 hours apart (Tuesday and Thursday), and a four-minute low-hop session is a smaller load than either; but no source speaks to the adjacent-day case specifically and it is listed as open in Section 07. If the first weeks produce any calf or shin note at all, the simplest move inside the rules is to make Monday the second rest day and use Wednesday to Sunday.</p>
+
+  <h3>Where it sits around the five sessions</h3>
+  <div class="tbl">
+    <table>
+      <thead><tr><th>Day</th><th>Program session</th><th>Ankle / calf load from program</th><th>Rope</th></tr></thead>
+      <tbody>
+        <tr><td>Mon</td><td>Push A</td><td><span class="tag none">none</span></td><td>Allowed. Day before Tuesday; see note above.</td></tr>
+        <tr><td>Tue</td><td>Lower + Pull A</td><td><span class="tag heavy">pistol ladder · calf raises</span></td><td><strong>No rope.</strong> Fixed rest day.</td></tr>
+        <tr><td>Wed</td><td>Skill</td><td><span class="tag none">none</span></td><td>Allowed.</td></tr>
+        <tr><td>Thu</td><td>Lower + Pull B</td><td><span class="tag light">general lower-body</span></td><td>Allowed. Thursday carries no named ankle or calf item; the lower lifts load the ankle only incidentally.</td></tr>
+        <tr><td>Fri</td><td>Push B</td><td><span class="tag none">none</span></td><td>Allowed.</td></tr>
+        <tr><td>Sat / Sun</td><td>Rest (or a makeup day under W8–W10)</td><td><span class="tag none">none</span>, unless a Tuesday-type makeup is logged</td><td>Allowed. If a lost Tuesday is made up on a weekend day (Check-in W9), that day inherits the Tuesday rule: no rope.</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="small">Time of day is free. Before or after the bedroom session on a weekday is fine; it is a separate budget, and nothing in the program's session timing keys off it.</p>
+</section>
+
+<!-- ============================================================ -->
+<section id="joints">
+  <h2><span class="num">05</span>Joint-health rules specific to this skill</h2>
+  <p>The research found no acute-trauma injury pattern for jump rope: the profile is entirely overuse, and the four conditions the sources name are <strong>shin splints, calf strain, jumper's knee and plantar fasciitis</strong>. Each has a location, and the location is all this page uses, because the program only ever distinguishes joint from muscle and never diagnoses. The table maps the four names to where you would feel them and to how the Check-in Layer should classify the note. It is not a clinical claim and makes none beyond "these are the four the sources name and this is where they are."</p>
+
+  <div class="tbl">
+    <table>
+      <thead><tr><th>Named in the sources</th><th>Where you would notice it</th><th>Logged as</th><th>Likely cause the sources give</th></tr></thead>
+      <tbody>
+        <tr><td>Shin splints</td><td>Along the front or inside edge of the shin bone, often both legs, worse at the start of a session</td><td><code>kind: other</code> (bone/tendon edge), part <code>shin</code></td><td>Volume ramped too fast; jump too high</td></tr>
+        <tr><td>Calf strain</td><td>In the belly of the calf, one side, often sudden during a session</td><td><code>kind: muscle</code>, part <code>calf</code></td><td>Volume; fatigue late in a session</td></tr>
+        <tr><td>Jumper's knee</td><td>Just below the kneecap, where the tendon attaches</td><td><code>kind: joint</code>, part <code>knee</code>, front</td><td>Volume; jump too high</td></tr>
+        <tr><td>Plantar fasciitis</td><td>Underside of the heel or the arch, worst with the first steps in the morning</td><td><code>kind: other</code>, part <code>heel</code> or <code>arch</code></td><td>Volume; landing flat-footed</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3>Same day</h3>
+  <p>The rule the pistol already has, moved to the rope. <strong>Pain, as opposed to fatigue, at any of the four locations above during a session ends the session.</strong> Calf burn and general "legs are done" are fatigue and are fine. A sharp or localised feeling at the shin edge, below the kneecap, or under the heel is a joint-type event: stop, log the location and side with today's date, and the 48-hour clock starts. Do not finish the run to make the tier.</p>
+  <p>A second same-day rule, which the other ladders do not need: <strong>if the jump height creeps up, the session ends at the tier it is at.</strong> Rising height is what fatigue looks like in this skill, and height is the one technique variable the injury sources name. Treat it the way Mobility treats the pistol's heel lifting: the gate failing in real time, not a thing to push through.</p>
+
+  <h3>The 48-hour clock, rope edition</h3>
+  <p>The override in Section 01 is restated here in this skill's terms so the Check-in Layer can apply it with no interpretation:</p>
+  <ul>
+    <li><strong>Confirmed at 48 hours in shin, calf, Achilles, heel/arch or front of ankle:</strong> the rope drops <strong>one tier and one volume step</strong> for the rest of that week (the volume step is "last week's weekly total," which is the real numeric equivalent of a tier for a skill measured in minutes, in the same way the Check-in Layer's B5 made 80% load the equivalent for a barbell lift); or <strong>out</strong> for the week if the ache is in the same place it was last time. Per Section 04 rule 3, the Tuesday pistol and calf raises take their drop the same week, since the log cannot tell which practice caused it.</li>
+    <li><strong>Confirmed at 48 hours at the front of the knee:</strong> same drop for the rope. The pistol already has a front-of-knee rule in Mobility §03 and it fires on its own.</li>
+    <li><strong>A second confirmed event in the same place within one block:</strong> rope out for two weeks, resume at tier 1 and the week-1 total. This is this page's rule, modelled on Block 1 §11's recurring-ache sentence, and is flagged as such.</li>
+    <li><strong>Carry-over:</strong> as the Check-in Layer decided for the whole program (gap 3), a drop that confirms late in the week carries into the next week until the ache is logged gone. The rope does not reset on Monday.</li>
+  </ul>
+
+  <h3>Deload and retest weeks</h3>
+  <p>Block 1 week 7 is the program's deload. The rope is not in the program's deload calendar and nothing in the documents says it must deload. But the deload exists to let connective tissue catch up, and the rope's entire injury list is connective tissue. So the rope <strong>holds flat</strong> in week 7: the previous week's total, no ramp, no new tier. It does not cut, because at 20-odd minutes a week there is nothing meaningful to cut. In week 12 the ankle gate is re-measured as part of the longevity battery; the rope keeps ramping that week, since the retest is a measurement, not a load. Both are this page's readings.</p>
+
+  <h3>How it enters the log</h3>
+  <p>The Check-in Layer's log has a <code>skill</code> entry whose ladder field is <code>planche|hspu|pistol|bridge</code>. The rope needs one more entry type, because it carries minutes as well as a tier and because its "sets" are timed runs. Proposed, not applied; the Check-in page would gain one line in its Section 07 if Meciah says yes:</p>
+  <pre class="schema">{ "t": "rope",    "date", "tier": 1|2|3|4, "minutes", "runs": [],
+                  "clean": true|false, "broke": ["height"|"trip"|"pain"], "note" }</pre>
+  <p class="small">From this the system derives the week's rope total (sum of <code>minutes</code> Mon–Sun), checks it against last week's total × 1.10 or × 1.15, checks whether Tuesday's log shows a pistol tier or calf-raise step that week (rule 2 in Section 04), and counts consecutive short-of-target sessions at the current tier for the back-one-tier clause. Aches use the existing <code>ache</code> entry with the parts named in the table above; nothing new is needed there. The reply shape is the Check-in Layer's: name the rule, state what it permits, one to four lines, end with a choice, change nothing.</p>
+</section>
+
+<!-- ============================================================ -->
+<section id="gear">
+  <h2><span class="num">06</span>Equipment and space</h2>
+  <p>Both are small, which is part of why this line was added at all.</p>
+  <h3>Space</h3>
+  <p>A driveway or small yard is sufficient; the sources were asked exactly this and said so. The footprints cited run from a <strong>minimum of 5 × 5 ft</strong> up to <strong>10 × 7 ft</strong> for room to move while learning tricks, with <strong>8 to 9.5 ft of overhead clearance</strong> for the rope's arc. A standard bedroom ceiling is at or under the bottom of that range, which is the second reason, after the time budget, that this practice is outdoors by design and not just by preference. Measure the driveway once; if it clears 10 × 7 you never need to think about it again.</p>
+  <p>On surface: the sources accept a driveway, and this page does not add a surface rule it cannot cite. The jump height rule (one to two inches) is the thing that makes a hard surface tolerable in the sources' framing, and it is already a tier-1 pass condition.</p>
+  <h3>Rope</h3>
+  <p>Two things matter and the research named both. The rope must be <strong>correctly sized to you</strong>; a rope that is too long or too short is the most common reason a beginner's bounce never becomes reliable. Size it using the maker's chart for your height. No specific length or formula is quoted here because the research pass did not verify one, and guessing a number would be worse than pointing at the chart. And for learning flow specifically, a <strong>beaded rope is preferred</strong> over a speed or PVC rope, because the beads give tactile and audible feedback on where the rope is in its arc, which is what makes the timing of a trick learnable without a coach watching. Speed ropes belong to double-unders and competitive speed, neither of which is in scope.</p>
+  <h3>Instruction</h3>
+  <p>Free. The two YouTube channels the research pass judged sufficient for the beginner tier are The Way of the Jump Rope and Jumprope.no. Pick tricks for tier 2 and the combo for tier 3 from their beginner playlists. Paid programs exist and were looked at; their value shows up at advanced-trick acquisition speed, past the end of this ladder, so none is recommended and none is needed.</p>
+</section>
+
+<!-- ============================================================ -->
+<section id="gaps">
+  <h2><span class="num">07</span>What this does not do yet, and the gap it leaves open</h2>
+  <p>The self-check for this page was the same as for the Check-in Layer: does every number trace to a source, does every rule trace to a document or declare itself a synthesis, and is the one real risk handled by a rule rather than by a sentence about being careful. The first two hold. The third is handled, but the handling has to be labelled honestly.</p>
+
+  <div class="callout">
+    <span class="label">The one real gap</span>
+    <p><strong>No source combines jump-rope volume with existing single-leg or calf-raise ankle loading.</strong> The injury sources treat jump rope as the only ankle load in a person's week; the pistol and calf-raise sources treat their work the same way. The volume-stacking rule in Section 04 (Tuesday off, one ankle variable per week, one shared 48-hour clock) is therefore a reasonable synthesis built from the program's own no-stacking principle and its priority order. It is not a cited fact, and it has not been tested on anyone. It is deliberately on the conservative side so that if it is wrong, it is wrong in the direction Priority 1 prefers. If the first block of logs shows zero shin, calf or ankle notes, the "one variable per week" clause is the first candidate to relax, and the Tuesday rest day is the last.</p>
+  </div>
+
+  <p>Smaller things this page leaves open or deliberately does not do, so that they do not get filled with plausible rules later:</p>
+  <ol>
+    <li><strong>The adjacent-day question.</strong> Rope on Monday puts a small ankle load the day before Tuesday's deliberate one. No source speaks to it. The page allows it, with the program's own 48-hour spacing between lower days as the nearest analogy, and names Monday as the first day to give up if the log says anything about calves.</li>
+    <li><strong>The 20° to centimetres conversion.</strong> Section 02 says why it is not made. The gate rule is therefore stricter than the prerequisite demands; a person below 10 cm knee-to-wall might well have 20°, and this page keeps them at tier 1 anyway.</li>
+    <li><strong>Tier pass counts are an adaptation.</strong> Section 03 says this at length. The 60-second runs at tiers 3 and 4 come from the sources' milestone; the 3–4 runs and 8–12 landings or cycles are the base document's shape transplanted. If they turn out too easy or too hard, that is a tuning note for this page, not a discovery about the sources.</li>
+    <li><strong>The ramp table beyond its three inputs.</strong> Every figure in the Section 04 table is arithmetic on 12 minutes, 10–15%, a 10-minute session cap and the Block 1 calendar. The claim that "first simple flow" becomes a Block 2 milestone follows from that arithmetic; the sources do not say it, because they assume more volume than this program allows.</li>
+    <li><strong>Deload and recurring-ache behaviour.</strong> The hold-flat in week 7, the two-week out on a second same-place event, and the "last week's total" definition of a volume step are this page's rules, each modelled on a named sentence elsewhere in the program and each flagged where it appears.</li>
+    <li><strong>It does not coach technique</strong> beyond the one variable the injury sources name (jump height). Wrist turning, elbow position and footwork are what the videos are for.</li>
+    <li><strong>It does not program past the first flow.</strong> Speed, double-unders, four-plus-trick sequences and any kind of competitive freestyle are out of scope, and double-unders in particular carry a different rope and a different load that this page's numbers were not built for.</li>
+    <li><strong>It does not say anything about surface, footwear, or music</strong>, because the research pass did not, beyond "a driveway is fine."</li>
+  </ol>
+</section>
+
+<!-- ============================================================ -->
+<section id="sources">
+  <h2><span class="num">08</span>Sources</h2>
+  <ul class="src">
+    <li><a href="https://meciahblacknoll.github.io/training-8dv7/">Bedroom Training Program v2</a> (2026-11-21). Quoted: §01 the override and the priority order; §08 the tier rule, the sleep rule, the deload; the Mon–Fri week and joint-load map for the day table in Section 04.</li>
+    <li><a href="https://meciahblacknoll.github.io/training-8dv7/block1/">Training Block One</a> (2026-11-21). Used: the 12-week calendar (start 2026-11-23, week 7 deload, week 12 retest) for the ramp table; week 1 and week 12 knee-to-wall measurement; §11's recurring-ache sentence as the model for the two-week-out rule.</li>
+    <li><a href="https://meciahblacknoll.github.io/training-8dv7/mobility/">Mobility Skill Lines</a> (2026-11-21). Quoted: §03 the ankle gate (knee-to-wall ≥ 10 cm, 35–45° heuristic), the pistol's Tuesday placement, the pistol joint rule and heel-lift rule; §01 the Priority-2 cut order used to rank the rope below the pistol.</li>
+    <li><a href="https://meciahblacknoll.github.io/training-8dv7/checkin/">Daily Check-in Layer</a> (2026-11-21). Used: the design rule ("log everything, look up the rule, propose the move, change nothing"); §07 the log schema the <code>rope</code> entry extends; §08 gaps 3 (late-week carry-over) and 4 (the absolute no-stacking decision, W8–W10 makeup rules) and the B5 precedent of defining a numeric "one tier back."</li>
+    <li><strong>ElevateRope</strong> (jump rope guides). Used for: the definition of flow as a style within freestyle, distinct from competitive freestyle and double-unders; the beginner timeline (basic bounce 1–3 sessions, first trick 1–2 weeks, two-trick combo held a minute by about week 4, first simple flow at roughly 4–8 weeks of daily 10-minute practice); space footprint (5 × 5 ft minimum to 10 × 7 ft, 8–9.5 ft clearance); correctly sized rope, beaded rope preferred for learning flow.</li>
+    <li><strong>Jump Rope Dudes</strong>, shin-splint prevention article. Used for: the overuse injury profile (shin splints, calf strain, jumper's knee, plantar fasciitis; no acute-trauma pattern); the three prevention numbers (start 3–5 min/day, 3×/week; jump height 1–2 inches; volume increase no more than 10–15% per week).</li>
+    <li><strong>Pliability</strong>, jump rope and ankle dorsiflexion article. Used for: adequate ankle dorsiflexion (≥ 20°) as the prerequisite for landings to load the Achilles tendon rather than compress the joint; the basis of Section 02's synergy claim.</li>
+    <li><strong>The Way of the Jump Rope</strong> and <strong>Jumprope.no</strong> (YouTube). Used for: free beginner instruction judged sufficient for the tier ladder here; trick selection at tiers 2–4. Not transcribed; no rule on this page cites them for a number.</li>
+    <li>Paid flow-coaching programs were surveyed in the same pass and are relied on for one negative finding only: their value shows at advanced-trick acquisition speed, outside this ladder's scope. None is named because none is recommended.</li>
+  </ul>
+</section>
+
+<footer>
+  Jump Rope Flow · companion to <a href="https://meciahblacknoll.github.io/training-8dv7/">Bedroom Training Program v2</a>, <a href="https://meciahblacknoll.github.io/training-8dv7/block1/">Training Block One</a>, <a href="https://meciahblacknoll.github.io/training-8dv7/mobility/">Mobility Skill Lines</a> and the <a href="https://meciahblacknoll.github.io/training-8dv7/checkin/">Daily Check-in Layer</a>. Adds an independent outdoor practice: a four-tier flow ladder, a weekly volume ramp, a Tuesday volume-stacking rule, rope-specific readings of the 48-hour override and one proposed log entry. Changes nothing in any of the four; where they disagree with this page, they are right.
+</footer>
+
+</div>
+</body>
+</html>
