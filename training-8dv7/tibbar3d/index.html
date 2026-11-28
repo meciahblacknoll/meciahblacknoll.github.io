@@ -1,0 +1,313 @@
+<title>Tib Bar 3D Model</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#f1efe8; --paper:#fbfaf6; --ink:#1c2128; --ink-2:#4c5260; --ink-3:#7c8292;
+  --line:#c7c2b4; --accent:#d9900f; --accent-ink:#8a5a06; --motion:#2f6b63; --motion-bg:#e4efed;
+  --warn-bg:#f8ecd9; --shadow:0 1px 0 rgba(0,0,0,.04), 0 10px 28px -18px rgba(20,20,10,.35);
+  --display:"IBM Plex Sans",system-ui,sans-serif; --mono:"IBM Plex Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
+  --canvas-bg:#eae6da;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#14171c; --paper:#1b1f26; --ink:#eceef2; --ink-2:#aab0bd; --ink-3:#787f8d;
+    --line:#333a45; --accent:#e4a53a; --accent-ink:#e4a53a; --motion:#5fb3a5; --motion-bg:#16292a;
+    --warn-bg:#2a2116; --canvas-bg:#20242b;
+    --shadow:0 1px 0 rgba(0,0,0,.3), 0 10px 28px -18px rgba(0,0,0,.6);
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#14171c; --paper:#1b1f26; --ink:#eceef2; --ink-2:#aab0bd; --ink-3:#787f8d;
+  --line:#333a45; --accent:#e4a53a; --accent-ink:#e4a53a; --motion:#5fb3a5; --motion-bg:#16292a;
+  --warn-bg:#2a2116; --canvas-bg:#20242b;
+  --shadow:0 1px 0 rgba(0,0,0,.3), 0 10px 28px -18px rgba(0,0,0,.6);
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--display);line-height:1.5;padding-block:28px 56px}
+.wrap{max-width:980px;margin:0 auto;padding-inline:16px}
+.kicker{font-family:var(--mono);font-size:11.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-3)}
+h1{font-size:clamp(26px,5.5vw,36px);line-height:1.1;margin:8px 0 8px;letter-spacing:-.01em;font-weight:700}
+.lede{font-size:15.5px;color:var(--ink-2);max-width:62ch;margin:0 0 20px}
+.stage{background:var(--canvas-bg);border:1px solid var(--line);border-radius:14px;box-shadow:var(--shadow);overflow:hidden;position:relative}
+#canvasHost{width:100%;aspect-ratio:16/10;display:block;touch-action:none}
+.hint{position:absolute;top:12px;left:14px;font-family:var(--mono);font-size:11px;color:var(--ink-3);background:color-mix(in srgb, var(--paper) 82%, transparent);padding:4px 9px;border-radius:999px;pointer-events:none}
+.controls{display:flex;flex-wrap:wrap;gap:16px;align-items:center;background:var(--paper);border:1px solid var(--line);border-top:none;border-radius:0 0 14px 14px;padding:16px 18px;box-shadow:var(--shadow)}
+.slider-group{flex:1 1 260px;display:flex;flex-direction:column;gap:4px}
+.slider-group label{font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-3)}
+.slider-row{display:flex;align-items:center;gap:10px}
+input[type=range]{flex:1;accent-color:var(--motion)}
+.readout{font-family:var(--mono);font-size:13px;color:var(--motion);min-width:52px;text-align:right;font-variant-numeric:tabular-nums}
+.btn{font-family:var(--mono);font-size:12px;letter-spacing:.04em;background:var(--motion-bg);color:var(--motion);border:none;border-radius:8px;padding:9px 14px;cursor:pointer;font-weight:600}
+.btn:hover{filter:brightness(0.96)}
+.legend{display:flex;gap:14px;flex-wrap:wrap;font-family:var(--mono);font-size:12px;color:var(--ink-2)}
+.legend span{display:inline-flex;align-items:center;gap:6px}
+.swatch{width:11px;height:11px;border-radius:3px;display:inline-block}
+.notes{margin-top:22px;background:var(--paper);border:1px solid var(--line);border-radius:14px;box-shadow:var(--shadow);padding:18px 20px}
+.notes h2{font-size:13px;font-family:var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--accent-ink);margin:0 0 10px}
+.notes ul{margin:0;padding-left:1.25em}
+.notes li{margin:7px 0;font-size:14.5px;color:var(--ink-2)}
+.notes li b{color:var(--ink)}
+footer{font-family:var(--mono);font-size:11.5px;color:var(--ink-3);text-align:center;margin-top:20px}
+</style>
+
+<div class="wrap">
+  <div class="kicker">DIY equipment · 3D model</div>
+  <h1>Tib Bar — Lever Geometry</h1>
+  <p class="lede">Drag to orbit, scroll or pinch to zoom. The slider drives the actual rep: the foot and pipe pivot together on the heel, same as a real set.</p>
+
+  <div class="stage">
+    <div id="canvasHost"></div>
+    <div class="hint">drag to orbit · scroll to zoom</div>
+  </div>
+  <div class="controls">
+    <div class="slider-group">
+      <label for="rep">Ankle angle — dorsiflexion</label>
+      <div class="slider-row">
+        <input type="range" id="rep" min="0" max="100" value="0" />
+        <span class="readout" id="repReadout">rest</span>
+      </div>
+    </div>
+    <button class="btn" id="playBtn">▶ play the rep</button>
+    <div class="legend">
+      <span><span class="swatch" style="background:#d9900f"></span>PVC pipe</span>
+      <span><span class="swatch" style="background:#4c5260"></span>bolt + hardware</span>
+      <span><span class="swatch" style="background:#8f98a8"></span>plates</span>
+      <span><span class="swatch" style="background:#e3d9c2"></span>foot</span>
+      <span><span class="swatch" style="background:#2f6b63"></span>pivot (heel)</span>
+    </div>
+  </div>
+
+  <div class="notes">
+    <h2>Reading the model</h2>
+    <ul>
+      <li><b>The teal dot is the only thing that doesn't move.</b> That's the heel. Everything else — foot, pipe, bolt, plates — rotates together around it as one rigid piece during the rep.</li>
+      <li><b>The pipe is drawn at 14 inches</b>, inside the 12–15" range, 1" diameter. The bolt sits 2" from the loaded end, matching the build notes.</li>
+      <li><b>At rest (slider at 0)</b> the toes point forward, plate end low. <b>At full dorsiflexion (slider at 100)</b> the toes have pulled up toward the shin by about 20°, which is what lifts the plates — that lift is the resistance you're working against.</li>
+      <li>Orbit underneath or from the side to confirm the bolt's shank clears the floor at the bottom of the lowering phase, which is the fit check the training doc asks for in week 1.</li>
+    </ul>
+  </div>
+
+  <footer>Proportioned to the real build dimensions · not every hardware detail (nuts, foam wrap) is modeled, only what affects the geometry</footer>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js"></script>
+<script>
+(function(){
+  function boot(){
+    var host = document.getElementById('canvasHost');
+    var w = host.clientWidth, h = host.clientHeight;
+
+    var scene = new THREE.Scene();
+    var isDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches && document.documentElement.getAttribute('data-theme') !== 'light';
+    if (document.documentElement.getAttribute('data-theme') === 'dark') isDark = true;
+    scene.background = new THREE.Color(isDark ? 0x20242b : 0xeae6da);
+
+    var camera = new THREE.PerspectiveCamera(42, w/h, 0.1, 500);
+    camera.position.set(22, 16, 24);
+
+    var renderer = new THREE.WebGLRenderer({ antialias: true });
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio||1, 2));
+    renderer.setSize(w, h);
+    host.appendChild(renderer.domElement);
+
+    // lights
+    scene.add(new THREE.HemisphereLight(0xffffff, 0x444444, 1.15));
+    var sun = new THREE.DirectionalLight(0xffffff, 0.9);
+    sun.position.set(14, 22, 10);
+    scene.add(sun);
+
+    // floor grid
+    var grid = new THREE.GridHelper(40, 20, 0x8f8a78, 0xbdb6a0);
+    grid.position.y = 0;
+    scene.add(grid);
+    var floorMat = new THREE.MeshStandardMaterial({ color: isDark?0x262b33:0xf1efe8, roughness:1 });
+    var floor = new THREE.Mesh(new THREE.CircleGeometry(20, 48), floorMat);
+    floor.rotation.x = -Math.PI/2;
+    floor.position.y = -0.02;
+    floor.receiveShadow = true;
+    scene.add(floor);
+
+    // ---- dimensions, in inches ----
+    var PIPE_LEN = 14, PIPE_R = 0.5;
+    var BOLT_FROM_END = 2;         // from the loaded end
+    var PLATE_R = 4.5, PLATE_THICK = 1.1;
+    var BENCH_H = 18;              // seat height, ankle rests roughly at shin height off a bench
+
+    // Rig group: everything that rotates together about the heel pivot
+    var rig = new THREE.Group();
+    scene.add(rig);
+
+    // Heel pivot marker (stays fixed relative to rig origin — rig origin IS the heel)
+    var pivotMat = new THREE.MeshStandardMaterial({ color: 0x2f6b63, emissive: 0x11332c, emissiveIntensity:0.4 });
+    var pivotDot = new THREE.Mesh(new THREE.SphereGeometry(0.45, 20, 20), pivotMat);
+    rig.add(pivotDot);
+
+    // Foot: sole (flat box) + toe wedge, heel at local origin, extending in +x toward toes
+    var footLen = 10, footWidth = 3.6, footH = 1.1;
+    var footMat = new THREE.MeshStandardMaterial({ color: 0xe3d9c2, roughness:0.85 });
+    var sole = new THREE.Mesh(new THREE.BoxGeometry(footLen*0.72, footH, footWidth), footMat);
+    sole.position.set(footLen*0.72/2, footH/2, 0);
+    rig.add(sole);
+    var toe = new THREE.Mesh(new THREE.CylinderGeometry(footWidth/2*0.95, footWidth/2*0.6, footLen*0.3, 16), footMat);
+    toe.rotation.z = Math.PI/2;
+    toe.position.set(footLen*0.72 + footLen*0.15, footH/2, 0);
+    rig.add(toe);
+    var ankleBump = new THREE.Mesh(new THREE.SphereGeometry(1.1, 16, 16), footMat);
+    ankleBump.position.set(0.6, footH*0.9, 0);
+    rig.add(ankleBump);
+
+    // Pipe: lies on top of the foot, long axis along +x, resting height = foot top
+    var pipeMat = new THREE.MeshStandardMaterial({ color: 0xd9900f, roughness:0.55 });
+    var pipeY = footH + PIPE_R + 0.02;
+    var pipe = new THREE.Mesh(new THREE.CylinderGeometry(PIPE_R, PIPE_R, PIPE_LEN, 24), pipeMat);
+    pipe.rotation.z = Math.PI/2;
+    // padded end sits near the heel/instep, loaded end extends past the toes
+    var pipeStartX = 0.4;
+    pipe.position.set(pipeStartX + PIPE_LEN/2, pipeY, 0);
+    rig.add(pipe);
+
+    // padded wrap (visual only) near the near end
+    var padMat = new THREE.MeshStandardMaterial({ color: 0xf8ecd9, roughness:0.9 });
+    var pad = new THREE.Mesh(new THREE.CylinderGeometry(PIPE_R*1.25, PIPE_R*1.25, 4.5, 20), padMat);
+    pad.rotation.z = Math.PI/2;
+    pad.position.set(pipeStartX + 2.5, pipeY, 0);
+    rig.add(pad);
+
+    // bolt: perpendicular through pipe, near the far (loaded) end
+    var boltX = pipeStartX + PIPE_LEN - BOLT_FROM_END;
+    var hwMat = new THREE.MeshStandardMaterial({ color: 0x4c5260, roughness:0.4, metalness:0.3 });
+    var bolt = new THREE.Mesh(new THREE.CylinderGeometry(0.16, 0.16, 5.5, 16), hwMat);
+    bolt.position.set(boltX, pipeY, 0);
+    rig.add(bolt);
+    var boltHead = new THREE.Mesh(new THREE.CylinderGeometry(0.34, 0.34, 0.4, 16), hwMat);
+    boltHead.position.set(boltX, pipeY + PIPE_R + 2.5, 0);
+    rig.add(boltHead);
+
+    // plates stacked on the bolt, hanging below the pipe on the far side
+    var plateMat = new THREE.MeshStandardMaterial({ color: 0x8f98a8, roughness:0.5, metalness:0.15 });
+    var plateCount = 3;
+    var plateStartY = pipeY - PIPE_R - 0.3;
+    for (var i=0; i<plateCount; i++){
+      var plate = new THREE.Mesh(new THREE.CylinderGeometry(PLATE_R*(1-i*0.06), PLATE_R*(1-i*0.06), PLATE_THICK, 28), plateMat);
+      plate.position.set(boltX, plateStartY - i*(PLATE_THICK+0.08) - PLATE_R*0.9, 0);
+      rig.add(plate);
+    }
+    // wing nut cap
+    var wingNut = new THREE.Mesh(new THREE.TorusGeometry(0.5, 0.14, 10, 16), hwMat);
+    wingNut.rotation.x = Math.PI/2;
+    wingNut.position.set(boltX, plateStartY - plateCount*(PLATE_THICK+0.08) - PLATE_R*0.9, 0);
+    rig.add(wingNut);
+
+    // bench, below the rig, fixed in world (does not rotate)
+    var benchMat = new THREE.MeshStandardMaterial({ color: isDark?0x30363f:0xd9d2bf, roughness:0.9 });
+    var benchSeat = new THREE.Mesh(new THREE.BoxGeometry(14, 1.4, 7), benchMat);
+    benchSeat.position.set(-7, BENCH_H - 0.7 - footH - 1 , 0);
+    // position the bench so its front edge roughly meets the ankle bump; simpler: place a simple seat+legs behind/below the rig
+    benchSeat.position.set(-8, 7.3, 0);
+    scene.add(benchSeat);
+    var legMat = benchMat;
+    var legGeo = new THREE.CylinderGeometry(0.35, 0.35, 7.3, 10);
+    [[-13.5,-3],[-13.5,3],[-2.5,-3],[-2.5,3]].forEach(function(p){
+      var leg = new THREE.Mesh(legGeo, legMat);
+      leg.position.set(p[0], 3.65, p[1]);
+      scene.add(leg);
+    });
+
+    // position the whole rig so the heel sits at a plausible height above the floor,
+    // roughly level with the bench seat height, foot extending forward from the shin
+    rig.position.set(0, 8, 0);
+
+    // orbit controls (manual, minimal — no external controls module needed)
+    var isDragging = false, lastX=0, lastY=0;
+    var theta = 0.9, phi = 1.0, radius = 34;
+    var target = new THREE.Vector3(0, 6, 0);
+
+    function updateCamera(){
+      camera.position.set(
+        target.x + radius * Math.sin(phi) * Math.cos(theta),
+        target.y + radius * Math.cos(phi),
+        target.z + radius * Math.sin(phi) * Math.sin(theta)
+      );
+      camera.lookAt(target);
+    }
+    updateCamera();
+
+    renderer.domElement.style.cursor = 'grab';
+    renderer.domElement.addEventListener('pointerdown', function(e){
+      isDragging = true; lastX = e.clientX; lastY = e.clientY;
+      renderer.domElement.style.cursor = 'grabbing';
+      renderer.domElement.setPointerCapture(e.pointerId);
+    });
+    renderer.domElement.addEventListener('pointerup', function(e){
+      isDragging = false;
+      renderer.domElement.style.cursor = 'grab';
+    });
+    renderer.domElement.addEventListener('pointermove', function(e){
+      if (!isDragging) return;
+      var dx = e.clientX - lastX, dy = e.clientY - lastY;
+      lastX = e.clientX; lastY = e.clientY;
+      theta -= dx * 0.008;
+      phi -= dy * 0.008;
+      phi = Math.max(0.25, Math.min(Math.PI-0.25, phi));
+      updateCamera();
+    });
+    renderer.domElement.addEventListener('wheel', function(e){
+      e.preventDefault();
+      radius *= (1 + e.deltaY*0.001);
+      radius = Math.max(10, Math.min(70, radius));
+      updateCamera();
+    }, { passive:false });
+
+    // slider -> rig rotation about heel (z axis rotation lifts toes/pipe upward)
+    var slider = document.getElementById('rep');
+    var readout = document.getElementById('repReadout');
+    function applyAngle(pct){
+      var maxAngle = 22 * Math.PI/180; // ~22 degrees of dorsiflexion
+      rig.rotation.z = (pct/100) * maxAngle;
+      readout.textContent = pct==0 ? 'rest' : (pct==100 ? 'top of rep' : Math.round(pct)+'%');
+    }
+    slider.addEventListener('input', function(){ applyAngle(parseFloat(slider.value)); });
+    applyAngle(0);
+
+    // play button: animate slider through one rep
+    var playing = false;
+    document.getElementById('playBtn').addEventListener('click', function(){
+      if (playing) return;
+      playing = true;
+      var t0 = performance.now();
+      var dur = 2200;
+      function step(now){
+        var e = Math.min(1, (now-t0)/dur);
+        var v = e<0.5 ? (e*2) : (1-(e-0.5)*2);
+        var eased = v<0.5 ? 2*v*v : 1-Math.pow(-2*v+2,2)/2;
+        slider.value = Math.round(eased*100);
+        applyAngle(eased*100);
+        if (e<1) requestAnimationFrame(step);
+        else { playing=false; slider.value=0; applyAngle(0); }
+      }
+      requestAnimationFrame(step);
+    });
+
+    function animate(){
+      requestAnimationFrame(animate);
+      renderer.render(scene, camera);
+    }
+    animate();
+
+    window.addEventListener('resize', function(){
+      var w2 = host.clientWidth, h2 = host.clientHeight;
+      camera.aspect = w2/h2;
+      camera.updateProjectionMatrix();
+      renderer.setSize(w2, h2);
+    });
+  }
+
+  if (window.THREE) boot();
+  else {
+    var check = setInterval(function(){ if (window.THREE){ clearInterval(check); boot(); } }, 50);
+  }
+})();
+</script>
